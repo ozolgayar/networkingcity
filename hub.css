@@ -51,8 +51,8 @@ body {
 }
 
 .hub-logo-icon {
-  width: 48px;
-  height: 48px;
+  width: 68px;
+  height: 68px;
   border-radius: 14px;
   background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e 45%, #0f766e 100%);
   display: flex;
