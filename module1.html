@@ -8,48 +8,41 @@
 <body>
 <div id="app">
   <!-- Кнопка и меню навигации -->
-  <div id="main-menu-toggle"><span></span></div>
   <div id="main-menu">
-    <h4>Навигация по курсу</h4>
-    <div class="menu-section">
-      <div class="menu-section-title">Глава 1</div>
-      <ul class="menu-list">
-        <li data-goto="screen-1">1. Обложка курса</li>
-        <li data-goto="screen-2">2. Добро пожаловать</li>
-        <li data-goto="screen-3">3. Комната Златы</li>
-        <li data-goto="screen-4">4. Кафе</li>
-        <li data-goto="screen-5">5. Карта города (в офис)</li>
-        <li data-goto="screen-6">6. Утро, офис</li>
-        <li data-goto="screen-7">7. Индикаторы прогресса</li>
-        <li data-goto="screen-8">8. Судьба персонажа</li>
-        <li data-goto="screen-9">9. Карта города (домой)</li>
-        <li data-goto="screen-10">10. Комната, ноутбук</li>
-        <li data-goto="screen-11">11. Для чего тебе нетворкинг</li>
-        <li data-goto="screen-12">12. Нити нетворкинга</li>
-        <li data-goto="screen-13">13. С чего начинается нетворкинг</li>
-        <li data-goto="screen-14">14. Колесо баланса контактов</li>
-        <li data-goto="screen-15">15. Твоё колесо баланса</li>
-        <li data-goto="screen-16">16. План по знакомствам</li>
-<li data-goto="screen-16-1">16.1 Где ты будешь знакомиться</li>
-<li data-goto="screen-17">17. SMART-цель</li>
-        <li data-goto="screen-18">18. Цель Златы</li>
-        <li data-goto="screen-19">19. Визитка</li>
-        <li data-goto="screen-20">20. Фото профиля</li>
-<li data-goto="screen-20-1">20.1 Статус профиля</li>
-<li data-goto="screen-21">21. Запомни меня! </li>
-        <li data-goto="screen-21-1">21.1 Сумочка нетворкера</li>
-        <li data-goto="screen-21-2">21.2 Карта мероприятия</li>
-        <li data-goto="screen-22">22. Зал конференции</li>
-        <li data-goto="screen-23">23. Кофебрейк</li>
-        <li data-goto="screen-24">24. Follow-up письмо</li>
-        <li data-goto="screen-25">25. Календарь касаний</li>
-        <li data-goto="screen-26">26. Финал</li>
-      </ul>
-      <div style="padding:6px; border-top:1px solid #e2e8f0; margin-top:4px;">
-  <a href="hub.html" style="font-size:12px; color:var(--accent-soft); text-decoration:none;">← На главную</a>
-</div>
-    </div>
+  <h4>Модуль 1 — Навигация</h4>
+  <div class="menu-section">
+    <ul class="menu-list">
+      <li data-goto="screen-1">1. Обложка курса</li>
+      <li data-goto="screen-2">2. Тест</li>
+      <li data-goto="screen-3">3. Комната Златы</li>
+      <li data-goto="screen-4">4. Кафе</li>
+      <li data-goto="screen-5">5. Карта города (в офис)</li>
+      <li data-goto="screen-6">6. Утро, офис</li>
+      <li data-goto="screen-7">7. Индикаторы прогресса</li>
+      <li data-goto="screen-8">8. Судьба персонажа</li>
+      <li data-goto="screen-9">9. Карта города (домой)</li>
+      <li data-goto="screen-10">10. Ноутбук</li>
+      <li data-goto="screen-11">11. Для чего нетворкинг</li>
+      <li data-goto="screen-12">12. Нити нетворкинга</li>
+      <li data-goto="screen-13">13. Страхи</li>
+      <li data-goto="screen-14">14. Колесо баланса</li>
+      <li data-goto="screen-15">15. Твоё колесо</li>
+      <li data-goto="screen-16">16. План знакомств</li>
+      <li data-goto="screen-16-1">16.1 Где знакомиться</li>
+      <li data-goto="screen-17">17. SMART-цель</li>
+      <li data-goto="screen-18">18. Цель Златы</li>
+      <li data-goto="screen-19">19. Визитка</li>
+      <li data-goto="screen-20">20. Фото профиля</li>
+      <li data-goto="screen-20-1">20.1 Статус профиля</li>
+      <li data-goto="screen-21">21. Онлайн-доска</li>
+      <li data-goto="screen-21-1">21.1 Сумочка нетворкера</li>
+      <li data-goto="screen-21-2">21.2 Карта мероприятия</li>
+    </ul>
   </div>
+  <div style="padding:6px; border-top:1px solid #e2e8f0; margin-top:4px;">
+    <a href="hub.html" style="font-size:12px; color:var(--accent-soft); text-decoration:none;">← На главную</a>
+  </div>
+</div>
 
 <header>
   <div class="logo">
@@ -1542,7 +1535,7 @@
       <p class="note">Ловушки ❌ тоже можно исследовать — так ты узнаешь, каких мест лучше избегать.</p>
       <div class="actions-row" style="margin-top:auto;">
         <button class="btn secondary nav-back" data-prev>Назад</button>
-        <button class="btn" id="btn-venue-next" style="display:none;" data-next="screen-22">Далее →</button>
+        <button class="btn" id="btn-venue-next" style="display:none;" data-next="screen-final">Далее →</button>
       </div>
     </div>
   </div>
