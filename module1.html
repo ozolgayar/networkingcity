@@ -19,7 +19,6 @@
       <li data-goto="screen-4">4. Кафе</li>
       <li data-goto="screen-5">5. Карта города: офис</li>
       <li data-goto="screen-6">6. Утро, офис</li>
-      <li data-goto="screen-7">7. Индикаторы прогресса</li>
       <li data-goto="screen-8">8. Судьба персонажа</li>
       <li data-goto="screen-9">9. Карта города: домой</li>
       <li data-goto="screen-10">10. Ноутбук: цель и расписание</li>
@@ -31,7 +30,6 @@
       <li data-goto="screen-16">16. План знакомств</li>
       <li data-goto="screen-16-1">16.1 Где знакомиться</li>
       <li data-goto="screen-17">17. SMART-цель</li>
-      <li data-goto="screen-18">18. Цель Златы</li>
       <li data-goto="screen-19">19. Визитка</li>
       <li data-goto="screen-20">20. Фото профиля</li>
       <li data-goto="screen-20-1">20.1 Статус профиля</li>
@@ -323,7 +321,7 @@
               <button class="btn" id="btn-accept-trip">
                 Согласиться
               </button>
-              <button class="btn danger" id="btn-decline-trip">
+              <button class="btn" id="btn-accept-trip">
                 Отказаться
               </button>
             </div>
@@ -334,41 +332,7 @@
         </div>
       </div>
 
-      <!-- Экран 7. Твои решения влияют на финал -->
-      <div class="screen" id="screen-7">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 7 • Индикаторы прогресса</span>
-            </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                HUD в стиле SIMS2 с тремя индикаторами:
-                <br>Нетворкинг • Узнаваемость • Знакомства.
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Твои решения влияют на финал</h2>
-            <p>
-              В игре есть 3 ключевых показателя:
-            </p>
-            <ul>
-              <li><strong>Уровень «Нетворкинг» (0–100)</strong> — показывает, насколько развит твой навык нетворкинга. Он растёт автоматически, когда ты выбираешь действия и выполняешь задания. Цель — довести его до 100.</li>
-              <li><strong>Очки «Знакомства»</strong> — количество знакомств, которые ты завёл в игре.</li>
-              <li><strong>Очки «Узнаваемость»</strong> — отражают, насколько ты прокачал свой профиль и насколько тебя знают.</li>
-            </ul>
-       <div class="actions-row" style="justify-content: space-between;">
-  <button class="btn secondary nav-back" data-prev>Назад</button>
-  <button class="btn" data-next="screen-8">Как это влияет на финал</button>
-</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Экран 8. Судьба персонажа -->
+         <!-- Экран 8. Судьба персонажа -->
       <div class="screen" id="screen-8">
       
         <div class="screen-layout">
@@ -1001,51 +965,12 @@
             </p>
             <div class="actions-row">
                <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" data-next="screen-18">Какая цель получилась у Златы</button>
+               <button class="btn" data-next="screen-19">Продолжить</button>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Экран 18. Цель Златы -->
-      <div class="screen" id="screen-18">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 18 • Цель Златы</span>
-            </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                Окно с целью Златы и прогрессом (0/6).
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Цель Златы</h2>
-            <p>
-              Злата ставит себе цель:
-            </p>
-            <p style="margin-top: 6px; font-weight: 500;">
-              Познакомиться с 6 людьми на конференции в сфере «Карьера / Маркетинг».
-            </p>
-            <p class="note">
-              Прогресс: <span id="zlata-goal-progress">0 / 6</span>. За каждое знакомство с подходящим персонажем
-              счётчик будет расти.
-            </p>
-            <p class="note">
-              В HUD появилась иконка «Цель Златы», по которой можно вспоминать её цель.
-            </p>
-            <div class="actions-row">
-               <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" data-next="screen-19">Подготовиться к конференции</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-     <!-- Экран 19. Создание визитки -->
+        <!-- Экран 19. Создание визитки -->
 <div class="screen" id="screen-19">
   <div class="screen-layout">
     <div class="scene">
