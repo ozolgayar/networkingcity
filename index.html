@@ -1,134 +1,153 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Есть контакт! Нетворкинг с удовольствием</title>
   <link rel="stylesheet" href="hub.css">
 </head>
 <body>
 
-<div id="hub">
-
-  <!-- Шапка -->
-  <div class="hub-header">
-    <div class="hub-logo">
-      <div class="hub-logo-icon">🎓</div>
-      <div>
-        <div class="hub-logo-title">Есть контакт!</div>
-        <div class="hub-logo-sub">Симулятор нетворкинга</div>
-      </div>
+<!-- ===== ОБЛОЖКА ===== -->
+<section class="cover" id="cover">
+  <div class="cover-bg">
+    <div class="cover-orb cover-orb-1"></div>
+    <div class="cover-orb cover-orb-2"></div>
+    <div class="cover-orb cover-orb-3"></div>
+    <div class="cover-grid"></div>
+  </div>
+  <div class="cover-content">
+    <div class="cover-badge">симулятор нетворкинга</div>
+    <h1 class="cover-title">Есть <span class="cover-accent">контакт!</span></h1>
+    <p class="cover-subtitle">Нетворкинг с удовольствием</p>
+    <p class="cover-desc">От неловких знакомств до работающих связей.<br>Научись чувствовать себя «своим» в любой среде.</p>
+    <button class="cover-btn" id="btn-dive">
+      <span>Погрузиться</span>
+      <span class="cover-btn-arrow">↓</span>
+    </button>
+    <div class="cover-stats">
+      <div class="cover-stat"><div class="cover-stat-num">3</div><div class="cover-stat-label">модуля</div></div>
+      <div class="cover-stat-divider"></div>
+      <div class="cover-stat"><div class="cover-stat-num">26</div><div class="cover-stat-label">экранов</div></div>
+      <div class="cover-stat-divider"></div>
+      <div class="cover-stat"><div class="cover-stat-num">∞</div><div class="cover-stat-label">связей</div></div>
     </div>
   </div>
-
-  <!-- Обложка -->
-  <div class="hub-cover">
-    <div class="hub-cover-bg">
-      <img src="https://i.ibb.co/xqLV3XTc/image.png" alt="НетворкингСити" class="hub-cover-img">
-      <div class="hub-cover-overlay"></div>
-    </div>
-    <div class="hub-cover-content">
-      <h1 class="hub-title">Есть контакт! Нетворкинг с удовольствием</h1>
-      <p class="hub-subtitle">От неловких знакомств до работающих связей</p>
-    </div>
+  <div class="cover-scroll-hint" id="scroll-hint">
+    <div class="cover-scroll-dot"></div>
   </div>
+</section>
 
-  <!-- Общий прогресс -->
-  <div class="hub-progress-section">
-    <div class="hub-progress-header">
-      <span class="hub-progress-label">Уровень нетворкинга</span>
-      <span class="hub-progress-value" id="hub-level-value">0%</span>
-    </div>
-    <div class="hub-progress-track">
-      <div class="hub-progress-fill" id="hub-level-bar"></div>
-    </div>
-    <div class="hub-progress-milestones">
-      <span class="milestone" data-at="20">Робкий новичок</span>
-      <span class="milestone" data-at="50">Восходящая звезда</span>
-      <span class="milestone" data-at="100">Сама популярность</span>
-    </div>
-  </div>
+<!-- ===== ХАБ ===== -->
+<section class="hub" id="hub">
+  <div class="hub-container">
 
-  <!-- Модули -->
-  <div class="hub-modules">
-
-    <!-- Модуль 1 -->
-    <div class="module-card" id="mod1-card" data-module="1">
-      <div class="module-card-left">
-        <div class="module-icon mod1-icon">
-          <span>📋</span>
+    <!-- Шапка хаба -->
+    <div class="hub-header-row">
+      <div class="hub-logo">
+        <div class="hub-logo-icon">🎓</div>
+        <div>
+          <div class="hub-logo-title">Есть контакт!</div>
+          <div class="hub-logo-sub">Симулятор нетворкинга</div>
         </div>
       </div>
-      <div class="module-card-body">
-        <div class="module-card-top">
-          <div class="module-chip">Модуль 1</div>
-          <div class="module-status" id="mod1-status">Начать →</div>
+    </div>
+
+    <!-- Общий прогресс -->
+    <div class="hub-level">
+      <div class="hub-level-header">
+        <span class="hub-level-label">Уровень нетворкинга</span>
+        <span class="hub-level-value" id="hub-level-value">0%</span>
+      </div>
+      <div class="hub-level-track">
+        <div class="hub-level-fill" id="hub-level-bar"></div>
+      </div>
+      <div class="hub-level-milestones">
+        <span>Робкий новичок</span>
+        <span>Восходящая звезда</span>
+        <span>Сама популярность</span>
+      </div>
+    </div>
+
+    <!-- Карта курса -->
+    <div class="hub-welcome">
+      <h2>Карта курса</h2>
+      <p>Проходи модули по порядку. Каждый следующий открывается после завершения предыдущего.</p>
+    </div>
+
+    <!-- Модули -->
+    <div class="hub-modules" id="hub-modules">
+
+      <!-- Модуль 1 -->
+      <div class="hub-card unlocked" data-module="1">
+        <div class="hub-card-left">
+          <div class="hub-card-icon">📋</div>
         </div>
-        <h2 class="module-name">Подготовка — залог успеха</h2>
-        <p class="module-desc">Постановка цели, создание визитки, настройка профиля, сбор сумки нетворкера. Всё, чтобы приехать на конференцию во всеоружии.</p>
-        <div class="module-bar-row">
-          <div class="bar-track" style="height:5px; flex:1;">
-            <div class="bar-fill mod1-fill" id="mod1-bar"></div>
+        <div class="hub-card-body">
+          <div class="hub-card-status">🟢 Доступен</div>
+          <h3>Модуль 1</h3>
+          <p class="hub-card-title">Подготовка — залог успеха</p>
+          <p class="hub-card-desc">Постановка цели, создание визитки, настройка профиля, сбор сумки нетворкера. Всё, чтобы приехать на конференцию во всеоружии.</p>
+          <div class="hub-card-progress">
+            <div class="hub-card-bar"><div class="hub-card-bar-fill" id="mod1-bar"></div></div>
+            <span class="hub-card-pct" id="mod1-pct">0%</span>
           </div>
-          <span class="module-bar-text" id="mod1-text">0%</span>
+        </div>
+        <div class="hub-card-right">
+          <a href="module1.html" class="hub-card-btn">Начать →</a>
         </div>
       </div>
+
+      <!-- Модуль 2 -->
+      <div class="hub-card locked" data-module="2">
+        <div class="hub-card-left">
+          <div class="hub-card-icon">🤝</div>
+        </div>
+        <div class="hub-card-body">
+          <div class="hub-card-status">🔒 Заблокирован</div>
+          <h3>Модуль 2</h3>
+          <p class="hub-card-title">Нетворкинг в действии</p>
+          <p class="hub-card-desc">Учимся производить первое впечатление, презентовать себя и вести беседу. Практика живого общения.</p>
+          <div class="hub-card-progress">
+            <div class="hub-card-bar"><div class="hub-card-bar-fill"></div></div>
+            <span class="hub-card-pct">0%</span>
+          </div>
+        </div>
+        <div class="hub-card-right">
+          <div class="hub-card-btn disabled">Пройди модуль 1</div>
+        </div>
+      </div>
+
+      <!-- Модуль 3 -->
+      <div class="hub-card locked" data-module="3">
+        <div class="hub-card-left">
+          <div class="hub-card-icon">💎</div>
+        </div>
+        <div class="hub-card-body">
+          <div class="hub-card-status">🔒 Заблокирован</div>
+          <h3>Модуль 3</h3>
+          <p class="hub-card-title">Удержание связей</p>
+          <p class="hub-card-desc">Напоминания о себе, электронные письма и рекомендации. Как не потерять тех, с кем познакомился.</p>
+          <div class="hub-card-progress">
+            <div class="hub-card-bar"><div class="hub-card-bar-fill"></div></div>
+            <span class="hub-card-pct">0%</span>
+          </div>
+        </div>
+        <div class="hub-card-right">
+          <div class="hub-card-btn disabled">Пройди модуль 2</div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Модуль 2 -->
-    <div class="module-card module-locked" id="mod2-card" data-module="2">
-      <div class="module-card-left">
-        <div class="module-icon mod2-icon">
-          <span>🤝</span>
-        </div>
-      </div>
-      <div class="module-card-body">
-        <div class="module-card-top">
-          <div class="module-chip mod2-chip">Модуль 2</div>
-          <div class="module-status" id="mod2-status">🔒 Заблокирован</div>
-        </div>
-        <h2 class="module-name">Нетворкинг в действии</h2>
-        <p class="module-desc">Учимся производить первое впечатление, презентовать себя и вести беседу. Практика живого общения.</p>
-        <div class="module-bar-row">
-          <div class="bar-track" style="height:5px; flex:1;">
-            <div class="bar-fill mod2-fill" id="mod2-bar"></div>
-          </div>
-          <span class="module-bar-text" id="mod2-text">0%</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Модуль 3 -->
-    <div class="module-card module-locked" id="mod3-card" data-module="3">
-      <div class="module-card-left">
-        <div class="module-icon mod3-icon">
-          <span>💎</span>
-        </div>
-      </div>
-      <div class="module-card-body">
-        <div class="module-card-top">
-          <div class="module-chip mod3-chip">Модуль 3</div>
-          <div class="module-status" id="mod3-status">🔒 Заблокирован</div>
-        </div>
-        <h2 class="module-name">Удержание связей</h2>
-        <p class="module-desc">Напоминания о себе, электронные письма и рекомендации. Как не потерять тех, с кем познакомился.</p>
-        <div class="module-bar-row">
-          <div class="bar-track" style="height:5px; flex:1;">
-            <div class="bar-fill mod3-fill" id="mod3-bar"></div>
-          </div>
-          <span class="module-bar-text" id="mod3-text">0%</span>
-        </div>
-      </div>
+    <!-- Цитата -->
+    <div class="hub-quote">
+      <div class="hub-quote-text">«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»</div>
+      <div class="hub-quote-author">— Кейт Ферраци</div>
     </div>
 
   </div>
-
-  <!-- Цитата -->
-  <div class="hub-quote">
-    <div class="hub-quote-text">«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»</div>
-    <div class="hub-quote-author">— Кейт Ферраци</div>
-  </div>
-
-</div>
+</section>
 
 <script src="hub.js"></script>
 </body>
