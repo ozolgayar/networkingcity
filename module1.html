@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Нетворкинг Сити: свои везде</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <!-- Кнопка и меню навигации -->
+  <div id="main-menu-toggle"><span></span></div>
+  <div id="main-menu">
+    <h4>Навигация по курсу</h4>
+    <div class="menu-section">
+      <div class="menu-section-title">Глава 1</div>
+      <ul class="menu-list">
+        <li data-goto="screen-1">1. Обложка курса</li>
+        <li data-goto="screen-2">2. Добро пожаловать</li>
+        <li data-goto="screen-3">3. Комната Златы</li>
+        <li data-goto="screen-4">4. Кафе</li>
+        <li data-goto="screen-5">5. Карта города (в офис)</li>
+        <li data-goto="screen-6">6. Утро, офис</li>
+        <li data-goto="screen-7">7. Индикаторы прогресса</li>
+        <li data-goto="screen-8">8. Судьба персонажа</li>
+        <li data-goto="screen-9">9. Карта города (домой)</li>
+        <li data-goto="screen-10">10. Комната, ноутбук</li>
+        <li data-goto="screen-11">11. Для чего тебе нетворкинг</li>
+        <li data-goto="screen-12">12. Нити нетворкинга</li>
+        <li data-goto="screen-13">13. С чего начинается нетворкинг</li>
+        <li data-goto="screen-14">14. Колесо баланса контактов</li>
+        <li data-goto="screen-15">15. Твоё колесо баланса</li>
+        <li data-goto="screen-16">16. План по знакомствам</li>
+<li data-goto="screen-16-1">16.1 Где ты будешь знакомиться</li>
+<li data-goto="screen-17">17. SMART-цель</li>
+        <li data-goto="screen-18">18. Цель Златы</li>
+        <li data-goto="screen-19">19. Визитка</li>
+        <li data-goto="screen-20">20. Фото профиля</li>
+<li data-goto="screen-20-1">20.1 Статус профиля</li>
+<li data-goto="screen-21">21. Запомни меня! </li>
+        <li data-goto="screen-21-1">21.1 Сумочка нетворкера</li>
+        <li data-goto="screen-21-2">21.2 Карта мероприятия</li>
+        <li data-goto="screen-22">22. Зал конференции</li>
+        <li data-goto="screen-23">23. Кофебрейк</li>
+        <li data-goto="screen-24">24. Follow-up письмо</li>
+        <li data-goto="screen-25">25. Календарь касаний</li>
+        <li data-goto="screen-26">26. Финал</li>
+      </ul>
+    </div>
+  </div>
+
+  <header>
+  <div class="logo">
+    <div class="logo-icon">NC</div>
+    <div>
+      <div>НетворкингСити</div>
+      <div style="font-size: 12px; color: var(--text-soft);">Симулятор нетворкинга</div>
+    </div>
+  </div>
+
+  <div class="header-stats">
+    <div class="header-bar">
+      <span class="header-stat-label">Нетворкинг</span>
+      <div class="bar-track" style="width: 120px; height: 6px;">
+        <div class="bar-fill" id="hud-networking-bar"></div>
+      </div>
+      <span class="header-stat-value" id="hud-networking-value">0 / 100</span>
+    </div>
+    <div class="header-chip">
+      🤝 <span id="hud-contacts">0</span>
+    </div>
+    <div class="header-chip">
+      👁 <span id="hud-visibility">0</span>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div class="pill" id="chapter-pill">Глава 1</div>
+  </div>
+</header>
+
+  <main>
+    <!-- HUD / Статы -->
+        <!-- Основной контейнер экранов -->
+    <section id="screen-container">
+
+      <!-- Экран 1. Обложка курса -->
+      <div class="screen active" id="screen-1">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 1 • Обложка курса</span>
+                      </div>
+            <div class="scene-main">
+          <div class="fake-illustration" style="background: none; border: none; overflow: hidden;">
+  <img src="https://i.ibb.co/xqLV3XTc/image.png" alt="НетворкингСити" style="width: 100%; height: 100%; object-fit: cover; border-radius: 14px;">
+  <div class="quote-box" id="quote-box">
+                  <div id="quote-text">
+                    Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет
+                    и где это произойдёт.
+                  </div>
+                  <div class="quote-author" id="quote-author">Кейт Ферраци</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>НетворкингСити: свои везде</h2>
+            <div class="subtitle">
+              От неловких знакомств до работающих связей.
+            </div>
+            <p style="margin-top: 10px;">
+              Добро пожаловать в мир, где каждый разговор может стать началом нового проекта, дружбы или карьерного рывка!
+            </p>
+            <p>
+              Конференции, фестивали, выставки, показы вызывают у тебя мучительное
+              «Эх, сегодня придётся общаться со всеми этими людьми»?
+            </p>
+            <p>
+              Давай превратим этот "социальный ужас" в поле для интересных событий, чтобы
+              чувствовать себя “своим” в любой среде. Ты научишься:
+            </p>
+            <ul>
+              <li>легко начинать разговор на мероприятиях</li>
+              <li>кратко и понятно рассказывать о себе</li>
+              <li>поддерживать контакты после первой встречи</li>
+              <li>выстраивать экологичные, взаимовыгодные связи</li>
+            </ul>
+            <p style="margin-top: 4px;">
+              Готов стать воплощением харизмы?
+            </p>
+                               <div class="actions-row" style="margin-top: auto;">
+              <button class="btn" data-next="screen-2">Готов!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 2. Тест -->
+      <div class="screen" id="screen-2">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 2 • Оцени свой нетворкинг</span>
+      </div>
+      <div class="scene-main">
+        <div class="quiz-container" id="quiz-container">
+          <div class="quiz-progress" id="quiz-progress">Вопрос 1 из 10</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Тест</div>
+      <h2>Тест: твой уровень нетворкинга</h2>
+      <p>Ответь на 10 вопросов — узнаешь, насколько ты готов к эффективному нетворкингу.</p>
+      <p class="note">Вопросы появляются по одному. Выбери один вариант ответа.</p>
+      <div class="actions-row" style="justify-content: space-between; margin-top: auto;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-quiz-next" data-next="screen-3" style="display:none;">Продолжить</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- Экран 3. Комната Златы -->
+      <div class="screen" id="screen-3">
+              <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 3 • Комната Златы</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration" id="room-keys-area">
+                Иллюстрация комнаты Златы в стиле SIMS2.
+                <br>Найди ключи на тумбочке.
+                <div class="hotspot" id="keys-hotspot" style="width: 70px; height: 40px; bottom: 20%; left: 35%;">
+                  <div class="tooltip">Ключи</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Злата собирается на работу</h2>
+            <p>
+              Привет! Знакомься, это Злата. Она недавно стала представителем компании и немного волнуется.
+              Утро уже начинается, птички поют, а по пути на работу она мечтает забежать в кафе за лавандовым рафом.
+            </p>
+            <p>
+              Но сперва — небольшое задание: <strong>найди ключи</strong>, чтобы выйти из дома.
+            </p>
+            <div class="note">
+              Нажми на интерактивную зону с ключами на тумбочке.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 4. Кафе -->
+      <div class="screen" id="screen-4">
+        
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 4 • Кафе «Зерно»</span>
+              <span class="badge-floating" id="awkward-badge">Уровень неловкости: 100%</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Уютная кофейня рядом с офисным центром.
+                <br>Злата и Павел находятся в очереди/у стойки.
+                <div class="quote-box">
+                  Надо бы поздороваться. Или лучше не надо? А вдруг он меня не помнит? Будет неловко.
+                  Да и что я ему скажу? «Привет, как тебе погода?» Банально. 
+                  <div class="indicator-chip">Неловкость: 100%</div>
+                </div>
+              </div>
+              <!-- модальное окно результата выбора -->
+              <div class="modal-overlay" id="cafe-modal">
+                <div class="modal" id="cafe-modal-content">
+                  <!-- контент заполняется JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Первое утреннее испытание</h2>
+            <p>
+              Злата замечает в кафе коллегу Павла. Они почти не знакомы, и он делает вид, будто её не заметил.
+            </p>
+            <p>
+              Как поступишь ты?
+            </p>
+            <div class="actions-row">
+              <button class="btn secondary" data-choice="1">
+                Достать телефон и начать скроллить новости
+              </button>
+              <button class="btn secondary" data-choice="2">
+                Поймать взгляд и дружелюбно кивнуть
+              </button>
+                            <button class="btn secondary" data-choice="3">
+                «Павел, доброе утро! Тоже спасаетесь кофе этим утром?»
+              </button>
+            </div>
+            <div class="note">
+              Выбор влияет на узнаваемость 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 5. Карта города (к офису) -->
+      <div class="screen" id="screen-5">
+        
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 5 • Карта города</span>
+            </div>
+            <div class="scene-main">
+              <div class="map-placeholder">
+                Карта города в стилистике SIMS2.
+                <div class="map-indicator" id="office-indicator" style="top: 35%; left: 65%;" title="Офис">
+                  Оф
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Куда дальше?</h2>
+            <p>
+              Перед тобой карта города. Злата отправляется на работу, где её ждёт важный разговор с начальником.
+            </p>
+            <p>
+              Нажми на мерцающий индикатор «Офис», чтобы продолжить путь.
+            </p>
+            <div class="actions-row">
+              <button class="btn secondary" data-next="screen-6">Перейти в офис (быстрый переход)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 6. Утро, офис -->
+      <div class="screen" id="screen-6">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 6 • Утро, офис</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Иллюстрация офиса в стиле SIMS2: рабочие места, переговорка, начальник.
+              </div>
+              <div class="modal-overlay" id="boss-modal">
+                <div class="modal">
+                  <h3>Начальник недоволен</h3>
+                  <p>
+                    Начальник нахмурился и, повысив голос, отчитал Злату:
+                  </p>
+                  <p style="margin-top: 4px;">
+                    «Что за детский сад? Ты понимаешь, как это выглядит? Там будут люди, которые решают,
+                    с кем работать в следующем году. На встрече хотят видеть тебя как профильного специалиста.
+                    Твоя задача — познакомиться, рассказать, что мы умеем, завести связи.
+                  </p>
+                  <p style="margin-top: 4px;">
+                    Когда ты отказываешься, я выгляжу человеком, на которого нельзя положиться.
+                    Так что давай так: ты едешь в командировку, и мы закрываем эту историю. Договорились?»
+                  </p>
+                  <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
+                    <button class="btn" id="boss-modal-ok">Договорились</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Командировка или зона комфорта?</h2>
+            <p>
+              Начальник вызвал Злату и сообщил о конференции в другом городе.
+              В голове у Златы пронеслась мысль:
+              <em>«Я же не умею знакомиться…»</em>
+            </p>
+            <p style="margin-top: 6px;">
+              Что ты решишь?
+            </p>
+            <div class="actions-row">
+              <button class="btn" id="btn-accept-trip">
+                Согласиться
+              </button>
+              <button class="btn danger" id="btn-decline-trip">
+                Отказаться
+              </button>
+            </div>
+            <div class="note">
+              Выбор влияет на уровень нетворкинга и отношение начальника
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 7. Твои решения влияют на финал -->
+      <div class="screen" id="screen-7">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 7 • Индикаторы прогресса</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                HUD в стиле SIMS2 с тремя индикаторами:
+                <br>Нетворкинг • Узнаваемость • Знакомства.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Твои решения влияют на финал</h2>
+            <p>
+              В игре есть 3 ключевых показателя:
+            </p>
+            <ul>
+              <li><strong>Уровень «Нетворкинг» (0–100)</strong> — показывает, насколько развит твой навык нетворкинга. Он растёт автоматически, когда ты выбираешь действия и выполняешь задания. Цель — довести его до 100.</li>
+              <li><strong>Очки «Знакомства»</strong> — количество знакомств, которые ты завёл в игре.</li>
+              <li><strong>Очки «Узнаваемость»</strong> — отражают, насколько ты прокачал свой профиль и насколько тебя знают.</li>
+            </ul>
+       <div class="actions-row" style="justify-content: space-between;">
+  <button class="btn secondary nav-back" data-prev>Назад</button>
+  <button class="btn" data-next="screen-8">Как это влияет на финал</button>
+</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 8. Судьба персонажа -->
+      <div class="screen" id="screen-8">
+      
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 8 • Возможные судьбы</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Три переворачивающиеся карточки-судьбы.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Судьба персонажа</h2>
+            <p>
+              В зависимости от твоих решений судьба персонажа может быть разной.
+            </p>
+            <div class="cards-row">
+              <div class="fate-card">
+                <div class="fate-title">Стесняшка</div>
+                <div class="fate-metric">1 знакомство</div>
+                <div class="fate-metric">5 очков узнаваемости</div>
+                <div class="fate-metric">20% уровень нетворкинга</div>
+              </div>
+              <div class="fate-card">
+                <div class="fate-title">Местная звезда</div>
+                <div class="fate-metric">3 знакомства</div>
+                <div class="fate-metric">8 очков узнаваемости</div>
+                <div class="fate-metric">50% уровень нетворкинга</div>
+              </div>
+              <div class="fate-card">
+                <div class="fate-title">Мисс популярность</div>
+                <div class="fate-metric">6 знакомств</div>
+                <div class="fate-metric">10 очков узнаваемости</div>
+                <div class="fate-metric">100% уровень нетворкинга</div>
+              </div>
+            </div>
+            <p class="note">
+              Какая будет судьба — решать тебе.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-9">Решить судьбу</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 9. Карта города (Домой) -->
+      <div class="screen" id="screen-9">
+        
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 9 • Карта города</span>
+            </div>
+            <div class="scene-main">
+              <div class="map-placeholder">
+                Карта города. Злата возвращается домой, чтобы подготовиться.
+                <div class="map-indicator home" id="home-indicator" style="top: 65%; left: 40%;" title="Домой">
+                  Дом
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Возвращаемся домой</h2>
+            <p>
+              Впереди конференция. Сейчас самое время подготовиться к нетворкингу, а дома сохранилась полезная презентация.
+            </p>
+            <p>
+              Нажми на индикатор «Домой», чтобы продолжить.
+            </p>
+          </div>
+        </div>
+      </div>
+
+   <!-- Экран 10. Рабочий стол ноутбука -->
+<div class="screen" id="screen-10">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 10 • Рабочий стол ноутбука</span>
+      </div>
+      <div class="scene-main">
+        <!-- Интерфейс «рабочего стола» -->
+        <div style="width:100%; height:100%; border-radius:14px; background:linear-gradient(135deg,#0f172a,#1e293b); position:relative; display:flex; flex-direction:column; overflow:hidden;">
+          <!-- Панель сверху -->
+          <div style="background:#334155; padding:6px 12px; display:flex; align-items:center; gap:8px; border-radius:14px 14px 0 0;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#facc15;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#22c55e;"></div>
+            <span style="color:#94a3b8;font-size:11px;margin-left:8px;">Рабочий стол Златы</span>
+          </div>
+          <!-- Папки -->
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; gap:40px; padding:20px;">
+            <!-- Папка: Расписание -->
+            <div id="folder-schedule" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;" title="Расписание конференции">
+              <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#facc15,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📋</div>
+              <span style="color:#e2e8f0;font-size:11px;text-align:center;">Расписание<br>конференции</span>
+            </div>
+            <!-- Папка: Цель -->
+            <div id="folder-goal" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;" title="Поставить цель">
+              <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🎯</div>
+              <span style="color:#e2e8f0;font-size:11px;text-align:center;">Цель</span>
+            </div>
+          </div>
+          <!-- Мысль Златы -->
+          <div style="padding:8px 14px 10px; background:rgba(0,0,0,0.3); font-size:12px; color:#94a3b8; line-height:1.4;">
+            💬 «Надо подготовиться. Посмотрю расписание и поставлю себе цель.»
+          </div>
+        </div>
+        <!-- Модалка расписания -->
+        <div class="modal-overlay" id="schedule-modal">
+          <div class="modal" style="max-width:460px;">
+            <h3>📋 Расписание конференции</h3>
+            <p>Когда собираешься на конференцию или выставку, которая длится несколько дней, прежде всего изучи расписание. Выбери сессии, которые тебе наиболее интересны.</p>
+            <p style="margin-top:6px;">Особое внимание обрати на те события, проведение которых соответствует времени суток, когда ты наиболее комфортно чувствуешь себя в толпе.</p>
+            <p style="margin-top:6px;">Оставь как минимум час для того, чтобы побыть среди людей. За это время оцени ситуацию, обменяйся контактами с парой человек.</p>
+            <p style="margin-top:6px;">Можно знакомиться с людьми в перерывах между выступлениями или участвуя в пленарном заседании.</p>
+            <div class="actions-row" style="margin-top:12px; justify-content:flex-end;">
+              <button class="btn" id="schedule-modal-ok">ОК</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Включаем режим подготовки</h2>
+      <p>Злата открыла ноутбук и решила подготовиться к конференции.</p>
+      <p>На рабочем столе две папки. Нажми на каждую:</p>
+      <ul>
+        <li><strong>📋 Расписание конференции</strong> — узнаешь, как выбрать подходящие сессии</li>
+        <li><strong>🎯 Цель</strong> — перейдёшь к упражнению</li>
+      </ul>
+      <p class="note">Нажми на папки на экране ноутбука слева.</p>
+    </div>
+  </div>
+</div>
+
+      <!-- Экран 11. Для чего нетворкинг тебе? -->
+      <div class="screen" id="screen-11">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 11 • Для чего тебе нетворкинг?</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Экран ноутбука с окном упражнения.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Упражнение: для чего тебе нетворкинг?</h2>
+            <p>
+              Можешь ли ты уже сформулировать, для чего лично тебе нужен нетворкинг?
+            </p>
+            <div style="margin-top: 6px;">
+              <div class="field-label">Твой ответ</div>
+              <textarea id="networking-purpose" placeholder="Например: «Хочу находить партнёров для проектов и быстрее расти в карьере»"></textarea>
+            </div>
+            <div class="actions-row">
+              <button class="btn" id="btn-purpose-submit">Ответить</button>
+            </div>
+            <div class="modal-overlay" id="purpose-modal">
+              <div class="modal">
+                <h3>Спасибо!</h3>
+                <p>
+                  Продолжим работать над целью и сделаем её более конкретной.
+                </p>
+                <p class="note">
+                  +1 к уровню нетворкинга.
+                </p>
+                <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
+                  <button class="btn" id="purpose-modal-continue" data-next="screen-12">Продолжить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 12. Нити нетворкинга -->
+      <div class="screen" id="screen-12">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 12 • Нити нетворкинга</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Рабочий стол с бусинами и браслетами.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Составляющие нетворкинга</h2>
+            <p>
+              Сначала разберёмся, из чего вообще состоит нетворкинг. Собери первое слово.
+            </p>
+            <div class="beads-wrapper" id="beads-wrapper">
+              <div class="target-label">Этап <span id="beads-stage-label">1</span> из 3</div>
+              <div class="target-label">Перетащи буквы в нижнюю строку, чтобы собрать слово:</div>
+              <div class="beads-pool" id="beads-pool"></div>
+              <div class="target-label">Собранное слово:</div>
+              <div class="beads-target" id="beads-target"></div>
+              <div class="feedback" id="beads-feedback"></div>
+              <div class="actions-row">
+                <button class="btn secondary" id="beads-reset">Сбросить</button>
+                <button class="btn" id="beads-check">Проверить</button>
+              </div>
+            </div>
+            <div class="modal-overlay" id="beads-summary-modal">
+              <div class="modal">
+                <h3>Ты собрал формулу нетворкинга:</h3>
+                <p>
+                  Установка связей — это первый шаг, смелость начать.
+                </p>
+                <p>
+                  Удержание связей — это забота, искусство поддерживать контакт тёплым.
+                </p>
+                <p>
+                  Ценность связей — это результат, к которому приводят первые два шага.
+                </p>
+                <p style="margin-top: 4px;">
+                  Нетворкинг — это не охота за контактами, а искусство плести узоры из человеческих отношений.
+                  Ты только что сплёл свои первые нити. Носи их с гордостью!
+                </p>
+                <p class="note">
+                  +1 к уровню нетворкинга.
+                </p>
+                <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
+                  <button class="btn" id="beads-summary-continue" data-next="screen-13">Далее</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 13. С чего начинается нетворкинг -->
+      <div class="screen" id="screen-13">
+      
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 13 • Признай свои страхи</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Маски/эмодзи-страхи, которые переворачиваются.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>С чего начинается нетворкинг</h2>
+            <p>
+              Нетворкинг начинается с признания своих страхов.
+              Выпиши, чего ты боишься (например, публичное выступление, знакомство, показаться смешным).
+            </p>
+            <div class="mask-grid" id="fear-grid">
+              <div class="mask-card">
+                <div class="mask-title">Страх 1</div>
+                <textarea class="mask-input"></textarea>
+              </div>
+              <div class="mask-card">
+                <div class="mask-title">Страх 2</div>
+                <textarea class="mask-input"></textarea>
+              </div>
+              <div class="mask-card">
+                <div class="mask-title">Страх 3</div>
+                <textarea class="mask-input"></textarea>
+              </div>
+            </div>
+            <div class="actions-row" style="margin-top: 6px;">
+              <button class="btn" id="btn-fears-submit">Ответить</button>
+            </div>
+
+            <div id="fears-second-step" style="display:none; margin-top: 10px;">
+              <p>
+                А теперь запиши, как будешь бороться со своими страхами.
+              </p>
+              <div class="mask-grid" id="fight-grid">
+                <div class="mask-card">
+                  <div class="mask-title">Шаг 1</div>
+                  <textarea class="mask-input"></textarea>
+                </div>
+                <div class="mask-card">
+                  <div class="mask-title">Шаг 2</div>
+                  <textarea class="mask-input"></textarea>
+                </div>
+                <div class="mask-card">
+                  <div class="mask-title">Шаг 3</div>
+                  <textarea class="mask-input"></textarea>
+                </div>
+              </div>
+              <div class="actions-row" style="margin-top: 6px;">
+                <button class="btn" id="btn-fight-submit">Ответить</button>
+              </div>
+            </div>
+
+            <div class="modal-overlay" id="fears-modal">
+              <div class="modal">
+                <h3>Ты справился!</h3>
+                <p>
+                  Это было нелегко, но ты это сделал. Ты только что выполнил один из самых мощных ритуалов:
+                  назвал своих призраков по имени, посмотрел им в глаза и написал шаги к их укрощению.
+                </p>
+                <p class="note">
+                  +1 к уровню нетворкинга. Можно скачать чек-лист «Борьба со страхом».
+                </p>
+                <div class="actions-row" style="margin-top: 10px; justify-content: space-between;">
+                  <button class="btn secondary">Скачать чек-лист</button>
+                  <button class="btn" data-next="screen-14">Продолжить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- Экран 14. Колесо баланса -->
+<div class="screen" id="screen-14">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 14 • Колесо баланса контактов</span>
+      </div>
+      <div class="scene-main">
+        <svg id="wheelSvg" width="100%" viewBox="0 0 420 420" style="max-width:400px;"></svg>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Колесо баланса контактов</h2>
+      <p>
+        Прочитай название сферы и подумай:
+        «Есть ли у меня люди, к которым я могу обратиться в этой области?»
+      </p>
+      <p style="margin-top: 4px;">Оцени от 1 до 10:</p>
+      <ul>
+        <li><strong>1–2</strong> — контактов почти нет</li>
+        <li><strong>3–4</strong> — есть пара человек, но связь слабая</li>
+        <li><strong>5–6</strong> — есть несколько знакомых, связь не системная</li>
+        <li><strong>7–8</strong> — есть надёжные контакты</li>
+        <li><strong>9–10</strong> — сильная сеть: активная связь, взаимная польза</li>
+      </ul>
+      <div class="seg-control">
+        <div class="seg-control-title">
+          Текущая сфера: <span id="current-seg-name">Карьера</span>
+        </div>
+        <div class="seg-level-buttons" id="seg-level-buttons"></div>
+      </div>
+      <div class="actions-row" style="margin-top: 6px;">
+            <button class="btn secondary" id="btn-wheel-reset" style="display:none;">Оценить заново</button>
+        <button class="btn" id="btn-wheel-finish" style="display:none;">Готово</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- Экран 15. Твоё колесо баланса -->
+<div class="screen" id="screen-15">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 15 • Твоё колесо баланса</span>
+      </div>
+      <div class="scene-main">
+        <svg id="resultWheelSvg" width="100%" viewBox="0 0 420 420" style="max-width:400px;"></svg>
+      </div>
+    </div>
+    <div class="panel" style="overflow-y:auto; max-height:calc(100vh - 180px);">
+      <div class="panel-tag">Упражнение</div>
+      <h2>Оцени важность каждой сферы</h2>
+      <p>Насколько важна для тебя каждая сфера? Передвинь ползунок от 1 (не важна) до 10 (критически важна).</p>
+      <div id="importance-sliders"></div>
+      <button class="btn" id="btn-calc-priority" style="margin-top:8px;">Рассчитать приоритеты</button>
+      <div id="priority-result" style="display:none; margin-top:10px;">
+        <h3>🎯 Рекомендация</h3>
+        <p>Сферы, где <strong>высокая важность</strong>, но <strong>мало контактов</strong> — именно там стоит искать людей на конференции:</p>
+        <div class="metric-row" style="margin-top:6px;">
+          <span class="mini-label">Твои приоритетные сферы:</span>
+          <strong id="top-sectors" style="color: var(--accent-soft);"></strong>
+        </div>
+        <p class="note" style="margin-top:6px;">+1 к уровню нетворкинга.</p>
+      </div>
+      <div class="actions-row" style="margin-top:8px;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-screen15-continue" data-next="screen-16" style="display:none;">Продолжить</button>
+      </div>
+    </div>
+  </div>
+</div>
+       <!-- Экран 16. Сколько знакомств ты заведёшь -->
+      <div class="screen" id="screen-16">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 16 • План по знакомствам</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Зона перетаскивания человечков.
+                <div style="position:absolute; inset:20% 10% auto auto;">
+                  <div class="people-pool" id="people-pool"></div>
+                  <div class="target-label" style="margin-top:6px;">Панель твоего плана знакомств</div>
+                  <div class="people-target" id="people-target"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Сколько знакомств ты заведёшь?</h2>
+
+            <h3 style="margin-top: 6px;">Теория «6 рукопожатий»</h3>
+            <p>
+              Представь: ты сидишь вечером с чаем, случайно открываешь профиль какой-то «звезды» фармы или науки и думаешь: «Ну вот, это вообще из другого мира. Как я до такого человека когда-нибудь доберусь?» Но постой:
+            </p>
+            <p>
+              <strong>Между тобой и почти любым человеком на планете — всего несколько шагов знакомых.</strong>
+            </p>
+            <p>
+              Не сотни, не тысячи, а примерно <strong>6 рукопожатий</strong>. Тебе не нужно знать всех, достаточно нескольких правильных людей, чтобы выйти куда угодно.
+            </p>
+            <p>
+              Теория шести рукопожатий гласит: <em>любой человек на Земле связан с любым другим через цепочку из примерно шести человек.</em>
+            </p>
+            <p>Формула простая:</p>
+            <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 10px 12px; margin: 6px 0; font-size: 13px; color: var(--accent-soft); text-align: center;">
+              Ты → твой знакомый → его знакомый → его знакомый → … → нужный человек<br>
+              <span style="font-size: 12px; color: var(--text-soft);">Каждое звено в цепочке — это «рукопожатие».</span>
+            </div>
+
+            <div style="background: rgba(250, 204, 21, 0.08); border: 1px solid rgba(250, 204, 21, 0.35); border-radius: 10px; padding: 10px 12px; margin: 8px 0;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                <span style="font-size: 16px;">⭐</span>
+                <strong style="font-size: 13px; color: var(--accent-yellow);">Фан-факт</strong>
+              </div>
+              <p style="font-size: 13px; line-height: 1.45;">Это не просто красивая легенда.</p>
+              <p style="font-size: 13px; line-height: 1.45; margin-top: 4px;">
+                Ещё в середине XX века психологи и социологи проводили эксперименты: просили людей переслать письмо незнакомцу в другой части страны, передавая его только знакомым, у которых может быть «следующее звено». В среднем получалось около 5–6 шагов.
+              </p>
+              <p style="font-size: 13px; line-height: 1.45; margin-top: 4px;">
+                Потом, в эпоху соцсетей, крупные платформы (Facebook, Microsoft и др.) анализировали реальные связи между миллионами людей и получали похожие цифры: цепочка между двумя случайными людьми — <strong>3–5 промежуточных контактов</strong>.
+              </p>
+            </div>
+
+            <p>То есть:</p>
+            <ul>
+              <li>Мир действительно связан плотнее, чем кажется.</li>
+              <li>Наши сети знакомых перекрываются, создавая огромную «паутину» контактов.</li>
+            </ul>
+
+            <p style="margin-top: 8px;"><strong>У этого есть три важных следствия:</strong></p>
+            <p style="margin-top: 6px;">
+              <strong style="color: var(--accent-soft);">1. Каждое знакомство ценнее, чем кажется.</strong><br>
+              Ты знакомишься не только с человеком перед тобой, но и с его окружением.
+            </p>
+            <p style="margin-top: 6px;">
+              <strong style="color: var(--accent-soft);">2. Твоя задача — не расширять сеть до бесконечности, а строить мосты между «островами».</strong><br>
+              Особенно ценны контакты, которые связывают разные круги: другой отдел, другую компанию, другой город или страну.
+            </p>
+            <p style="margin-top: 6px;">
+              <strong style="color: var(--accent-soft);">3. Качество важнее количества.</strong><br>
+              Для доступа к возможностям тебе важны не сотни поверхностных «знакомы в лицо», а несколько людей, которые реально готовы тебя порекомендовать, познакомить, подсказать.
+            </p>
+
+            <p style="margin-top: 8px;">Тебе <strong>не нужно</strong>:</p>
+            <ul>
+              <li>знать 500+ человек;</li>
+              <li>обойти всю конференцию и «поздороваться со всеми»;</li>
+              <li>собирать визитки как покемонов.</li>
+            </ul>
+
+            <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 10px 12px; margin: 10px 0;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 16px;">❓</span>
+                <strong style="font-size: 14px; color: var(--accent-blue);">Итак, сколько знакомств ты планируешь завести?</strong>
+              </div>
+            </div>
+
+            <p>Перетащи на панель слева столько человечков, сколько ты планируешь завести знакомств на конференции.</p>
+
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-16-1">Продолжить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+ <!-- Экран 16-1. Где ты будешь знакомиться -->
+      <div class="screen" id="screen-16-1">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 16.1 • Где ты будешь знакомиться?</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration" style="align-items: flex-start; padding: 14px; overflow-y: auto;">
+                <!-- Три колонки-категории -->
+                <div style="display: flex; gap: 10px; width: 100%; height: 100%;">
+                  
+                  <div class="location-category" data-category="comfort" style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #4ade80; text-align:center; padding: 6px; background: rgba(34,197,94,0.15); border-radius: 8px; border: 1px solid rgba(34,197,94,0.4);">
+                      🐟 Как рыба в воде
+                    </div>
+                    <div class="location-drop-zone" data-category="comfort" style="flex:1; min-height: 60px; border-radius: 10px; border: 1px dashed rgba(34,197,94,0.5); background: rgba(34,197,94,0.05); padding: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start;">
+                    </div>
+                  </div>
+
+                  <div class="location-category" data-category="neutral" style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #facc15; text-align:center; padding: 6px; background: rgba(250,204,21,0.15); border-radius: 8px; border: 1px solid rgba(250,204,21,0.4);">
+                      😐 Нейтрально
+                    </div>
+                    <div class="location-drop-zone" data-category="neutral" style="flex:1; min-height: 60px; border-radius: 10px; border: 1px dashed rgba(250,204,21,0.5); background: rgba(250,204,21,0.05); padding: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start;">
+                    </div>
+                  </div>
+
+                  <div class="location-category" data-category="avoid" style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #f97373; text-align:center; padding: 6px; background: rgba(239,68,68,0.15); border-radius: 8px; border: 1px solid rgba(239,68,68,0.4);">
+                      🚫 Ноги моей тут не будет
+                    </div>
+                    <div class="location-drop-zone" data-category="avoid" style="flex:1; min-height: 60px; border-radius: 10px; border: 1px dashed rgba(239,68,68,0.5); background: rgba(239,68,68,0.05); padding: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start;">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel" style="overflow-y: auto; min-height: 0; max-height: calc(100vh - 180px);">
+            <div class="panel-tag">Теория</div>
+            <h2>Где ты будешь знакомиться?</h2>
+            <p>
+              У каждого есть свои места, где он чувствует себя как рыба в воде. Именно поэтому так сложно освоить «правильное поведение на вечеринках», если ты их не очень любишь.
+            </p>
+            <p>
+              Глупо пытаться научиться «очаровывать людей на конференциях», если одна только мысль о них вызывает мурашки.
+            </p>
+            <p style="margin-top: 6px;">
+              <strong>Задание:</strong> перетащи локации в подходящую категорию слева.
+            </p>
+
+            <!-- Пул локаций -->
+            <div style="font-size: 12px; color: var(--text-soft); margin-top: 8px;">Локации (перетащи в категорию):</div>
+            <div class="location-pool" id="location-pool" style="min-height: 80px; border-radius: 10px; border: 1px dashed rgba(148,163,184,0.5); background: #f8fafc; padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; margin-top: 4px;">
+            </div>
+
+            <div class="actions-row" style="margin-top: 10px;">
+              <button class="btn" id="btn-locations-done">Готово</button>
+            </div>
+
+            <!-- Модалка с обратной связью -->
+            <div class="modal-overlay" id="locations-modal">
+              <div class="modal">
+                <h3>Отличная работа!</h3>
+                <div id="locations-feedback"></div>
+                <p style="margin-top: 8px;">
+                  Теперь ты точно знаешь, какие места тебе приятны, а каких лучше избегать. Это важно. Вряд ли ты захочешь пойти знакомиться в место, которое ты на дух не переносишь.
+                </p>
+                <p class="note">+1 к уровню нетворкинга.</p>
+                <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
+                 <button class="btn" id="locations-continue">Продолжить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Экран 17. SMART цель -->
+      <div class="screen" id="screen-17">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 17 • SMART-цель</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Шаблон SMART-цели на экране.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Ставим конкретную цель</h2>
+            <p>
+              Заполни свою цель по модели SMART.
+            </p>
+            <div class="smart-grid" id="smart-grid">
+              <div class="smart-field">
+                <label for="smart-s">S — Specific (конкретная)</label>
+                <textarea id="smart-s" rows="2"></textarea>
+              </div>
+              <div class="smart-field">
+                <label for="smart-m">M — Measurable (измеримая)</label>
+                <textarea id="smart-m" rows="2"></textarea>
+              </div>
+              <div class="smart-field">
+                <label for="smart-a">A — Achievable (достижимая)</label>
+                <textarea id="smart-a" rows="2"></textarea>
+              </div>
+              <div class="smart-field">
+                <label for="smart-r">R — Relevant (релевантная)</label>
+                <textarea id="smart-r" rows="2"></textarea>
+              </div>
+              <div class="smart-field">
+                <label for="smart-t">T — Time-bound (ограниченная по времени)</label>
+                <textarea id="smart-t" rows="2"></textarea>
+              </div>
+            </div>
+            <p class="note">
+              Справа можно показать, как Злата заполнила свою цель, и её комментарии.
+            </p>
+            <p class="note">
+              +1 к уровню нетворкинга.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-18">Какая цель получилась у Златы</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 18. Цель Златы -->
+      <div class="screen" id="screen-18">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 18 • Цель Златы</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Окно с целью Златы и прогрессом (0/6).
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Цель Златы</h2>
+            <p>
+              Злата ставит себе цель:
+            </p>
+            <p style="margin-top: 6px; font-weight: 500;">
+              Познакомиться с 6 людьми на конференции в сфере «Карьера / Маркетинг».
+            </p>
+            <p class="note">
+              Прогресс: <span id="zlata-goal-progress">0 / 6</span>. За каждое знакомство с подходящим персонажем
+              счётчик будет расти.
+            </p>
+            <p class="note">
+              В HUD появилась иконка «Цель Златы», по которой можно вспоминать её цель.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-19">Подготовиться к конференции</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     <!-- Экран 19. Создание визитки -->
+<div class="screen" id="screen-19">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 19 • Визитка</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:10px; overflow-y:auto;">
+
+        <!-- Две визитки рядом -->
+        <div style="display:flex; gap:14px; align-items:stretch;">
+
+          <!-- Твоя визитка -->
+          <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+            <div style="font-size:13px; font-weight:600; color:var(--text);">📇 Твоя визитка</div>
+            <div class="bizcard-template" id="bc-template" style="flex:1;">
+              <div style="display:flex; gap:10px; align-items:flex-start;">
+                <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                  <input type="text" placeholder="Имя и фамилия" class="bc-field" style="font-size:15px; font-weight:600;">
+                  <input type="text" placeholder="Должность + сфера" class="bc-field">
+                  <input type="text" placeholder="Название компании" class="bc-field">
+                </div>
+                <div class="bizcard-drop-zone" id="bc-zone-logo" data-zone="logo">Перетащи<br>логотип</div>
+              </div>
+              <textarea rows="2" placeholder="Цепляющая подсказка про тебя" class="bc-field"></textarea>
+              <div class="bizcard-row">
+                <input type="text" placeholder="Email" class="bc-field">
+                <input type="text" placeholder="Телефон" class="bc-field">
+              </div>
+              <div class="bizcard-row">
+                <input type="text" placeholder="Профессиональный профиль (один канал)" class="bc-field" style="flex:1;">
+                <div class="bizcard-drop-zone" id="bc-zone-qr" data-zone="qr" style="width:46px;height:46px;font-size:8px;">QR-код</div>
+                <div class="bizcard-drop-zone" id="bc-zone-photo" data-zone="photo" style="width:46px;height:46px;font-size:8px;">Фото</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Визитка Златы -->
+          <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+            <div style="font-size:13px; font-weight:600; color:var(--text-soft);">Пример: визитка Златы</div>
+            <div class="bizcard-example" style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+              <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                <div style="width:32px;height:32px;border-radius:6px;background:#22c55e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;">PC</div>
+                <div>
+                  <div class="bc-name">Злата Фармацевтова</div>
+                  <div class="bc-role">Специалист по качеству в клинических исследованиях</div>
+                </div>
+              </div>
+              <div style="font-size:12px; color:var(--text-soft); margin-bottom:4px;">PharmaCorp</div>
+              <div class="bc-hint">«Помогаю проводить клинические исследования по протоколу и без сюрпризов на проверках»</div>
+              <div class="bc-contacts" style="margin-top:auto; padding-top:8px;">
+                ✉ zlata.f@pharmacorp.ru<br>
+                📞 +7 (999) 123-45-67<br>
+                🔗 socset.com/zlata-farmatsevtova
+              </div>
+            </div>
+            <div style="font-size:10px; color:var(--text-soft);">
+              Ничего лишнего. Имя, роль, компания, контакты и короткая фраза, по которой тебя запомнят.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Элементы для перетаскивания -->
+        <div style="font-size:12px; color:var(--text-soft); font-weight:600;">Элементы (перетащи на визитку):</div>
+        <div class="drag-elements-panel" id="bc-drag-panel">
+          <div class="drag-el" draggable="true" data-el="logo">🏢 Логотип компании</div>
+          <div class="drag-el" draggable="true" data-el="qr">📱 QR-код на блог</div>
+          <div class="drag-el" draggable="true" data-el="photo">📸 Фото</div>
+        </div>
+
+        <div class="bizcard-feedback" id="bc-feedback" style="min-height:20px;"></div>
+
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Зачем нужна визитка</h2>
+      <p>Многие думают: «Да кому нужны визитки, есть же соцсети». Но в живом общении визитка решает сразу несколько задач:</p>
+      <ul>
+        <li><strong>Закрепляет знакомство</strong> — после десятка разговоров люди забывают имена. Визитка — это якорь.</li>
+        <li><strong>Облегчает продолжение общения</strong> — вместо «Я вам напишу…» можно сказать: «Вот мои контакты».</li>
+        <li><strong>Передаёт профессиональный образ</strong> — кто ты? Чем полезен?</li>
+        <li><strong>Помогает «положить тебя на нужную полочку»</strong> — через пару дней человек вспомнит, кто ты.</li>
+      </ul>
+      <h3 style="margin-top:8px;">Что должно быть на визитке</h3>
+      <p>Визитка отвечает на 3 вопроса: <strong>Кто ты? Чем полезен? Как связаться?</strong></p>
+      <p><strong>1. Имя и фамилия</strong> — крупно и читаемо.</p>
+      <p><strong>2. Должность + сфера</strong> — на человеческом языке.</p>
+      <p><strong>3. Компания</strong> — логотип + название.</p>
+      <p><strong>4. Контакты</strong> — email, телефон, один профессиональный профиль.</p>
+      <p><strong>5. Цепляющая подсказка</strong> — короткая фраза о твоей экспертизе.</p>
+      <p><strong>6. Дизайн</strong> — читаемость важнее красоты.</p>
+      <h3 style="margin-top:8px;">Задание</h3>
+      <p>Заполни визитку слева, перетащи элементы на нужные места и нажми «Проверить».</p>
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-bizcard-check" onclick="checkBizcard()">Проверить</button>
+        <button class="btn" id="btn-bizcard-next" style="display:none;" onclick="showScreen('screen-20')">Далее</button>
+      </div>
+    </div>
+  </div>
+</div>
+     <!-- Экран 20. Фото для профиля -->
+<div class="screen" id="screen-20">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 20 • Фото профиля</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:8px; overflow-y:auto;">
+
+        <div class="photo-grid" id="photo-grid">
+          <div class="photo-card" data-photo="1">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#e0f2fe,#bfdbfe);">
+              <span class="ph-emoji">👩‍💼</span>
+              <span class="ph-desc">Портрет по плечи, нейтральный фон, деловая одежда, улыбка, хороший свет</span>
+            </div>
+            <div class="photo-label">Фото 1: Портрет в офисе</div>
+          </div>
+          <div class="photo-card" data-photo="2">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#f1f5f9,#cbd5e1);">
+              <span class="ph-emoji">🤳</span>
+              <span class="ph-desc">Селфи в зеркале лифта, телефон закрывает лицо, тусклый свет</span>
+            </div>
+            <div class="photo-label">Фото 2: Селфи в лифте</div>
+          </div>
+          <div class="photo-card" data-photo="3">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+              <span class="ph-emoji">🥂</span>
+              <span class="ph-desc">С бокалом, шарики и гирлянды, весёлое лицо</span>
+            </div>
+            <div class="photo-label">Фото 3: С корпоратива</div>
+          </div>
+          <div class="photo-card" data-photo="4">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd);">
+              <span class="ph-emoji">👥👥👥</span>
+              <span class="ph-desc">Пять человек в ряд, непонятно кто Злата</span>
+            </div>
+            <div class="photo-label">Фото 4: Командное фото</div>
+          </div>
+          <div class="photo-card" data-photo="5">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#ccfbf1,#5eead4);">
+              <span class="ph-emoji">🏖️</span>
+              <span class="ph-desc">Солнечные очки, купальник, море, коктейль</span>
+            </div>
+            <div class="photo-label">Фото 5: С отпуска</div>
+          </div>
+          <div class="photo-card" data-photo="6">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#1e293b,#334155); color:#94a3b8;">
+              <span class="ph-emoji">🌑</span>
+              <span class="ph-desc" style="color:#64748b;">Почти не видно лица, тёмный фон, размытое, вспышка</span>
+            </div>
+            <div class="photo-label">Фото 6: Вечернее фото</div>
+          </div>
+        </div>
+
+        <div class="photo-feedback" id="photo-feedback"></div>
+
+        <div class="actions-row">
+          <button class="btn secondary nav-back" data-prev>Назад</button>
+          <button class="btn" id="btn-photo-check" onclick="window.checkPhoto()">Проверить</button>
+          <button class="btn" id="btn-photo-next" style="display:none;" onclick="showScreen('screen-20-1')">Далее →</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Выбери фото для профиля Златы</h2>
+      <p class="subtitle">Перед тобой 6 фотографий Златы. Выбери ту, которая лучше всего подходит для профессионального профиля. Вспомни критерии из теории.</p>
+      <h3 style="margin-top:10px;">Аватарка для профиля</h3>
+      <p>Аватарка — это первое рукопожатие онлайн. Ещё до того, как человек прочитает статус, он уже что-то решил по фото.</p>
+      <p>Онлайн-профиль без хорошей фотографии:</p>
+      <ul>
+        <li>вызывает меньше доверия</li>
+        <li>реже получает ответы</li>
+        <li>хуже запоминается после встречи</li>
+      </ul>
+      <h3 style="margin-top:8px;">Принципы хорошей аватарки</h3>
+      <p><strong>1. Лицо — главный герой.</strong> Кадр по плечи или по грудь, смотрим в камеру.</p>
+      <p><strong>2. Чистый фон.</strong> Однотонная стена, размытый офис. Без бардака и толпы людей.</p>
+      <p><strong>3. Хороший свет.</strong> Естественный свет от окна, без резких теней.</p>
+      <p><strong>4. Одежда как на встрече.</strong> Чистая, аккуратная, спокойные цвета.</p>
+      <p><strong>5. Живое выражение лица.</strong> Лёгкая улыбка, доброжелательный взгляд.</p>
+   <h3 style="margin-top:8px;">Главные вопросы к фото:</h3>
+      <ul>
+        <li>Похож ли ты на себя в реальной жизни?</li>
+        <li>Хочется ли с тобой заговорить, глядя на это фото?</li>
+      </ul>
+      <hr style="border:none; border-top:1px dashed #cbd5e1; margin:12px 0;">
+      <h2 style="margin-top:4px;">Задание: Выбери фото для профиля Златы</h2>
+      <p class="subtitle">Перед тобой 6 фотографий Златы. Выбери ту, которая лучше всего подходит для профессионального профиля, опираясь на критерии из теории.</p>
+    </div>
+  </div>
+</div>
+<!-- Экран 20-1. Статус профиля -->
+<div class="screen" id="screen-20-1">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 20.1 • Статус профиля</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:12px; gap:10px; overflow-y:auto;">
+
+        <!-- Верное фото с экрана 20 -->
+        <div style="display:flex; justify-content:center;">
+          <div style="width:160px; border-radius:12px; border:2px solid #22c55e; overflow:hidden; box-shadow:0 2px 12px rgba(34,197,94,0.15);">
+            <div style="aspect-ratio:4/3; background:linear-gradient(135deg,#e0f2fe,#bfdbfe); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8px; gap:4px;">
+              <span style="font-size:32px;">👩‍💼</span>
+              <span style="font-size:9px; color:#64748b;">Портрет по плечи, нейтральный фон, деловая одежда</span>
+            </div>
+            <div style="padding:4px 6px; font-size:10px; text-align:center; background:#f0fdf4; color:#16a34a; font-weight:600;">✅ Выбрано</div>
+          </div>
+        </div>
+
+        <!-- Статус -->
+        <div style="font-size:14px; font-weight:600; color:var(--text);">📝 Твой статус</div>
+
+        <div id="status-preview" style="display:none; background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:1px solid rgba(34,197,94,0.3); border-radius:10px; padding:10px 12px; text-align:center;">
+          <div style="font-size:10px; color:#16a34a; font-weight:600; margin-bottom:4px;">СТАТУС</div>
+          <div id="status-text" style="font-size:14px; font-weight:600; color:var(--text); line-height:1.4;"></div>
+        </div>
+
+        <div id="status-form">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div>
+              <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Роль / Сфера</label>
+              <input type="text" id="status-role" placeholder="Например: Специалист по качеству в клинических исследованиях" class="bc-field" style="margin-top:2px;">
+            </div>
+            <div>
+              <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Специализация</label>
+              <input type="text" id="status-spec" placeholder="Например: Аудиты, SOP, инспекции" class="bc-field" style="margin-top:2px;">
+            </div>
+            <div>
+              <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Фокус / Интерес</label>
+              <input type="text" id="status-focus" placeholder="Например: Редкие заболевания, GMP" class="bc-field" style="margin-top:2px;">
+                        </div>
+          </div>
+        </div>
+
+        <div id="status-feedback" style="font-size:12px; min-height:16px;"></div>
+
+        <div class="actions-row">
+          <button class="btn secondary nav-back" data-prev>Назад</button>
+          <button class="btn" id="btn-status-set" onclick="window.setStatus()">Установить статус</button>
+          <button class="btn secondary" id="btn-status-retry" style="display:none;" onclick="window.retryStatus()">Ещё раз</button>
+          <button class="btn" id="btn-status-next" style="display:none;" onclick="showScreen('screen-21')">Далее →</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Статус в соцсети</h2>
+      <p>Статус — это твой мини-бейдж в мире нетворкинга. По нему человек за 1–2 секунды решает:</p>
+      <ul>
+        <li>кто ты по роли</li>
+        <li>к какой «полочке» тебя отнести</li>
+        <li>с какими вопросами к тебе можно обратиться</li>
+      </ul>
+
+      <h3 style="margin-top:8px;">Статус помогает:</h3>
+      <p><strong>Быть понятным</strong> — у человека не возникает вопроса: «А что он/она вообще делает?»</p>
+      <p><strong>Привлекать «своих» людей</strong> — если ты обозначаешь сферу и интерес, к тебе чаще приходят с релевантными предложениями.</p>
+      <p><strong>Стать «находкой» в нужный момент</strong> — кто-то думает: «Нужен человек, который шарит в фарме» и, увидев твой статус, думает: «О, вот оно!»</p>
+
+      <h3 style="margin-top:8px;">Главное правило</h3>
+      <p>Статус — не пафос, а <strong>«подсказка, кто ты и чем полезен»</strong>.</p>
+
+      <p><strong>Плохие варианты:</strong></p>
+      <ul>
+        <li>«Профессионал своего дела»</li>
+        <li>«Ищу себя»</li>
+        <li>«Work hard, dream big»</li>
+      </ul>
+      <p style="font-size:11px; color:var(--text-soft);">Это ничего не говорит о том, чем ты реально занимаешься.</p>
+
+      <h3 style="margin-top:8px;">Из чего состоит хороший статус</h3>
+      <p><strong>Роль + Сфера/Контекст + Фокус/Интерес</strong></p>
+
+      <p><strong>Примеры:</strong></p>
+      <ul>
+        <li>«Специалист по качеству в клинических исследованиях»</li>
+        <li>«Регистрационный менеджер в фарме»</li>
+        <li>«Специалист по качеству в клинике | Аудиты, SOP, инспекции»</li>
+        <li>«Помогаю запускать клинические исследования по GCP»</li>
+        <li>«Помогаю выводить фармпрепараты на рынок РФ и ЕАЭС»</li>
+      </ul>
+
+      <h3 style="margin-top:8px;">Алгоритм</h3>
+      <p>Представь, что тебя спрашивают: «Ты в фарме/медицине чем занимаешься?» и нужно ответить одним предложением.</p>
+      <ul>
+        <li>Кем ты работаешь сейчас? (должность/роль)</li>
+        <li>В какой области? (клиника, качество, регистрация, производство, R&D, маркетинг)</li>
+        <li>Есть ли конкретный фокус? (редкие заболевания, цифровые решения, GMP)</li>
+      </ul>
+
+      <hr style="border:none; border-top:1px dashed #cbd5e1; margin:12px 0;">
+      <h2>Задание: Придумай свой статус</h2>
+      <p>Заполни три поля слева:</p>
+      <ol>
+        <li>Напиши свою роль и сферу</li>
+        <li>Добавь специализацию</li>
+        <li>Укажи конкретный фокус/интерес</li>
+      </ol>
+      <p>Нажми «Установить статус» — и увидишь, как он будет выглядеть.</p>
+        <!-- Модалка статуса -->
+        <div class="modal-overlay" id="status-modal">
+          <div class="modal">
+            <h3>🎉 Отлично!</h3>
+            <p>Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».</p>
+            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
+              <button class="btn" onclick="document.getElementById('status-modal').classList.remove('active')">Понятно</button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+      <!-- Экран 21. Онлайн доска -->
+      <div class="screen" id="screen-21">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 21 • Запоминающееся представление</span>
+            </div>
+            <div class="scene-main">
+              <div class="board" id="sticky-board">
+                <!-- Стикеры примерные -->
+                <div class="sticky">
+                  <div>Я помогаю продуктам находить свой голос через честный маркетинг.</div>
+                  <div class="sticky-footer">
+                    <span style="opacity:0.7;">@user_1</span>
+                    <span class="like-count" data-likes="3">♥ 3</span>
+                  </div>
+                </div>
+                <div class="sticky">
+                  <div>Соединяю людей и идеи: организатор комьюнити-встреч.</div>
+                  <div class="sticky-footer">
+                    <span style="opacity:0.7;">@user_2</span>
+                    <span class="like-count" data-likes="5">♥ 5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Создаём запоминающееся представление о себе</h2>
+            <p>
+              На онлайн-доске участники курса оставляют свои «самопрезентации» на стикерах.
+              В полноценной версии другие пользователи могут ставить лайки.
+            </p>
+            <div style="margin-top: 6px;">
+              <div class="field-label">Твой стикер</div>
+              <textarea id="sticky-input" placeholder="Опиши себя так, чтобы это захотелось запомнить и пересказать"></textarea>
+            </div>
+            <p class="note">
+              За добавление стикера — +1 к узнаваемости. Микроанимация: +1 Узнаваемость.
+            </p>
+            <div class="actions-row">
+              <button class="btn" id="btn-sticky-add">Добавить на доску</button>
+             <button class="btn secondary" data-next="screen-21-1">Готово</button>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- Экран 21-1. Сумочка нетворкера -->
+<div class="screen" id="screen-21-1">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 21.1 • Сумочка нетворкера</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; overflow-y:auto;">
+        <div style="font-size:12px; color:var(--text-soft); margin-bottom:6px;">📦 Полка с предметами — нажми, чтобы узнать подробнее:</div>
+        <div class="bag-shelf" id="bag-shelf"></div>
+        <div style="font-size:12px; color:var(--text-soft); margin-top:10px;">👜 Сумка:</div>
+        <div class="bag-zone" id="bag-zone"></div>
+        <div id="bag-done-msg" style="display:none; margin-top:8px; padding:10px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); font-size:13px; color:#166534; text-align:center;">
+          🎉 Сумка собрана! Злата готова отправиться в путь!
+        </div>
+        <!-- Модалка предмета -->
+        <div class="modal-overlay" id="bag-modal">
+          <div class="modal" style="max-width:400px;">
+            <h3 id="bag-modal-title"></h3>
+            <p id="bag-modal-text" style="line-height:1.5;"></p>
+            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
+              <button class="btn" id="bag-modal-take">Взять</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Задание</div>
+      <h2>Сумочка нетворкера</h2>
+      <p>Что может понадобиться нетворкеру на конференции?</p>
+      <p>Нажимай на предметы на полке, чтобы узнать о них и добавить в сумочку.</p>
+      <p class="note">Собери все 10 предметов!</p>
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+       <button class="btn" id="btn-bag-go" style="display:none;" data-next="screen-21-2">В путь! 🚀</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- Экран 21-2. Карта мероприятия -->
+<div class="screen" id="screen-21-2">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 21.2 • Карта мероприятия</span>
+        <span class="badge" id="venue-counter">Найдено: 0 из 4</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:0; overflow:hidden;">
+
+        <div id="venue-success" style="display:none; padding:10px 14px; background:rgba(34,197,94,0.1); border-bottom:1px solid rgba(34,197,94,0.3); font-size:13px; color:#166534; text-align:center; animation:fadeIn .4s ease-out;">
+          🎉 Ты нашёл(а) все благоприятные точки! Теперь ты знаешь, где на мероприятии происходит настоящая магия нетворкинга.
+        </div>
+
+        <div id="venue-map" style="flex:1; position:relative; border-radius:0 0 12px 12px; background:linear-gradient(135deg,#1e293b,#334155); overflow:hidden; min-height:340px;">
+
+          <!-- Разделители зон -->
+          <div style="position:absolute; left:33.3%; top:0; bottom:0; width:1px; border-left:2px dashed rgba(255,255,255,0.15);"></div>
+          <div style="position:absolute; left:66.6%; top:0; bottom:0; width:1px; border-left:2px dashed rgba(255,255,255,0.15);"></div>
+
+          <!-- Подписи зон -->
+          <div style="position:absolute; bottom:6px; left:16.6%; transform:translateX(-50%); font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.1em;">Зона старта</div>
+          <div style="position:absolute; bottom:6px; left:50%; transform:translateX(-50%); font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.1em;">Зона общения</div>
+          <div style="position:absolute; bottom:6px; left:83.3%; transform:translateX(-50%); font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.1em;">Зона отчуждения</div>
+
+          <!-- Объекты -->
+          <div class="venue-obj" data-obj="0" style="left:8%; bottom:18%;">
+            <span class="venue-emoji">🗂️</span><span class="venue-label">Ресепшен</span>
+          </div>
+          <div class="venue-obj" data-obj="1" style="left:8%; top:12%;">
+            <span class="venue-emoji">🧥</span><span class="venue-label">Гардероб</span>
+          </div>
+          <div class="venue-obj" data-obj="2" style="left:42%; top:10%;">
+            <span class="venue-emoji">🍸</span><span class="venue-label">Бар</span>
+          </div>
+          <div class="venue-obj" data-obj="3" style="left:45%; top:45%;">
+            <span class="venue-emoji">👤</span><span class="venue-label">Организатор</span>
+          </div>
+          <div class="venue-obj" data-obj="4" style="left:34%; top:28%;">
+            <span class="venue-emoji">⭐</span><span class="venue-label venue-label-sm">Место слева</span>
+          </div>
+          <div class="venue-obj" data-obj="5" style="left:56%; top:28%;">
+            <span class="venue-emoji">⭐</span><span class="venue-label venue-label-sm">Место справа</span>
+          </div>
+          <div class="venue-obj" data-obj="6" style="left:76%; bottom:18%;">
+            <span class="venue-emoji">🍽️</span><span class="venue-label">Еда</span>
+          </div>
+          <div class="venue-obj" data-obj="7" style="left:78%; top:12%;">
+            <span class="venue-emoji">🚻</span><span class="venue-label">Туалеты</span>
+          </div>
+          <div class="venue-obj" data-obj="8" style="left:80%; top:45%;">
+            <span class="venue-emoji">👥</span><span class="venue-label">Друзья</span>
+          </div>
+        </div>
+
+        <!-- Лайфхак -->
+        <div id="venue-lifehack" style="display:none; padding:12px 14px; background:rgba(250,204,21,0.08); border-top:1px solid rgba(250,204,21,0.3); font-size:12px; color:var(--text); line-height:1.5;">
+          <strong style="color:var(--accent-yellow);">💡 Лайфхак для интровертов: метод «Корова на выпасе»</strong><br>
+          Вместо того чтобы набирать гору еды за один подход, ходи к столу несколько раз: сначала за закусками, потом за основным, потом за десертом. Каждый поход — повод сменить позицию в зале, выйти из затянувшегося разговора и оказаться рядом с новыми людьми.
+        </div>
+
+        <!-- Модалка объекта -->
+        <div class="modal-overlay" id="venue-modal">
+          <div class="modal" style="max-width:380px;">
+            <h3 id="venue-modal-title"></h3>
+            <p id="venue-modal-text" style="line-height:1.5;"></p>
+            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
+              <button class="btn" id="venue-modal-ok">Понятно</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Задание</div>
+      <h2>Карта мероприятия: где знакомиться?</h2>
+      <p>Нажимай на объекты на карте, чтобы узнать — это удачное место для знакомства или ловушка.</p>
+      <p>Найди все <strong>4 благоприятные точки</strong> ⭐</p>
+      <p class="note">Ловушки ❌ тоже можно исследовать — так ты узнаешь, каких мест лучше избегать.</p>
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-venue-next" style="display:none;" data-next="screen-22">Далее →</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- Экран 22. Зал конференции -->
+      <div class="screen" id="screen-22">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 22 • Зал конференции</span>
+            </div>
+            <div class="scene-main">
+              <div class="characters-area" id="conf-hall">
+              </div>
+              <div class="modal-overlay" id="conf-modal">
+                <div class="modal" id="conf-modal-content"></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Знакомства в зале</h2>
+            <p>
+              Веди персонажа по локации (в прототипе — кликай по персонажам), чтобы знакомиться с людьми.
+            </p>
+            <p>
+              Наведи/нажми на персонажа, чтобы узнать его сферу. Если сфера совпадает с целью Златы
+              («Карьера / Маркетинг»), то цель Златы продвигается: +1 к счётчику (из 6).
+            </p>
+            <p class="note">
+              За каждое успешное знакомство — +1 к уровню нетворкинга.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-23">Идти в другой зал</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 23. Кофебрейк -->
+      <div class="screen" id="screen-23">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 23 • Кофебрейк</span>
+            </div>
+            <div class="scene-main">
+              <div class="characters-area" id="coffee-hall">
+              </div>
+              <div class="modal-overlay" id="coffee-modal">
+                <div class="modal" id="coffee-modal-content"></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Кофебрейк — лучшее время для контактов</h2>
+            <p>
+              Здесь атмосфера легче, разговоры непринуждённее.
+              Подходи к людям (кликай по персонажам), знакомься.
+            </p>
+            <p>
+              Всё так же: если сфера совпадает с целью Златы, счётчик её цели растёт.
+            </p>
+            <p class="note">
+              За каждое успешное знакомство — +1 к уровню нетворкинга.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-24">Завершить конференцию</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 24. Follow-up письмо -->
+      <div class="screen" id="screen-24">
+     
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 24 • Follow-up письмо</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Окно почты с черновиком письма.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Follow-up письмо</h2>
+            <p>
+              После конференции важно не потерять контакты. Напиши follow-up письмо одному из новых знакомых.
+            </p>
+            <div style="margin-top: 6px;">
+              <div class="field-label">Черновик письма</div>
+              <textarea id="followup-text" placeholder="Например: «Спасибо за разговор на секции маркетинга... »"></textarea>
+            </div>
+            <p class="note">
+              За отправку письма — +1 к узнаваемости и +1 к уровню нетворкинга.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" id="btn-followup-send" data-next="screen-25">Отправить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 25. Календарь касаний -->
+      <div class="screen" id="screen-25">
+       
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 25 • Календарь касаний</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                <div class="calendar-grid" id="calendar-grid">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Календарь касаний</h2>
+            <p>
+              Чтобы отношения не остывали, важно делать «касания»: поздравления, сообщения, реакции на контент.
+            </p>
+            <p>
+              На календаре есть серые иконки-дни. Перетащи цветные значки (день рождения, профессиональный праздник,
+              «касание», пост, лайк, комментарий, чашка кофе) на календарь.
+            </p>
+            <div class="calendar-icons-palette" id="calendar-icons">
+              <div class="calendar-icon" draggable="true" data-type="bday" title="День рождения">BD</div>
+              <div class="calendar-icon" draggable="true" data-type="pro" title="Проф. праздник">PR</div>
+              <div class="calendar-icon" draggable="true" data-type="touch" title="Касание">K</div>
+              <div class="calendar-icon" draggable="true" data-type="post" title="Пост">P</div>
+              <div class="calendar-icon" draggable="true" data-type="like" title="Лайк">L</div>
+              <div class="calendar-icon" draggable="true" data-type="comment" title="Комментарий">C</div>
+              <div class="calendar-icon" draggable="true" data-type="coffee" title="Кофе">☕</div>
+            </div>
+            <p class="note">
+              За каждую иконку — +1 к узнаваемости и +1 к уровню нетворкинга.
+            </p>
+            <div class="actions-row">
+               <button class="btn secondary nav-back" data-prev>Назад</button>
+              <button class="btn" data-next="screen-26">Проверить своё развитие</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Экран 26. Финал -->
+      <div class="screen" id="screen-26">
+        
+        <div class="screen-layout">
+          <div class="scene">
+            <div class="scene-header">
+              <span class="tagline">Экран 26 • Финал истории</span>
+            </div>
+            <div class="scene-main">
+              <div class="fake-illustration">
+                Здесь показывается итоговая сцена с Златой и её окружением.
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-tag">Теория</div>
+            <h2>Твоя судьба в НетворкингСити</h2>
+            <p>
+              По итогам игры:
+            </p>
+            <div class="metric-row">
+              <span>Нетворкинг:</span> <span id="final-networking"></span>
+              <span>Знакомства:</span> <span id="final-contacts"></span>
+              <span>Узнаваемость:</span> <span id="final-visibility"></span>
+            </div>
+            <p style="margin-top: 6px;">
+              Твоя судьба:
+            </p>
+            <div class="cards-row" id="final-fates">
+            </div>
+            <p style="margin-top: 8px;">
+              Цель Златы (6 знакомств в сфере Карьера/Маркетинг): <strong id="final-goal-result"></strong>
+            </p>
+            <p class="note" style="margin-top: 6px;">
+              В полноценной версии курса можно будет переиграть отдельные главы и посмотреть,
+              как меняется финал.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+ <div class="goal-chip" id="goal-chip" style="position: fixed; bottom: 16px; right: 16px; z-index: 40; max-width: 260px;">
+  <strong>Цель Златы</strong>
+  <small id="goal-chip-text">Цель ещё не сформулирована</small>
+</div>
+  </main>
+
+  <!-- Попап с целью Златы (HUD) -->
+  <div id="goal-popup">
+    <div class="popup-content">
+      <h2>Цель Златы</h2>
+      <p>
+        Познакомиться с 6 людьми на конференции в сфере «Карьера / Маркетинг».
+      </p>
+      <p class="note">
+        Текущий прогресс: <span id="goal-popup-progress">0 / 6</span>.
+      </p>
+      <button class="close-btn" id="goal-popup-close">Закрыть</button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
