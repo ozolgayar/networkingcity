@@ -16,22 +16,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Прогресс модуля 1
+  // === Прогресс ===
   var mod1Progress = parseInt(localStorage.getItem('nc_mod1_progress') || '0', 10);
   var mod1Status = localStorage.getItem('nc_mod1_status') || '';
+  var mod2Status = localStorage.getItem('nc_mod2_status') || '';
+  var mod3Status = localStorage.getItem('nc_mod3_status') || '';
 
+  // Прогресс-бар модуля 1
   var mod1Bar = document.getElementById('mod1-bar');
   var mod1Pct = document.getElementById('mod1-pct');
   if (mod1Bar) mod1Bar.style.width = mod1Progress + '%';
   if (mod1Pct) mod1Pct.textContent = mod1Progress + '%';
 
-  // Общий уровень
-  var levelBar = document.getElementById('hub-level-bar');
-  var levelValue = document.getElementById('hub-level-value');
-  if (levelBar) levelBar.style.width = mod1Progress + '%';
-  if (levelValue) levelValue.textContent = mod1Progress + '%';
+  // === Созвездие ===
+  var completedModules = 0;
+  if (mod1Status === 'complete') completedModules = 1;
+  if (mod2Status === 'complete') completedModules = 2;
+  if (mod3Status === 'complete') completedModules = 3;
 
-  // Если модуль 1 пройден
+  // Общий процент
+  var totalPct = Math.round((completedModules / 3) * 100);
+  var constPct = document.getElementById('const-pct');
+  if (constPct) {
+    constPct.textContent = totalPct + '%';
+    if (totalPct > 0) constPct.classList.add('glow');
+  }
+
+  // Зажигаем звёзды и линии
+  for (var i = 1; i <= completedModules; i++) {
+    var star = document.getElementById('cstar-' + i);
+    if (star) star.classList.add('active');
+
+    // Линия перед текущей звездой (линия 1 между звёздами 1-2, линия 2 между 2-3)
+    if (i >= 2) {
+      var line = document.getElementById('cline-' + (i - 1));
+      if (line) line.classList.add('active');
+    }
+  }
+
+  // Если модуль 1 в процессе (не завершён, но начат) — подсвечиваем 1-ю звезду мягко
+  if (mod1Progress > 0 && mod1Status !== 'complete') {
+    var star1 = document.getElementById('cstar-1');
+    if (star1) star1.style.opacity = '0.6';
+    star1.classList.add('active');
+  }
+
+  // === Карточки модулей ===
   if (mod1Status === 'complete') {
     var card1 = document.querySelector('[data-module="1"]');
     if (card1) {
@@ -52,6 +82,30 @@ document.addEventListener('DOMContentLoaded', function() {
       if (b2) {
         b2.classList.remove('disabled');
         b2.textContent = 'Начать →';
+      }
+    }
+  }
+
+  if (mod2Status === 'complete') {
+    var card2c = document.querySelector('[data-module="2"]');
+    if (card2c) {
+      card2c.classList.remove('unlocked');
+      card2c.classList.add('completed');
+      var s2c = card2c.querySelector('.hub-card-status');
+      if (s2c) s2c.textContent = '✅ Пройден';
+      var b2c = card2c.querySelector('.hub-card-btn');
+      if (b2c) b2c.textContent = 'Повторить';
+    }
+    var card3 = document.querySelector('[data-module="3"]');
+    if (card3) {
+      card3.classList.remove('locked');
+      card3.classList.add('unlocked');
+      var s3 = card3.querySelector('.hub-card-status');
+      if (s3) s3.textContent = '🟢 Доступен';
+      var b3 = card3.querySelector('.hub-card-btn');
+      if (b3) {
+        b3.classList.remove('disabled');
+        b3.textContent = 'Начать →';
       }
     }
   }
