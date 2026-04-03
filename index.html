@@ -42,19 +42,38 @@
 <section class="hub" id="hub">
   <div class="hub-container">
 
-    <!-- Общий прогресс -->
-    <div class="hub-level">
-      <div class="hub-level-header">
-        <span class="hub-level-label">Уровень нетворкинга</span>
-        <span class="hub-level-value" id="hub-level-value">0%</span>
+   <!-- Созвездие нетворкинга -->
+    <div class="constellation">
+      <div class="constellation-title">Созвездие нетворкинга</div>
+      <div class="constellation-map">
+        <!-- Линия 1-2 -->
+        <div class="constellation-line line-1" id="cline-1"></div>
+        <!-- Линия 2-3 -->
+        <div class="constellation-line line-2" id="cline-2"></div>
+
+        <!-- Звезда 1 -->
+        <div class="constellation-star" id="cstar-1">
+          <div class="star-glow"></div>
+          <div class="star-icon">★</div>
+          <div class="star-label">Робкий<br>новичок</div>
+        </div>
+
+        <!-- Звезда 2 -->
+        <div class="constellation-star" id="cstar-2">
+          <div class="star-glow"></div>
+          <div class="star-icon">★</div>
+          <div class="star-label">Восходящая<br>звезда</div>
+        </div>
+
+        <!-- Звезда 3 -->
+        <div class="constellation-star" id="cstar-3">
+          <div class="star-glow"></div>
+          <div class="star-icon">★</div>
+          <div class="star-label">Сама<br>популярность</div>
+        </div>
       </div>
-      <div class="hub-level-track">
-        <div class="hub-level-fill" id="hub-level-bar"></div>
-      </div>
-      <div class="hub-level-milestones">
-        <span>Робкий новичок</span>
-        <span>Восходящая звезда</span>
-        <span>Сама популярность</span>
+      <div class="constellation-progress">
+        <span class="constellation-pct" id="const-pct">0%</span>
       </div>
     </div>
 
