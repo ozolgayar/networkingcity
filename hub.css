@@ -86,7 +86,18 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .hub{min-height:100vh;padding:60px 20px 80px;background:#0f172a;position:relative}
 .hub::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 0%,transparent 25%,#f1f5f9 55%,#f8fafc 100%);
+  background:linear-gradient(180deg,
+    transparent 0%,
+    transparent 15%,
+    rgba(241,245,249,.05) 25%,
+    rgba(241,245,249,.15) 32%,
+    rgba(241,245,249,.3) 38%,
+    rgba(241,245,249,.5) 45%,
+    rgba(241,245,249,.7) 52%,
+    rgba(241,245,249,.85) 60%,
+    #f1f5f9 70%,
+    #f8fafc 100%
+  );
   pointer-events:none;
 }
 .hub-container{max-width:800px;margin:0 auto;position:relative;z-index:1}
