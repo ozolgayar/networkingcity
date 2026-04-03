@@ -10,7 +10,93 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .cover-orb-2{width:400px;height:400px;background:#0ea5e9;bottom:-10%;right:-5%;animation-delay:-3s}
 .cover-orb-3{width:300px;height:300px;background:#a855f7;top:40%;right:20%;animation-delay:-5s;opacity:.25}
 @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.95)}}
-.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+.cover-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(74,222,128,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(74,222,128,.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
+  animation:gridShimmer 4s ease-in-out infinite;
+}
+
+@keyframes gridShimmer{
+  0%,100%{opacity:.4}
+  50%{opacity:1}
+}
+
+/* Сверкающие точки на пересечениях */
+.cover-bg .cover-dots{
+  position:absolute;inset:0;z-index:1;
+  background-image:radial-gradient(circle 1.5px,rgba(74,222,128,.35) 100%,transparent 100%);
+  background-size:60px 60px;
+  background-position:0 0;
+  mask-image:radial-gradient(ellipse at center,black 25%,transparent 65%);
+  -webkit-mask-image:radial-gradient(ellipse at center,black 25%,transparent 65%);
+  animation:dotsFlicker 3s ease-in-out infinite;
+}
+
+@keyframes dotsFlicker{
+  0%,100%{opacity:.3;filter:brightness(1)}
+  25%{opacity:.8;filter:brightness(1.5)}
+  50%{opacity:.2;filter:brightness(0.8)}
+  75%{opacity:.9;filter:brightness(1.8)}
+}
+
+/* Бегущий блик по сетке */
+.cover-bg .cover-sweep{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(74,222,128,.08) 45%,
+    rgba(74,222,128,.15) 50%,
+    rgba(74,222,128,.08) 55%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size:200% 100%;
+  animation:sweepMove 5s ease-in-out infinite;
+  pointer-events:none;
+  mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
+}
+
+@keyframes sweepMove{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+/* Мерцающие звёздочки (рандомные искры) */
+.cover-bg .cover-sparkles{
+  position:absolute;inset:0;z-index:3;
+  pointer-events:none;
+}
+.cover-sparkle{
+  position:absolute;
+  width:3px;height:3px;
+  border-radius:50%;
+  background:#4ade80;
+  box-shadow:0 0 6px rgba(74,222,128,.6),0 0 12px rgba(74,222,128,.3);
+  animation:sparkle 2s ease-in-out infinite;
+}
+.cover-sparkle:nth-child(1){top:20%;left:30%;animation-delay:0s;animation-duration:2.5s}
+.cover-sparkle:nth-child(2){top:45%;left:65%;animation-delay:.4s;animation-duration:1.8s}
+.cover-sparkle:nth-child(3){top:70%;left:25%;animation-delay:.8s;animation-duration:2.2s}
+.cover-sparkle:nth-child(4){top:35%;left:80%;animation-delay:1.2s;animation-duration:3s}
+.cover-sparkle:nth-child(5){top:60%;left:50%;animation-delay:.2s;animation-duration:2s}
+.cover-sparkle:nth-child(6){top:15%;left:55%;animation-delay:1.5s;animation-duration:2.8s}
+.cover-sparkle:nth-child(7){top:80%;left:70%;animation-delay:.6s;animation-duration:1.6s}
+.cover-sparkle:nth-child(8){top:25%;left:15%;animation-delay:1s;animation-duration:2.4s}
+.cover-sparkle:nth-child(9){top:55%;left:40%;animation-delay:1.8s;animation-duration:2.1s}
+.cover-sparkle:nth-child(10){top:40%;left:10%;animation-delay:.3s;animation-duration:2.7s}
+
+@keyframes sparkle{
+  0%,100%{opacity:0;transform:scale(0)}
+  50%{opacity:1;transform:scale(1.5)}
+}
 .cover-content{position:relative;z-index:1;text-align:center;padding:40px 20px;animation:coverIn 1.2s ease-out}
 @keyframes coverIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .cover-badge{display:inline-block;padding:6px 18px;border-radius:999px;border:1px solid rgba(34,197,94,.4);background:rgba(34,197,94,.1);color:#4ade80;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(10px)}
