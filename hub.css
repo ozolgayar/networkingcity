@@ -90,7 +90,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 @keyframes sDot{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(12px);opacity:.3}}
 
 /* ===== ХАБ ===== */
-.hub{min-height:100vh;background:linear-gradient(180deg,#0f172a,#1e293b);padding:60px 20px 80px}
+.hub{min-height:100vh;background:linear-gradient(180deg,#0f172a 0%,#1e293b 30%,#f1f5f9 70%,#f8fafc 100%);padding:60px 20px 80px}
 .hub-container{max-width:800px;margin:0 auto}
 .hub-welcome{margin-bottom:28px}
 .hub-welcome h2{font-size:26px;font-weight:800;color:#f1f5f9}
@@ -153,6 +153,27 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .constellation-pct.glow{color:#facc15}
 .constellation::after{content:'\2726 \2727 \2726 \2727 \2726';position:absolute;top:12px;right:16px;font-size:8px;color:rgba(148,163,184,.15);letter-spacing:6px;pointer-events:none}
 
+/* Карточки на светлом фоне */
+.hub-card{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.hub-card.unlocked:hover{border-color:rgba(34,197,94,.3);box-shadow:0 8px 30px rgba(34,197,94,.12)}
+.hub-card.locked{opacity:.5;background:rgba(255,255,255,.5)}
+.hub-card h3{color:#1e293b}
+.hub-card-title{color:#334155}
+.hub-card-desc{color:#64748b}
+.hub-card-status{color:#64748b}
+.hub-card.completed .hub-card-status{color:#16a34a}
+
+/* Заголовок на светлом */
+.hub-welcome h2{color:#1e293b}
+.hub-welcome p{color:#64748b}
+
+/* Цитата на светлом */
+.hub-quote{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15)}
+.hub-quote-text{color:#475569}
+.hub-quote-author{color:#64748b}
+
+/* Созвездие — оставляем тёмным */
+.constellation{background:rgba(15,23,42,.9);box-shadow:0 4px 24px rgba(0,0,0,.3)}
 /* ===== АДАПТИВ ===== */
 @media(max-width:600px){
   .constellation-map{height:100px;padding:0 5px}
