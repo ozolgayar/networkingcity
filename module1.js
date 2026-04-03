@@ -291,6 +291,7 @@ function addScore(delta) {
       modal.classList.remove('active');
       showScreen('screen-8');
     });
+     }
 
   // ===== Экран 9: карта (домой) =====
   function initHomeMap() {
