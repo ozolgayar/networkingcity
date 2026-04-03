@@ -1,90 +1,69 @@
  // Глобальное состояние
   const state = {
-    networking: 0,
-    contacts: 0,
-    visibility: 0,
-    zlataGoal: 0, // 0–6
-    purposeText: '',
-    wheel: {
-      segments: ['Карьера', 'Образование', 'Хобби', 'Личные проекты', 'Финансы', 'Здоровье'],
-      values: [0, 0, 0, 0, 0, 0],
-       importance: [5, 5, 5, 5, 5, 5],  // ← ДОБАВИТЬ
-      currentIndex: 0
-    },
-    beads: {
-      stage: 1,
-      attempts: 0
-    },
-    bizcardRewarded: false
-  };
+   score: 0,           // очки модуля
+  screensVisited: {}, // какие экраны посещены
+  wheel: {
+    segments: ['Карьера', 'Образование', 'Хобби', 'Личные проекты', 'Финансы', 'Здоровье'],
+    values: [0, 0, 0, 0, 0, 0],
+    importance: [5, 5, 5, 5, 5, 5],
+    currentIndex: 0
+  },
+  beads: { stage: 1, attempts: 0 },
+  bizcardRewarded: false
+}
 
   // ===== Утилиты =====
 // Порядок экранов — ГЛОБАЛЬНО
   const screenOrder = [
-    'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-5',
-    'screen-6', 'screen-7', 'screen-8', 'screen-9', 'screen-10',
-    'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
-    'screen-16', 'screen-16-1', 'screen-17', 'screen-18', 'screen-19',
-    'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2','screen-22', 'screen-23', 'screen-24',
-    'screen-25', 'screen-26'
-  ];
+const screenOrder = [
+  'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-5',
+  'screen-6', 'screen-7', 'screen-8', 'screen-9', 'screen-10',
+  'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
+  'screen-16', 'screen-16-1', 'screen-17', 'screen-18', 'screen-19',
+  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
+  'screen-final'
+];
 
   // ===== Утилиты =====
-  function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const screenEl = document.getElementById(id);
-    if (screenEl) screenEl.classList.add('active');
-
-    const chapterPill = document.getElementById('chapter-pill');
-    if (chapterPill) {
-      const idx = screenOrder.indexOf(id);
-      const s21idx = screenOrder.indexOf('screen-21');
-      const s23idx = screenOrder.indexOf('screen-23');
-      if (idx <= s21idx) chapterPill.textContent = 'Глава 1';
-      else if (idx <= s23idx) chapterPill.textContent = 'Глава 2';
-      else chapterPill.textContent = 'Глава 3';
-    }
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screenEl = document.getElementById(id);
+  if (screenEl) screenEl.classList.add('active');
+  
+  // Трекинг прогресса
+  state.screensVisited[id] = true;
+  updateHud();
+  
+  // Если финальный экран — отмечаем модуль пройденным
+  if (id === 'screen-final') {
+    localStorage.setItem('nc_mod1_status', 'complete');
+    localStorage.setItem('nc_mod1_progress', '100');
+    document.getElementById('final-score').textContent = state.score;
   }
-
+}
   function clamp(v, min, max) {
     return Math.max(min, Math.min(max, v));
   }
 
-  function addNetworking(delta) {
-    state.networking = clamp(state.networking + delta, 0, 100);
-    updateHud();
-  }
-
-  function addContacts(delta) {
-    state.contacts = Math.max(0, state.contacts + delta);
-    updateHud();
-  }
-
-  function addVisibility(delta) {
-    state.visibility = Math.max(0, state.visibility + delta);
-    updateHud();
-  }
+function addScore(delta) {
+  state.score = Math.max(0, state.score + delta);
+  updateHud();
+}
 
   function updateHud() {
-    const bar = document.getElementById('hud-networking-bar');
-    const valLabel = document.getElementById('hud-networking-value');
-    const contactsLabel = document.getElementById('hud-contacts');
-    const visLabel = document.getElementById('hud-visibility');
-
-    bar.style.transform = `scaleX(${state.networking / 100})`;
-    valLabel.textContent = `${state.networking} / 100`;
-    contactsLabel.textContent = state.contacts;
-    visLabel.textContent = state.visibility;
-
-    const goalChipText = document.getElementById('goal-chip-text');
-    if (state.zlataGoal > 0) {
-      goalChipText.textContent = `Познакомиться с 6 людьми в сфере Карьера/Маркетинг (${state.zlataGoal}/6)`;
-    } else {
-      goalChipText.textContent = 'Цель ещё не сформулирована';
-    }
-    document.getElementById('zlata-goal-progress').textContent = `${state.zlataGoal} / 6`;
-    document.getElementById('goal-popup-progress').textContent = `${state.zlataGoal} / 6`;
-  }
+  // Прогресс — по посещённым экранам
+  var visited = Object.keys(state.screensVisited).length;
+  var total = screenOrder.length;
+  var pct = Math.round((visited / total) * 100);
+  
+  document.getElementById('hud-progress-bar').style.transform = 'scaleX(' + (pct / 100) + ')';
+  document.getElementById('hud-progress-value').textContent = pct + '%';
+  document.getElementById('hud-score').textContent = state.score;
+  document.getElementById('screen-pill').textContent = visited + ' / ' + total;
+  
+  // Сохраняем в localStorage для хаба
+  localStorage.setItem('nc_mod1_progress', String(pct));
+}
 
   function initGlobalNav() {
     document.querySelectorAll('[data-next]').forEach(btn => {
@@ -302,7 +281,7 @@
               <button class="btn" id="cafe-next">В офис</button>
             </div>
           `;
-          addVisibility(1);
+          addScore(1);
         } else {
           html = `
             <h3>+3 к узнаваемости</h3>
@@ -344,12 +323,12 @@
     const modalOk = document.getElementById('boss-modal-ok');
 
     btnAccept.addEventListener('click', () => {
-      addNetworking(1);
+      addScore(2);
       showScreen('screen-7');
     });
 
     btnDecline.addEventListener('click', () => {
-      addNetworking(-1);
+      addScore(-1);
       modal.classList.add('active');
     });
 
@@ -393,7 +372,7 @@ function initLaptopHotspot() {
     btn.addEventListener('click', () => {
       const text = document.getElementById('networking-purpose').value.trim();
       state.purposeText = text;
-      addNetworking(1);
+      addScore(2);
       modal.classList.add('active');
     });
 
@@ -526,7 +505,7 @@ function initLaptopHotspot() {
           state.beads.attempts = 0;
           setTimeout(renderBeadsStage, 600);
         } else {
-          addNetworking(1);
+          addScore(2);
           setTimeout(() => {
             summaryModal.classList.add('active');
           }, 600);
@@ -573,7 +552,7 @@ function initLaptopHotspot() {
     });
 
     btnFight.addEventListener('click', () => {
-      addNetworking(1);
+      addScore(2);
       modal.classList.add('active');
     });
 
@@ -732,7 +711,7 @@ function initWheel() {
 
   // Готово — начисляем очки и переходим на экран 15
   btnFinish.addEventListener('click', () => {
-    addNetworking(1);
+    addScore(2);
     showScreen('screen-15');
   });
 
@@ -802,7 +781,7 @@ function initWheelSummary() {
     ).join(' ');
 
     resultBlock.style.display = 'block';
-    addNetworking(1);
+    addScore(2);
   });
 
   // Отрисовка при открытии экрана
@@ -853,37 +832,7 @@ function initPeopleDrag() {
     }
   });
 }
-  // ===== HUD цель Златы — появляется только с экрана 17 =====
-  function initGoalHud() {
-    const chip = document.getElementById('goal-chip');
-    const popup = document.getElementById('goal-popup');
-    const close = document.getElementById('goal-popup-close');
-
-    chip.addEventListener('click', () => {
-      if (chip.style.display !== 'none') {
-       popup.style.display = 'flex';
-popup.style.pointerEvents = 'auto';
-      }
-    });
-
-    close.addEventListener('click', () => {
-      popup.style.display = 'none';
-popup.style.pointerEvents = 'none';
-    });
-    popup.addEventListener('click', e => {
-      if (e.target === popup) popup.style.display = 'none';
-    });
-
-    const observer = new MutationObserver(() => {
-      const s17 = document.getElementById('screen-17');
-      if (s17 && s17.classList.contains('active')) {
-        chip.style.display = 'flex';
-      }
-    });
-    observer.observe(document.getElementById('screen-container'), { attributes: true, subtree: true, attributeFilter: ['class'] });
-  }
-
- 
+   
 // ===== Экран 19: визитка =====
 var bizcardZones = {};
 var bizcardDone = false;
@@ -931,7 +880,7 @@ function checkBizcard() {
   template.classList.add('celebrate');
   feedback.textContent = '🎉 Отлично! Твоя визитка готова.';
   feedback.className = 'bizcard-feedback ok';
-  addVisibility(1);
+  addScore(1);
   document.getElementById('btn-bizcard-next').style.display = 'inline-flex';
 }
 window.checkBizcard = checkBizcard;
@@ -1062,7 +1011,7 @@ function checkPhoto() {
     fb.innerHTML = '✅ Верно! Это фото идеально подходит для профиля:<br>• Лицо хорошо видно<br>• Нейтральный фон<br>• Деловая одежда<br>• Естественная улыбка<br>• Хороший свет<br>По такому фото Злату легко узнать и на конференции, и в переписке.';
     fb.className = 'photo-feedback ok';
 
-    addVisibility(1);
+    addScore(1);
     document.getElementById('btn-photo-check').style.display = 'none';
     document.getElementById('btn-photo-next').style.display = 'inline-flex';
   } else {
@@ -1099,7 +1048,7 @@ function setStatus() {
   document.getElementById('btn-status-retry').style.display = 'inline-flex';
   document.getElementById('btn-status-next').style.display = 'inline-flex';
 
-  addVisibility(1);
+  addScore(1);
 
   // Показываем модалку внутри сцены
   var overlay = document.getElementById('status-modal');
@@ -1190,14 +1139,14 @@ function initProfileAndSticky() {
             var el = createStickyEl(result.data[0]);
             board.insertBefore(el, board.firstChild);
           }
-          addVisibility(1);
+          addScore(1);
           input.value = '';
         });
     } else {
       // Fallback без Supabase
       var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
       board.insertBefore(createStickyEl(fallback), board.firstChild);
-      addVisibility(1);
+      addScore(1);
       input.value = '';
     }
   });
@@ -1332,199 +1281,8 @@ function initProfileAndSticky() {
       showScreen('screen-21-2');
     });
   }
-  // ===== Экран 22–23: персонажи конференции =====
-  const confCharacters = [
-    { id: 'c1', name: 'Ольга', sphere: 'Карьера', match: true, x: '20%', y: '30%' },
-    { id: 'c2', name: 'Максим', sphere: 'Маркетинг', match: true, x: '60%', y: '40%' },
-    { id: 'c3', name: 'Анна', sphere: 'Образование', match: false, x: '30%', y: '65%' },
-    { id: 'c4', name: 'Иван', sphere: 'Хобби', match: false, x: '70%', y: '70%' }
-  ];
-  const coffeeCharacters = [
-    { id: 'k1', name: 'Елена', sphere: 'Карьера', match: true, x: '25%', y: '40%' },
-    { id: 'k2', name: 'Дмитрий', sphere: 'Финансы', match: false, x: '55%', y: '30%' },
-    { id: 'k3', name: 'Светлана', sphere: 'Личные проекты', match: false, x: '70%', y: '60%' }
-  ];
+ 
 
-  function createCharacterDot(char, container, modal, modalContent) {
-  const dot = document.createElement('div');
-  dot.className = 'character-dot';
-  dot.style.left = char.x;
-  dot.style.top = char.y;
-  dot.dataset.match = char.match ? 'true' : 'false';
-  dot.textContent = char.name[0];
-
-  const tooltip = document.createElement('div');
-  tooltip.className = 'character-tooltip';
-  tooltip.textContent = char.sphere;
-  dot.appendChild(tooltip);
-
-  dot.addEventListener('click', () => {
-    let html = `<h3>Знакомство с ${char.name}</h3>
-      <p>Сфера: <strong>${char.sphere}</strong>.</p>`;
-    if (char.match) {
-      state.zlataGoal = clamp(state.zlataGoal + 1, 0, 6);
-      addNetworking(1);
-      addContacts(1);
-      html += `
-        <p class="note">Сфера подходит цели Златы. +1 к счётчику цели, +1 к нетворкингу, +1 к знакомствам.</p>
-      `;
-    } else {
-      addNetworking(1);
-      addContacts(1);
-      html += `
-        <p class="note">Сфера не совпадает с целевой, но это всё равно полезное знакомство.
-        +1 к нетворкингу, +1 к знакомствам.</p>
-      `;
-    }
-    html += `
-      <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
-        <button class="btn secondary modal-close-btn">Закрыть</button>
-      </div>`;
-    modalContent.innerHTML = html;
-    modal.classList.add('active');
-    updateHud();
-
-    const closeBtn = modalContent.querySelector('.modal-close-btn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-      });
-    }
-  });
-
-  container.appendChild(dot);
-}
-
-  function initConference() {
-    const hall = document.getElementById('conf-hall');
-    const modal = document.getElementById('conf-modal');
-    const modalContent = document.getElementById('conf-modal-content');
-
-    confCharacters.forEach(c => createCharacterDot(c, hall, modal, modalContent));
-
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-
-    const coffeeHall = document.getElementById('coffee-hall');
-    const coffeeModal = document.getElementById('coffee-modal');
-    const coffeeModalContent = document.getElementById('coffee-modal-content');
-
-    coffeeCharacters.forEach(c => createCharacterDot(c, coffeeHall, coffeeModal, coffeeModalContent));
-
-    coffeeModal.addEventListener('click', e => {
-      if (e.target === coffeeModal) coffeeModal.classList.remove('active');
-    });
-  }
-
-  // ===== Экран 24: follow-up =====
-  function initFollowup() {
-    const btn = document.getElementById('btn-followup-send');
-    btn.addEventListener('click', () => {
-      addNetworking(1);
-      addVisibility(1);
-    });
-  }
-
-  // ===== Экран 25: календарь касаний =====
-  function initCalendar() {
-    const grid = document.getElementById('calendar-grid');
-    const icons = document.getElementById('calendar-icons');
-
-    for (let i = 1; i <= 21; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'calendar-cell';
-      const placeholder = document.createElement('div');
-      placeholder.className = 'calendar-icon-placeholder';
-      placeholder.textContent = i;
-      cell.appendChild(placeholder);
-      grid.appendChild(cell);
-    }
-
-    function allowDrop(e) {
-      e.preventDefault();
-    }
-
-    grid.addEventListener('dragover', allowDrop);
-    grid.addEventListener('drop', e => {
-      const targetCell = e.target.closest('.calendar-cell');
-      if (!targetCell) return;
-      const dragging = document.querySelector('.calendar-icon.dragging');
-      if (dragging) {
-        const clone = dragging.cloneNode(true);
-        clone.classList.remove('dragging');
-        clone.draggable = false;
-        const placeholder = targetCell.querySelector('.calendar-icon-placeholder');
-        if (placeholder) {
-          placeholder.replaceWith(clone);
-          addNetworking(1);
-          addVisibility(1);
-        }
-      }
-    });
-
-    icons.addEventListener('dragstart', e => {
-      if (e.target.classList.contains('calendar-icon')) {
-        e.target.classList.add('dragging');
-      }
-    });
-    icons.addEventListener('dragend', e => {
-      if (e.target.classList.contains('calendar-icon')) {
-        e.target.classList.remove('dragging');
-      }
-    });
-  }
-
-  // ===== Экран 26: финал =====
-  function initFinalScreen() {
-    const screen = document.getElementById('screen-26');
-    const finalNetworking = document.getElementById('final-networking');
-    const finalContacts = document.getElementById('final-contacts');
-    const finalVisibility = document.getElementById('final-visibility');
-    const finalFates = document.getElementById('final-fates');
-    const finalGoalResult = document.getElementById('final-goal-result');
-
-    const observer = new MutationObserver(() => {
-      if (screen.classList.contains('active')) {
-        finalNetworking.textContent = `${state.networking} / 100`;
-        finalContacts.textContent = state.contacts;
-        finalVisibility.textContent = state.visibility;
-
-        finalFates.innerHTML = '';
-        let fate;
-        if (state.networking >= 80 && state.contacts >= 6 && state.visibility >= 10) {
-          fate = {
-            title: 'Мисс популярность',
-            desc: 'Ты уверенно заводишь связи и поддерживаешь их. Ты — центр своей профессиональной сети.'
-          };
-        } else if (state.networking >= 40 && state.contacts >= 3 && state.visibility >= 5) {
-          fate = {
-            title: 'Местная звезда',
-            desc: 'Ты заметен(на) в своём окружении, у тебя уже есть крепкое ядро полезных контактов.'
-          };
-        } else {
-          fate = {
-            title: 'Стесняшка',
-            desc: 'Ты сделал(а) несколько шагов, но пока нетворкинг остаётся зоной роста. Зато теперь ты знаешь путь.'
-          };
-        }
-
-        const card = document.createElement('div');
-        card.className = 'fate-card';
-        card.innerHTML = `
-          <div class="fate-title">${fate.title}</div>
-          <div class="fate-metric">${fate.desc}</div>
-        `;
-        finalFates.appendChild(card);
-
-        finalGoalResult.textContent = state.zlataGoal >= 6
-          ? 'достигнута (6/6 или больше)'
-          : `не достигнута (${state.zlataGoal}/6)`;
-      }
-    });
-
-    observer.observe(document.getElementById('screen-container'), { attributes: true, subtree: true, attributeFilter: ['class'] });
-  }
  // ===== Экран 16-1: локации =====
   function initLocations() {
     const pool = document.getElementById('location-pool');
@@ -1659,7 +1417,7 @@ function initProfileAndSticky() {
       }
 
       feedbackEl.innerHTML = html;
-      addNetworking(1);
+      addScore(2);
       modal.classList.add('active');
     });
 
@@ -1720,7 +1478,7 @@ function initVenueMap() {
           document.getElementById('venue-success').style.display = 'block';
           document.getElementById('venue-lifehack').style.display = 'block';
           document.getElementById('btn-venue-next').style.display = 'inline-flex';
-          addNetworking(2);
+          addScore(3);
         }
       }
       if (!obj.good) revealed[idx] = true;
@@ -1757,15 +1515,11 @@ function initVenueMap() {
     initWheelSummary();
     initPeopleDrag();
     initLocations();     
-    initGoalHud();
     initPhotoGame();
     initBizcard();
     initProfileAndSticky();
     initBag();
     initVenueMap();
-    initConference();
-    initFollowup();
-    initCalendar();
     initFinalScreen();
     updateHud();
   });
