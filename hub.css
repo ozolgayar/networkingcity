@@ -1,0 +1,424 @@
+:root {
+  --bg: #f8fafc;
+  --accent: #16a34a;
+  --accent-soft: #22c55e;
+  --accent-blue: #0284c7;
+  --accent-purple: #7c3aed;
+  --text: #1e293b;
+  --text-soft: #64748b;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+#hub {
+  width: 100%;
+  max-width: 720px;
+  min-height: 100vh;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== Шапка ===== */
+.hub-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hub-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hub-logo-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e 45%, #0f766e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ecfdf5;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.65);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hub-logo-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.hub-logo-sub {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+/* ===== Обложка ===== */
+.hub-cover {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  height: 200px;
+  border: 1px solid var(--border);
+}
+
+.hub-cover-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hub-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hub-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.1));
+}
+
+.hub-cover-content {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  right: 24px;
+  z-index: 2;
+}
+
+.hub-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hub-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 4px;
+}
+
+/* ===== Общий прогресс ===== */
+.hub-progress-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+}
+
+.hub-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.hub-progress-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hub-progress-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-soft);
+  font-feature-settings: "tnum" 1;
+}
+
+.hub-progress-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  overflow: hidden;
+  position: relative;
+}
+
+.hub-progress-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4ade80, #22c55e, #16a34a);
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+  transition: transform .6s ease;
+}
+
+.hub-progress-milestones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.milestone {
+  font-size: 10px;
+  color: var(--text-soft);
+  position: relative;
+}
+
+.milestone::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 6px;
+  background: #cbd5e1;
+  margin: 0 auto 2px;
+}
+
+/* ===== Карточки модулей ===== */
+.hub-modules {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.module-card {
+  display: flex;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+}
+
+.module-card.module-locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.module-card.module-locked:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.module-card.module-complete {
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.module-card-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 18px;
+}
+
+.module-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.mod1-icon {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.mod2-icon {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(56, 189, 248, 0.05));
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.mod3-icon {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.05));
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.module-card-body {
+  flex: 1;
+  padding: 14px 18px 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.module-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.module-chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(34, 197, 94, 0.1);
+  color: #166534;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.mod2-chip {
+  background: rgba(56, 189, 248, 0.1);
+  color: #0c4a6e;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.mod3-chip {
+  background: rgba(168, 85, 247, 0.1);
+  color: #4c1d95;
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.module-status {
+  font-size: 12px;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.module-status.status-complete {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.module-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.module-desc {
+  font-size: 12px;
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+
+.module-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.module-bar-text {
+  font-size: 11px;
+  color: var(--text-soft);
+  font-weight: 600;
+  font-feature-settings: "tnum" 1;
+  min-width: 28px;
+}
+
+/* Bar-fill (общие из shared) */
+.bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  border-radius: inherit;
+  transition: transform .5s ease;
+}
+
+.mod1-fill {
+  background: linear-gradient(90deg, #4ade80, #22c55e, #16a34a);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+
+.mod2-fill {
+  background: linear-gradient(90deg, #7dd3fc, #38bdf8, #0284c7);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.mod3-fill {
+  background: linear-gradient(90deg, #c4b5fd, #a855f7, #7c3aed);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}
+
+/* ===== Цитата ===== */
+.hub-quote {
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px dashed #cbd5e1;
+}
+
+.hub-quote-text {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.hub-quote-author {
+  font-size: 12px;
+  color: var(--accent-soft);
+  margin-top: 6px;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 600px) {
+  #hub {
+    padding: 16px 12px;
+  }
+
+  .hub-cover {
+    height: 160px;
+  }
+
+  .hub-title {
+    font-size: 18px;
+  }
+
+  .module-card {
+    flex-direction: column;
+  }
+
+  .module-card-left {
+    padding: 12px 14px 0;
+    justify-content: flex-start;
+  }
+
+  .module-card-body {
+    padding: 10px 14px 14px;
+  }
+}
