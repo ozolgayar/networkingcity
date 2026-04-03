@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>НетворкингСити: свои везде</title>
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+
+<div id="hub">
+
+  <!-- Шапка -->
+  <div class="hub-header">
+    <div class="hub-logo">
+      <div class="hub-logo-icon">NC</div>
+      <div>
+        <div class="hub-logo-title">НетворкингСити</div>
+        <div class="hub-logo-sub">Симулятор нетворкинга</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Обложка -->
+  <div class="hub-cover">
+    <div class="hub-cover-bg">
+      <img src="https://i.ibb.co/xqLV3XTc/image.png" alt="НетворкингСити" class="hub-cover-img">
+      <div class="hub-cover-overlay"></div>
+    </div>
+    <div class="hub-cover-content">
+      <h1 class="hub-title">НетворкингСити: свои везде</h1>
+      <p class="hub-subtitle">От неловких знакомств до работающих связей</p>
+    </div>
+  </div>
+
+  <!-- Общий прогресс -->
+  <div class="hub-progress-section">
+    <div class="hub-progress-header">
+      <span class="hub-progress-label">Уровень нетворкинга</span>
+      <span class="hub-progress-value" id="hub-level-value">0%</span>
+    </div>
+    <div class="hub-progress-track">
+      <div class="hub-progress-fill" id="hub-level-bar"></div>
+    </div>
+    <div class="hub-progress-milestones">
+      <span class="milestone" data-at="20">Стесняшка</span>
+      <span class="milestone" data-at="50">Местная звезда</span>
+      <span class="milestone" data-at="100">Мисс популярность</span>
+    </div>
+  </div>
+
+  <!-- Модули -->
+  <div class="hub-modules">
+
+    <!-- Модуль 1 -->
+    <div class="module-card" id="mod1-card" data-module="1">
+      <div class="module-card-left">
+        <div class="module-icon mod1-icon">
+          <span>📋</span>
+        </div>
+      </div>
+      <div class="module-card-body">
+        <div class="module-card-top">
+          <div class="module-chip">Модуль 1</div>
+          <div class="module-status" id="mod1-status">Начать →</div>
+        </div>
+        <h2 class="module-name">Подготовка к конференции</h2>
+        <p class="module-desc">Цели, страхи, визитка, профиль, сумочка нетворкера. Всё, чтобы приехать на конференцию во всеоружии.</p>
+        <div class="module-bar-row">
+          <div class="bar-track" style="height:5px; flex:1;">
+            <div class="bar-fill mod1-fill" id="mod1-bar"></div>
+          </div>
+          <span class="module-bar-text" id="mod1-text">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модуль 2 -->
+    <div class="module-card module-locked" id="mod2-card" data-module="2">
+      <div class="module-card-left">
+        <div class="module-icon mod2-icon">
+          <span>🤝</span>
+        </div>
+      </div>
+      <div class="module-card-body">
+        <div class="module-card-top">
+          <div class="module-chip mod2-chip">Модуль 2</div>
+          <div class="module-status" id="mod2-status">🔒 Заблокирован</div>
+        </div>
+        <h2 class="module-name">Нетворкинг в действии</h2>
+        <p class="module-desc">Конференция, знакомства, диалоги, кофебрейк. Практика живого общения.</p>
+        <div class="module-bar-row">
+          <div class="bar-track" style="height:5px; flex:1;">
+            <div class="bar-fill mod2-fill" id="mod2-bar"></div>
+          </div>
+          <span class="module-bar-text" id="mod2-text">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модуль 3 -->
+    <div class="module-card module-locked" id="mod3-card" data-module="3">
+      <div class="module-card-left">
+        <div class="module-icon mod3-icon">
+          <span>💎</span>
+        </div>
+      </div>
+      <div class="module-card-body">
+        <div class="module-card-top">
+          <div class="module-chip mod3-chip">Модуль 3</div>
+          <div class="module-status" id="mod3-status">🔒 Заблокирован</div>
+        </div>
+        <h2 class="module-name">Удержание связей</h2>
+        <p class="module-desc">Follow-up письма, календарь касаний, итоги. Как не потерять тех, с кем познакомился.</p>
+        <div class="module-bar-row">
+          <div class="bar-track" style="height:5px; flex:1;">
+            <div class="bar-fill mod3-fill" id="mod3-bar"></div>
+          </div>
+          <span class="module-bar-text" id="mod3-text">0%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Цитата -->
+  <div class="hub-quote">
+    <div class="hub-quote-text">«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт.»</div>
+    <div class="hub-quote-author">— Кейт Ферраци</div>
+  </div>
+
+</div>
+
+<script src="hub.js"></script>
+</body>
+</html>
