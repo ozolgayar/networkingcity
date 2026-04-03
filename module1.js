@@ -16,9 +16,9 @@
 // Порядок экранов — ГЛОБАЛЬНО
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-5',
-  'screen-6', 'screen-7', 'screen-8', 'screen-9', 'screen-10',
+  'screen-6', 'screen-8', 'screen-9', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
-  'screen-16', 'screen-16-1', 'screen-17', 'screen-18', 'screen-19',
+  'screen-16', 'screen-16-1', 'screen-17', 'screen-19',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
   'screen-final'
 ];
@@ -321,9 +321,9 @@ function addScore(delta) {
     const modal = document.getElementById('boss-modal');
     const modalOk = document.getElementById('boss-modal-ok');
 
-    btnAccept.addEventListener('click', () => {
+  btnAccept.addEventListener('click', () => {
       addScore(2);
-      showScreen('screen-7');
+      showScreen('screen-8');
     });
 
     btnDecline.addEventListener('click', () => {
@@ -331,11 +331,10 @@ function addScore(delta) {
       modal.classList.add('active');
     });
 
-    modalOk.addEventListener('click', () => {
+     modalOk.addEventListener('click', () => {
       modal.classList.remove('active');
-      showScreen('screen-7');
+      showScreen('screen-8');
     });
-  }
 
   // ===== Экран 9: карта (домой) =====
   function initHomeMap() {
