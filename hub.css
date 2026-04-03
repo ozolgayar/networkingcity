@@ -86,8 +86,137 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .hub-quote-text{font-size:15px;font-style:italic;color:#94a3b8;line-height:1.6}
 .hub-quote-author{font-size:12px;color:#64748b;margin-top:8px;font-weight:600}
 
+/* ===== СОЗВЕЗДИЕ ===== */
+.constellation{
+  background:rgba(15,23,42,.8);
+  border:1px solid rgba(148,163,184,.1);
+  border-radius:18px;
+  padding:28px 24px 22px;
+  margin-bottom:28px;
+  backdrop-filter:blur(12px);
+  position:relative;
+  overflow:hidden;
+}
+.constellation::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 30%,rgba(34,197,94,.06),transparent 70%);
+  pointer-events:none;
+}
+.constellation-title{
+  text-align:center;font-size:13px;font-weight:700;
+  color:#64748b;text-transform:uppercase;letter-spacing:.15em;
+  margin-bottom:24px;position:relative;
+}
+.constellation-map{
+  position:relative;display:flex;
+  justify-content:space-between;align-items:center;
+  height:120px;padding:0 10px;
+}
+
+/* Звёзды */
+.constellation-star{
+  position:relative;display:flex;flex-direction:column;
+  align-items:center;z-index:2;width:90px;
+}
+.star-icon{
+  font-size:32px;color:#334155;
+  transition:all .6s ease;
+  position:relative;z-index:2;
+  filter:drop-shadow(0 0 0px transparent);
+}
+.star-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-60%);
+  width:60px;height:60px;border-radius:50%;
+  background:radial-gradient(circle,rgba(250,204,21,.3),transparent 70%);
+  opacity:0;transition:opacity .6s ease;
+  z-index:1;
+}
+.star-label{
+  margin-top:8px;font-size:11px;font-weight:600;
+  color:#475569;text-align:center;line-height:1.3;
+  transition:color .6s ease;
+}
+
+/* Звезда активна */
+.constellation-star.active .star-icon{
+  color:#facc15;
+  filter:drop-shadow(0 0 12px rgba(250,204,21,.7)) drop-shadow(0 0 30px rgba(250,204,21,.3));
+  animation:starPulse 2s ease-in-out infinite;
+}
+.constellation-star.active .star-glow{opacity:1}
+.constellation-star.active .star-label{color:#fde68a}
+
+@keyframes starPulse{
+  0%,100%{filter:drop-shadow(0 0 12px rgba(250,204,21,.7)) drop-shadow(0 0 30px rgba(250,204,21,.3))}
+  50%{filter:drop-shadow(0 0 20px rgba(250,204,21,.9)) drop-shadow(0 0 45px rgba(250,204,21,.5))}
+}
+
+/* Линии-созвездия */
+.constellation-line{
+  position:absolute;top:50%;transform:translateY(-60%);
+  height:2px;z-index:1;
+  background:linear-gradient(90deg,#334155,#334155);
+  transition:all .8s ease;
+  border-radius:1px;
+}
+.line-1{left:55px;right:calc(100% - 55px);width:calc(50% - 55px);left:55px}
+.line-2{right:55px;width:calc(50% - 55px);left:calc(50%)}
+
+/* На самом деле позиционируем точнее */
+.line-1{left:65px;width:calc(50% - 70px)}
+.line-2{left:calc(50% + 5px);width:calc(50% - 70px)}
+
+.constellation-line.active{
+  background:linear-gradient(90deg,rgba(250,204,21,.6),rgba(250,204,21,.3));
+  box-shadow:0 0 8px rgba(250,204,21,.3);
+  animation:lineGlow 2s ease-in-out infinite;
+}
+@keyframes lineGlow{
+  0%,100%{box-shadow:0 0 8px rgba(250,204,21,.3)}
+  50%{box-shadow:0 0 16px rgba(250,204,21,.5)}
+}
+
+/* Точки на линиях (как звёздная пыль) */
+.constellation-line::before,
+.constellation-line::after{
+  content:'';position:absolute;top:50%;transform:translateY(-50%);
+  width:3px;height:3px;border-radius:50%;
+  background:#334155;transition:background .6s ease;
+}
+.constellation-line::before{left:30%}
+.constellation-line::after{left:70%}
+.constellation-line.active::before,
+.constellation-line.active::after{
+  background:#facc15;
+  box-shadow:0 0 6px rgba(250,204,21,.5);
+}
+
+/* Процент */
+.constellation-progress{
+  text-align:center;margin-top:12px;position:relative;
+}
+.constellation-pct{
+  font-size:14px;font-weight:800;color:#64748b;
+  transition:color .3s;
+}
+.constellation-pct.glow{color:#facc15}
+
+/* Фоновые звёздочки (декор) */
+.constellation::after{
+  content:'✦ ✧ ✦ ✧ ✦';
+  position:absolute;top:12px;right:16px;
+  font-size:8px;color:rgba(148,163,184,.15);
+  letter-spacing:6px;pointer-events:none;
+}
 /* ===== АДАПТИВ ===== */
 @media(max-width:600px){
+   .constellation-map{height:100px;padding:0 5px}
+  .constellation-star{width:70px}
+  .star-icon{font-size:26px}
+  .star-label{font-size:10px}
+  .line-1{left:50px;width:calc(50% - 55px)}
+  .line-2{left:calc(50%);width:calc(50% - 55px)}
   .cover-stats{gap:16px}
   .cover-stat-num{font-size:22px}
   .cover-btn{padding:14px 36px;font-size:16px}
