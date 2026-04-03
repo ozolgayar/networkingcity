@@ -11,12 +11,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .cover-orb-3{width:300px;height:300px;background:#a855f7;top:40%;right:20%;animation-delay:-5s;opacity:.25}
 @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.95)}}
 
-/* Сетка переливающаяся */
 .cover-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(74,222,128,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(74,222,128,.06) 1px,transparent 1px);
+  position:absolute;inset:0;z-index:1;
+  background-image:linear-gradient(rgba(74,222,128,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,.06) 1px,transparent 1px);
   background-size:60px 60px;
   mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
   -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
@@ -24,10 +21,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 }
 @keyframes gridShimmer{0%,100%{opacity:.4}50%{opacity:1}}
 
-/* Сверкающие точки на пересечениях */
 .cover-dots{
-  position:absolute;inset:0;z-index:1;
-  background-image:radial-gradient(circle 1.5px,rgba(74,222,128,.35) 100%,transparent 100%);
+  position:absolute;inset:0;z-index:2;
+  background-image:radial-gradient(circle at center,rgba(74,222,128,.5) 1.5px,transparent 1.5px);
   background-size:60px 60px;
   mask-image:radial-gradient(ellipse at center,black 25%,transparent 65%);
   -webkit-mask-image:radial-gradient(ellipse at center,black 25%,transparent 65%);
@@ -35,9 +31,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 }
 @keyframes dotsFlicker{0%,100%{opacity:.3;filter:brightness(1)}25%{opacity:.8;filter:brightness(1.5)}50%{opacity:.2;filter:brightness(0.8)}75%{opacity:.9;filter:brightness(1.8)}}
 
-/* Бегущий блик */
 .cover-sweep{
-  position:absolute;inset:0;z-index:2;
+  position:absolute;inset:0;z-index:3;
   background:linear-gradient(105deg,transparent 0%,transparent 40%,rgba(74,222,128,.08) 45%,rgba(74,222,128,.15) 50%,rgba(74,222,128,.08) 55%,transparent 60%,transparent 100%);
   background-size:200% 100%;
   animation:sweepMove 5s ease-in-out infinite;
@@ -47,12 +42,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 }
 @keyframes sweepMove{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* Искры */
-.cover-sparkles{position:absolute;inset:0;z-index:3;pointer-events:none}
+.cover-sparkles{position:absolute;inset:0;z-index:4;pointer-events:none}
 .cover-sparkle{
-  position:absolute;width:3px;height:3px;border-radius:50%;
+  position:absolute;width:4px;height:4px;border-radius:50%;
   background:#4ade80;
-  box-shadow:0 0 6px rgba(74,222,128,.6),0 0 12px rgba(74,222,128,.3);
+  box-shadow:0 0 8px rgba(74,222,128,.8),0 0 16px rgba(74,222,128,.4);
   animation:sparkle 2s ease-in-out infinite;
 }
 .cover-sparkle:nth-child(1){top:20%;left:30%;animation-duration:2.5s}
@@ -67,8 +61,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .cover-sparkle:nth-child(10){top:40%;left:10%;animation-delay:.3s;animation-duration:2.7s}
 @keyframes sparkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.5)}}
 
-/* Контент обложки */
-.cover-content{position:relative;z-index:4;text-align:center;padding:40px 20px;animation:coverIn 1.2s ease-out}
+.cover-content{position:relative;z-index:5;text-align:center;padding:40px 20px;animation:coverIn 1.2s ease-out}
 @keyframes coverIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .cover-badge{display:inline-block;padding:6px 18px;border-radius:999px;border:1px solid rgba(34,197,94,.4);background:rgba(34,197,94,.1);color:#4ade80;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(10px)}
 .cover-title{font-size:clamp(42px,8vw,80px);font-weight:900;line-height:1.05;color:#f1f5f9;letter-spacing:-.02em}
@@ -84,55 +77,32 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .cover-stat-num{font-size:28px;font-weight:800;color:#f1f5f9}
 .cover-stat-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.1em}
 .cover-stat-divider{width:1px;height:32px;background:rgba(148,163,184,.2)}
-.cover-scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:24px;height:40px;border-radius:12px;border:2px solid rgba(148,163,184,.3);display:flex;align-items:flex-start;justify-content:center;padding-top:6px;animation:shFade 2s ease-in-out infinite;z-index:5}
+.cover-scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:24px;height:40px;border-radius:12px;border:2px solid rgba(148,163,184,.3);display:flex;align-items:flex-start;justify-content:center;padding-top:6px;animation:shFade 2s ease-in-out infinite;z-index:6}
 .cover-scroll-dot{width:4px;height:8px;border-radius:2px;background:#4ade80;animation:sDot 2s ease-in-out infinite}
 @keyframes shFade{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes sDot{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(12px);opacity:.3}}
 
-/* ===== ХАБ ===== */
-.hub{min-height:100vh;background:linear-gradient(180deg,#0f172a 0%,#1e293b 30%,#f1f5f9 70%,#f8fafc 100%);padding:60px 20px 80px}
-.hub-container{max-width:800px;margin:0 auto}
+/* ===== ХАБ С ПЕРЕХОДОМ ===== */
+.hub{min-height:100vh;padding:60px 20px 80px;background:#0f172a;position:relative}
+.hub::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 0%,transparent 25%,#f1f5f9 55%,#f8fafc 100%);
+  pointer-events:none;
+}
+.hub-container{max-width:800px;margin:0 auto;position:relative;z-index:1}
+
+/* Заголовок */
 .hub-welcome{margin-bottom:28px}
-.hub-welcome h2{font-size:26px;font-weight:800;color:#f1f5f9}
-.hub-welcome p{font-size:14px;color:#94a3b8;margin-top:6px}
+.hub-welcome h2{font-size:26px;font-weight:800;color:#1e293b}
+.hub-welcome p{font-size:14px;color:#64748b;margin-top:6px}
 
-/* Карточки */
-.hub-modules{display:flex;flex-direction:column;gap:16px}
-.hub-card{display:flex;align-items:center;gap:20px;background:rgba(30,41,59,.6);border:1px solid rgba(148,163,184,.15);border-radius:16px;padding:24px;backdrop-filter:blur(10px);transition:all .3s ease;position:relative;overflow:hidden}
-.hub-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#0ea5e9);opacity:0;transition:opacity .3s}
-.hub-card.unlocked::before{opacity:1}
-.hub-card.unlocked:hover{transform:translateY(-2px);border-color:rgba(34,197,94,.3);box-shadow:0 8px 30px rgba(34,197,94,.1)}
-.hub-card.locked{opacity:.45;filter:grayscale(.3)}
-.hub-card.completed::before{opacity:1;background:linear-gradient(90deg,#4ade80,#22c55e)}
-.hub-card.completed .hub-card-status{color:#4ade80}
-.hub-card-left{flex-shrink:0}
-.hub-card-icon{width:56px;height:56px;border-radius:14px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);display:flex;align-items:center;justify-content:center;font-size:28px}
-.hub-card-body{flex:1;min-width:0}
-.hub-card-status{font-size:11px;font-weight:600;margin-bottom:4px;color:#94a3b8}
-.hub-card h3{font-size:18px;font-weight:800;color:#f1f5f9}
-.hub-card-title{font-size:14px;color:#cbd5e1;margin-top:2px;font-weight:600}
-.hub-card-desc{font-size:12px;color:#64748b;margin-top:4px;line-height:1.4}
-.hub-card-progress{display:flex;align-items:center;gap:10px;margin-top:10px}
-.hub-card-bar{flex:1;height:5px;border-radius:3px;background:rgba(148,163,184,.15);overflow:hidden}
-.hub-card-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .5s ease;width:0}
-.hub-card-pct{font-size:11px;font-weight:700;color:#94a3b8;min-width:30px}
-.hub-card-right{flex-shrink:0}
-.hub-card-btn{display:inline-block;padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s ease;cursor:pointer;border:none;white-space:nowrap}
-.hub-card-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
-.hub-card-btn.disabled{background:rgba(148,163,184,.15);color:#64748b;cursor:default;pointer-events:none}
-
-/* Цитата */
-.hub-quote{margin-top:40px;padding:24px;border-radius:14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);text-align:center}
-.hub-quote-text{font-size:15px;font-style:italic;color:#94a3b8;line-height:1.6}
-.hub-quote-author{font-size:12px;color:#64748b;margin-top:8px;font-weight:600}
-
-/* ===== СОЗВЕЗДИЕ ===== */
-.constellation{background:rgba(15,23,42,.8);border:1px solid rgba(148,163,184,.1);border-radius:18px;padding:28px 24px 22px;margin-bottom:28px;backdrop-filter:blur(12px);position:relative;overflow:hidden}
+/* ===== СОЗВЕЗДИЕ (тёмный блок) ===== */
+.constellation{background:rgba(15,23,42,.95);border:1px solid rgba(148,163,184,.15);border-radius:18px;padding:28px 24px 22px;margin-bottom:28px;backdrop-filter:blur(12px);position:relative;overflow:hidden;box-shadow:0 4px 30px rgba(0,0,0,.4)}
 .constellation::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(34,197,94,.06),transparent 70%);pointer-events:none}
 .constellation-title{text-align:center;font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.15em;margin-bottom:24px;position:relative}
 .constellation-map{position:relative;display:flex;justify-content:space-between;align-items:center;height:120px;padding:0 10px}
 .constellation-star{position:relative;display:flex;flex-direction:column;align-items:center;z-index:2;width:90px}
-.star-icon{font-size:32px;color:#334155;transition:all .6s ease;position:relative;z-index:2;filter:drop-shadow(0 0 0px transparent)}
+.star-icon{font-size:32px;color:#334155;transition:all .6s ease;position:relative;z-index:2}
 .star-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(250,204,21,.3),transparent 70%);opacity:0;transition:opacity .6s ease;z-index:1}
 .star-label{margin-top:8px;font-size:11px;font-weight:600;color:#475569;text-align:center;line-height:1.3;transition:color .6s ease}
 .constellation-star.active .star-icon{color:#facc15;filter:drop-shadow(0 0 12px rgba(250,204,21,.7)) drop-shadow(0 0 30px rgba(250,204,21,.3));animation:starPulse 2s ease-in-out infinite}
@@ -153,27 +123,36 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .constellation-pct.glow{color:#facc15}
 .constellation::after{content:'\2726 \2727 \2726 \2727 \2726';position:absolute;top:12px;right:16px;font-size:8px;color:rgba(148,163,184,.15);letter-spacing:6px;pointer-events:none}
 
-/* Карточки на светлом фоне */
-.hub-card{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.hub-card.unlocked:hover{border-color:rgba(34,197,94,.3);box-shadow:0 8px 30px rgba(34,197,94,.12)}
-.hub-card.locked{opacity:.5;background:rgba(255,255,255,.5)}
-.hub-card h3{color:#1e293b}
-.hub-card-title{color:#334155}
-.hub-card-desc{color:#64748b}
-.hub-card-status{color:#64748b}
+/* ===== КАРТОЧКИ (светлый фон) ===== */
+.hub-modules{display:flex;flex-direction:column;gap:16px}
+.hub-card{display:flex;align-items:center;gap:20px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:24px;backdrop-filter:blur(10px);transition:all .3s ease;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.hub-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#0ea5e9);opacity:0;transition:opacity .3s}
+.hub-card.unlocked::before{opacity:1}
+.hub-card.unlocked:hover{transform:translateY(-2px);border-color:rgba(34,197,94,.3);box-shadow:0 8px 30px rgba(34,197,94,.12)}
+.hub-card.locked{opacity:.5;background:rgba(255,255,255,.5);filter:grayscale(.3)}
+.hub-card.completed::before{opacity:1;background:linear-gradient(90deg,#4ade80,#22c55e)}
 .hub-card.completed .hub-card-status{color:#16a34a}
+.hub-card-left{flex-shrink:0}
+.hub-card-icon{width:56px;height:56px;border-radius:14px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;font-size:28px}
+.hub-card-body{flex:1;min-width:0}
+.hub-card-status{font-size:11px;font-weight:600;margin-bottom:4px;color:#64748b}
+.hub-card h3{font-size:18px;font-weight:800;color:#1e293b}
+.hub-card-title{font-size:14px;color:#334155;margin-top:2px;font-weight:600}
+.hub-card-desc{font-size:12px;color:#64748b;margin-top:4px;line-height:1.4}
+.hub-card-progress{display:flex;align-items:center;gap:10px;margin-top:10px}
+.hub-card-bar{flex:1;height:5px;border-radius:3px;background:rgba(0,0,0,.08);overflow:hidden}
+.hub-card-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .5s ease;width:0}
+.hub-card-pct{font-size:11px;font-weight:700;color:#64748b;min-width:30px}
+.hub-card-right{flex-shrink:0}
+.hub-card-btn{display:inline-block;padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s ease;cursor:pointer;border:none;white-space:nowrap}
+.hub-card-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+.hub-card-btn.disabled{background:rgba(148,163,184,.2);color:#94a3b8;cursor:default;pointer-events:none}
 
-/* Заголовок на светлом */
-.hub-welcome h2{color:#1e293b}
-.hub-welcome p{color:#64748b}
+/* Цитата */
+.hub-quote{margin-top:40px;padding:24px;border-radius:14px;background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.12);text-align:center}
+.hub-quote-text{font-size:15px;font-style:italic;color:#475569;line-height:1.6}
+.hub-quote-author{font-size:12px;color:#64748b;margin-top:8px;font-weight:600}
 
-/* Цитата на светлом */
-.hub-quote{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15)}
-.hub-quote-text{color:#475569}
-.hub-quote-author{color:#64748b}
-
-/* Созвездие — оставляем тёмным */
-.constellation{background:rgba(15,23,42,.9);box-shadow:0 4px 24px rgba(0,0,0,.3)}
 /* ===== АДАПТИВ ===== */
 @media(max-width:600px){
   .constellation-map{height:100px;padding:0 5px}
