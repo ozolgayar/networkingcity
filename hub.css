@@ -295,6 +295,22 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
   font-size:8px;color:rgba(148,163,184,.15);
   letter-spacing:6px;pointer-events:none;
 }
+/* Сетка переливающаяся */
+.cover-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(74,222,128,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,222,128,.06) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%);
+  animation:gridShimmer 4s ease-in-out infinite;
+}
+@keyframes gridShimmer{
+  0%,100%{opacity:.4}
+  50%{opacity:1}
+}
 /* ===== АДАПТИВ ===== */
 @media(max-width:600px){
    .constellation-map{height:100px;padding:0 5px}
