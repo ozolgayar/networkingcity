@@ -108,50 +108,6 @@ function addScore(delta) {
     });
   }
 
-  // ===== Экран 1: цитаты =====
-  function initQuotes() {
-    const quotes = [
-      {
-        text: 'Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт.',
-        author: 'Кейт Ферраци'
-      },
-      {
-        text: 'Чаще бывает полезнее знать многих, чем многое.',
-        author: 'Роберт Лембке'
-      },
-      {
-        text: 'Нетворкинг — это искусство создания отношений, которые в перспективе могут быть полезны в любой сфере жизни.',
-        author: 'Гил Петерсил'
-      },
-      {
-        text: 'Нетворкинг – умение открыто и искренне общаться с самыми разными людьми, выстраивая сеть полезных знакомств.',
-        author: 'Кейт Феррацци'
-      },
-      {
-        text: 'Если из-за страха перед неизвестным мы отгораживаемся от общения, мы теряем себя как личности и как компании. Когда становимся открытыми, появляются новые возможности учиться и сотрудничать.',
-        author: 'Джефф Джарвис'
-      }
-    ];
-    let idx = 0;
-    const textEl = document.getElementById('quote-text');
-    const authorEl = document.getElementById('quote-author');
-
-    function showQuote() {
-      const q = quotes[idx % quotes.length];
-      textEl.textContent = q.text;
-      authorEl.textContent = q.author;
-      idx++;
-    }
-    showQuote();
-    let counter = 0;
-    const interval = setInterval(() => {
-      showQuote();
-      counter += 1;
-      if (counter >= 2) {
-        clearInterval(interval);
-      }
-    }, 2500);
-  }
     // ===== Экран 2: тест =====
   function initQuiz() {
     const questions = [
@@ -1498,7 +1454,6 @@ function initVenueMap() {
    document.addEventListener('DOMContentLoaded', () => {
     initGlobalNav();
     initMainMenu();
-    initQuotes();
     initQuiz();
     initKeysGame();
     initCafeScreen();
