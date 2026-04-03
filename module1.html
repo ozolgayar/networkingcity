@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Нетворкинг Сити: свои везде</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="module1.css">
 </head>
 <body>
 <div id="app">
@@ -45,36 +45,34 @@
         <li data-goto="screen-25">25. Календарь касаний</li>
         <li data-goto="screen-26">26. Финал</li>
       </ul>
+      <div style="padding:6px; border-top:1px solid #e2e8f0; margin-top:4px;">
+  <a href="hub.html" style="font-size:12px; color:var(--accent-soft); text-decoration:none;">← На главную</a>
+</div>
     </div>
   </div>
 
-  <header>
+<header>
   <div class="logo">
-    <div class="logo-icon">NC</div>
-    <div>
-      <div>НетворкингСити</div>
-      <div style="font-size: 12px; color: var(--text-soft);">Симулятор нетворкинга</div>
-    </div>
+    <a href="hub.html" style="text-decoration:none; display:flex; align-items:center; gap:10px; color:inherit;">
+      <div class="logo-icon">NC</div>
+      <div>
+        <div>НетворкингСити</div>
+        <div style="font-size:11px; color:var(--text-soft); font-weight:400;">Модуль 1 — Подготовка</div>
+      </div>
+    </a>
   </div>
-
   <div class="header-stats">
     <div class="header-bar">
-      <span class="header-stat-label">Нетворкинг</span>
-      <div class="bar-track" style="width: 120px; height: 6px;">
-        <div class="bar-fill" id="hud-networking-bar"></div>
+      <span class="header-stat-label">Прогресс</span>
+      <div class="bar-track" style="width:120px; height:6px;">
+        <div class="bar-fill" id="hud-progress-bar"></div>
       </div>
-      <span class="header-stat-value" id="hud-networking-value">0 / 100</span>
+      <span class="header-stat-value" id="hud-progress-value">0%</span>
     </div>
-    <div class="header-chip">
-      🤝 <span id="hud-contacts">0</span>
-    </div>
-    <div class="header-chip">
-      👁 <span id="hud-visibility">0</span>
-    </div>
+    <div class="header-chip">⭐ <span id="hud-score">0</span></div>
   </div>
-
   <div class="meta">
-    <div class="pill" id="chapter-pill">Глава 1</div>
+    <div class="pill" id="screen-pill">1 / 24</div>
   </div>
 </header>
 
@@ -1549,223 +1547,20 @@
     </div>
   </div>
 </div>
-      <!-- Экран 22. Зал конференции -->
-      <div class="screen" id="screen-22">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 22 • Зал конференции</span>
-            </div>
-            <div class="scene-main">
-              <div class="characters-area" id="conf-hall">
-              </div>
-              <div class="modal-overlay" id="conf-modal">
-                <div class="modal" id="conf-modal-content"></div>
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Знакомства в зале</h2>
-            <p>
-              Веди персонажа по локации (в прототипе — кликай по персонажам), чтобы знакомиться с людьми.
-            </p>
-            <p>
-              Наведи/нажми на персонажа, чтобы узнать его сферу. Если сфера совпадает с целью Златы
-              («Карьера / Маркетинг»), то цель Златы продвигается: +1 к счётчику (из 6).
-            </p>
-            <p class="note">
-              За каждое успешное знакомство — +1 к уровню нетворкинга.
-            </p>
-            <div class="actions-row">
-               <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" data-next="screen-23">Идти в другой зал</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Экран 23. Кофебрейк -->
-      <div class="screen" id="screen-23">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 23 • Кофебрейк</span>
-            </div>
-            <div class="scene-main">
-              <div class="characters-area" id="coffee-hall">
-              </div>
-              <div class="modal-overlay" id="coffee-modal">
-                <div class="modal" id="coffee-modal-content"></div>
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Кофебрейк — лучшее время для контактов</h2>
-            <p>
-              Здесь атмосфера легче, разговоры непринуждённее.
-              Подходи к людям (кликай по персонажам), знакомься.
-            </p>
-            <p>
-              Всё так же: если сфера совпадает с целью Златы, счётчик её цели растёт.
-            </p>
-            <p class="note">
-              За каждое успешное знакомство — +1 к уровню нетворкинга.
-            </p>
-            <div class="actions-row">
-               <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" data-next="screen-24">Завершить конференцию</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Экран 24. Follow-up письмо -->
-      <div class="screen" id="screen-24">
-     
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 24 • Follow-up письмо</span>
-            </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                Окно почты с черновиком письма.
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Follow-up письмо</h2>
-            <p>
-              После конференции важно не потерять контакты. Напиши follow-up письмо одному из новых знакомых.
-            </p>
-            <div style="margin-top: 6px;">
-              <div class="field-label">Черновик письма</div>
-              <textarea id="followup-text" placeholder="Например: «Спасибо за разговор на секции маркетинга... »"></textarea>
-            </div>
-            <p class="note">
-              За отправку письма — +1 к узнаваемости и +1 к уровню нетворкинга.
-            </p>
-            <div class="actions-row">
-               <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" id="btn-followup-send" data-next="screen-25">Отправить</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Экран 25. Календарь касаний -->
-      <div class="screen" id="screen-25">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 25 • Календарь касаний</span>
-            </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                <div class="calendar-grid" id="calendar-grid">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Календарь касаний</h2>
-            <p>
-              Чтобы отношения не остывали, важно делать «касания»: поздравления, сообщения, реакции на контент.
-            </p>
-            <p>
-              На календаре есть серые иконки-дни. Перетащи цветные значки (день рождения, профессиональный праздник,
-              «касание», пост, лайк, комментарий, чашка кофе) на календарь.
-            </p>
-            <div class="calendar-icons-palette" id="calendar-icons">
-              <div class="calendar-icon" draggable="true" data-type="bday" title="День рождения">BD</div>
-              <div class="calendar-icon" draggable="true" data-type="pro" title="Проф. праздник">PR</div>
-              <div class="calendar-icon" draggable="true" data-type="touch" title="Касание">K</div>
-              <div class="calendar-icon" draggable="true" data-type="post" title="Пост">P</div>
-              <div class="calendar-icon" draggable="true" data-type="like" title="Лайк">L</div>
-              <div class="calendar-icon" draggable="true" data-type="comment" title="Комментарий">C</div>
-              <div class="calendar-icon" draggable="true" data-type="coffee" title="Кофе">☕</div>
-            </div>
-            <p class="note">
-              За каждую иконку — +1 к узнаваемости и +1 к уровню нетворкинга.
-            </p>
-            <div class="actions-row">
-               <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" data-next="screen-26">Проверить своё развитие</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Экран 26. Финал -->
-      <div class="screen" id="screen-26">
-        
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 26 • Финал истории</span>
-            </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                Здесь показывается итоговая сцена с Златой и её окружением.
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Твоя судьба в НетворкингСити</h2>
-            <p>
-              По итогам игры:
-            </p>
-            <div class="metric-row">
-              <span>Нетворкинг:</span> <span id="final-networking"></span>
-              <span>Знакомства:</span> <span id="final-contacts"></span>
-              <span>Узнаваемость:</span> <span id="final-visibility"></span>
-            </div>
-            <p style="margin-top: 6px;">
-              Твоя судьба:
-            </p>
-            <div class="cards-row" id="final-fates">
-            </div>
-            <p style="margin-top: 8px;">
-              Цель Златы (6 знакомств в сфере Карьера/Маркетинг): <strong id="final-goal-result"></strong>
-            </p>
-            <p class="note" style="margin-top: 6px;">
-              В полноценной версии курса можно будет переиграть отдельные главы и посмотреть,
-              как меняется финал.
-            </p>
-          </div>
-        </div>
-      </div>
-
-    </section>
- <div class="goal-chip" id="goal-chip" style="position: fixed; bottom: 16px; right: 16px; z-index: 40; max-width: 260px;">
-  <strong>Цель Златы</strong>
-  <small id="goal-chip-text">Цель ещё не сформулирована</small>
-</div>
-  </main>
-
-  <!-- Попап с целью Златы (HUD) -->
-  <div id="goal-popup">
-    <div class="popup-content">
-      <h2>Цель Златы</h2>
-      <p>
-        Познакомиться с 6 людьми на конференции в сфере «Карьера / Маркетинг».
-      </p>
-      <p class="note">
-        Текущий прогресс: <span id="goal-popup-progress">0 / 6</span>.
-      </p>
-      <button class="close-btn" id="goal-popup-close">Закрыть</button>
+   <div class="screen" id="screen-final">
+  <div style="max-width:500px; margin:0 auto; text-align:center; padding:40px 20px; display:flex; flex-direction:column; gap:16px; align-items:center;">
+    <div style="font-size:48px;">🎉</div>
+    <h2>Модуль 1 пройден!</h2>
+    <p style="color:var(--text-soft);">Ты подготовился к конференции: поставил цель, создал визитку, собрал сумочку и изучил карту мероприятия.</p>
+    <div style="background:#f0fdf4; border-radius:12px; padding:14px 18px; border:1px solid rgba(34,197,94,0.3); width:100%;">
+      <div style="font-size:14px; color:#166534; font-weight:600;">Твой результат</div>
+      <div style="font-size:28px; font-weight:700; color:#16a34a; margin-top:4px;" id="final-score">0</div>
+      <div style="font-size:12px; color:var(--text-soft);">очков</div>
     </div>
+    <a href="hub.html" class="btn" style="text-decoration:none; margin-top:10px;">Вернуться на главную</a>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="app.js"></script>
+  <script src="module1.js"></script>
 </body>
 </html>
