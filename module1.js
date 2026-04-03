@@ -14,7 +14,6 @@
 
   // ===== Утилиты =====
 // Порядок экранов — ГЛОБАЛЬНО
-  const screenOrder = [
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-5',
   'screen-6', 'screen-7', 'screen-8', 'screen-9', 'screen-10',
@@ -293,7 +292,7 @@ function addScore(delta) {
               <button class="btn" id="cafe-next">В офис</button>
             </div>
           `;
-          addVisibility(3);
+          addScore(3);
         }
         openModal(html);
         setTimeout(() => {
@@ -1520,6 +1519,5 @@ function initVenueMap() {
     initProfileAndSticky();
     initBag();
     initVenueMap();
-    initFinalScreen();
     updateHud();
   });
