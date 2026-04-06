@@ -482,43 +482,128 @@ function initLaptopHotspot() {
 
   // ===== Экран 13: страхи =====
 function initFears() {
-  var btnFears = document.getElementById('btn-fears-submit');
-  var secondStep = document.getElementById('fears-second-step');
-  var btnFight = document.getElementById('btn-fight-submit');
+  var fearsData = {
+    say:          { label: 'Не знаю, что сказать',         icon: '😶', validation: 'Этот страх — у 90% людей. Серьёзно. Ты не одинок.', placeholder: 'Пример: «Выучу 3 фразы-открывашки из курса и буду держать их в голове»' },
+    reject:       { label: 'Меня отвергнут',               icon: '😔', validation: 'Страх отказа — один из самых древних. Ты храбрее, чем думаешь, раз признаёшь его.', placeholder: 'Пример: «Напомню себе: отказ — это не про меня, а про обстоятельства человека»' },
+    worth:        { label: 'Я недостаточно важен(на)',      icon: '🥺', validation: 'Синдром самозванца. Он есть даже у спикеров на сцене.', placeholder: 'Пример: «Подготовлю рассказ о себе, в котором мой опыт звучит ценно»' },
+    incompetent:  { label: 'Покажусь некомпетентным',       icon: '😰', validation: 'Знать всё невозможно. А вот задать умный вопрос — это и есть компетентность.', placeholder: 'Пример: «Разрешу себе говорить "не знаю, но мне интересно узнать"»' },
+    pushy:        { label: 'Буду навязчивым',               icon: '😬', validation: 'Тот факт, что ты об этом думаешь, уже означает, что навязчивым ты не будешь.', placeholder: 'Пример: «Буду задавать вопросы, а не рассказывать. Интерес — не навязчивость»' },
+    everyone:     { label: 'Все уже знают друг друга',      icon: '👥', validation: 'На любой конференции минимум 30% людей не знают никого. Они просто хорошо притворяются.', placeholder: 'Пример: «Найду одного человека, который тоже стоит один — и подойду к нему»' },
+    awkward:      { label: 'Потом будет неловко',           icon: '😳', validation: 'Хорошая новость: есть конкретные формулы, не нужно ничего придумывать.', placeholder: 'Пример: «Напишу follow-up в тот же вечер по формуле из курса»' },
+    custom:       { label: 'Свой вариант',                  icon: '✏️', validation: 'Ты честен с собой — это уже шаг к преодолению.', placeholder: 'Как ты будешь с этим справляться?' }
+  };
+
+  var selected = [];
+  var masks = document.querySelectorAll('#fear-masks-grid .fear-mask');
+  var btnUnmask = document.getElementById('btn-unmask');
+  var btnNoFear = document.getElementById('btn-no-fear');
+  var validationsBox = document.getElementById('fears-validations');
+  var validationsList = document.getElementById('fears-validation-list');
+  var step1 = document.getElementById('fears-step1');
+  var step2 = document.getElementById('fears-step2');
+  var strategyList = document.getElementById('fears-strategy-list');
+  var btnSave = document.getElementById('btn-fears-save');
+  var btnDone = document.getElementById('btn-fears-done');
   var modal = document.getElementById('fears-modal');
-  var items = document.querySelectorAll('#fear-grid .mask-item');
 
-  console.log('initFears: found', items.length, 'masks');
+  masks.forEach(function(mask) {
+    mask.addEventListener('click', function() {
+      var fear = mask.dataset.fear;
+      if (mask.classList.contains('selected')) {
+        mask.classList.remove('selected');
+        selected = selected.filter(function(f) { return f !== fear; });
+        if (fear === 'custom') {
+          mask.querySelector('.fear-custom-input').style.display = 'none';
+        }
+      } else {
+        mask.classList.add('selected');
+        selected.push(fear);
+        if (fear === 'custom') {
+          var inp = mask.querySelector('.fear-custom-input');
+          inp.style.display = 'block';
+          inp.focus();
+        }
+      }
 
-  // Клик на маску — открываем поле под ней
-  items.forEach(function(item) {
-    var face = item.querySelector('.mask-face-v3');
-    if (!face) { console.warn('no face found'); return; }
-    
-    face.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (item.classList.contains('opened')) return;
-      item.classList.add('opened');
-      var ta = item.querySelector('.mask-textarea');
-      if (ta) setTimeout(function() { ta.focus(); }, 300);
-    });
-  });
-
-  // Кнопка «Снять все маски»
-  btnFears.addEventListener('click', function() {
-    items.forEach(function(item) {
-      if (!item.classList.contains('opened')) {
-        item.classList.add('opened');
+      // Показать/скрыть кнопку и валидации
+      if (selected.length > 0) {
+        btnUnmask.style.display = 'inline-flex';
+        showValidations();
+      } else {
+        btnUnmask.style.display = 'none';
+        validationsBox.style.display = 'none';
       }
     });
-    setTimeout(function() {
-      secondStep.style.display = 'block';
-      secondStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 400);
   });
 
-  btnFight.addEventListener('click', function() {
-    addScore(2);
+  function showValidations() {
+    validationsList.innerHTML = '';
+    selected.forEach(function(fear) {
+      var d = fearsData[fear];
+      if (!d) return;
+      var label = fear === 'custom' ? (document.querySelector('.fear-custom-input').value || 'Свой вариант') : d.label;
+      var item = document.createElement('div');
+      item.className = 'fear-validation-item';
+      item.innerHTML =
+        '<span class="fear-validation-icon">' + d.icon + '</span>' +
+        '<div class="fear-validation-text"><strong>' + label + '</strong> — ' + d.validation + '</div>';
+      validationsList.appendChild(item);
+    });
+    validationsBox.style.display = 'block';
+  }
+
+  // Снять маски → шаг 2
+  btnUnmask.addEventListener('click', function() {
+    step1.querySelector('div:last-child').style.display = 'none'; // скрыть кнопки
+    strategyList.innerHTML = '';
+    selected.forEach(function(fear) {
+      var d = fearsData[fear];
+      if (!d) return;
+      var label = fear === 'custom' ? (document.querySelector('.fear-custom-input').value || 'Свой вариант') : d.label;
+      var card = document.createElement('div');
+      card.className = 'fear-strategy-card';
+      card.innerHTML =
+        '<div class="fear-strategy-header">' +
+          '<span class="fear-strategy-emoji">' + d.icon + '</span>' +
+          '<span class="fear-strategy-title">' + label + '</span>' +
+        '</div>' +
+        '<div class="fear-strategy-validation">💚 ' + d.validation + '</div>' +
+        '<textarea class="fear-strategy-textarea" data-fear="' + fear + '" placeholder="' + d.placeholder + '"></textarea>';
+      strategyList.appendChild(card);
+    });
+    step2.style.display = 'block';
+    step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // Мне ничего не страшно
+  btnNoFear.addEventListener('click', function() {
+    addScore(1);
+    goTo('screen-14');
+  });
+
+  // Сохранить
+  btnSave.addEventListener('click', function() {
+    var data = {};
+    strategyList.querySelectorAll('.fear-strategy-textarea').forEach(function(ta) {
+      data[ta.dataset.fear] = ta.value;
+    });
+    localStorage.setItem('nc_fears', JSON.stringify({ selected: selected, strategies: data }));
+    var msg = document.getElementById('fears-saved-msg');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.id = 'fears-saved-msg';
+      msg.className = 'fear-saved-msg';
+      msg.textContent = '💾 Сохранено!';
+      btnSave.parentElement.appendChild(msg);
+    }
+    msg.classList.remove('show');
+    void msg.offsetWidth;
+    msg.classList.add('show');
+  });
+
+  // Готово
+  btnDone.addEventListener('click', function() {
+    addScore(3);
     modal.classList.add('active');
   });
 
