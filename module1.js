@@ -256,22 +256,52 @@ function initLaptopHotspot() {
 
   // ===== Экран 11: цель нетворкинга =====
   function initPurposeScreen() {
-    const btn = document.getElementById('btn-purpose-submit');
-    const modal = document.getElementById('purpose-modal');
-    const cont = document.getElementById('purpose-modal-continue');
+  var btn = document.getElementById('btn-purpose-submit');
+  var btnSave = document.getElementById('btn-purpose-save');
+  var modal = document.getElementById('purpose-modal');
+  var cont = document.getElementById('purpose-modal-continue');
+  var textarea = document.getElementById('networking-purpose');
+  var floatMsg = document.getElementById('purpose-saved-float');
 
-    btn.addEventListener('click', () => {
-      const text = document.getElementById('networking-purpose').value.trim();
-      state.purposeText = text;
-      addScore(2);
-      modal.classList.add('active');
-    });
-
-    cont.addEventListener('click', () => {
-      modal.classList.remove('active');
-      showScreen('screen-12');
-    });
+  // Загружаем сохранённый ответ
+  var saved = localStorage.getItem('nc_purpose_text');
+  if (saved) {
+    textarea.value = saved;
   }
+
+  btn.addEventListener('click', function() {
+    var text = textarea.value.trim();
+    if (!text) {
+      textarea.style.borderColor = '#ef4444';
+      setTimeout(function() { textarea.style.borderColor = ''; }, 1500);
+      return;
+    }
+    state.purposeText = text;
+    addScore(2);
+    modal.classList.add('active');
+  });
+
+  btnSave.addEventListener('click', function() {
+    var text = textarea.value.trim();
+    if (!text) return;
+    localStorage.setItem('nc_purpose_text', text);
+
+    // Микроанимация
+    floatMsg.classList.remove('show');
+    void floatMsg.offsetWidth; // сброс анимации
+    floatMsg.classList.add('show');
+  });
+
+  cont.addEventListener('click', function() {
+    // Автосохраняем при переходе
+    var text = textarea.value.trim();
+    if (text) {
+      localStorage.setItem('nc_purpose_text', text);
+    }
+    modal.classList.remove('active');
+    showScreen('screen-12');
+  });
+}
 
   // ===== Экран 12: Нити нетворкинга — мини-игра с бусинами =====
   const beadsStages = [
