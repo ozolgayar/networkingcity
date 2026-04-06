@@ -329,15 +329,21 @@
           <button class="btn" id="btn-purpose-submit">Ответить</button>
         </div>
         <div class="modal-overlay" id="purpose-modal">
-          <div class="modal">
-            <h3>Отлично!</h3>
+          <div class="modal" style="position:relative; overflow:visible;">
+            <h3>Спасибо!</h3>
             <p>
-              Продолжим работать над целью и сделаем её более конкретной!
+              Продолжим работать над целью и сделаем её более конкретной.
             </p>
-                 <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
-              <button class="btn" id="purpose-modal-continue" data-next="screen-12">Продолжить</button>
+            <p class="note">
+              +1 к уровню нетворкинга.
+            </p>
+            <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
+              <button class="btn secondary" id="btn-purpose-save">💾 Сохранить ответ</button>
+              <button class="btn" id="purpose-modal-continue">Продолжить</button>
             </div>
+            <div id="purpose-saved-float" class="float-saved">✅ Сохранено!</div>
           </div>
+        </div>
         </div>
       </div>
     </div>
