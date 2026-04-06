@@ -63,9 +63,11 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(148,163,184,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148,163,184,0.08) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(100,116,139,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,116,139,0.18) 1px, transparent 1px),
+    linear-gradient(rgba(100,116,139,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,116,139,0.08) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 30px 30px, 30px 30px;
 }
 
 .cover-dots {
