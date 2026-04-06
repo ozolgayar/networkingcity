@@ -109,6 +109,7 @@ function addScore(delta) {
   }
 
    // ===== Экран 2: тест =====
+ // ===== Экран 2: тест =====
   function initQuiz() {
     var questions = [
       { q: 'Я знаю, как найти общий язык с незнакомыми мне людьми:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
@@ -126,9 +127,22 @@ function addScore(delta) {
     var area = document.getElementById('quiz-area');
     var result = document.getElementById('quiz-result');
     var progress = document.getElementById('quiz-progress');
+    if (!area || !result || !progress) return;
+
     var answers = [];
     var currentQ = 0;
     var quizStarted = false;
+
+    function startQuiz() {
+      if (quizStarted) return;
+      quizStarted = true;
+      currentQ = 0;
+      answers = [];
+      area.style.display = 'block';
+      progress.style.display = 'block';
+      result.style.display = 'none';
+      showQuestion(0);
+    }
 
     function showQuestion(idx) {
       if (idx >= questions.length) { showResult(); return; }
@@ -182,24 +196,21 @@ function addScore(delta) {
       localStorage.setItem('nc_quiz_score', total);
     }
 
-    // Запуск теста при переходе на экран 2
-    var origShowScreen = showScreen;
-    showScreen = function(id) {
-      origShowScreen(id);
-      if (id === 'screen-2' && !quizStarted) {
-        quizStarted = true;
-        showQuestion(0);
+    // Наблюдатель — запускает тест когда экран 2 становится активным
+    var observer = new MutationObserver(function() {
+      if (document.getElementById('screen-2').classList.contains('active') && !quizStarted) {
+        startQuiz();
       }
-    };
-    window.showScreen = showScreen;
+    });
+    observer.observe(document.getElementById('screen-2'), {
+      attributes: true, attributeFilter: ['class']
+    });
 
     // Если экран 2 уже активен при загрузке
     if (document.getElementById('screen-2').classList.contains('active')) {
-      quizStarted = true;
-      showQuestion(0);
+      startQuiz();
     }
   }
-
   // ===== Экран 3: поиск ключей =====
   function initKeysGame() {
     const hotspot = document.getElementById('keys-hotspot');
