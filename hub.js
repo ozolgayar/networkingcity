@@ -47,23 +47,55 @@ document.getElementById('btn-dive').addEventListener('click', function() {
     if (totalPct > 0) constPct.classList.add('glow');
   }
 
-  // Зажигаем звёзды и линии
-  for (var i = 1; i <= completedModules; i++) {
-    var star = document.getElementById('cstar-' + i);
-    if (star) star.classList.add('active');
-
-    // Линия перед текущей звездой (линия 1 между звёздами 1-2, линия 2 между 2-3)
-    if (i >= 2) {
-      var line = document.getElementById('cline-' + (i - 1));
-      if (line) line.classList.add('active');
-    }
+  // ===== Зажигаем дерево нетворкинга =====
+  function activateNode(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  }
+  function activateLabel(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.add('active');
   }
 
-  // Если модуль 1 в процессе (не завершён, но начат) — подсвечиваем 1-ю звезду мягко
+  // Модуль 1 пройден — корень
+  if (completedModules >= 1) {
+    activateNode('cstar-1');
+    activateLabel('clabel-1');
+    activateNode('cline-1');
+    activateNode('cline-1b');
+  }
+
+  // Модуль 2 пройден — второй уровень
+  if (completedModules >= 2) {
+    activateNode('cstar-2');
+    activateNode('cstar-2b');
+    activateLabel('clabel-2');
+    activateNode('cline-2');
+    activateNode('cline-2b');
+    activateNode('cline-2c');
+    activateNode('cline-2d');
+    activateNode('cline-2e');
+    activateNode('cline-2f');
+  }
+
+  // Модуль 3 пройден — все шесть
+  if (completedModules >= 3) {
+    activateNode('cstar-3a');
+    activateNode('cstar-3b');
+    activateNode('cstar-3c');
+    activateNode('cstar-3d');
+    activateNode('cstar-3e');
+    activateNode('cstar-3f');
+    activateLabel('clabel-3');
+  }
+
+  // В процессе — мягко подсвечиваем корень
   if (mod1Progress > 0 && mod1Status !== 'complete') {
-    var star1 = document.getElementById('cstar-1');
-    if (star1) star1.style.opacity = '0.6';
-    star1.classList.add('active');
+    var root = document.getElementById('cstar-1');
+    if (root) {
+      root.style.opacity = '0.6';
+      root.classList.add('active');
+    }
   }
 
   // === Карточки модулей ===
