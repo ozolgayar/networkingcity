@@ -1789,3 +1789,12 @@ color: #1e293b;
 #screen-21-2 .panel::-webkit-scrollbar { width: 5px; }
 #screen-21-2 .scene-main::-webkit-scrollbar-thumb,
 #screen-21-2 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
+#screen-2 .panel {
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+#screen-2 .panel::-webkit-scrollbar { width: 5px; }
+#screen-2 .panel::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.4);
+  border-radius: 999px;
+}
