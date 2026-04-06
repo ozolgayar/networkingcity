@@ -164,3 +164,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
   .hub-card-right{align-self:stretch}
   .hub-card-btn{display:block;text-align:center;width:100%}
 }
+/* Фикс: фон обложки не перекрывает кнопку */
+.cover-bg,
+.cover-sparkles,
+.cover-orb,
+.cover-grid,
+.cover-dots,
+.cover-sweep {
+  pointer-events: none;
+}
+
+.cover-content {
+  position: relative;
+  z-index: 10;
+}
+
+.cover-btn {
+  position: relative;
+  z-index: 11;
+  cursor: pointer;
+}
