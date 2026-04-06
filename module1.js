@@ -15,8 +15,7 @@
   // ===== Утилиты =====
 // Порядок экранов — ГЛОБАЛЬНО
 const screenOrder = [
-  'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-5',
-  'screen-6', 'screen-8', 'screen-9', 'screen-10',
+  'screen-1', 'screen-2', 'screen-3', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-19',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
@@ -236,116 +235,8 @@ function addScore(delta) {
       showScreen('screen-10');
     });
   }
-
-  // ===== Экран 4: кафе =====
-  function initCafeScreen() {
-    const buttons = document.querySelectorAll('#screen-4 [data-choice]');
-    const modal = document.getElementById('cafe-modal');
-    const modalContent = document.getElementById('cafe-modal-content');
-
-    function openModal(html) {
-      modalContent.innerHTML = html;
-      modal.classList.add('active');
-    }
-
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
-    });
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const choice = btn.getAttribute('data-choice');
-        let html = '';
-        if (choice === '1') {
-          html = `
-            <h3>Упущенная возможность</h3>
-            <p>
-              В мире нетворкинга бездействие – это тоже действие.
-              Отношения с Павлом не испорчены, но и не улучшены.
-              Иногда самый большой риск – это не рисковать вовсе.
-            </p>
-            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
-              <button class="btn" id="cafe-next">В офис</button>
-            </div>
-          `;
-        } else if (choice === '2') {
-          html = `
-            <h3>+1 к узнаваемости</h3>
-            <p>
-              Павел улыбнулся в ответ и ушёл в хорошем настроении.
-            </p>
-            <p class="note">Микроанимация: +1 к Узнаваемости.</p>
-            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
-              <button class="btn" id="cafe-next">В офис</button>
-            </div>
-          `;
-          addScore(1);
-        } else {
-          html = `
-            <h3>+3 к узнаваемости</h3>
-            <p>
-              Павел немного удивился, но ответил: «О, Злата, привет! Да, без него никак».
-            </p>
-            <p class="note">Микроанимация: +3 к Узнаваемости.</p>
-            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
-              <button class="btn" id="cafe-next">В офис</button>
-            </div>
-          `;
-          addScore(3);
-        }
-        openModal(html);
-        setTimeout(() => {
-          const nextBtn = document.getElementById('cafe-next');
-          if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-              modal.classList.remove('active');
-              showScreen('screen-5');
-            });
-          }
-        }, 10);
-      });
-    });
-  }
-
-  // ===== Экран 5: карта (офис) =====
-  function initOfficeMap() {
-    const ind = document.getElementById('office-indicator');
-    ind.addEventListener('click', () => showScreen('screen-6'));
-  }
-
-  // ===== Экран 6: офис, командировка =====
-  function initOfficeChoices() {
-    const btnAccept = document.getElementById('btn-accept-trip');
-    const btnDecline = document.getElementById('btn-decline-trip');
-    const modal = document.getElementById('boss-modal');
-    const modalOk = document.getElementById('boss-modal-ok');
-
-  btnAccept.addEventListener('click', () => {
-      addScore(2);
-      showScreen('screen-8');
-    });
-
-    btnDecline.addEventListener('click', () => {
-      addScore(-1);
-      modal.classList.add('active');
-    });
-
-     modalOk.addEventListener('click', () => {
-      modal.classList.remove('active');
-      showScreen('screen-8');
-    });
-     }
-
-  // ===== Экран 9: карта (домой) =====
-  function initHomeMap() {
-    document.getElementById('home-indicator').addEventListener('click', () => {
-      showScreen('screen-10');
-    });
-  }
-
-  // ===== Экран 10: ноутбук =====
+  
+   // ===== Экран 10: ноутбук =====
 function initLaptopHotspot() {
     document.getElementById('folder-goal').addEventListener('click', function() {
       showScreen('screen-11');
@@ -1502,11 +1393,7 @@ function initVenueMap() {
     initMainMenu();
     initQuiz();
     initKeysGame();
-    initCafeScreen();
-    initOfficeMap();
-    initOfficeChoices();
-    initHomeMap();
-    initLaptopHotspot();
+       initLaptopHotspot();
     initPurposeScreen();
     initBeadsGame();
     initFears();
