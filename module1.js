@@ -108,9 +108,9 @@ function addScore(delta) {
     });
   }
 
-    // ===== Экран 2: тест =====
+   // ===== Экран 2: тест =====
   function initQuiz() {
-    const questions = [
+    var questions = [
       { q: 'Я знаю, как найти общий язык с незнакомыми мне людьми:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
       { q: 'Я смогу познакомиться с несколькими новыми людьми за одно мероприятие:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
       { q: 'Я знаю, как правильно и оригинально представиться незнакомому человеку:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
@@ -122,41 +122,45 @@ function addScore(delta) {
       { q: 'Я знаю, как публично выступать перед целевой аудиторией на бизнес-ланчах, конференциях и прочих мероприятиях:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
       { q: 'Ко мне будут обращаться незнакомые люди за помощью:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] }
     ];
-    const container = document.getElementById('quiz-container');
-    const progressEl = document.getElementById('quiz-progress');
-    const answers = [];
-    let currentQ = 0;
+
+    var area = document.getElementById('quiz-area');
+    var result = document.getElementById('quiz-result');
+    var progress = document.getElementById('quiz-progress');
+    var answers = [];
+    var currentQ = 0;
+    var quizStarted = false;
+
     function showQuestion(idx) {
       if (idx >= questions.length) { showResult(); return; }
-      const q = questions[idx];
-      progressEl.textContent = 'Вопрос ' + (idx + 1) + ' из ' + questions.length;
-      const div = document.createElement('div');
-      div.className = 'quiz-q';
-      const h = document.createElement('h3');
-      h.textContent = (idx + 1) + '. ' + q.q;
-      div.appendChild(h);
-      const optsWrap = document.createElement('div');
-      optsWrap.className = 'quiz-options';
+      var q = questions[idx];
+      progress.textContent = 'Вопрос ' + (idx + 1) + ' из ' + questions.length;
+
+      var html = '<div class="quiz-q">';
+      html += '<h3>' + (idx + 1) + '. ' + q.q + '</h3>';
+      html += '<div class="quiz-options">';
       q.opts.forEach(function(label, oi) {
-        const btn = document.createElement('div');
-        btn.className = 'quiz-opt';
-        btn.textContent = label;
-        btn.addEventListener('click', function() {
-          optsWrap.querySelectorAll('.quiz-opt').forEach(function(b) { b.classList.remove('selected'); });
-          btn.classList.add('selected');
-          answers[idx] = oi + 1;
-          currentQ = idx + 1;
-          setTimeout(function() {
-            showQuestion(currentQ);
-            container.scrollTop = container.scrollHeight;
-          }, 350);
-        });
-        optsWrap.appendChild(btn);
+        html += '<div class="quiz-opt" data-pts="' + (oi + 1) + '">' + label + '</div>';
       });
-      div.appendChild(optsWrap);
-      container.appendChild(div);
+      html += '</div></div>';
+
+      area.innerHTML = html;
+
+      var opts = area.querySelectorAll('.quiz-opt');
+      opts.forEach(function(opt) {
+        opt.addEventListener('click', function() {
+          opts.forEach(function(o) { o.style.pointerEvents = 'none'; });
+          opt.classList.add('selected');
+          answers[idx] = parseInt(opt.getAttribute('data-pts'));
+          currentQ = idx + 1;
+          setTimeout(function() { showQuestion(currentQ); }, 500);
+        });
+      });
     }
+
     function showResult() {
+      area.style.display = 'none';
+      progress.style.display = 'none';
+
       var total = answers.reduce(function(a, b) { return a + b; }, 0);
       var msg;
       if (total <= 20) {
@@ -166,22 +170,34 @@ function addScore(delta) {
       } else {
         msg = 'Твоих знаний достаточно, чтобы добиться блестящих результатов. Но перед тобой стоит ответственная задача — сделать свой навык нетворкинга ещё более совершенным. Дерзай!';
       }
-      progressEl.textContent = 'Тест завершён';
-      var div = document.createElement('div');
-      div.className = 'quiz-result';
-      var h3 = document.createElement('h3');
-      h3.textContent = 'Твой результат: ' + total + ' из 50';
-      div.appendChild(h3);
-      var p = document.createElement('p');
-      p.style.fontSize = '13px';
-      p.style.lineHeight = '1.5';
-      p.textContent = msg;
-      div.appendChild(p);
-      container.appendChild(div);
-      document.getElementById('btn-quiz-next').style.display = 'inline-flex';
-      container.scrollTop = container.scrollHeight;
+
+      result.style.display = 'block';
+      result.innerHTML =
+        '<h3>Твой результат: ' + total + ' из 50</h3>' +
+        '<p style="font-size:13px; line-height:1.5;">' + msg + '</p>' +
+        '<div class="actions-row" style="margin-top:12px;">' +
+          '<button class="btn" onclick="showScreen(\'screen-3\')">Продолжить →</button>' +
+        '</div>';
+
+      localStorage.setItem('nc_quiz_score', total);
     }
-    showQuestion(0);
+
+    // Запуск теста при переходе на экран 2
+    var origShowScreen = showScreen;
+    showScreen = function(id) {
+      origShowScreen(id);
+      if (id === 'screen-2' && !quizStarted) {
+        quizStarted = true;
+        showQuestion(0);
+      }
+    };
+    window.showScreen = showScreen;
+
+    // Если экран 2 уже активен при загрузке
+    if (document.getElementById('screen-2').classList.contains('active')) {
+      quizStarted = true;
+      showQuestion(0);
+    }
   }
 
   // ===== Экран 3: поиск ключей =====
