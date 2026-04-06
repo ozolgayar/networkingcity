@@ -154,14 +154,14 @@ document.getElementById('btn-dive').addEventListener('click', function() {
       var msg = point.getAttribute('data-msg');
       tooltip.textContent = msg;
 
-      // Позиционируем тултип рядом с точкой
-      var rect = point.getBoundingClientRect();
-      var container = document.getElementById('wisdom-points');
-      var containerRect = container.getBoundingClientRect();
-
-      var pointX = rect.left - containerRect.left + rect.width / 2;
-      var pointY = rect.top - containerRect.top + rect.height;
-
+        // Позиционируем тултип по центру экрана
+      var containerRect = document.getElementById('wisdom-points').getBoundingClientRect();
+      var tooltipW = 280;
+      var tooltipH = 160;
+      tooltip.style.left = ((containerRect.width - tooltipW) / 2) + 'px';
+      tooltip.style.top = ((containerRect.height - tooltipH) / 2) + 'px';
+      tooltip.style.width = tooltipW + 'px';
+      
       // Проверяем, не выходит ли тултип за правый край
       if (pointX + 140 > containerRect.width) {
         tooltip.style.left = (pointX - 260) + 'px';
