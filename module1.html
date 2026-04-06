@@ -339,244 +339,99 @@
     </div><!-- закрытие .panel -->
   </div><!-- закрытие .screen-layout -->
 </div><!-- закрытие #screen-11 -->
-<!-- Экран 13. С чего начинается нетворкинг -->
+<!-- Экран 13. Сними маски своих страхов -->
 <div class="screen" id="screen-13">
-  <div class="screen-layout">
-    <!-- СЦЕНА — маски здесь -->
-    <div class="scene" id="fears-scene">
-      <div class="scene-header">
-        <span class="tagline">Признай свои страхи</span>
+  <div class="fear-fullscreen" id="fears-container">
+
+    <!-- Шаг 1: Выбор масок -->
+    <div id="fears-step1">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <span style="font-size: 42px;">🎭</span>
+        <h2 style="font-size: 24px; margin-top: 8px;">Сними маски своих страхов</h2>
+        <p style="color: var(--text-soft); margin-top: 6px;">Выбери те, которые про тебя. Нажми на маску — она снимется.</p>
       </div>
-      <div class="scene-main" style="flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 20px;">
 
-        <div class="mask-grid-v3" id="fear-grid">
-          <!-- Маска 1 -->
-          <div class="mask-item" data-idx="0">
-            <div class="mask-face-v3">
-              <div class="mask-eyebrows-v3">⌢ &nbsp;&nbsp;&nbsp;&nbsp; ⌢</div>
-              <div class="mask-eyes-v3">
-                <span class="mask-eye-v3"></span>
-                <span class="mask-eye-v3"></span>
-              </div>
-              <div class="mask-mouth-v3">◠</div>
-              <div class="mask-label-v3">Страх 1</div>
-            </div>
-            <div class="mask-input-area">
-              <textarea class="mask-textarea" placeholder="Чего ты боишься?"></textarea>
-            </div>
-          </div>
-
-          <!-- Маска 2 -->
-          <div class="mask-item" data-idx="1">
-            <div class="mask-face-v3">
-              <div class="mask-eyebrows-v3">⌢ &nbsp;&nbsp;&nbsp;&nbsp; ⌢</div>
-              <div class="mask-eyes-v3">
-                <span class="mask-eye-v3"></span>
-                <span class="mask-eye-v3"></span>
-              </div>
-              <div class="mask-mouth-v3" style="font-size: 20px;">~</div>
-              <div class="mask-label-v3">Страх 2</div>
-            </div>
-            <div class="mask-input-area">
-              <textarea class="mask-textarea" placeholder="Что тебя пугает?"></textarea>
-            </div>
-          </div>
-
-          <!-- Маска 3 -->
-          <div class="mask-item" data-idx="2">
-            <div class="mask-face-v3">
-              <div class="mask-eyebrows-v3">⌢ &nbsp;&nbsp;&nbsp;&nbsp; ⌢</div>
-              <div class="mask-eyes-v3">
-                <span class="mask-eye-v3"></span>
-                <span class="mask-eye-v3"></span>
-              </div>
-              <div class="mask-mouth-v3">○</div>
-              <div class="mask-label-v3">Страх 3</div>
-            </div>
-            <div class="mask-input-area">
-              <textarea class="mask-textarea" placeholder="Что вызывает тревогу?"></textarea>
-            </div>
-          </div>
+      <div class="fear-masks-grid" id="fear-masks-grid">
+        <div class="fear-mask" data-fear="say">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Не знаю, что сказать</div>
         </div>
-
-        <button class="btn" id="btn-fears-submit" style="padding: 12px 28px; font-size: 16px;">Снять маски 🎭</button>
-
-        <!-- Второй шаг — борьба -->
-        <div id="fears-second-step" style="display:none; width: 100%;">
-          <div style="text-align: center; margin-bottom: 12px;">
-            <span style="font-size: 32px;">💪</span>
-            <h3 style="font-size: 18px; margin-top: 6px;">Как ты будешь бороться?</h3>
-            <p style="color: var(--text-soft); font-size: 13px;">Запиши действие против каждого страха</p>
-          </div>
-          <div class="fight-grid" id="fight-grid">
-            <div class="fight-card">
-              <div class="fight-number">1</div>
-              <textarea class="mask-textarea" placeholder="Мой план борьбы..."></textarea>
-            </div>
-            <div class="fight-card">
-              <div class="fight-number">2</div>
-              <textarea class="mask-textarea" placeholder="Мой план борьбы..."></textarea>
-            </div>
-            <div class="fight-card">
-              <div class="fight-number">3</div>
-              <textarea class="mask-textarea" placeholder="Мой план борьбы..."></textarea>
-            </div>
-          </div>
-          <div style="text-align: center; margin-top: 14px;">
-            <button class="btn" id="btn-fight-submit" style="padding: 12px 28px; font-size: 16px;">Готово ✓</button>
-          </div>
+        <div class="fear-mask" data-fear="reject">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Меня отвергнут</div>
         </div>
+        <div class="fear-mask" data-fear="worth">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Я недостаточно важен(на)</div>
+        </div>
+        <div class="fear-mask" data-fear="incompetent">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Покажусь некомпетентным</div>
+        </div>
+        <div class="fear-mask" data-fear="pushy">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Буду навязчивым</div>
+        </div>
+        <div class="fear-mask" data-fear="everyone">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Все уже знают друг друга</div>
+        </div>
+        <div class="fear-mask" data-fear="awkward">
+          <div class="fear-mask-face">🎭</div>
+          <div class="fear-mask-text">Потом будет неловко</div>
+        </div>
+        <div class="fear-mask fear-mask-custom" data-fear="custom">
+          <div class="fear-mask-face">✏️</div>
+          <div class="fear-mask-text">Свой вариант</div>
+          <input type="text" class="fear-custom-input" placeholder="Напиши свой страх..." style="display:none;">
+        </div>
+      </div>
 
+      <!-- Валидации -->
+      <div id="fears-validations" style="display:none; margin-top: 20px;">
+        <h3 style="text-align: center; font-size: 18px; margin-bottom: 12px;">🤝 Ты не один</h3>
+        <div class="fears-validation-list" id="fears-validation-list"></div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+        <button class="btn" id="btn-unmask" style="display:none; padding: 12px 28px; font-size: 16px;">Снять маски 🎭</button>
+        <button class="btn secondary" id="btn-no-fear" style="padding: 12px 28px; font-size: 16px;">Мне ничего не страшно 😎</button>
       </div>
     </div>
 
-    <!-- ПАНЕЛЬ — теория -->
-    <div class="panel">
-      <div class="panel-tag">Теория</div>
-      <h2>С чего начинается нетворкинг</h2>
-      <p>Нетворкинг начинается с признания своих страхов.</p>
-      <p>У каждого из нас есть внутренние барьеры, которые мешают подойти к незнакомому человеку. Это нормально. Но пока ты не назовёшь их — они управляют тобой.</p>
-      <p style="margin-top: 8px;"><strong>Задание:</strong></p>
-      <ol>
-        <li>Нажми на каждую маску, чтобы снять её</li>
-        <li>Запиши свой страх в поле под маской</li>
-        <li>Нажми «Снять маски» — появится второй шаг</li>
-        <li>Запиши, как будешь бороться с каждым страхом</li>
-      </ol>
+    <!-- Шаг 2: Стратегии борьбы -->
+    <div id="fears-step2" style="display:none;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <span style="font-size: 36px;">💪</span>
+        <h2 style="font-size: 22px; margin-top: 8px;">Как ты будешь с этим справляться?</h2>
+        <p style="color: var(--text-soft);">Запиши стратегию для каждого страха. Подсказки внутри.</p>
+      </div>
+
+      <div class="fears-strategy-list" id="fears-strategy-list"></div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 20px;">
+        <button class="btn secondary" id="btn-fears-save" style="padding: 12px 24px; font-size: 15px;">💾 Сохранить</button>
+        <button class="btn" id="btn-fears-done" style="padding: 12px 28px; font-size: 16px;">Готово ✓</button>
+      </div>
     </div>
+
+    <!-- Модалка -->
+    <div class="modal-overlay" id="fears-modal">
+      <div class="modal" style="text-align: center; max-width: 480px;">
+        <div style="font-size: 42px; margin-bottom: 8px;">🏆</div>
+        <h3 style="font-size: 20px;">Ты справился!</h3>
+        <p style="line-height: 1.6; margin-top: 8px;">
+          Ты назвал своих призраков по имени, посмотрел им в глаза и написал план борьбы.<br>
+          Это один из самых мощных ритуалов подготовки к нетворкингу.
+        </p>
+        <p class="note" style="margin-top: 8px; font-size: 14px;">+3 ⭐ к уровню нетворкинга</p>
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 14px;">
+          <button class="btn" data-next="screen-14" style="padding: 12px 28px; font-size: 16px;">Продолжить →</button>
+        </div>
+      </div>
+    </div>
+
   </div>
-
-  <!-- Модалка -->
-  <div class="modal-overlay" id="fears-modal">
-    <div class="modal" style="text-align: center;">
-      <div style="font-size: 36px; margin-bottom: 8px;">🏆</div>
-      <h3>Ты справился!</h3>
-      <p style="line-height: 1.5;">
-        Ты назвал своих призраков по имени, посмотрел им в глаза и написал шаги к их укрощению.
-      </p>
-      <p class="note" style="margin-top: 6px;">+2 ⭐ к уровню нетворкинга</p>
-      <div class="actions-row" style="margin-top: 12px; justify-content: center;">
-        <button class="btn secondary">📥 Скачать чек-лист</button>
-        <button class="btn" data-next="screen-14">Продолжить →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
- <!-- Экран 13. С чего начинается нетворкинг -->
-<div class="screen" id="screen-13">
-  <div class="screen-layout" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
-    <div class="panel" style="padding: 28px 32px;">
-      <div style="text-align: center; margin-bottom: 4px;">
-        <span style="font-size: 36px;">🎭</span>
-      </div>
-      <h2 style="text-align: center; font-size: 22px;">Признай свои страхи</h2>
-      <p style="text-align: center; color: var(--text-soft);">
-        Нетворкинг начинается с честности перед собой.<br>
-        Нажми на маску, чтобы открыть её и записать свой страх.
-      </p>
-
-      <div class="mask-grid" id="fear-grid">
-        <div class="mask-card-v2" data-idx="0">
-          <div class="mask-face">
-            <div class="mask-shape">
-              <div class="mask-eyes"><span class="mask-eye">👁️</span><span class="mask-eye">👁️</span></div>
-              <div class="mask-mouth mask-mouth-worry">〰️</div>
-            </div>
-            <div class="mask-label-front">Страх 1</div>
-            <div class="mask-tap-hint">Нажми, чтобы открыть</div>
-          </div>
-          <div class="mask-back">
-            <div class="mask-back-emoji">😰</div>
-            <div class="mask-back-label">Страх 1</div>
-            <textarea class="mask-input-v2" placeholder="Чего ты боишься?"></textarea>
-          </div>
-        </div>
-
-        <div class="mask-card-v2" data-idx="1">
-          <div class="mask-face">
-            <div class="mask-shape">
-              <div class="mask-eyes"><span class="mask-eye">👁️</span><span class="mask-eye">👁️</span></div>
-              <div class="mask-mouth mask-mouth-sad">🙁</div>
-            </div>
-            <div class="mask-label-front">Страх 2</div>
-            <div class="mask-tap-hint">Нажми, чтобы открыть</div>
-          </div>
-          <div class="mask-back">
-            <div class="mask-back-emoji">😟</div>
-            <div class="mask-back-label">Страх 2</div>
-            <textarea class="mask-input-v2" placeholder="Что тебя пугает?"></textarea>
-          </div>
-        </div>
-
-        <div class="mask-card-v2" data-idx="2">
-          <div class="mask-face">
-            <div class="mask-shape">
-              <div class="mask-eyes"><span class="mask-eye">👁️</span><span class="mask-eye">👁️</span></div>
-              <div class="mask-mouth mask-mouth-shock">😶</div>
-            </div>
-            <div class="mask-label-front">Страх 3</div>
-            <div class="mask-tap-hint">Нажми, чтобы открыть</div>
-          </div>
-          <div class="mask-back">
-            <div class="mask-back-emoji">😨</div>
-            <div class="mask-back-label">Страх 3</div>
-            <textarea class="mask-input-v2" placeholder="Что вызывает тревогу?"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <div class="actions-row" style="justify-content: center; margin-top: 10px;">
-        <button class="btn" id="btn-fears-submit">Снять маски 🎭</button>
-      </div>
-
-      <!-- Второй шаг -->
-      <div id="fears-second-step" style="display:none; margin-top: 16px;">
-        <div style="text-align: center; margin-bottom: 8px;">
-          <span style="font-size: 28px;">💪</span>
-          <h3 style="font-size: 18px; margin-top: 4px;">Как ты будешь бороться?</h3>
-          <p style="color: var(--text-soft); font-size: 13px;">Запиши действие против каждого страха</p>
-        </div>
-
-        <div class="fight-grid" id="fight-grid">
-          <div class="fight-card">
-            <div class="fight-number">1</div>
-            <textarea class="mask-input-v2" placeholder="Мой план борьбы..."></textarea>
-          </div>
-          <div class="fight-card">
-            <div class="fight-number">2</div>
-            <textarea class="mask-input-v2" placeholder="Мой план борьбы..."></textarea>
-          </div>
-          <div class="fight-card">
-            <div class="fight-number">3</div>
-            <textarea class="mask-input-v2" placeholder="Мой план борьбы..."></textarea>
-          </div>
-        </div>
-
-        <div class="actions-row" style="justify-content: center; margin-top: 10px;">
-          <button class="btn" id="btn-fight-submit">Готово ✓</button>
-        </div>
-      </div>
-
-      <!-- Модалка -->
-      <div class="modal-overlay" id="fears-modal">
-        <div class="modal" style="text-align: center;">
-          <div style="font-size: 36px; margin-bottom: 8px;">🏆</div>
-          <h3>Ты справился!</h3>
-          <p style="line-height: 1.5;">
-            Ты назвал своих призраков по имени, посмотрел им в глаза и написал шаги к их укрощению.
-            Это один из самых мощных ритуалов в нетворкинге.
-          </p>
-                  <div class="actions-row" style="margin-top: 12px; justify-content: center;">
-            <button class="btn secondary">📥 Скачать чек-лист</button>
-            <button class="btn" data-next="screen-14">Продолжить →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- Экран 14. Колесо баланса -->
 <div class="screen" id="screen-14">
 <div class="screen-layout">
