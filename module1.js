@@ -318,36 +318,49 @@ function initLaptopHotspot() {
   }
 
   function renderBeadsStage() {
-    const stageIndex = state.beads.stage - 1;
-    const stage = beadsStages[stageIndex];
-    const pool = document.getElementById('beads-pool');
-    const target = document.getElementById('beads-target');
-    const feedback = document.getElementById('beads-feedback');
-    const label = document.getElementById('beads-stage-label');
+  const stageIndex = state.beads.stage - 1;
+  const stage = beadsStages[stageIndex];
+  const pool = document.getElementById('beads-pool');
+  const target = document.getElementById('beads-target');
+  const feedback = document.getElementById('beads-feedback');
+  const label = document.getElementById('beads-stage-label');
+  const hint = document.getElementById('beads-hint');
 
-    if (!stage) return;
+  if (!stage) return;
 
-    label.textContent = String(state.beads.stage);
+  label.textContent = String(state.beads.stage);
 
-    pool.innerHTML = '';
-    target.innerHTML = '';
-    feedback.textContent = '';
-    feedback.classList.remove('error');
+  pool.innerHTML = '';
+  target.innerHTML = '';
+  feedback.textContent = '';
+  feedback.classList.remove('error');
 
-    const letters = stage.word.split('');
-    const shuffled = shuffleArray(letters);
-
-    shuffled.forEach((ch) => {
-      const el = document.createElement('div');
-      el.className = 'bead';
-      el.textContent = ch;
-      el.draggable = true;
-      el.dataset.letter = ch;
-      pool.appendChild(el);
-    });
-
-    initBeadsDnD();
+  // Генерируем подсказку — показываем ~40% букв
+  var word = stage.word;
+  var hintStr = '';
+  for (var i = 0; i < word.length; i++) {
+    if (i === 0 || i === word.length - 1 || i === word.length - 2 || i === word.length - 3) {
+      hintStr += word[i];
+    } else {
+      hintStr += '_';
+    }
   }
+  if (hint) hint.textContent = hintStr;
+
+  const letters = stage.word.split('');
+  const shuffled = shuffleArray(letters);
+
+  shuffled.forEach((ch) => {
+    const el = document.createElement('div');
+    el.className = 'bead';
+    el.textContent = ch;
+    el.draggable = true;
+    el.dataset.letter = ch;
+    pool.appendChild(el);
+  });
+
+  initBeadsDnD();
+}
 
   function initBeadsDnD() {
     const pool = document.getElementById('beads-pool');
