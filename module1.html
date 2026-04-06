@@ -123,39 +123,114 @@
       <div id="quiz-result" class="quiz-result" style="display:none;"></div>
     </div>
   </div>
-<!-- Экран 3. Комната Златы -->
+<!-- Экран 3. Знакомство со Златой -->
 <div class="screen" id="screen-3">
-<div class="screen-layout">
-<div class="scene">
-<div class="scene-header">
-<span class="tagline">Экран 3 • Комната Златы</span>
+  <button class="btn secondary nav-back" data-prev>← Назад</button>
+
+  <div style="display:flex; justify-content:center; padding:10px 0;">
+
+    <!-- Карточка с флипом -->
+    <div class="zlata-card-wrapper" id="zlata-card-wrapper">
+      <div class="zlata-card" id="zlata-card">
+
+        <!-- ЛИЦЕВАЯ СТОРОНА -->
+        <div class="zlata-front">
+          <!-- Аватар -->
+          <div class="zlata-avatar">
+            <div class="zlata-avatar-circle">👩‍💼</div>
+          </div>
+
+          <!-- Инфо -->
+          <div class="zlata-name">Злата Ковальчук</div>
+          <div class="zlata-role">Специалист отдела маркетинга</div>
+          <div class="zlata-badge-new">🆕 Недавно в компании</div>
+
+          <!-- Цитата -->
+          <div class="zlata-quote">
+            «Я продвигаю препараты, которые реально помогают врачам лечить пациентов эффективнее»
+          </div>
+
+          <!-- Инвентарь -->
+          <div class="zlata-inventory">
+            <div class="zlata-inv-item active" id="inv-laptop" title="Ноутбук — нажми!">
+              <span>💻</span>
+              <small>Ноутбук</small>
+            </div>
+            <div class="zlata-inv-item locked" id="inv-goal" title="Цель — откроется позже">
+              <span>🎯</span>
+              <small>Цель</small>
+            </div>
+            <div class="zlata-inv-item locked" id="inv-bizcard" title="Визитка — откроется позже">
+              <span>📇</span>
+              <small>Визитка</small>
+            </div>
+            <div class="zlata-inv-item locked" id="inv-phone" title="Телефон — откроется позже">
+              <span>📱</span>
+              <small>Телефон</small>
+            </div>
+            <div class="zlata-inv-item locked" id="inv-bag" title="Сумка — откроется позже">
+              <span>👜</span>
+              <small>Сумка</small>
+            </div>
+            <div class="zlata-inv-item locked" id="inv-map" title="Карта — откроется позже">
+              <span>🗺️</span>
+              <small>Карта</small>
+            </div>
+          </div>
+
+          <div class="zlata-flip-hint">Нажми на карточку, чтобы узнать больше о Злате →</div>
+        </div>
+
+        <!-- ОБРАТНАЯ СТОРОНА -->
+        <div class="zlata-back">
+          <div class="zlata-back-scroll">
+            <h3>Привет, я Злата!</h3>
+            <p>Недавно пришла в фармкомпанию в отдел маркетинга, продвигаю рецептурные препараты. Моя задача — чтобы врачи узнали о наших лекарствах и начали их назначать.</p>
+            <p>В команде все друг друга знают годами. А я — новенькая. И на ближайшую конференцию еду впервые от этой компании.</p>
+
+            <!-- Суперсилы -->
+            <div class="zlata-superpowers">
+              <div class="zlata-sp-title">⚡ Суперсилы Златы</div>
+              <div class="zlata-sp-subtitle">Злата пока не знает, но у неё уже есть суперсилы:</div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">👂</span>
+                <div>
+                  <strong>Умеет слушать</strong>
+                  <span>— не перебивает, искренне интересуется</span>
+                </div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🧠</span>
+                <div>
+                  <strong>Быстро учится</strong>
+                  <span>— за месяц разобралась в новой для себя сфере</span>
+                </div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🤗</span>
+                <div>
+                  <strong>Искренность</strong>
+                  <span>— люди чувствуют, что ей не всё равно</span>
+                </div>
+              </div>
+            </div>
+
+            <p style="margin-top:12px;">Злата немного переживает, но у неё есть цель, энергия и решимость попробовать. <strong>Узнаёшь себя?</strong> Тогда вам точно по пути.</p>
+
+            <div class="zlata-instruction">
+              💻 Нажми на <strong>ноутбук</strong> Златы, чтобы ознакомиться с предстоящим мероприятием
+            </div>
+
+            <div class="zlata-flip-hint">← Нажми, чтобы вернуться</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>
-<div class="scene-main">
-<div class="fake-illustration" id="room-keys-area">
-Иллюстрация комнаты Златы в стиле SIMS2.
-<br>Найди ключи на тумбочке.
-<div class="hotspot" id="keys-hotspot" style="width: 70px; height: 40px; bottom: 20%; left: 35%;">
-<div class="tooltip">Ключи</div>
-</div>
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-tag">Теория</div>
-<h2>Злата собирается на работу</h2>
-<p>
-Привет! Знакомься, это Злата. Она недавно стала представителем компании и немного волнуется.
-Утро уже начинается, птички поют, а по пути на работу она мечтает забежать в кафе за лавандовым рафом.
-</p>
-<p>
-Но сперва — небольшое задание: <strong>найди ключи</strong>, чтобы выйти из дома.
-</p>
-<div class="note">
-Нажми на интерактивную зону с ключами на тумбочке.
-</div>
-</div>
-</div>
-</div>
+
 
 
   <!-- Экран 4. Кафе -->
