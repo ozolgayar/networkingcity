@@ -110,30 +110,19 @@
 
   <!-- Экран 2. Тест -->
   <div class="screen" id="screen-2">
+    <button class="btn secondary nav-back" data-prev>← Назад</button>
 
-<div class="screen-layout">
-<div class="scene">
-<div class="scene-header">
-<span class="tagline">Тест. Оцени свой уровень нетворкинга</span>
-</div>
-<div class="scene-main">
-<div class="quiz-container" id="quiz-container">
-<div class="quiz-progress" id="quiz-progress">Вопрос 1 из 10</div>
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-tag">Тест</div>
-<h2>Тест: твой уровень нетворкинга</h2>
-<p>Ответь на 10 вопросов — узнаешь, насколько ты готов к эффективному нетворкингу.</p>
-<p class="note">Вопросы появляются по одному. Выбери один вариант ответа.</p>
-<div class="actions-row" style="justify-content: space-between; margin-top: auto;">
-<button class="btn secondary nav-back" data-prev>Назад</button>
-<button class="btn" id="btn-quiz-next" data-next="screen-3" style="display:none;">Продолжить</button>
-</div>
-</div>
-</div>
-</div>
+    <div class="panel" style="max-width:100%;">
+      <span class="panel-tag">Тест</span>
+      <h2>Тест: твой уровень нетворкинга</h2>
+      <p>Ответь на 10 вопросов — узнаешь, насколько ты готов к эффективному нетворкингу.</p>
+      <p class="small-label">Вопросы появляются по одному. Выбери один вариант ответа.</p>
+
+      <div class="quiz-progress" id="quiz-progress">Вопрос 1 из 10</div>
+      <div id="quiz-area"></div>
+      <div id="quiz-result" class="quiz-result" style="display:none;"></div>
+    </div>
+  </div>
 <!-- Экран 3. Комната Златы -->
 <div class="screen" id="screen-3">
 <div class="screen-layout">
