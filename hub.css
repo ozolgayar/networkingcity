@@ -188,7 +188,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
 .wisdom-points {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 8;
   pointer-events: none;
 }
 
@@ -258,7 +258,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
   color: #e2e8f0;
   font-size: 13px;
   line-height: 1.55;
-  z-index: 20;
+  z-index: 30;
   pointer-events: none;
   animation: wp-tooltip-in 0.3s ease-out;
 }
