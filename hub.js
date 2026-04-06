@@ -154,12 +154,28 @@ document.getElementById('btn-dive').addEventListener('click', function() {
       var msg = point.getAttribute('data-msg');
       tooltip.textContent = msg;
 
-        // Позиционируем тултип по центру экрана
-      var containerRect = document.getElementById('wisdom-points').getBoundingClientRect();
-      var tooltipW = 280;
-      var tooltipH = 160;
-      tooltip.style.left = ((containerRect.width - tooltipW) / 2) + 'px';
-      tooltip.style.top = ((containerRect.height - tooltipH) / 2) + 'px';
+        // Позиционируем тултип рядом с точкой
+      var container = document.getElementById('wisdom-points');
+      var containerRect = container.getBoundingClientRect();
+      var pointRect = point.getBoundingClientRect();
+      var tooltipW = 260;
+
+      var px = pointRect.left - containerRect.left + pointRect.width / 2;
+      var leftPos = px - tooltipW / 2;
+
+      if (leftPos < 16) leftPos = 16;
+      if (leftPos + tooltipW > containerRect.width - 16) {
+        leftPos = containerRect.width - tooltipW - 16;
+      }
+
+      var py = pointRect.top - containerRect.top + pointRect.height + 12;
+
+      if (py + 120 > containerRect.height) {
+        py = pointRect.top - containerRect.top - 120;
+      }
+
+      tooltip.style.left = leftPos + 'px';
+      tooltip.style.top = py + 'px';
       tooltip.style.width = tooltipW + 'px';
       
       
