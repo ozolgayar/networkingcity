@@ -1828,6 +1828,7 @@ color: #1e293b;
 .zlata-front {
   position: relative;
   width: 100%;
+     min-height: 680px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   border-radius: 18px;
@@ -1888,8 +1889,8 @@ color: #1e293b;
   margin-bottom: 12px;
 }
 .zlata-avatar-circle {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 0 24px rgba(34, 197, 94, 0.4);
