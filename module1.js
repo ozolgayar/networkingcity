@@ -28,18 +28,21 @@ function showScreen(id) {
   const screenEl = document.getElementById(id);
   if (screenEl) screenEl.classList.add('active');
   
-  // Трекинг прогресса
   state.screensVisited[id] = true;
   updateHud();
   
-  // Если финальный экран — отмечаем модуль пройденным
   if (id === 'screen-final') {
     localStorage.setItem('nc_mod1_status', 'complete');
     localStorage.setItem('nc_mod1_progress', '100');
     document.getElementById('final-score').textContent = state.score;
   }
-  // Инициализация экранов при показе
+
+// Инициализация экранов при показе
   if (id === 'screen-13') initFears();
+  if (id === 'screen-14') initWheel();
+  if (id === 'screen-15') {
+    renderWheel('resultWheelSvg', state.wheel.values, -1);
+  }
 }
   function clamp(v, min, max) {
     return Math.max(min, Math.min(max, v));
