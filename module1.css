@@ -1883,9 +1883,25 @@ color: #1e293b;
 }
 
 /* Аватар */
-<div class="zlata-avatar-circle">
-  <img src="https://i.ibb.co/mVhvHjvS/1.png" alt="Злата" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
-</div>
+.zlata-avatar {
+  margin-bottom: 12px;
+}
+
+.zlata-avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.4);
+  border: 3px solid #ffffff;
+}
+
+.zlata-avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 /* Инфо */
 .zlata-name {
