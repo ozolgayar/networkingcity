@@ -478,9 +478,12 @@
       gap: 2px;
     }
 
-    .panel li {
+    .panel ul li {
       list-style: disc;
     }
+.panel ol li {
+  list-style: decimal;
+}
 
     .actions-row {
       display: flex;
