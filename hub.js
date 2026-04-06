@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   // Кнопка «Погрузиться»
-  var btnDive = document.getElementById('btn-dive');
-  if (btnDive) {
-    btnDive.addEventListener('click', function() {
-      document.getElementById('hub').scrollIntoView({ behavior: 'smooth' });
-    });
-  }
+document.getElementById('btn-dive').addEventListener('click', function() {
+  // Скрываем обложку
+  document.getElementById('cover').style.display = 'none';
+  // Показываем хаб
+  document.getElementById('hub').style.display = 'block';
+  // Скроллим наверх
+  window.scrollTo(0, 0);
+});
 
   // Скрываем индикатор скролла
   var scrollHint = document.getElementById('scroll-hint');
