@@ -481,28 +481,43 @@ function initLaptopHotspot() {
   }
 
   // ===== Экран 13: страхи =====
-  function initFears() {
-    const btnFears = document.getElementById('btn-fears-submit');
-    const secondStep = document.getElementById('fears-second-step');
-    const btnFight = document.getElementById('btn-fight-submit');
-    const modal = document.getElementById('fears-modal');
+ function initFears() {
+  var btnFears = document.getElementById('btn-fears-submit');
+  var secondStep = document.getElementById('fears-second-step');
+  var btnFight = document.getElementById('btn-fight-submit');
+  var modal = document.getElementById('fears-modal');
+  var cards = document.querySelectorAll('#fear-grid .mask-card-v2');
 
-    btnFears.addEventListener('click', () => {
-      document.querySelectorAll('#fear-grid .mask-card').forEach(card => {
-        card.classList.add('flipped');
-      });
+  // Клик на маску — переворачиваем
+  cards.forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      // Не переворачиваем обратно если кликнули в textarea
+      if (e.target.tagName === 'TEXTAREA') return;
+      card.classList.toggle('flipped');
+    });
+  });
+
+  btnFears.addEventListener('click', function() {
+    // Переворачиваем все маски
+    cards.forEach(function(card) {
+      card.classList.add('flipped');
+    });
+    // Показываем второй шаг
+    setTimeout(function() {
       secondStep.style.display = 'block';
-    });
+      secondStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 400);
+  });
 
-    btnFight.addEventListener('click', () => {
-      addScore(2);
-      modal.classList.add('active');
-    });
+  btnFight.addEventListener('click', function() {
+    addScore(2);
+    modal.classList.add('active');
+  });
 
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-  }
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+}
 
   // ===== Экран 14: колесо баланса =====
   // ===== SVG-колесо: вспомогательные функции =====
