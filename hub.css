@@ -495,3 +495,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f172
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
+/* Плавная смена цитат */
+.hub-quote-text,
+.hub-quote-author {
+  transition: opacity 0.5s ease;
+}
