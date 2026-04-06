@@ -133,7 +133,7 @@ document.getElementById('btn-dive').addEventListener('click', function() {
     observer.observe(card);
   });
 
-});
+
  // ===== Мерцающие пойнты с посланиями =====
   var tooltip = document.getElementById('wisdom-tooltip');
   var points = document.querySelectorAll('.wisdom-point');
@@ -188,3 +188,4 @@ document.getElementById('btn-dive').addEventListener('click', function() {
     tooltip.classList.remove('active');
     activePoint = null;
   });
+});
