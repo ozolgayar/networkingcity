@@ -1572,4 +1572,3 @@ document.addEventListener('DOMContentLoaded', function() {
   if (activeScreen && activeScreen.id === 'screen-13') {
     initFears();
   }
-});
