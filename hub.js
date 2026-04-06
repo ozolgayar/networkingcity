@@ -162,20 +162,7 @@ document.getElementById('btn-dive').addEventListener('click', function() {
       tooltip.style.top = ((containerRect.height - tooltipH) / 2) + 'px';
       tooltip.style.width = tooltipW + 'px';
       
-      // Проверяем, не выходит ли тултип за правый край
-      if (pointX + 140 > containerRect.width) {
-        tooltip.style.left = (pointX - 260) + 'px';
-      } else {
-        tooltip.style.left = (pointX - 20) + 'px';
-      }
-
-      // Проверяем, не выходит ли за нижний край
-      if (pointY + 150 > containerRect.height) {
-        tooltip.style.top = (rect.top - containerRect.top - 120) + 'px';
-      } else {
-        tooltip.style.top = (pointY + 10) + 'px';
-      }
-
+      
       tooltip.classList.remove('active');
       // Форсируем reflow для повторной анимации
       void tooltip.offsetWidth;
