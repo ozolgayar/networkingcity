@@ -211,11 +211,23 @@ function addScore(delta) {
       startQuiz();
     }
   }
-  // ===== Экран 3: поиск ключей =====
+  // ===== Экран 3: Знакомство со Златой =====
   function initKeysGame() {
-    const hotspot = document.getElementById('keys-hotspot');
-    hotspot.addEventListener('click', () => {
-      showScreen('screen-4');
+    var card = document.getElementById('zlata-card');
+    var wrapper = document.getElementById('zlata-card-wrapper');
+    var laptop = document.getElementById('inv-laptop');
+
+    // Флип карточки
+    wrapper.addEventListener('click', function(e) {
+      // Если нажали на ноутбук — не флипаем, переходим
+      if (e.target.closest('#inv-laptop')) return;
+      card.classList.toggle('flipped');
+    });
+
+    // Ноутбук — переход на экран 10
+    laptop.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-10');
     });
   }
 
