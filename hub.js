@@ -134,3 +134,57 @@ document.getElementById('btn-dive').addEventListener('click', function() {
   });
 
 });
+ // ===== Мерцающие пойнты с посланиями =====
+  var tooltip = document.getElementById('wisdom-tooltip');
+  var points = document.querySelectorAll('.wisdom-point');
+  var activePoint = null;
+
+  points.forEach(function(point) {
+    point.addEventListener('click', function(e) {
+      e.stopPropagation();
+
+      // Если кликнули на уже открытый — закрываем
+      if (activePoint === point) {
+        tooltip.classList.remove('active');
+        activePoint = null;
+        return;
+      }
+
+      activePoint = point;
+      var msg = point.getAttribute('data-msg');
+      tooltip.textContent = msg;
+
+      // Позиционируем тултип рядом с точкой
+      var rect = point.getBoundingClientRect();
+      var container = document.getElementById('wisdom-points');
+      var containerRect = container.getBoundingClientRect();
+
+      var pointX = rect.left - containerRect.left + rect.width / 2;
+      var pointY = rect.top - containerRect.top + rect.height;
+
+      // Проверяем, не выходит ли тултип за правый край
+      if (pointX + 140 > containerRect.width) {
+        tooltip.style.left = (pointX - 260) + 'px';
+      } else {
+        tooltip.style.left = (pointX - 20) + 'px';
+      }
+
+      // Проверяем, не выходит ли за нижний край
+      if (pointY + 150 > containerRect.height) {
+        tooltip.style.top = (rect.top - containerRect.top - 120) + 'px';
+      } else {
+        tooltip.style.top = (pointY + 10) + 'px';
+      }
+
+      tooltip.classList.remove('active');
+      // Форсируем reflow для повторной анимации
+      void tooltip.offsetWidth;
+      tooltip.classList.add('active');
+    });
+  });
+
+  // Клик по свободному месту — закрываем тултип
+  document.addEventListener('click', function() {
+    tooltip.classList.remove('active');
+    activePoint = null;
+  });
