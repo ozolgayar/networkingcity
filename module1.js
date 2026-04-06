@@ -38,6 +38,8 @@ function showScreen(id) {
     localStorage.setItem('nc_mod1_progress', '100');
     document.getElementById('final-score').textContent = state.score;
   }
+  // Инициализация экранов при показе
+  if (id === 'screen-13') initFears();
 }
   function clamp(v, min, max) {
     return Math.max(min, Math.min(max, v));
@@ -481,47 +483,70 @@ function initLaptopHotspot() {
   }
 
   // ===== Экран 13: страхи =====
-function initFears() {
-  var fearsData = {
-    say:          { label: 'Не знаю, что сказать',         icon: '😶', validation: 'Этот страх — у 90% людей. Серьёзно. Ты не одинок.', placeholder: 'Пример: «Выучу 3 фразы-открывашки из курса и буду держать их в голове»' },
-    reject:       { label: 'Меня отвергнут',               icon: '😔', validation: 'Страх отказа — один из самых древних. Ты храбрее, чем думаешь, раз признаёшь его.', placeholder: 'Пример: «Напомню себе: отказ — это не про меня, а про обстоятельства человека»' },
-    worth:        { label: 'Я недостаточно важен(на)',      icon: '🥺', validation: 'Синдром самозванца. Он есть даже у спикеров на сцене.', placeholder: 'Пример: «Подготовлю рассказ о себе, в котором мой опыт звучит ценно»' },
-    incompetent:  { label: 'Покажусь некомпетентным',       icon: '😰', validation: 'Знать всё невозможно. А вот задать умный вопрос — это и есть компетентность.', placeholder: 'Пример: «Разрешу себе говорить "не знаю, но мне интересно узнать"»' },
-    pushy:        { label: 'Буду навязчивым',               icon: '😬', validation: 'Тот факт, что ты об этом думаешь, уже означает, что навязчивым ты не будешь.', placeholder: 'Пример: «Буду задавать вопросы, а не рассказывать. Интерес — не навязчивость»' },
-    everyone:     { label: 'Все уже знают друг друга',      icon: '👥', validation: 'На любой конференции минимум 30% людей не знают никого. Они просто хорошо притворяются.', placeholder: 'Пример: «Найду одного человека, который тоже стоит один — и подойду к нему»' },
-    awkward:      { label: 'Потом будет неловко',           icon: '😳', validation: 'Хорошая новость: есть конкретные формулы, не нужно ничего придумывать.', placeholder: 'Пример: «Напишу follow-up в тот же вечер по формуле из курса»' },
-    custom:       { label: 'Свой вариант',                  icon: '✏️', validation: 'Ты честен с собой — это уже шаг к преодолению.', placeholder: 'Как ты будешь с этим справляться?' }
-  };
+var fearsInitialized = false;
 
-  var selected = [];
+function initFears() {
+  if (fearsInitialized) return;
+  
   var masks = document.querySelectorAll('#fear-masks-grid .fear-mask');
   var btnUnmask = document.getElementById('btn-unmask');
   var btnNoFear = document.getElementById('btn-no-fear');
   var validationsBox = document.getElementById('fears-validations');
   var validationsList = document.getElementById('fears-validation-list');
-  var step1 = document.getElementById('fears-step1');
   var step2 = document.getElementById('fears-step2');
   var strategyList = document.getElementById('fears-strategy-list');
   var btnSave = document.getElementById('btn-fears-save');
   var btnDone = document.getElementById('btn-fears-done');
   var modal = document.getElementById('fears-modal');
 
+  // Проверяем что элементы найдены
+  if (!masks.length || !btnUnmask || !btnNoFear) {
+    console.warn('initFears: elements not found, will retry on screen show');
+    return;
+  }
+
+  fearsInitialized = true;
+  console.log('initFears: initialized with', masks.length, 'masks');
+
+  var fearsData = {
+    say:         { label: 'Не знаю, что сказать',      icon: '😶', validation: 'Этот страх — у 90% людей. Серьёзно. Ты не одинок.', placeholder: 'Пример: «Выучу 3 фразы-открывашки из курса и буду держать их в голове»' },
+    reject:      { label: 'Меня отвергнут',             icon: '😔', validation: 'Страх отказа — один из самых древних. Ты храбрее, чем думаешь, раз признаёшь его.', placeholder: 'Пример: «Напомню себе: отказ — это не про меня, а про обстоятельства человека»' },
+    worth:       { label: 'Я недостаточно важен(на)',    icon: '🥺', validation: 'Синдром самозванца. Он есть даже у спикеров на сцене.', placeholder: 'Пример: «Подготовлю рассказ о себе, в котором мой опыт звучит ценно»' },
+    incompetent: { label: 'Покажусь некомпетентным',     icon: '😰', validation: 'Знать всё невозможно. А вот задать умный вопрос — это и есть компетентность.', placeholder: 'Пример: «Разрешу себе говорить "не знаю, но мне интересно узнать"»' },
+    pushy:       { label: 'Буду навязчивым',             icon: '😬', validation: 'Тот факт, что ты об этом думаешь, уже означает, что навязчивым ты не будешь.', placeholder: 'Пример: «Буду задавать вопросы, а не рассказывать. Интерес — не навязчивость»' },
+    everyone:    { label: 'Все уже знают друг друга',    icon: '👥', validation: 'На любой конференции минимум 30% людей не знают никого. Они просто хорошо притворяются.', placeholder: 'Пример: «Найду одного человека, который тоже стоит один — и подойду к нему»' },
+    awkward:     { label: 'Потом будет неловко',         icon: '😳', validation: 'Хорошая новость: есть конкретные формулы, не нужно ничего придумывать.', placeholder: 'Пример: «Напишу follow-up в тот же вечер по формуле из курса»' },
+    custom:      { label: 'Свой вариант',                icon: '✏️', validation: 'Ты честен с собой — это уже шаг к преодолению.', placeholder: 'Как ты будешь с этим справляться?' }
+  };
+
+  var selected = [];
+
+  // Клик по маскам
   masks.forEach(function(mask) {
-    mask.addEventListener('click', function() {
+    mask.addEventListener('click', function(e) {
+      // Не реагируем на клик по input
+      if (e.target.tagName === 'INPUT') return;
+
       var fear = mask.dataset.fear;
+
       if (mask.classList.contains('selected')) {
+        // Снимаем выбор
         mask.classList.remove('selected');
         selected = selected.filter(function(f) { return f !== fear; });
         if (fear === 'custom') {
-          mask.querySelector('.fear-custom-input').style.display = 'none';
+          var inp = mask.querySelector('.fear-custom-input');
+          if (inp) inp.style.display = 'none';
         }
       } else {
+        // Выбираем
         mask.classList.add('selected');
         selected.push(fear);
         if (fear === 'custom') {
-          var inp = mask.querySelector('.fear-custom-input');
-          inp.style.display = 'block';
-          inp.focus();
+          var inp2 = mask.querySelector('.fear-custom-input');
+          if (inp2) {
+            inp2.style.display = 'block';
+            setTimeout(function() { inp2.focus(); }, 100);
+          }
         }
       }
 
@@ -541,7 +566,8 @@ function initFears() {
     selected.forEach(function(fear) {
       var d = fearsData[fear];
       if (!d) return;
-      var label = fear === 'custom' ? (document.querySelector('.fear-custom-input').value || 'Свой вариант') : d.label;
+      var customInput = document.querySelector('.fear-custom-input');
+      var label = (fear === 'custom' && customInput) ? (customInput.value || 'Свой вариант') : d.label;
       var item = document.createElement('div');
       item.className = 'fear-validation-item';
       item.innerHTML =
@@ -554,12 +580,12 @@ function initFears() {
 
   // Снять маски → шаг 2
   btnUnmask.addEventListener('click', function() {
-    step1.querySelector('div:last-child').style.display = 'none'; // скрыть кнопки
     strategyList.innerHTML = '';
     selected.forEach(function(fear) {
       var d = fearsData[fear];
       if (!d) return;
-      var label = fear === 'custom' ? (document.querySelector('.fear-custom-input').value || 'Свой вариант') : d.label;
+      var customInput = document.querySelector('.fear-custom-input');
+      var label = (fear === 'custom' && customInput) ? (customInput.value || 'Свой вариант') : d.label;
       var card = document.createElement('div');
       card.className = 'fear-strategy-card';
       card.innerHTML =
@@ -1556,7 +1582,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initLaptopHotspot();
     initPurposeScreen();
     initBeadsGame();
-    initFears();
     initWheel();
     initWheelSummary();
     initPeopleDrag();
