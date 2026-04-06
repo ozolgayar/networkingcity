@@ -481,28 +481,36 @@ function initLaptopHotspot() {
   }
 
   // ===== Экран 13: страхи =====
- function initFears() {
+function initFears() {
   var btnFears = document.getElementById('btn-fears-submit');
   var secondStep = document.getElementById('fears-second-step');
   var btnFight = document.getElementById('btn-fight-submit');
   var modal = document.getElementById('fears-modal');
-  var cards = document.querySelectorAll('#fear-grid .mask-card-v2');
+  var items = document.querySelectorAll('#fear-grid .mask-item');
 
-  // Клик на маску — переворачиваем
-  cards.forEach(function(card) {
-    card.addEventListener('click', function(e) {
-      // Не переворачиваем обратно если кликнули в textarea
-      if (e.target.tagName === 'TEXTAREA') return;
-      card.classList.toggle('flipped');
+  console.log('initFears: found', items.length, 'masks');
+
+  // Клик на маску — открываем поле под ней
+  items.forEach(function(item) {
+    var face = item.querySelector('.mask-face-v3');
+    if (!face) { console.warn('no face found'); return; }
+    
+    face.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (item.classList.contains('opened')) return;
+      item.classList.add('opened');
+      var ta = item.querySelector('.mask-textarea');
+      if (ta) setTimeout(function() { ta.focus(); }, 300);
     });
   });
 
+  // Кнопка «Снять все маски»
   btnFears.addEventListener('click', function() {
-    // Переворачиваем все маски
-    cards.forEach(function(card) {
-      card.classList.add('flipped');
+    items.forEach(function(item) {
+      if (!item.classList.contains('opened')) {
+        item.classList.add('opened');
+      }
     });
-    // Показываем второй шаг
     setTimeout(function() {
       secondStep.style.display = 'block';
       secondStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
