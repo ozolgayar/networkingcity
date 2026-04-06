@@ -317,41 +317,51 @@ function initLaptopHotspot() {
       .map(({ v }) => v);
   }
 
-  function renderBeadsStage() {
-  const stageIndex = state.beads.stage - 1;
-  const stage = beadsStages[stageIndex];
-  const pool = document.getElementById('beads-pool');
-  const target = document.getElementById('beads-target');
-  const feedback = document.getElementById('beads-feedback');
-  const label = document.getElementById('beads-stage-label');
-  const hint = document.getElementById('beads-hint');
+ function renderBeadsStage() {
+  var stageIndex = state.beads.stage - 1;
+  var stage = beadsStages[stageIndex];
+  var pool = document.getElementById('beads-pool');
+  var target = document.getElementById('beads-target');
+  var feedback = document.getElementById('beads-feedback');
+  var label = document.getElementById('beads-stage-label');
+  var hint = document.getElementById('beads-hint');
 
   if (!stage) return;
 
   label.textContent = String(state.beads.stage);
+
+  // Обновляем точки этапов
+  for (var d = 1; d <= 3; d++) {
+    var dot = document.getElementById('dot-' + d);
+    if (!dot) continue;
+    dot.classList.remove('active', 'done');
+    if (d < state.beads.stage) dot.classList.add('done');
+    else if (d === state.beads.stage) dot.classList.add('active');
+  }
 
   pool.innerHTML = '';
   target.innerHTML = '';
   feedback.textContent = '';
   feedback.classList.remove('error');
 
-  // Генерируем подсказку — показываем ~40% букв
+  // Подсказка
   var word = stage.word;
   var hintStr = '';
+  var showCount = Math.ceil(word.length * 0.35);
+  var showIndexes = [0, word.length - 1];
+  for (var s = 1; showIndexes.length < showCount && s < word.length - 1; s += 2) {
+    showIndexes.push(s);
+  }
   for (var i = 0; i < word.length; i++) {
-    if (i === 0 || i === word.length - 1 || i === word.length - 2 || i === word.length - 3) {
-      hintStr += word[i];
-    } else {
-      hintStr += '_';
-    }
+    hintStr += showIndexes.indexOf(i) !== -1 ? word[i] : ' _';
   }
   if (hint) hint.textContent = hintStr;
 
-  const letters = stage.word.split('');
-  const shuffled = shuffleArray(letters);
+  var letters = stage.word.split('');
+  var shuffled = shuffleArray(letters);
 
-  shuffled.forEach((ch) => {
-    const el = document.createElement('div');
+  shuffled.forEach(function(ch) {
+    var el = document.createElement('div');
     el.className = 'bead';
     el.textContent = ch;
     el.draggable = true;
@@ -361,7 +371,6 @@ function initLaptopHotspot() {
 
   initBeadsDnD();
 }
-
   function initBeadsDnD() {
     const pool = document.getElementById('beads-pool');
     const target = document.getElementById('beads-target');
