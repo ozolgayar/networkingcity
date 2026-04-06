@@ -212,10 +212,16 @@ function addScore(delta) {
     }
   }
   // ===== Экран 3: Знакомство со Златой =====
-  function initKeysGame() {
+   function initKeysGame() {
     var card = document.getElementById('zlata-card');
     var wrapper = document.getElementById('zlata-card-wrapper');
     var laptop = document.getElementById('inv-laptop');
+
+    // Защита — если элементов нет, выходим
+    if (!card || !wrapper || !laptop) {
+      console.warn('initKeysGame: элементы карточки Златы не найдены');
+      return;
+    }
 
     // Флип карточки
     wrapper.addEventListener('click', function(e) {
