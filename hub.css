@@ -251,8 +251,8 @@ body {
 
 .wisdom-point {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,86 +262,93 @@ body {
 
 .wp-dot {
   position: relative;
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #86efac, #22c55e 40%, #15803d);
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.8),
-    0 0 12px rgba(34,197,94,0.7),
-    0 0 24px rgba(34,197,94,0.5),
-    0 0 40px rgba(34,197,94,0.3);
-  animation: dotPulse 2.5s ease-in-out infinite;
+  background: #22c55e;
+  box-shadow: none;
+  animation: dotPulse 3s ease-in-out infinite;
 }
 
-/* Внешнее кольцо-ореол */
+/* Мягкое размытое свечение — как на скрине */
 .wp-dot::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(34,197,94,0.25), transparent 70%);
-  animation: dotHalo 2.5s ease-in-out infinite;
+  background: #22c55e;
+  filter: blur(16px);
+  opacity: 0.7;
   pointer-events: none;
+  animation: dotHalo 3s ease-in-out infinite;
 }
 
-/* Внутренний блик */
+/* Дальний ореол */
 .wp-dot::after {
   content: '';
   position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 4px;
-  height: 4px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.9);
-  filter: blur(1px);
+  background: #22c55e;
+  filter: blur(30px);
+  opacity: 0.3;
+  pointer-events: none;
+  animation: dotHalo 3s ease-in-out infinite;
 }
 
-.wisdom-point:nth-child(odd) .wp-dot { animation-delay: 0.5s; }
-.wisdom-point:nth-child(odd) .wp-dot::before { animation-delay: 0.5s; }
-.wisdom-point:nth-child(3n) .wp-dot { animation-delay: 1.2s; }
-.wisdom-point:nth-child(3n) .wp-dot::before { animation-delay: 1.2s; }
-.wisdom-point:nth-child(4n) .wp-dot { animation-delay: 1.8s; }
-.wisdom-point:nth-child(4n) .wp-dot::before { animation-delay: 1.8s; }
+.wisdom-point:nth-child(odd) .wp-dot,
+.wisdom-point:nth-child(odd) .wp-dot::before,
+.wisdom-point:nth-child(odd) .wp-dot::after { animation-delay: 0.6s; }
+
+.wisdom-point:nth-child(3n) .wp-dot,
+.wisdom-point:nth-child(3n) .wp-dot::before,
+.wisdom-point:nth-child(3n) .wp-dot::after { animation-delay: 1.4s; }
+
+.wisdom-point:nth-child(4n) .wp-dot,
+.wisdom-point:nth-child(4n) .wp-dot::before,
+.wisdom-point:nth-child(4n) .wp-dot::after { animation-delay: 2.1s; }
+
+.wisdom-point:nth-child(5n) .wp-dot,
+.wisdom-point:nth-child(5n) .wp-dot::before,
+.wisdom-point:nth-child(5n) .wp-dot::after { animation-delay: 0.3s; }
 
 @keyframes dotPulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow:
-      0 0 0 2px rgba(255,255,255,0.8),
-      0 0 12px rgba(34,197,94,0.7),
-      0 0 24px rgba(34,197,94,0.5),
-      0 0 40px rgba(34,197,94,0.3);
+    opacity: 0.85;
   }
   50% {
-    transform: scale(1.25);
-    box-shadow:
-      0 0 0 2px rgba(255,255,255,0.9),
-      0 0 20px rgba(34,197,94,0.9),
-      0 0 40px rgba(34,197,94,0.7),
-      0 0 60px rgba(34,197,94,0.4);
+    transform: scale(1.15);
+    opacity: 1;
   }
 }
 
 @keyframes dotHalo {
   0%, 100% {
     transform: translate(-50%, -50%) scale(1);
-    opacity: 0.4;
+    opacity: 0.6;
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.8);
-    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.25;
   }
 }
 
 .wisdom-point:hover .wp-dot {
-  transform: scale(1.4);
-  transition: transform 0.2s;
+  transform: scale(1.3);
+  transition: transform 0.2s ease;
+}
+.wisdom-point:hover .wp-dot::before {
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
 }
 
 .wisdom-tooltip {
