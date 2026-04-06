@@ -2,12 +2,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Кнопка «Погрузиться»
 document.getElementById('btn-dive').addEventListener('click', function() {
-  // Скрываем обложку
-  document.getElementById('cover').style.display = 'none';
-  // Показываем хаб
-  document.getElementById('hub').style.display = 'block';
-  // Скроллим наверх
-  window.scrollTo(0, 0);
+  var hub = document.getElementById('hub');
+  hub.style.display = 'block';
+  // Плавно появляется
+  hub.style.opacity = '0';
+  hub.style.transition = 'opacity 0.5s ease';
+  setTimeout(function() {
+    hub.style.opacity = '1';
+    hub.scrollIntoView({ behavior: 'smooth' });
+  }, 50);
 });
 
   // Скрываем индикатор скролла
