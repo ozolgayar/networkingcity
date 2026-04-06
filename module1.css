@@ -483,8 +483,14 @@
     }
 .panel ol li {
   list-style: decimal;
+    }
+.panel ol {
+  margin-left: 16px;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-
     .actions-row {
       display: flex;
       gap: 8px;
