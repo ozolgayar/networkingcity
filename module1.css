@@ -1806,3 +1806,248 @@ color: #1e293b;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+/* ===== Экран 3: Карточка Златы ===== */
+.zlata-card-wrapper {
+  perspective: 1200px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.zlata-card {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s ease;
+  cursor: pointer;
+}
+
+.zlata-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.zlata-front,
+.zlata-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.zlata-front {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.zlata-back {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f8fafc);
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.1);
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+.zlata-back-scroll {
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.zlata-back-scroll::-webkit-scrollbar { width: 5px; }
+.zlata-back-scroll::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
+
+.zlata-back-scroll h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+/* Аватар */
+.zlata-avatar {
+  margin-bottom: 12px;
+}
+
+.zlata-avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e 60%, #166534);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.4);
+  border: 3px solid #ffffff;
+}
+
+/* Инфо */
+.zlata-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.zlata-role {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.zlata-badge-new {
+  margin-top: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #166534;
+}
+
+/* Цитата */
+.zlata-quote {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(34, 197, 94, 0.06);
+  border-left: 3px solid #22c55e;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* Инвентарь */
+.zlata-inventory {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.zlata-inv-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  font-size: 22px;
+  transition: all 0.2s ease;
+}
+
+.zlata-inv-item small {
+  font-size: 10px;
+  color: var(--text-soft);
+}
+
+.zlata-inv-item.locked {
+  opacity: 0.35;
+  filter: grayscale(1);
+  cursor: default;
+  pointer-events: none;
+}
+
+.zlata-inv-item.active {
+  border-color: rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.08);
+  cursor: pointer;
+  animation: invPulse 2s ease-in-out infinite;
+}
+
+.zlata-inv-item.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+}
+
+.zlata-inv-item.unlocked {
+  opacity: 1;
+  filter: none;
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.06);
+  pointer-events: none;
+}
+
+@keyframes invPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  50% { box-shadow: 0 0 12px 4px rgba(34, 197, 94, 0.2); }
+}
+
+/* Подсказка переворота */
+.zlata-flip-hint {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 11px;
+  color: var(--text-soft);
+  opacity: 0.6;
+  text-align: center;
+}
+
+/* Суперсилы */
+.zlata-superpowers {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(34, 197, 94, 0.06);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zlata-sp-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.zlata-sp-subtitle {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+.zlata-sp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.zlata-sp-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+/* Инструкция */
+.zlata-instruction {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  font-size: 13px;
+  color: var(--text);
+  text-align: center;
+}
