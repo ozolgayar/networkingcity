@@ -578,7 +578,7 @@ function initFears() {
   // Мне ничего не страшно
   btnNoFear.addEventListener('click', function() {
     addScore(1);
-    goTo('screen-14');
+    showScreen('screen-14');
   });
 
   // Сохранить
@@ -1548,19 +1548,19 @@ function initVenueMap() {
     if (e.target === modal) modal.classList.remove('active');
   });
 }
-   document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     initGlobalNav();
     initMainMenu();
     initQuiz();
     initKeysGame();
-       initLaptopHotspot();
+    initLaptopHotspot();
     initPurposeScreen();
     initBeadsGame();
     initFears();
     initWheel();
     initWheelSummary();
     initPeopleDrag();
-    initLocations();     
+    initLocations();
     initPhotoGame();
     initBizcard();
     initProfileAndSticky();
@@ -1568,3 +1568,8 @@ function initVenueMap() {
     initVenueMap();
     updateHud();
   });
+  var activeScreen = document.querySelector('.screen.active');
+  if (activeScreen && activeScreen.id === 'screen-13') {
+    initFears();
+  }
+});
