@@ -34,23 +34,23 @@ body {
 .cover-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.15;
+  filter: blur(90px);
+  opacity: 0.28;
 }
 .cover-orb-1 {
-  width: 500px; height: 500px;
+  width: 520px; height: 520px;
   background: radial-gradient(circle, #22c55e, transparent 70%);
   top: -10%; left: -10%;
   animation: orbFloat1 20s ease-in-out infinite;
 }
 .cover-orb-2 {
-  width: 400px; height: 400px;
+  width: 440px; height: 440px;
   background: radial-gradient(circle, #38bdf8, transparent 70%);
   bottom: -10%; right: -5%;
   animation: orbFloat2 25s ease-in-out infinite;
 }
 .cover-orb-3 {
-  width: 300px; height: 300px;
+  width: 340px; height: 340px;
   background: radial-gradient(circle, #a78bfa, transparent 70%);
   top: 40%; left: 50%;
   animation: orbFloat3 18s ease-in-out infinite;
@@ -251,27 +251,97 @@ body {
 
 .wisdom-point {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   pointer-events: all;
 }
+
 .wp-dot {
-  width: 8px;
-  height: 8px;
+  position: relative;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: radial-gradient(circle, #22c55e, #16a34a);
-  box-shadow: 0 0 12px rgba(34,197,94,0.6), 0 0 24px rgba(34,197,94,0.3);
-  animation: dotPulse 3s ease-in-out infinite;
+  background: radial-gradient(circle at 30% 30%, #86efac, #22c55e 40%, #15803d);
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.8),
+    0 0 12px rgba(34,197,94,0.7),
+    0 0 24px rgba(34,197,94,0.5),
+    0 0 40px rgba(34,197,94,0.3);
+  animation: dotPulse 2.5s ease-in-out infinite;
 }
+
+/* Внешнее кольцо-ореол */
+.wp-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,197,94,0.25), transparent 70%);
+  animation: dotHalo 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Внутренний блик */
+.wp-dot::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  filter: blur(1px);
+}
+
 .wisdom-point:nth-child(odd) .wp-dot { animation-delay: 0.5s; }
+.wisdom-point:nth-child(odd) .wp-dot::before { animation-delay: 0.5s; }
 .wisdom-point:nth-child(3n) .wp-dot { animation-delay: 1.2s; }
+.wisdom-point:nth-child(3n) .wp-dot::before { animation-delay: 1.2s; }
+.wisdom-point:nth-child(4n) .wp-dot { animation-delay: 1.8s; }
+.wisdom-point:nth-child(4n) .wp-dot::before { animation-delay: 1.8s; }
+
 @keyframes dotPulse {
-  0%,100% { transform:scale(1); opacity:0.6; box-shadow: 0 0 12px rgba(34,197,94,0.6); }
-  50% { transform:scale(1.4); opacity:1; box-shadow: 0 0 20px rgba(34,197,94,0.8), 0 0 40px rgba(34,197,94,0.3); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 2px rgba(255,255,255,0.8),
+      0 0 12px rgba(34,197,94,0.7),
+      0 0 24px rgba(34,197,94,0.5),
+      0 0 40px rgba(34,197,94,0.3);
+  }
+  50% {
+    transform: scale(1.25);
+    box-shadow:
+      0 0 0 2px rgba(255,255,255,0.9),
+      0 0 20px rgba(34,197,94,0.9),
+      0 0 40px rgba(34,197,94,0.7),
+      0 0 60px rgba(34,197,94,0.4);
+  }
+}
+
+@keyframes dotHalo {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+.wisdom-point:hover .wp-dot {
+  transform: scale(1.4);
+  transition: transform 0.2s;
 }
 
 .wisdom-tooltip {
