@@ -1019,118 +1019,123 @@
   </div>
 </div>
       
-    <!-- Экран 19. Создание визитки -->
+   <!-- Экран 19. Создание визитки -->
 <div class="screen" id="screen-19">
-<div class="screen-layout">
-<div class="scene">
-<div class="scene-header">
-<span class="tagline">Твоя визитка</span>
-</div>
-<div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:10px; overflow-y:auto;">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Твоя визитка</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:10px; overflow-y:auto;">
 
-      <!-- Твоя визитка -->
-    <div style="font-size:13px; font-weight:600; color:var(--text);">📇 Заполни свою визитку</div>
-    <div class="bizcard-template" id="bc-template">
-      <div style="display:flex; gap:10px; align-items:flex-start;">
-        <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-          <input type="text" placeholder="Имя и фамилия" class="bc-field" id="bc-name" style="font-size:15px; font-weight:600;">
-          <input type="text" placeholder="Должность + сфера" class="bc-field" id="bc-role">
-          <input type="text" placeholder="Название компании" class="bc-field" id="bc-company">
-        </div>
-        <div class="bizcard-drop-zone" id="bc-zone-logo" data-zone="logo">Перетащи<br>логотип</div>
-      </div>
-      <textarea rows="2" placeholder="Цепляющая подсказка про тебя (чем ты полезен?)" class="bc-field" id="bc-hook"></textarea>
-      <div class="bizcard-row">
-        <input type="email" placeholder="Email" class="bc-field" id="bc-email">
-        <input type="tel" placeholder="Телефон" class="bc-field" id="bc-phone">
-      </div>
-      <div class="bizcard-row">
-        <input type="text" placeholder="Профессиональный профиль (один канал)" class="bc-field" id="bc-profile" style="flex:1;">
-        <div class="bizcard-drop-zone" id="bc-zone-qr" data-zone="qr" style="width:46px;height:46px;font-size:8px;">QR-код</div>
-        <div class="bizcard-drop-zone" id="bc-zone-photo" data-zone="photo" style="width:46px;height:46px;font-size:8px;">Фото</div>
-      </div>
-    </div>
-
-    <!-- Ошибка телефона -->
-    <div id="bc-phone-error" style="display:none; font-size:12px; color:#ef4444; font-weight:600; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:8px; text-align:center;">
-      📞 Введи цифры!
-    </div>
-
-    <!-- Элементы для перетаскивания -->
-    <div style="font-size:12px; color:var(--text-soft); font-weight:600;">Элементы (перетащи на визитку):</div>
-    <div class="drag-elements-panel" id="bc-drag-panel">
-      <div class="drag-el" draggable="true" data-el="logo" data-img="https://i.ibb.co/vvZ08cq8/0F77066c-44e0-4219-8305-de7a5760bea3-removalai-preview.png">
-        <img src="https://i.ibb.co/vvZ08cq8/0F77066c-44e0-4219-8305-de7a5760bea3-removalai-preview.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #e2e8f0;"> Логотип компании
-      </div>
-      <div class="drag-el" draggable="true" data-el="qr" data-img="https://i.ibb.co/RltJJFN0/4-Photoroom.png">
-        <img src="https://i.ibb.co/RltJJFN0/4-Photoroom.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #e2e8f0;"> QR-код на блог
-      </div>
-      <div class="drag-el" draggable="true" data-el="photo" data-img="https://i.ibb.co/Fq040g3S/5.png">
-        <img src="https://i.ibb.co/Fq040g3S/5.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #e2e8f0;"> Фото
-      </div>
-    </div>
-  <div id="bc-feedback" class="bizcard-feedback"></div>
-      
-<div class="panel">
-  <div class="panel-tag">Теория</div>
-  <h2>Зачем нужна визитка</h2>
-  <p>Многие думают: «Да кому нужны визитки, есть же соцсети». Но в живом общении визитка решает сразу несколько задач:</p>
-  <ul>
-    <li><strong>Закрепляет знакомство</strong> — после десятка разговоров люди забывают имена. Визитка — это якорь.</li>
-    <li><strong>Облегчает продолжение общения</strong> — вместо «Я вам напишу…» можно сказать: «Вот мои контакты».</li>
-    <li><strong>Передаёт профессиональный образ</strong> — кто ты? Чем полезен?</li>
-    <li><strong>Помогает «положить тебя на нужную полочку»</strong> — через пару дней человек вспомнит, кто ты.</li>
-  </ul>
-
-  <h3 style="margin-top:8px;">Что должно быть на визитке</h3>
-  <p>Визитка отвечает на 3 вопроса: <strong>Кто ты? Чем полезен? Как связаться?</strong></p>
-  <p><strong>1. Имя и фамилия</strong> — крупно и читаемо.</p>
-  <p><strong>2. Должность + сфера</strong> — на человеческом языке.</p>
-  <p><strong>3. Компания</strong> — логотип + название.</p>
-  <p><strong>4. Контакты</strong> — email, телефон, один профессиональный профиль.</p>
-  <p><strong>5. Цепляющая подсказка</strong> — короткая фраза о твоей экспертизе.</p>
-  <p><strong>6. Дизайн</strong> — читаемость важнее красоты.</p>
-
-  <!-- Пример Златы -->
-  <div style="margin-top:12px; border-radius:14px; border:1px solid rgba(56,189,248,0.3); background:rgba(56,189,248,0.06);">
-    <div style="padding:12px 14px; font-size:14px; font-weight:600; color:var(--text); display:flex; align-items:center; gap:6px;">
-      💡 Пример: визитка Златы
-    </div>
-    <div style="padding:0 14px 14px;">
-      <div class="bizcard-example" style="display:flex; flex-direction:column; justify-content:center;">
-        <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-          <div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">EP</div>
-          <div>
-            <div class="bc-name">Злата Ковальчук</div>
-            <div class="bc-role">Специалист по продвижению, отдел маркетинга</div>
+        <!-- Твоя визитка -->
+        <div style="font-size:13px; font-weight:600; color:var(--text);">📇 Заполни свою визитку</div>
+        <div class="bizcard-template" id="bc-template">
+          <div style="display:flex; gap:10px; align-items:flex-start;">
+            <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+              <input type="text" placeholder="Имя и фамилия" class="bc-field" id="bc-name" style="font-size:15px; font-weight:600;">
+              <input type="text" placeholder="Должность + сфера" class="bc-field" id="bc-role">
+              <input type="text" placeholder="Название компании" class="bc-field" id="bc-company">
+            </div>
+            <div class="bizcard-drop-zone" id="bc-zone-logo" data-zone="logo">Перетащи<br>логотип</div>
+          </div>
+          <textarea rows="2" placeholder="Цепляющая подсказка про тебя (чем ты полезен?)" class="bc-field" id="bc-hook"></textarea>
+          <div class="bizcard-row">
+            <input type="email" placeholder="Email" class="bc-field" id="bc-email">
+            <input type="tel" placeholder="Телефон" class="bc-field" id="bc-phone">
+          </div>
+          <div class="bizcard-row">
+            <input type="text" placeholder="Профессиональный профиль (один канал)" class="bc-field" id="bc-profile" style="flex:1;">
+            <div class="bizcard-drop-zone" id="bc-zone-qr" data-zone="qr" style="width:46px;height:46px;font-size:8px;">QR-код</div>
+            <div class="bizcard-drop-zone" id="bc-zone-photo" data-zone="photo" style="width:46px;height:46px;font-size:8px;">Фото</div>
           </div>
         </div>
-        <div style="font-size:12px; color:var(--text-soft); margin-bottom:4px;">EndoPharma</div>
-        <div class="bc-hint">«Помогаю эндокринологам узнавать о препаратах, которые реально улучшают жизнь пациентов»</div>
-        <div class="bc-contacts" style="margin-top:8px; padding-top:8px; border-top:1px solid #e2e8f0;">
-          ✉ zlata.k@endopharma.ru<br>
-          📞 +7 (999) 123-45-67<br>
-          🔗 vk.com/in/zlata-kovalchuk
+
+        <!-- Ошибка телефона -->
+        <div id="bc-phone-error" style="display:none; font-size:12px; color:#ef4444; font-weight:600; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:8px; text-align:center;">
+          📞 Введи цифры!
+        </div>
+
+        <!-- Элементы для перетаскивания -->
+        <div style="font-size:12px; color:var(--text-soft); font-weight:600;">Элементы (перетащи на визитку):</div>
+        <div class="drag-elements-panel" id="bc-drag-panel">
+          <div class="drag-el" draggable="true" data-el="logo" data-img="https://i.ibb.co/vvZ08cq8/0F77066c-44e0-4219-8305-de7a5760bea3-removalai-preview.png">
+            <img src="https://i.ibb.co/vvZ08cq8/0F77066c-44e0-4219-8305-de7a5760bea3-removalai-preview.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #e2e8f0;"> Логотип компании
+          </div>
+          <div class="drag-el" draggable="true" data-el="qr" data-img="https://i.ibb.co/RltJJFN0/4-Photoroom.png">
+            <img src="https://i.ibb.co/RltJJFN0/4-Photoroom.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #e2e8f0;"> QR-код на блог
+          </div>
+          <div class="drag-el" draggable="true" data-el="photo" data-img="https://i.ibb.co/Fq040g3S/5.png">
+            <img src="https://i.ibb.co/Fq040g3S/5.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #e2e8f0;"> Фото
+          </div>
+        </div>
+
+        <!-- Обратная связь -->
+        <div id="bc-feedback" class="bizcard-feedback"></div>
+
+      </div><!-- закрытие .scene-main -->
+    </div><!-- закрытие .scene -->
+
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Зачем нужна визитка</h2>
+      <p>Многие думают: «Да кому нужны визитки, есть же соцсети». Но в живом общении визитка решает сразу несколько задач:</p>
+      <ul>
+        <li><strong>Закрепляет знакомство</strong> — после десятка разговоров люди забывают имена. Визитка — это якорь.</li>
+        <li><strong>Облегчает продолжение общения</strong> — вместо «Я вам напишу…» можно сказать: «Вот мои контакты».</li>
+        <li><strong>Передаёт профессиональный образ</strong> — кто ты? Чем полезен?</li>
+        <li><strong>Помогает «положить тебя на нужную полочку»</strong> — через пару дней человек вспомнит, кто ты.</li>
+      </ul>
+
+      <h3 style="margin-top:8px;">Что должно быть на визитке</h3>
+      <p>Визитка отвечает на 3 вопроса: <strong>Кто ты? Чем полезен? Как связаться?</strong></p>
+      <p><strong>1. Имя и фамилия</strong> — крупно и читаемо.</p>
+      <p><strong>2. Должность + сфера</strong> — на человеческом языке.</p>
+      <p><strong>3. Компания</strong> — логотип + название.</p>
+      <p><strong>4. Контакты</strong> — email, телефон, один профессиональный профиль.</p>
+      <p><strong>5. Цепляющая подсказка</strong> — короткая фраза о твоей экспертизе.</p>
+      <p><strong>6. Дизайн</strong> — читаемость важнее красоты.</p>
+
+      <!-- Пример Златы -->
+      <div style="margin-top:12px; border-radius:14px; border:1px solid rgba(56,189,248,0.3); background:rgba(56,189,248,0.06);">
+        <div style="padding:12px 14px; font-size:14px; font-weight:600; color:var(--text); display:flex; align-items:center; gap:6px;">
+          💡 Пример: визитка Златы
+        </div>
+        <div style="padding:0 14px 14px;">
+          <div class="bizcard-example" style="display:flex; flex-direction:column; justify-content:center;">
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+              <div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">EP</div>
+              <div>
+                <div class="bc-name">Злата Ковальчук</div>
+                <div class="bc-role">Специалист по продвижению, отдел маркетинга</div>
+              </div>
+            </div>
+            <div style="font-size:12px; color:var(--text-soft); margin-bottom:4px;">EndoPharma</div>
+            <div class="bc-hint">«Помогаю эндокринологам узнавать о препаратах, которые реально улучшают жизнь пациентов»</div>
+            <div class="bc-contacts" style="margin-top:8px; padding-top:8px; border-top:1px solid #e2e8f0;">
+              ✉ zlata.k@endopharma.ru<br>
+              📞 +7 (999) 123-45-67<br>
+              🔗 vk.com/in/zlata-kovalchuk
+            </div>
+          </div>
+          <div style="font-size:11px; color:var(--text-soft); margin-top:6px; line-height:1.4;">
+            Ничего лишнего. Имя, роль, компания, контакты и короткая фраза, по которой тебя запомнят. Обрати внимание: Злата не написала «маркетолог», а объяснила, <strong>чем она полезна</strong> врачам.
+          </div>
         </div>
       </div>
-      <div style="font-size:11px; color:var(--text-soft); margin-top:6px; line-height:1.4;">
-        Ничего лишнего. Имя, роль, компания, контакты и короткая фраза, по которой тебя запомнят. Обрати внимание: Злата не написала «маркетолог», а объяснила, <strong>чем она полезна</strong> врачам.
+
+      <h3 style="margin-top:12px;">Задание</h3>
+      <p>Заполни визитку слева, перетащи элементы на нужные места и нажми «Проверить».</p>
+
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-bizcard-check">Проверить</button>
+        <button class="btn" id="btn-bizcard-next" style="display:none;" data-next="screen-20">Далее →</button>
       </div>
-    </div>
-  </div>
+    </div><!-- закрытие .panel -->
 
-  <h3 style="margin-top:12px;">Задание</h3>
-  <p>Заполни визитку слева, перетащи элементы на нужные места и нажми «Проверить».</p>
-
-  <div class="actions-row" style="margin-top:auto;">
-    <button class="btn secondary nav-back" data-prev>Назад</button>
-    <button class="btn" id="btn-bizcard-check">Проверить</button>
-    <button class="btn" id="btn-bizcard-next" style="display:none;" data-next="screen-20">Далее →</button>
-  </div>
-</div>
-
-</div>
-</div>
+  </div><!-- закрытие .screen-layout -->
+</div><!-- закрытие #screen-19 -->
       
 <!-- Экран 20. Фото для профиля -->
 <div class="screen" id="screen-20">
