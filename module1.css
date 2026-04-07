@@ -2673,3 +2673,14 @@ color: #1e293b;
   animation: fadeIn 0.3s ease;
 }
 .fear-saved-msg.show { display: block; }
+#screen-14 .scene-main,
+#screen-15 .scene-main {
+  min-height: 500px;
+}
+
+#screen-14 .scene-main svg,
+#screen-15 .scene-main svg {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+}
