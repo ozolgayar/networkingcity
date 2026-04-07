@@ -652,20 +652,24 @@ function initFears() {
 }
   
 // ===== Экран 13-1: карточка Златы с целью =====
+var zlataCard2Initialized = false;
+
 function initZlataCard2() {
+  if (zlataCard2Initialized) return;
+
   var card = document.getElementById('zlata-card-2');
   var wrapper = card ? card.closest('.zlata-card-wrapper') : null;
   var goalBtn = document.getElementById('inv-goal-2');
 
   if (!card || !wrapper || !goalBtn) return;
 
-  // Флип карточки
+  zlataCard2Initialized = true;
+
   wrapper.addEventListener('click', function(e) {
     if (e.target.closest('#inv-goal-2')) return;
     card.classList.toggle('flipped');
   });
 
-  // Клик по цели — переход на колесо баланса
   goalBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     showScreen('screen-14');
