@@ -353,12 +353,11 @@
   display: flex;
   flex-direction: column;
   min-height: 600px;
-  max-height: calc(100vh - 100px);
 }
  .screen {
   display: none;
   flex: 1;
-  min-height: 100vh;
+  min-height: 0;
 }
 
 .screen.active {
@@ -2929,10 +2928,15 @@ color: #1e293b;
 }
 
 /* ===== Экран 19: визитка ===== */
-#screen-19 .screen-layout {
+#screen-19.active {
   height: calc(100vh - 160px);
   overflow: hidden;
-  grid-template-rows: 1fr;
+}
+
+#screen-19 .screen-layout {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 #screen-19 .scene {
@@ -2946,6 +2950,7 @@ color: #1e293b;
   overflow-y: auto;
   min-height: 0;
   flex: 1;
+  align-items: flex-start;
 }
 
 #screen-19 .panel {
