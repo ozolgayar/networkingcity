@@ -1194,7 +1194,12 @@ function initBizcard() {
         if (elType === key) {
           z.filled = true;
           z.el.classList.add('filled');
-          z.el.textContent = z.emoji;
+         var imgSrc = currentDrag.getAttribute('data-img');
+if (imgSrc) {
+  z.el.innerHTML = '<img src="' + imgSrc + '" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">';
+} else {
+  z.el.textContent = z.emoji;
+}
           currentDrag.classList.add('placed');
           feedback.textContent = z.ok;
           feedback.className = 'bizcard-feedback ok';
