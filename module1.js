@@ -1,7 +1,7 @@
  // Глобальное состояние
-  const state = {
-   score: 0,           // очки модуля
-  screensVisited: {}, // какие экраны посещены
+const state = {
+  score: 0,
+  screensVisited: {},
   wheel: {
     segments: ['Карьера', 'Образование', 'Хобби', 'Личные проекты', 'Финансы', 'Здоровье'],
     values: [0, 0, 0, 0, 0, 0],
@@ -10,35 +10,40 @@
   },
   beads: { stage: 1, attempts: 0 },
   bizcardRewarded: false
-}
+};
 
-  // ===== Утилиты =====
-// Порядок экранов — ГЛОБАЛЬНО
+// Порядок экранов
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
+  'screen-16', 'screen-16-1', 'screen-17', 'screen-19',
+  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
+  'screen-final'
+];
 
-  // ===== Утилиты =====
+// ===== Утилиты =====
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
   var screenEl = document.getElementById(id);
   if (screenEl) screenEl.classList.add('active');
-  
+
   state.screensVisited[id] = true;
   updateHud();
-  
+
   if (id === 'screen-final') {
     localStorage.setItem('nc_mod1_status', 'complete');
     localStorage.setItem('nc_mod1_progress', '100');
     document.getElementById('final-score').textContent = state.score;
   }
 
-  // Ре-инициализация при показе
   if (id === 'screen-12') {
     setTimeout(function() { renderBeadsStage(); }, 50);
   }
   if (id === 'screen-13') {
     setTimeout(function() { initFears(); }, 50);
+  }
+  if (id === 'screen-13-1') {
+    setTimeout(function() { initZlataCard2(); }, 50);
   }
   if (id === 'screen-14') {
     setTimeout(function() { initWheel(); }, 50);
@@ -47,9 +52,10 @@ function showScreen(id) {
     setTimeout(function() { renderWheel('resultWheelSvg', state.wheel.values, -1); }, 50);
   }
 }
-  function clamp(v, min, max) {
-    return Math.max(min, Math.min(max, v));
-  }
+
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
 
 function addScore(delta) {
   state.score = Math.max(0, state.score + delta);
