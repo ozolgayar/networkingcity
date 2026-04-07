@@ -966,17 +966,9 @@ function initPeopleDrag() {
 
   if (btnContinue) btnContinue.style.display = 'none';
 
-  var people = [
-    { emoji: '👨‍💼', label: 'Коллега' },
-    { emoji: '👩‍🔬', label: 'Учёная' },
-    { emoji: '🧑‍💻', label: 'Айтишник' },
-    { emoji: '👩‍⚕️', label: 'Врач' },
-    { emoji: '👨‍🎓', label: 'Студент' },
-    { emoji: '👩‍💼', label: 'Менеджер' },
-    { emoji: '🧑‍🏫', label: 'Спикер' },
-    { emoji: '👩‍🎨', label: 'Дизайнер' },
-    { emoji: '🧑‍🍳', label: 'Фудтех' },
-    { emoji: '👩‍🚀', label: 'Стартапер' }
+  var colors = [
+    '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6', '#ec4899',
+    '#14b8a6', '#f97316', '#6366f1', '#84cc16', '#06b6d4'
   ];
 
   function createPeople() {
@@ -986,13 +978,15 @@ function initPeopleDrag() {
     btnPlan.style.display = 'inline-flex';
     if (btnContinue) btnContinue.style.display = 'none';
 
-    people.forEach(function(person, i) {
+    for (var i = 0; i < 10; i++) {
       var p = document.createElement('div');
       p.className = 'person-avatar';
       p.dataset.idx = i;
       p.innerHTML =
-        '<span class="pa-emoji">' + person.emoji + '</span>' +
-        '<span class="pa-label">' + person.label + '</span>';
+        '<div class="person-body" style="background:' + colors[i] + '">' +
+          '<div class="person-head"></div>' +
+        '</div>' +
+        '<span class="person-emoji">' + (i + 1) + '</span>';
       p.addEventListener('click', function() {
         if (this.style.pointerEvents === 'none') return;
         var inTarget = this.parentElement === target;
@@ -1004,10 +998,9 @@ function initPeopleDrag() {
         updateCounter();
       });
       pool.appendChild(p);
-    });
+    }
     updateCounter();
   }
-
   function updateCounter() {
     var count = target.querySelectorAll('.person-avatar').length;
     counter.textContent = count;
