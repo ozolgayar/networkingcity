@@ -1551,20 +1551,30 @@ color: #1e293b;
   animation: fadeIn .25s ease-out;
 }
 /* ===== Экран 19: Визитка ===== */
-#screen-19 .scene-main {
-  overflow-y: auto;
-  align-items: flex-start;
+/* ===== Экран 19: скролл ===== */
+#screen-19 .screen-layout {
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
 }
-#screen-19 .scene-main::-webkit-scrollbar { width: 5px; }
-#screen-19 .scene-main::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
-#screen-19 .panel {
-  max-height: calc(100vh - 180px);
-  overflow-y: auto;
-  min-height: 0;
-}
-#screen-19 .panel::-webkit-scrollbar { width: 5px; }
-#screen-19 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
 
+#screen-19 .scene {
+  overflow-y: auto;
+}
+
+#screen-19 .panel {
+  overflow-y: auto;
+}
+
+#screen-19 .scene::-webkit-scrollbar,
+#screen-19 .panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+#screen-19 .scene::-webkit-scrollbar-thumb,
+#screen-19 .panel::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
 .bizcard-template {
   width: 100%;
   max-width: 420px;
