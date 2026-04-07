@@ -445,11 +445,7 @@ function initBeadsGame() {
   var summaryModal = document.getElementById('beads-summary-modal');
   var summaryContinue = document.getElementById('beads-summary-continue');
 
-  // Защита — если элементов нет, выходим
-  if (!resetBtn || !checkBtn || !feedback || !summaryModal) {
-    console.warn('initBeadsGame: elements not found');
-    return;
-  }
+  if (!resetBtn || !checkBtn) return;
 
   renderBeadsStage();
 
