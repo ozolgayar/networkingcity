@@ -24,8 +24,8 @@ const screenOrder = [
 
   // ===== Утилиты =====
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const screenEl = document.getElementById(id);
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  var screenEl = document.getElementById(id);
   if (screenEl) screenEl.classList.add('active');
   
   state.screensVisited[id] = true;
@@ -37,12 +37,18 @@ function showScreen(id) {
     document.getElementById('final-score').textContent = state.score;
   }
 
-  // Принудительная ре-инициализация экранов при показе
-  if (id === 'screen-12') renderBeadsStage();
-  if (id === 'screen-13') initFears();
-  if (id === 'screen-14') initWheel();
+  // Ре-инициализация при показе
+  if (id === 'screen-12') {
+    setTimeout(function() { renderBeadsStage(); }, 50);
+  }
+  if (id === 'screen-13') {
+    setTimeout(function() { initFears(); }, 50);
+  }
+  if (id === 'screen-14') {
+    setTimeout(function() { initWheel(); }, 50);
+  }
   if (id === 'screen-15') {
-    renderWheel('resultWheelSvg', state.wheel.values, -1);
+    setTimeout(function() { renderWheel('resultWheelSvg', state.wheel.values, -1); }, 50);
   }
 }
   function clamp(v, min, max) {
@@ -332,9 +338,12 @@ function initLaptopHotspot() {
   var label = document.getElementById('beads-stage-label');
   var hint = document.getElementById('beads-hint');
 
-  if (!stage) return;
+  if (!stage || !pool || !target) {
+    console.warn('renderBeadsStage: elements not found');
+    return;
+  }
 
-  label.textContent = String(state.beads.stage);
+  if (label) label.textContent = String(state.beads.stage);
 
   // Обновляем точки этапов
   for (var d = 1; d <= 3; d++) {
@@ -347,8 +356,10 @@ function initLaptopHotspot() {
 
   pool.innerHTML = '';
   target.innerHTML = '';
-  feedback.textContent = '';
-  feedback.classList.remove('error');
+  if (feedback) {
+    feedback.textContent = '';
+    feedback.classList.remove('error');
+  }
 
   // Подсказка
   var word = stage.word;
@@ -427,65 +438,74 @@ function initLaptopHotspot() {
     });
   }
 
-  function initBeadsGame() {
-    const resetBtn = document.getElementById('beads-reset');
-    const checkBtn = document.getElementById('beads-check');
-    const feedback = document.getElementById('beads-feedback');
-    const summaryModal = document.getElementById('beads-summary-modal');
-    const summaryContinue = document.getElementById('beads-summary-continue');
+function initBeadsGame() {
+  var resetBtn = document.getElementById('beads-reset');
+  var checkBtn = document.getElementById('beads-check');
+  var feedback = document.getElementById('beads-feedback');
+  var summaryModal = document.getElementById('beads-summary-modal');
+  var summaryContinue = document.getElementById('beads-summary-continue');
 
+  // Защита — если элементов нет, выходим
+  if (!resetBtn || !checkBtn || !feedback || !summaryModal) {
+    console.warn('initBeadsGame: elements not found');
+    return;
+  }
+
+  renderBeadsStage();
+
+  resetBtn.addEventListener('click', function() {
+    state.beads.attempts = 0;
     renderBeadsStage();
+  });
 
-    resetBtn.addEventListener('click', () => {
-      state.beads.attempts = 0;
-      renderBeadsStage();
-    });
-
-    checkBtn.addEventListener('click', () => {
-      const stageIndex = state.beads.stage - 1;
-      const stage = beadsStages[stageIndex];
-      const target = document.getElementById('beads-target');
-      const letters = Array.from(target.querySelectorAll('.bead')).map((b) => b.dataset.letter).join('');
-      if (letters === stage.word) {
-        feedback.textContent = stage.feedbackOk;
-        feedback.classList.remove('error');
-        if (state.beads.stage < 3) {
-          state.beads.stage++;
-          state.beads.attempts = 0;
-          setTimeout(renderBeadsStage, 600);
-        } else {
-          addScore(2);
-          setTimeout(() => {
-            summaryModal.classList.add('active');
-          }, 600);
-        }
+  checkBtn.addEventListener('click', function() {
+    var stageIndex = state.beads.stage - 1;
+    var stage = beadsStages[stageIndex];
+    if (!stage) return;
+    var target = document.getElementById('beads-target');
+    if (!target) return;
+    var letters = Array.from(target.querySelectorAll('.bead')).map(function(b) { return b.dataset.letter; }).join('');
+    if (letters === stage.word) {
+      feedback.textContent = stage.feedbackOk;
+      feedback.classList.remove('error');
+      if (state.beads.stage < 3) {
+        state.beads.stage++;
+        state.beads.attempts = 0;
+        setTimeout(renderBeadsStage, 600);
       } else {
-        state.beads.attempts++;
-        if (state.beads.attempts >= 2) {
-          target.innerHTML = '';
-          stage.word.split('').forEach((ch) => {
-            const el = document.createElement('div');
-            el.className = 'bead';
-            el.textContent = ch;
-            el.draggable = false;
-            target.appendChild(el);
-          });
-        }
-        feedback.textContent = 'Не получилось собрать слово. Попробуй ещё раз.';
-        feedback.classList.add('error');
+        addScore(2);
+        setTimeout(function() {
+          summaryModal.classList.add('active');
+        }, 600);
       }
-    });
+    } else {
+      state.beads.attempts++;
+      if (state.beads.attempts >= 2) {
+        target.innerHTML = '';
+        stage.word.split('').forEach(function(ch) {
+          var el = document.createElement('div');
+          el.className = 'bead';
+          el.textContent = ch;
+          el.draggable = false;
+          target.appendChild(el);
+        });
+      }
+      feedback.textContent = 'Не получилось собрать слово. Попробуй ещё раз.';
+      feedback.classList.add('error');
+    }
+  });
 
-    summaryModal.addEventListener('click', (e) => {
-      if (e.target === summaryModal) {
-        summaryModal.classList.remove('active');
-      }
-    });
-    summaryContinue.addEventListener('click', () => {
+  summaryModal.addEventListener('click', function(e) {
+    if (e.target === summaryModal) {
+      summaryModal.classList.remove('active');
+    }
+  });
+  if (summaryContinue) {
+    summaryContinue.addEventListener('click', function() {
       summaryModal.classList.remove('active');
     });
   }
-
+}
   // ===== Экран 13: страхи =====
 var fearsInitialized = false;
 
