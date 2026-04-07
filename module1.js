@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function() {
     overlay.id = 'mobile-warning';
     overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.85);display:flex;align-items:center;justify-content:center;padding:24px;';
     overlay.innerHTML =
-      '<div style="background:#ffffff;border-radius:18px;padding:32px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">' +
+      '<div style="background:#fff;border-radius:18px;padding:32px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">' +
         '<div style="font-size:48px;margin-bottom:16px;">💻</div>' +
         '<h2 style="font-size:20px;color:#1e293b;margin-bottom:10px;">Курс доступен только с компьютера</h2>' +
         '<p style="font-size:14px;color:#64748b;line-height:1.5;margin-bottom:20px;">Для прохождения курса необходим экран шириной от 900px. Пожалуйста, открой эту страницу на компьютере или ноутбуке.</p>' +
