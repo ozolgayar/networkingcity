@@ -37,7 +37,8 @@ function showScreen(id) {
     document.getElementById('final-score').textContent = state.score;
   }
 
-// Инициализация экранов при показе
+  // Принудительная ре-инициализация экранов при показе
+  if (id === 'screen-12') renderBeadsStage();
   if (id === 'screen-13') initFears();
   if (id === 'screen-14') initWheel();
   if (id === 'screen-15') {
@@ -1579,23 +1580,24 @@ function initVenueMap() {
 }
 document.addEventListener('DOMContentLoaded', function() {
     initGlobalNav();
-    initMainMenu();
-    initQuiz();
-    initKeysGame();
-    initLaptopHotspot();
-    initPurposeScreen();
-    initBeadsGame();
-    initWheel();
-    initWheelSummary();
-    initPeopleDrag();
-    initLocations();
-    initPhotoGame();
-    initBizcard();
-    initProfileAndSticky();
-    initBag();
-    initVenueMap();
-    updateHud();
-  });
+  initMainMenu();
+  initQuiz();
+  initKeysGame();
+  initLaptopHotspot();
+  initPurposeScreen();
+  initBeadsGame();
+  initFears();
+  initWheel();
+  initWheelSummary();
+  initPeopleDrag();
+  initLocations();
+  initPhotoGame();
+  initBizcard();
+  initProfileAndSticky();
+  initBag();
+  initVenueMap();
+  updateHud();
+});
   var activeScreen = document.querySelector('.screen.active');
   if (activeScreen && activeScreen.id === 'screen-13') {
     initFears();
