@@ -3177,3 +3177,20 @@ color: #1e293b;
   color: var(--text-soft);
   line-height: 1.6;
 }
+/* Картинки в drag-элементах */
+.drag-el-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+/* Картинка внутри drop-зоны после перетаскивания */
+.bizcard-drop-zone.filled img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
