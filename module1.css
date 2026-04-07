@@ -2207,47 +2207,6 @@ color: #1e293b;
   transition: width 0.6s ease;
   min-width: 8px;
 }
-/* Микроанимация «Сохранено!» */
-.float-saved {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%) translateY(0);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.5);
-  z-index: 30;
-}
-
-.float-saved.show {
-  animation: floatSaved 1.8s ease forwards;
-}
-
-@keyframes floatSaved {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(0);
-  }
-  15% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-20px);
-  }
-  70% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-20px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-50px);
-  }
-}
 /* Микроанимация «Сохранено!» для экрана 11 */
 .float-saved {
   position: absolute;
@@ -2289,6 +2248,7 @@ color: #1e293b;
     transform: translateX(-50%) translateY(-50px);
   }
 }
+
 /* Экран 12: бусины — увеличенный вариант */
 #screen-12 .beads-pool,
 #screen-12 .beads-target {
@@ -2713,16 +2673,3 @@ color: #1e293b;
   animation: fadeIn 0.3s ease;
 }
 .fear-saved-msg.show { display: block; }
-.screen:not(.active) {
-  pointer-events: none;
-  visibility: hidden;
-}
-.screen {
-  display: none;
-  pointer-events: none;
-}
-
-.screen.active {
-  display: block;
-  pointer-events: auto;
-}
