@@ -957,40 +957,46 @@ function initWheelSummary() {
 }
 // ===== Экран 16: перетаскивание человечков =====
 function initPeopleDrag() {
-  const pool = document.getElementById('people-pool');
-  const target = document.getElementById('people-target');
-  for (let i = 0; i < 10; i++) {
-    const p = document.createElement('div');
-    p.className = 'person-token';
-    p.textContent = '🙂';
-    p.draggable = true;
+  var pool = document.getElementById('people-pool');
+  var target = document.getElementById('people-target');
+  var counter = document.getElementById('people-counter');
+
+  var colors = [
+    '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6', '#ec4899',
+    '#14b8a6', '#f97316', '#6366f1', '#84cc16', '#06b6d4'
+  ];
+  var poses = ['🧍', '🧍‍♀️', '🧑‍💼', '👩‍💼', '🧑‍🔬', '👩‍🔬', '🧑‍💻', '👩‍💻', '🧑‍🎓', '👩‍🎓'];
+
+  for (var i = 0; i < 10; i++) {
+    var p = document.createElement('div');
+    p.className = 'person-avatar';
+    p.dataset.idx = i;
+    p.innerHTML =
+      '<div class="person-body" style="background:' + colors[i] + '">' +
+        '<div class="person-head"></div>' +
+      '</div>' +
+      '<span class="person-emoji">' + poses[i] + '</span>';
+    p.addEventListener('click', function() {
+      var inTarget = this.parentElement === target;
+      if (inTarget) {
+        pool.appendChild(this);
+      } else {
+        target.appendChild(this);
+      }
+      updateCounter();
+    });
     pool.appendChild(p);
   }
 
-  function allowDrop(e) { e.preventDefault(); }
-
-  function handleDrop(e, dest) {
-    e.preventDefault();
-    const dragging = document.querySelector('.person-token.dragging:not([data-part-id])');
-    if (dragging && dragging.parentElement !== dest) {
-      dest.appendChild(dragging);
+  function updateCounter() {
+    var count = target.querySelectorAll('.person-avatar').length;
+    counter.textContent = count;
+    if (count > 0) {
+      counter.style.color = '#16a34a';
+    } else {
+      counter.style.color = '#94a3b8';
     }
   }
-
-  [pool, target].forEach(el => { el.addEventListener('dragover', allowDrop); });
-  pool.addEventListener('drop', e => handleDrop(e, pool));
-  target.addEventListener('drop', e => handleDrop(e, target));
-
-  document.addEventListener('dragstart', e => {
-    if (e.target.classList.contains('person-token') && !e.target.dataset.partId) {
-      e.target.classList.add('dragging');
-    }
-  });
-  document.addEventListener('dragend', e => {
-    if (e.target.classList.contains('person-token') && !e.target.dataset.partId) {
-      e.target.classList.remove('dragging');
-    }
-  });
 }
    
 // ===== Экран 19: визитка =====
