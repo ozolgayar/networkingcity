@@ -960,6 +960,12 @@ function initPeopleDrag() {
   var pool = document.getElementById('people-pool');
   var target = document.getElementById('people-target');
   var counter = document.getElementById('people-counter');
+  var feedback = document.getElementById('people-feedback');
+  var btnPlan = document.getElementById('btn-people-plan');
+  var btnContinue = document.querySelector('#screen-16 [data-next="screen-16-1"]');
+
+  // Скрываем кнопку продолжить до успешного выполнения
+  if (btnContinue) btnContinue.style.display = 'none';
 
   var colors = [
     '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6', '#ec4899',
@@ -967,38 +973,93 @@ function initPeopleDrag() {
   ];
   var poses = ['🧍', '🧍‍♀️', '🧑‍💼', '👩‍💼', '🧑‍🔬', '👩‍🔬', '🧑‍💻', '👩‍💻', '🧑‍🎓', '👩‍🎓'];
 
-  for (var i = 0; i < 10; i++) {
-    var p = document.createElement('div');
-    p.className = 'person-avatar';
-    p.dataset.idx = i;
-    p.innerHTML =
-      '<div class="person-body" style="background:' + colors[i] + '">' +
-        '<div class="person-head"></div>' +
-      '</div>' +
-      '<span class="person-emoji">' + poses[i] + '</span>';
-    p.addEventListener('click', function() {
-      var inTarget = this.parentElement === target;
-      if (inTarget) {
-        pool.appendChild(this);
-      } else {
-        target.appendChild(this);
-      }
-      updateCounter();
-    });
-    pool.appendChild(p);
+  function createPeople() {
+    pool.innerHTML = '';
+    target.innerHTML = '';
+    for (var i = 0; i < 10; i++) {
+      var p = document.createElement('div');
+      p.className = 'person-avatar';
+      p.dataset.idx = i;
+      p.innerHTML =
+        '<div class="person-body" style="background:' + colors[i] + '">' +
+          '<div class="person-head"></div>' +
+        '</div>' +
+        '<span class="person-emoji">' + poses[i] + '</span>';
+      p.addEventListener('click', function() {
+        var inTarget = this.parentElement === target;
+        if (inTarget) {
+          pool.appendChild(this);
+        } else {
+          target.appendChild(this);
+        }
+        updateCounter();
+      });
+      pool.appendChild(p);
+    }
+    updateCounter();
   }
 
   function updateCounter() {
     var count = target.querySelectorAll('.person-avatar').length;
     counter.textContent = count;
-    if (count > 0) {
-      counter.style.color = '#16a34a';
-    } else {
-      counter.style.color = '#94a3b8';
-    }
+    counter.style.color = count > 0 ? '#16a34a' : '#94a3b8';
   }
+
+  function getCount() {
+    return target.querySelectorAll('.person-avatar').length;
+  }
+
+  // Кнопка «Запланировать»
+  btnPlan.addEventListener('click', function() {
+    var count = getCount();
+
+    // Никого не выбрали
+    if (count === 0) {
+      feedback.textContent = '🤔 Ты не выбрал ни одного человека. Добавь хотя бы одного!';
+      feedback.style.color = '#ef4444';
+      feedback.style.display = 'block';
+      return;
+    }
+
+    // Слишком много
+    if (count > 6) {
+      feedback.innerHTML = '😅 Это слишком много! На одном мероприятии сложно качественно познакомиться с ' + count + ' людьми.<br>Помни: <strong>качество важнее количества</strong>. Попробуй выбрать от 1 до 6.';
+      feedback.style.color = '#ef4444';
+      feedback.style.display = 'block';
+
+      // Сброс
+      createPeople();
+      return;
+    }
+
+    // Успех — от 1 до 6
+    feedback.innerHTML = '🎉 Отличный план! <strong>' + count + ' ' + declension(count) + '</strong> — это реалистичная и достижимая цель. Качество важнее количества!';
+    feedback.style.color = '#16a34a';
+    feedback.style.display = 'block';
+
+    // Блокируем клики
+    target.querySelectorAll('.person-avatar').forEach(function(p) {
+      p.style.pointerEvents = 'none';
+    });
+    pool.querySelectorAll('.person-avatar').forEach(function(p) {
+      p.style.pointerEvents = 'none';
+    });
+
+    btnPlan.style.display = 'none';
+    if (btnContinue) btnContinue.style.display = 'inline-flex';
+
+    addScore(2);
+  });
+
+  function declension(n) {
+    if (n === 1) return 'знакомство';
+    if (n >= 2 && n <= 4) return 'знакомства';
+    return 'знакомств';
+  }
+
+  createPeople();
 }
-   
+
 // ===== Экран 19: визитка =====
 var bizcardZones = {};
 var bizcardDone = false;
