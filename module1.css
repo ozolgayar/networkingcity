@@ -2929,43 +2929,34 @@ color: #1e293b;
 
 /* ===== Экран 19: визитка ===== */
 #screen-19.active {
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 120px);
   overflow: hidden;
 }
 
 #screen-19 .screen-layout {
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 160px);
   min-height: 0;
   overflow: hidden;
+  grid-template-rows: 1fr;
 }
 
 #screen-19 .scene {
-  overflow: hidden;
-  min-height: 0;
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-#screen-19 .scene-main {
   overflow-y: auto;
   min-height: 0;
-  flex: 1;
-  align-items: flex-start;
 }
 
 #screen-19 .panel {
-  overflow-y: auto;
-  min-height: 0;
-  max-height: calc(100vh - 160px);
+  overflow-y: auto !important;
+  min-height: 200px !important;
+  max-height: none !important;
 }
 
-#screen-19 .scene-main::-webkit-scrollbar,
+#screen-19 .scene::-webkit-scrollbar,
 #screen-19 .panel::-webkit-scrollbar {
   width: 5px;
 }
 
-#screen-19 .scene-main::-webkit-scrollbar-thumb,
+#screen-19 .scene::-webkit-scrollbar-thumb,
 #screen-19 .panel::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.4);
   border-radius: 999px;
