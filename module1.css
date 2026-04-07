@@ -2929,19 +2929,13 @@ color: #1e293b;
 }
 
 /* ===== Экран 19: визитка ===== */
-#screen-19.active {
-  height: calc(100vh - 120px);
+#screen-19 .screen-layout {
+  height: calc(100vh - 160px);
   overflow: hidden;
 }
 
-#screen-19 .screen-layout {
-  height: 100%;
-  min-height: 0;
-}
-
-#screen-19 .scene-main {
+#screen-19 .scene {
   overflow-y: auto;
-  align-items: flex-start;
   min-height: 0;
 }
 
@@ -2950,12 +2944,12 @@ color: #1e293b;
   min-height: 0;
 }
 
-#screen-19 .scene-main::-webkit-scrollbar,
+#screen-19 .scene::-webkit-scrollbar,
 #screen-19 .panel::-webkit-scrollbar {
   width: 5px;
 }
 
-#screen-19 .scene-main::-webkit-scrollbar-thumb,
+#screen-19 .scene::-webkit-scrollbar-thumb,
 #screen-19 .panel::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.4);
   border-radius: 999px;
