@@ -812,12 +812,13 @@
 </div>
       
 <!-- Экран 16-1. Где ты будешь знакомиться -->
- <div class="scene" style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f8fafc); border: none;">
+<div class="screen" id="screen-16-1">
+  <div class="screen-layout">
+    <div class="scene" style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f8fafc); border: none;">
       <div class="scene-header">
         <span class="tagline">Где ты будешь знакомиться?</span>
       </div>
       <div class="scene-main" style="flex-direction: column; gap: 10px; padding: 18px; align-items: stretch;">
-        <!-- Три колонки-категории -->
         <div style="display: flex; gap: 12px; width: 100%; flex: 1; min-height: 0;">
 
           <div class="location-category" data-category="comfort" style="flex:1; display:flex; flex-direction:column; gap:6px; min-width:0;">
@@ -862,45 +863,36 @@
         </div>
       </div>
     </div>
-      <div class="panel" style="overflow-y: auto; min-height: 0; max-height: calc(100vh - 180px);">
-        <div class="panel-tag">Теория</div>
-        <h2>Где ты будешь знакомиться?</h2>
-        <p>
-          У каждого есть свои места, где он чувствует себя как рыба в воде. Именно поэтому так сложно освоить «правильное поведение на вечеринках», если ты их не очень любишь.
-        </p>
-        <p>
-          Глупо пытаться научиться «очаровывать людей на конференциях», если одна только мысль о них вызывает мурашки.
-        </p>
-        <p style="margin-top: 6px;">
-          <strong>Задание:</strong> перетащи локации в подходящую категорию слева.
-        </p>
 
-        <!-- Пул локаций -->
-        <div style="font-size: 12px; color: var(--text-soft); margin-top: 8px;">Локации (перетащи в категорию):</div>
-        <div class="location-pool" id="location-pool" style="min-height: 80px; border-radius: 10px; border: 1px dashed rgba(148,163,184,0.5); background: #f8fafc; padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; margin-top: 4px;">
-        </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Где ты будешь знакомиться?</h2>
+      <p>У каждого есть свои места, где он чувствует себя как рыба в воде. Именно поэтому так сложно освоить «правильное поведение на вечеринках», если ты их не очень любишь.</p>
+      <p>Глупо пытаться научиться «очаровывать людей на конференциях», если одна только мысль о них вызывает мурашки.</p>
+      <p style="margin-top: 6px;"><strong>Задание:</strong> перетащи локации в подходящую категорию слева.</p>
 
-        <div class="actions-row" style="margin-top: 10px;">
-          <button class="btn" id="btn-locations-done">Готово</button>
-        </div>
+      <div style="font-size: 12px; color: var(--text-soft); margin-top: 8px;">Локации (перетащи в категорию):</div>
+      <div class="location-pool" id="location-pool" style="min-height: 80px; border-radius: 12px; border: 2px dashed rgba(148,163,184,0.4); background: rgba(248,250,252,0.8); padding: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; margin-top: 6px;"></div>
 
-        <!-- Модалка с обратной связью -->
-        <div class="modal-overlay" id="locations-modal">
-          <div class="modal">
-            <h3>Отличная работа!</h3>
-            <div id="locations-feedback"></div>
-            <p style="margin-top: 8px;">
-              Теперь ты точно знаешь, какие места тебе приятны, а каких лучше избегать. Это важно. Вряд ли ты захочешь пойти знакомиться в место, которое ты на дух не переносишь.
-            </p>
-            <p class="note">+1 к уровню нетворкинга.</p>
-            <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
-             <button class="btn" id="locations-continue">Продолжить</button>
-            </div>
+      <div class="actions-row" style="margin-top: 10px;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-locations-done">Готово</button>
+      </div>
+
+      <div class="modal-overlay" id="locations-modal">
+        <div class="modal">
+          <h3>Отличная работа!</h3>
+          <div id="locations-feedback"></div>
+          <p style="margin-top: 8px;">Теперь ты точно знаешь, какие места тебе приятны, а каких лучше избегать.</p>
+          <p class="note">+1 к уровню нетворкинга.</p>
+          <div class="actions-row" style="margin-top: 10px; justify-content: flex-end;">
+            <button class="btn" id="locations-continue">Продолжить</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
   <!-- Экран 17. SMART цель -->
   <div class="screen" id="screen-17">
    
