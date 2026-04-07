@@ -61,6 +61,11 @@ const screenOrder = [
 // ===== Утилиты =====
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+   // Ленивая инициализация экрана 16-1
+  if (id === 'screen-16-1' && !window._locationsInited) {
+    window._locationsInited = true;
+    initLocations();
+  }
   var screenEl = document.getElementById(id);
   if (screenEl) screenEl.classList.add('active');
 
@@ -1731,7 +1736,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initWheel();
   initWheelSummary();
   initPeopleDrag();
-  initLocations();
   initPhotoGame();
   initBizcard();
   initProfileAndSticky();
