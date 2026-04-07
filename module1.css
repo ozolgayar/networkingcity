@@ -3055,6 +3055,8 @@ color: #1e293b;
   border-color: #22c55e;
   background: rgba(34, 197, 94, 0.12);
   font-size: 18px;
+  padding: 2px;
+  overflow: hidden;
 }
 
 .bizcard-drop-zone.error-flash {
