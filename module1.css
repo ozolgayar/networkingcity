@@ -1550,148 +1550,7 @@ color: #1e293b;
   color: #166534;
   animation: fadeIn .25s ease-out;
 }
-/* ===== Экран 19: Визитка ===== */
-/* ===== Экран 19: скролл ===== */
-#screen-19.active {
-  max-height: calc(100vh - 120px);
-  overflow: hidden;
-}
 
-#screen-19 .screen-layout {
-  height: 100%;
-  max-height: 100%;
-  overflow: hidden;
-}
-
-#screen-19 .scene {
-  overflow-y: auto;
-  min-height: 0;
-}
-
-#screen-19 .panel {
-  overflow-y: auto;
-  min-height: 0;
-}
-
-#screen-19 .scene::-webkit-scrollbar,
-#screen-19 .panel::-webkit-scrollbar {
-  width: 5px;
-}
-
-#screen-19 .scene::-webkit-scrollbar-thumb,
-#screen-19 .panel::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
-  border-radius: 999px;
-}
-.bizcard-template {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 14px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  padding: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: transform .4s ease, box-shadow .4s ease;
-}
-.bizcard-template.celebrate {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(34,197,94,0.35);
-}
-.bizcard-template input,
-.bizcard-template textarea {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 6px 8px;
-  font-size: 12px;
-  width: 100%;
-  min-height: 28px;
-  resize: none;
-  background: #f8fafc;
-  color: var(--text);
-}
-.bizcard-template input.error,
-.bizcard-template textarea.error {
-  border-color: #ef4444;
-  background: rgba(239,68,68,0.04);
-}
-.bizcard-template input:first-of-type {
-  font-size: 15px;
-  font-weight: 600;
-}
-.bizcard-row {
-  display: flex;
-  gap: 8px;
-}
-.bizcard-row input { flex: 1; }
-
-.bizcard-drop-zone {
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-  border: 2px dashed #cbd5e1;
-  background: #f8fafc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 9px;
-  color: #94a3b8;
-  text-align: center;
-  cursor: default;
-  transition: .2s ease;
-  flex-shrink: 0;
-}
-.bizcard-drop-zone.drag-over {
-  border-color: #22c55e;
-  background: rgba(34,197,94,0.08);
-}
-.bizcard-drop-zone.filled {
-  border-style: solid;
-  border-color: #22c55e;
-  background: rgba(34,197,94,0.12);
-  font-size: 18px;
-}
-.bizcard-drop-zone.error-flash {
-  border-color: #ef4444;
-  background: rgba(239,68,68,0.08);
-}
-
-.drag-elements-panel {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 6px;
-}
-.drag-el {
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  font-size: 11px;
-  cursor: grab;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: .15s ease;
-  user-select: none;
-}
-.drag-el:hover { background: #f1f5f9; transform: translateY(-1px); }
-.drag-el.placed {
-  opacity: 0.35;
-  pointer-events: none;
-  border-style: dashed;
-}
-
-.bizcard-feedback {
-  font-size: 12px;
-  min-height: 16px;
-  margin-top: 4px;
-  transition: .2s ease;
-}
-.bizcard-feedback.ok { color: #16a34a; }
-.bizcard-feedback.err { color: #ef4444; }
 /* ===== Экран 20: Выбор фото ===== */
 .photo-grid {
   display: grid;
@@ -3068,46 +2927,35 @@ color: #1e293b;
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-/* ===== Визитка-пример Златы ===== */
-.bizcard-example {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 14px 16px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+/* ===== Экран 19: визитка — скролл ===== */
+#screen-19.active {
+  min-height: 0 !important;
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
 }
 
-.bizcard-example .bc-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
+#screen-19 .screen-layout {
+  min-height: 0;
+  height: 100%;
 }
 
-.bizcard-example .bc-role {
-  font-size: 11px;
-  color: var(--text-soft);
-  margin-top: 1px;
+#screen-19 .scene {
+  overflow-y: auto;
+  min-height: 0;
 }
 
-.bizcard-example .bc-hint {
-  font-size: 12px;
-  font-style: italic;
-  color: var(--accent-soft);
-  line-height: 1.4;
-  padding: 8px 10px;
-  background: rgba(34,197,94,0.06);
-  border-left: 3px solid #22c55e;
-  border-radius: 0 8px 8px 0;
-  margin-top: 6px;
-}
-
-.bizcard-example .bc-contacts {
-  font-size: 12px;
-  color: var(--text-soft);
-  line-height: 1.6;
-}
-/* Принудительный скролл панели экрана 19 */
 #screen-19 .panel {
-  overflow-y: auto !important;
-  max-height: calc(100vh - 120px) !important;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+#screen-19 .scene::-webkit-scrollbar,
+#screen-19 .panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+#screen-19 .scene::-webkit-scrollbar-thumb,
+#screen-19 .panel::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
 }
