@@ -2927,23 +2927,26 @@ color: #1e293b;
   transform: translateX(-50%) translateY(0);
 }
 
-/* ===== Экран 19: визитка ===== */
 
 /* ===== Экран 19: визитка ===== */
 #screen-19 .screen-layout {
   grid-template-rows: 1fr;
-  max-height: calc(100vh - 180px);
-  overflow: hidden;
+  height: calc(100vh - 180px);
+  min-height: 0;
 }
 
 #screen-19 .scene {
   overflow-y: auto;
   min-height: 0;
+  height: 0;
+  min-height: 100%;
 }
 
 #screen-19 .panel {
   overflow-y: auto;
   min-height: 0;
+  height: 0;
+  min-height: 100%;
 }
 
 #screen-19 .scene::-webkit-scrollbar,
