@@ -964,28 +964,37 @@ function initPeopleDrag() {
   var btnPlan = document.getElementById('btn-people-plan');
   var btnContinue = document.querySelector('#screen-16 [data-next="screen-16-1"]');
 
-  // Скрываем кнопку продолжить до успешного выполнения
   if (btnContinue) btnContinue.style.display = 'none';
 
-  var colors = [
-    '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6', '#ec4899',
-    '#14b8a6', '#f97316', '#6366f1', '#84cc16', '#06b6d4'
+  var people = [
+    { emoji: '👨‍💼', label: 'Коллега' },
+    { emoji: '👩‍🔬', label: 'Учёная' },
+    { emoji: '🧑‍💻', label: 'Айтишник' },
+    { emoji: '👩‍⚕️', label: 'Врач' },
+    { emoji: '👨‍🎓', label: 'Студент' },
+    { emoji: '👩‍💼', label: 'Менеджер' },
+    { emoji: '🧑‍🏫', label: 'Спикер' },
+    { emoji: '👩‍🎨', label: 'Дизайнер' },
+    { emoji: '🧑‍🍳', label: 'Фудтех' },
+    { emoji: '👩‍🚀', label: 'Стартапер' }
   ];
-  var poses = ['🧍', '🧍‍♀️', '🧑‍💼', '👩‍💼', '🧑‍🔬', '👩‍🔬', '🧑‍💻', '👩‍💻', '🧑‍🎓', '👩‍🎓'];
 
   function createPeople() {
     pool.innerHTML = '';
     target.innerHTML = '';
-    for (var i = 0; i < 10; i++) {
+    feedback.style.display = 'none';
+    btnPlan.style.display = 'inline-flex';
+    if (btnContinue) btnContinue.style.display = 'none';
+
+    people.forEach(function(person, i) {
       var p = document.createElement('div');
       p.className = 'person-avatar';
       p.dataset.idx = i;
       p.innerHTML =
-        '<div class="person-body" style="background:' + colors[i] + '">' +
-          '<div class="person-head"></div>' +
-        '</div>' +
-        '<span class="person-emoji">' + poses[i] + '</span>';
+        '<span class="pa-emoji">' + person.emoji + '</span>' +
+        '<span class="pa-label">' + person.label + '</span>';
       p.addEventListener('click', function() {
+        if (this.style.pointerEvents === 'none') return;
         var inTarget = this.parentElement === target;
         if (inTarget) {
           pool.appendChild(this);
@@ -995,7 +1004,7 @@ function initPeopleDrag() {
         updateCounter();
       });
       pool.appendChild(p);
-    }
+    });
     updateCounter();
   }
 
@@ -1009,11 +1018,15 @@ function initPeopleDrag() {
     return target.querySelectorAll('.person-avatar').length;
   }
 
-  // Кнопка «Запланировать»
+  function declension(n) {
+    if (n === 1) return 'знакомство';
+    if (n >= 2 && n <= 4) return 'знакомства';
+    return 'знакомств';
+  }
+
   btnPlan.addEventListener('click', function() {
     var count = getCount();
 
-    // Никого не выбрали
     if (count === 0) {
       feedback.textContent = '🤔 Ты не выбрал ни одного человека. Добавь хотя бы одного!';
       feedback.style.color = '#ef4444';
@@ -1021,41 +1034,27 @@ function initPeopleDrag() {
       return;
     }
 
-    // Слишком много
     if (count > 6) {
       feedback.innerHTML = '😅 Это слишком много! На одном мероприятии сложно качественно познакомиться с ' + count + ' людьми.<br>Помни: <strong>качество важнее количества</strong>. Попробуй выбрать от 1 до 6.';
       feedback.style.color = '#ef4444';
       feedback.style.display = 'block';
-
-      // Сброс
       createPeople();
       return;
     }
 
-    // Успех — от 1 до 6
-    feedback.innerHTML = '🎉 Отличный план! <strong>' + count + ' ' + declension(count) + '</strong> — это реалистичная и достижимая цель. Качество важнее количества!';
+    feedback.innerHTML = '🎉 Отличный план! <strong>' + count + ' ' + declension(count) + '</strong> — это реалистичная и достижимая цель!';
     feedback.style.color = '#16a34a';
     feedback.style.display = 'block';
 
-    // Блокируем клики
-    target.querySelectorAll('.person-avatar').forEach(function(p) {
+    document.querySelectorAll('#screen-16 .person-avatar').forEach(function(p) {
       p.style.pointerEvents = 'none';
-    });
-    pool.querySelectorAll('.person-avatar').forEach(function(p) {
-      p.style.pointerEvents = 'none';
+      p.style.opacity = '0.7';
     });
 
     btnPlan.style.display = 'none';
     if (btnContinue) btnContinue.style.display = 'inline-flex';
-
     addScore(2);
   });
-
-  function declension(n) {
-    if (n === 1) return 'знакомство';
-    if (n >= 2 && n <= 4) return 'знакомства';
-    return 'знакомств';
-  }
 
   createPeople();
 }
