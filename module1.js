@@ -710,7 +710,7 @@ function sectorPath(cx, cy, r1, r2, startAngle, endAngle) {
 function renderWheel(svgId, values, activeIndex) {
   var svg = document.getElementById(svgId);
   if (!svg) return;
-  var cx = 250, cy = 250, maxR = 190, innerR = 28;
+  var cx = 280, cy = 280, maxR = 190, innerR = 28;
   var step = (maxR - innerR) / 10;
   svg.innerHTML = '';
 
@@ -755,7 +755,7 @@ function renderWheel(svgId, values, activeIndex) {
       svg.appendChild(ring);
     }
 
-    const lp = polar(cx, cy, maxR + 42, start + 30);
+    const lp = polar(cx, cy, maxR + 50, start + 30);
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     text.setAttribute('x', lp.x); text.setAttribute('y', lp.y);
     text.setAttribute('font-size', '13');
@@ -784,10 +784,18 @@ function renderWheel(svgId, values, activeIndex) {
 }
 
 // ===== Экран 14: колесо баланса (новое) =====
+var wheelInitialized = false;
+
 function initWheel() {
+  if (wheelInitialized) {
+    renderWheel('wheelSvg', state.wheel.values, state.wheel.currentIndex);
+    return;
+  }
+  wheelInitialized = true;
+
   const segBtnContainer = document.getElementById('seg-level-buttons');
   const currentSegName = document.getElementById('current-seg-name');
-   const btnFinish = document.getElementById('btn-wheel-finish');
+  const btnFinish = document.getElementById('btn-wheel-finish');
   const btnReset = document.getElementById('btn-wheel-reset');
 
   function findNextUnfilled() {
