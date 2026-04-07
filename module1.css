@@ -3207,42 +3207,51 @@ color: #1e293b;
     position: fixed;
     inset: 0;
     z-index: 99999;
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     align-items: center;
     justify-content: center;
     padding: 24px;
   }
 
+  /* Курс виден но НЕ кликабелен */
   #app {
-    display: none !important;
+    pointer-events: none;
+    filter: blur(3px);
   }
 
   .mobile-warning-card {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 32px 28px;
-    max-width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 40px 28px;
+    max-width: 380px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+      0 24px 80px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    animation: warningAppear 0.5s ease-out;
   }
 
   .mobile-warning-card h2 {
     font-size: 20px;
     color: #1e293b;
     margin: 16px 0 10px;
+    line-height: 1.3;
   }
 
   .mobile-warning-card p {
     font-size: 14px;
     color: #64748b;
-    line-height: 1.5;
-    margin-bottom: 20px;
+    line-height: 1.6;
+    margin-bottom: 24px;
   }
 
   .mobile-warning-btn {
     display: inline-block;
-    padding: 10px 24px;
+    padding: 12px 28px;
     border-radius: 999px;
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: #ffffff;
@@ -3250,10 +3259,22 @@ color: #1e293b;
     font-weight: 600;
     font-size: 14px;
     box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .mobile-warning-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(34, 197, 94, 0.5);
+  }
+
+  @keyframes warningAppear {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
   }
 }
