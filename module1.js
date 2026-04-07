@@ -1579,7 +1579,7 @@ function initVenueMap() {
   });
 }
 document.addEventListener('DOMContentLoaded', function() {
-    initGlobalNav();
+  initGlobalNav();
   initMainMenu();
   initQuiz();
   initKeysGame();
