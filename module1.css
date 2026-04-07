@@ -2928,16 +2928,12 @@ color: #1e293b;
 }
 
 /* ===== Экран 19: визитка ===== */
-#screen-19.active {
-  max-height: calc(100vh - 120px);
-  overflow: hidden;
-}
 
+/* ===== Экран 19: визитка ===== */
 #screen-19 .screen-layout {
-  max-height: calc(100vh - 160px);
-  min-height: 0;
-  overflow: hidden;
   grid-template-rows: 1fr;
+  max-height: calc(100vh - 180px);
+  overflow: hidden;
 }
 
 #screen-19 .scene {
@@ -2946,9 +2942,8 @@ color: #1e293b;
 }
 
 #screen-19 .panel {
-  overflow-y: auto !important;
-  min-height: 200px !important;
-  max-height: none !important;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 #screen-19 .scene::-webkit-scrollbar,
@@ -2960,6 +2955,7 @@ color: #1e293b;
 #screen-19 .panel::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.4);
   border-radius: 999px;
+}
 }
 /* Карточка визитки */
 .bizcard-template {
