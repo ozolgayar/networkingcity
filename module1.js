@@ -469,10 +469,12 @@ function initBeadsGame() {
         state.beads.attempts = 0;
         setTimeout(renderBeadsStage, 600);
       } else {
-        addScore(2);
-        setTimeout(function() {
-          summaryModal.classList.add('active');
-        }, 600);
+     addScore(2);
+          var theory = document.getElementById('beads-theory');
+          if (theory) theory.style.display = 'block';
+          setTimeout(() => {
+            summaryModal.classList.add('active');
+          }, 600);
       }
     } else {
       state.beads.attempts++;
