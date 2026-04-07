@@ -2716,3 +2716,12 @@ color: #1e293b;
   pointer-events: none;
   visibility: hidden;
 }
+.screen {
+  display: none;
+  pointer-events: none;
+}
+
+.screen.active {
+  display: block;
+  pointer-events: auto;
+}
