@@ -971,6 +971,10 @@ function initPeopleDrag() {
     '#14b8a6', '#f97316', '#6366f1', '#84cc16', '#06b6d4'
   ];
 
+  var personImg = 'https://i.ibb.co/cSz3DYGB/1.png';
+
+  var hueRotations = [0, 30, 60, 120, 180, 210, 260, 300, 330, 45];
+
   function createPeople() {
     pool.innerHTML = '';
     target.innerHTML = '';
@@ -982,11 +986,7 @@ function initPeopleDrag() {
       var p = document.createElement('div');
       p.className = 'person-avatar';
       p.dataset.idx = i;
-      p.innerHTML =
-        '<div class="person-body" style="background:' + colors[i] + '">' +
-          '<div class="person-head"></div>' +
-        '</div>' +
-        '<span class="person-emoji">' + (i + 1) + '</span>';
+      p.innerHTML = '<img src="' + personImg + '" alt="Человек ' + (i + 1) + '" style="filter: hue-rotate(' + hueRotations[i] + 'deg);">';
       p.addEventListener('click', function() {
         if (this.style.pointerEvents === 'none') return;
         var inTarget = this.parentElement === target;
