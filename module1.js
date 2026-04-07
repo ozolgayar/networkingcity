@@ -669,26 +669,7 @@ function initZlataCard2() {
     showScreen('screen-14');
   });
 }
-// ===== Экран 13-1: карточка Златы с целью =====
-function initZlataCard2() {
-  var card = document.getElementById('zlata-card-2');
-  var wrapper = card ? card.closest('.zlata-card-wrapper') : null;
-  var goalBtn = document.getElementById('inv-goal-2');
 
-  if (!card || !wrapper || !goalBtn) return;
-
-  // Флип карточки
-  wrapper.addEventListener('click', function(e) {
-    if (e.target.closest('#inv-goal-2')) return;
-    card.classList.toggle('flipped');
-  });
-
-  // Клик по цели — переход на колесо баланса
-  goalBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    showScreen('screen-14');
-  });
-}
   function showValidations() {
     validationsList.innerHTML = '';
     selected.forEach(function(fear) {
@@ -763,6 +744,27 @@ function initZlataCard2() {
 
   modal.addEventListener('click', function(e) {
     if (e.target === modal) modal.classList.remove('active');
+  });
+}
+
+// ===== Экран 13-1: карточка Златы с целью =====
+function initZlataCard2() {
+  var card = document.getElementById('zlata-card-2');
+  var wrapper = card ? card.closest('.zlata-card-wrapper') : null;
+  var goalBtn = document.getElementById('inv-goal-2');
+
+  if (!card || !wrapper || !goalBtn) return;
+
+  // Флип карточки
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-goal-2')) return;
+    card.classList.toggle('flipped');
+  });
+
+  // Клик по цели — переход на колесо баланса
+  goalBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-14');
   });
 }
 
