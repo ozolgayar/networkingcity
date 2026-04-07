@@ -342,80 +342,77 @@
 
 <!-- Экран 12. Нити нетворкинга -->
 <div class="screen" id="screen-12">
-  <div class="screen-layout">
-    <div class="scene">
-      <div class="scene-header">
-        <span class="tagline">Нити нетворкинга</span>
-      </div>
-      <div class="scene-main" style="flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:20px;">
-        <div style="text-align:center;">
-          <div style="font-size:32px; margin-bottom:6px;">🧵</div>
-          <h3 style="font-size:18px; margin:0;">Собери слово из бусин</h3>
-          <p style="font-size:13px; color:var(--text-soft); margin-top:4px;">Перетащи буквы в правильном порядке</p>
-        </div>
+  <div class="fear-fullscreen" style="display:flex; flex-direction:column; align-items:center; padding:24px 20px; overflow-y:auto;">
 
-        <!-- Этапы -->
-        <div style="display:flex; align-items:center; gap:8px;">
-          <div class="beads-dot" id="dot-1">1</div>
-          <div style="width:24px; height:2px; background:#e2e8f0;"></div>
-          <div class="beads-dot" id="dot-2">2</div>
-          <div style="width:24px; height:2px; background:#e2e8f0;"></div>
-          <div class="beads-dot" id="dot-3">3</div>
-        </div>
-
-        <div style="font-size:13px; color:var(--text-soft);">
-          Этап <span id="beads-stage-label">1</span> из 3
-        </div>
-
-        <!-- Подсказка -->
-        <div id="beads-hint" style="font-size:14px; font-weight:600; letter-spacing:3px; color:var(--accent-soft); min-height:20px;"></div>
-
-        <!-- Пул букв -->
-        <div style="font-size:11px; color:var(--text-soft);">Буквы (перетащи вниз):</div>
-        <div id="beads-pool" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:50px; padding:10px; border-radius:12px; border:1px dashed #cbd5e1; background:#f8fafc; width:100%; max-width:400px;"></div>
-
-        <!-- Целевая зона -->
-        <div style="font-size:11px; color:var(--text-soft);">Собери слово здесь:</div>
-        <div id="beads-target" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:50px; padding:10px; border-radius:12px; border:2px dashed rgba(34,197,94,0.4); background:rgba(34,197,94,0.04); width:100%; max-width:400px;"></div>
-
-        <!-- Фидбек -->
-        <div id="beads-feedback" style="font-size:13px; min-height:20px; text-align:center; color:var(--accent-soft); line-height:1.4;"></div>
-
-        <!-- Кнопки -->
-        <div style="display:flex; gap:10px;">
-          <button class="btn secondary" id="beads-reset">Сбросить</button>
-          <button class="btn" id="beads-check">Проверить</button>
-        </div>
-      </div>
+    <div style="text-align:center; margin-bottom:16px;">
+      <div style="font-size:42px; margin-bottom:6px;">🧵</div>
+      <h2 style="font-size:22px; margin:0;">Три нити нетворкинга</h2>
+      <p style="color:var(--text-soft); margin-top:6px; max-width:500px; line-height:1.5;">
+        Нетворкинг строится на трёх принципах. Собери каждое слово из бусин-букв, чтобы узнать их.
+      </p>
     </div>
-    <div class="panel">
-      <div class="panel-tag">Теория</div>
-      <h2>Три нити нетворкинга</h2>
-      <p>Нетворкинг строится на трёх ключевых принципах. Собери каждое слово из бусин-букв, чтобы узнать их.</p>
-      <ol>
-        <li><strong>Установка</strong> — смелость начать, сделать первый шаг</li>
+
+    <!-- Этапы -->
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+      <div class="beads-dot" id="dot-1">1</div>
+      <div style="width:28px; height:2px; background:#e2e8f0;"></div>
+      <div class="beads-dot" id="dot-2">2</div>
+      <div style="width:28px; height:2px; background:#e2e8f0;"></div>
+      <div class="beads-dot" id="dot-3">3</div>
+    </div>
+
+    <div style="font-size:14px; color:var(--text-soft); margin-bottom:8px;">
+      Этап <span id="beads-stage-label">1</span> из 3
+    </div>
+
+    <!-- Подсказка -->
+    <div id="beads-hint" style="font-size:16px; font-weight:700; letter-spacing:4px; color:var(--accent-soft); min-height:24px; margin-bottom:12px;"></div>
+
+    <!-- Пул букв -->
+    <div style="font-size:12px; color:var(--text-soft); margin-bottom:4px;">Буквы (перетащи вниз):</div>
+    <div id="beads-pool" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:56px; padding:12px; border-radius:14px; border:2px dashed #cbd5e1; background:#f8fafc; width:100%; max-width:460px; margin-bottom:14px;"></div>
+
+    <!-- Целевая зона -->
+    <div style="font-size:12px; color:var(--text-soft); margin-bottom:4px;">Собери слово здесь:</div>
+    <div id="beads-target" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; min-height:56px; padding:12px; border-radius:14px; border:2px dashed rgba(34,197,94,0.5); background:rgba(34,197,94,0.04); width:100%; max-width:460px; margin-bottom:14px;"></div>
+
+    <!-- Фидбек -->
+    <div id="beads-feedback" style="font-size:14px; min-height:24px; text-align:center; color:var(--accent-soft); line-height:1.5; max-width:460px; margin-bottom:12px;"></div>
+
+    <!-- Кнопки -->
+    <div style="display:flex; gap:12px; margin-bottom:16px;">
+      <button class="btn secondary" id="beads-reset" style="padding:10px 22px;">Сбросить</button>
+      <button class="btn" id="beads-check" style="padding:10px 22px;">Проверить</button>
+    </div>
+
+    <!-- Теория внизу -->
+    <div style="max-width:500px; width:100%; padding:16px 18px; border-radius:14px; background:rgba(56,189,248,0.06); border:1px solid rgba(56,189,248,0.2); margin-top:8px;">
+      <h3 style="font-size:15px; margin:0 0 8px;">📖 Что значат эти слова?</h3>
+      <ol style="font-size:13px; line-height:1.6; padding-left:18px; margin:0;">
+        <li><strong>Установка</strong> — смелость начать, сделать первый шаг к знакомству</li>
         <li><strong>Удержание</strong> — искусство поддерживать контакт тёплым</li>
         <li><strong>Ценность</strong> — результат, к которому приводят первые два шага</li>
       </ol>
-      <p class="note">Собери все 3 слова, чтобы продолжить.</p>
-      <div class="actions-row" style="margin-top:auto;">
-        <button class="btn secondary nav-back" data-prev>Назад</button>
-      </div>
     </div>
+
+    <div style="margin-top:16px;">
+      <button class="btn secondary nav-back" data-prev style="padding:10px 22px;">← Назад</button>
+    </div>
+
   </div>
 
   <!-- Модалка завершения -->
   <div class="modal-overlay" id="beads-summary-modal">
     <div class="modal" style="text-align:center; max-width:440px;">
-      <div style="font-size:36px; margin-bottom:8px;">🎉</div>
-      <h3>Все три нити собраны!</h3>
-      <p style="line-height:1.5;">
+      <div style="font-size:42px; margin-bottom:8px;">🎉</div>
+      <h3 style="font-size:20px;">Все три нити собраны!</h3>
+      <p style="line-height:1.6; margin-top:8px;">
         <strong>Установка</strong> → <strong>Удержание</strong> → <strong>Ценность</strong><br>
         Это фундамент нетворкинга. Теперь переходим к работе со страхами.
       </p>
-      <p class="note" style="margin-top:6px;">+2 ⭐ к уровню нетворкинга</p>
-      <div class="actions-row" style="margin-top:12px; justify-content:center;">
-        <button class="btn" id="beads-summary-continue" data-next="screen-13">Продолжить →</button>
+      <p class="note" style="margin-top:8px;">+2 ⭐ к уровню нетворкинга</p>
+      <div style="display:flex; justify-content:center; margin-top:14px;">
+        <button class="btn" id="beads-summary-continue" data-next="screen-13" style="padding:12px 28px; font-size:16px;">Продолжить →</button>
       </div>
     </div>
   </div>
