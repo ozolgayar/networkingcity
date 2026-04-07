@@ -2927,20 +2927,22 @@ color: #1e293b;
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-/* ===== Экран 19: визитка — скролл ===== */
+
+/* ===== Экран 19: визитка ===== */
 #screen-19.active {
   min-height: 0 !important;
-  max-height: calc(100vh - 120px);
+  height: calc(100vh - 120px);
   overflow: hidden;
 }
 
 #screen-19 .screen-layout {
-  min-height: 0;
   height: 100%;
+  min-height: 0;
 }
 
-#screen-19 .scene {
+#screen-19 .scene-main {
   overflow-y: auto;
+  align-items: flex-start;
   min-height: 0;
 }
 
@@ -2949,12 +2951,12 @@ color: #1e293b;
   min-height: 0;
 }
 
-#screen-19 .scene::-webkit-scrollbar,
+#screen-19 .scene-main::-webkit-scrollbar,
 #screen-19 .panel::-webkit-scrollbar {
   width: 5px;
 }
 
-#screen-19 .scene::-webkit-scrollbar-thumb,
+#screen-19 .scene-main::-webkit-scrollbar-thumb,
 #screen-19 .panel::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.4);
   border-radius: 999px;
