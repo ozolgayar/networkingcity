@@ -706,105 +706,100 @@
 </div>
 <!-- Экран 16. Сколько знакомств ты заведёшь -->
 <div class="screen" id="screen-16">
+  <div class="screen-layout">
+    <div class="scene" style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f8fafc); border: none;">
+      <div class="scene-header">
+        <span class="tagline">Сколько знакомств тебе нужно?</span>
+      </div>
+      <div class="scene-main" style="flex-direction: column; gap: 20px; padding: 24px;">
 
+        <!-- Счётчик -->
+        <div id="people-counter" style="font-size: 48px; font-weight: 800; color: var(--accent); text-align: center;">0</div>
+        <div style="font-size: 13px; color: var(--text-soft); text-align: center;">человек на следующем мероприятии</div>
 
-    <div class="screen-layout">
-      <div class="scene">
-        <div class="scene-header">
-          <span class="tagline">Сколько знакомств тебе нужно?</span>
+        <!-- Пул человечков -->
+        <div style="text-align: center; margin-bottom: 4px;">
+          <span style="font-size: 12px; color: var(--text-soft);">👆 Нажми на человечка, чтобы добавить в план</span>
         </div>
-        <div class="scene-main">
-          <div class="fake-illustration">
-            Зона перетаскивания человечков.
-            <div style="position:absolute; inset:20% 10% auto auto;">
-              <div class="people-pool" id="people-pool"></div>
-              <div class="target-label" style="margin-top:6px;">Панель твоего плана знакомств</div>
-              <div class="people-target" id="people-target"></div>
-            </div>
-          </div>
+        <div id="people-pool" style="
+          display: flex; flex-wrap: wrap; gap: 12px;
+          justify-content: center; padding: 16px;
+          border-radius: 16px;
+          background: rgba(255,255,255,0.7);
+          border: 1px solid #e2e8f0;
+          min-height: 80px;
+        "></div>
+
+        <!-- Целевая зона -->
+        <div style="text-align: center; margin-top: 4px;">
+          <span style="font-size: 12px; color: var(--accent-soft); font-weight: 600;">🎯 Твой план знакомств</span>
+        </div>
+        <div id="people-target" style="
+          display: flex; flex-wrap: wrap; gap: 12px;
+          justify-content: center; padding: 16px;
+          border-radius: 16px;
+          background: rgba(34,197,94,0.06);
+          border: 2px dashed rgba(34,197,94,0.4);
+          min-height: 80px;
+          transition: all 0.3s ease;
+        "></div>
+
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Сколько знакомств ты заведёшь?</h2>
+
+      <h3 style="margin-top: 6px;">Теория «6 рукопожатий»</h3>
+      <p>Представь: ты сидишь вечером с чаем, случайно открываешь профиль какой-то «звезды» фармы или науки и думаешь: «Ну вот, это вообще из другого мира. Как я до такого человека когда-нибудь доберусь?» Но постой:</p>
+      <p><strong>Между тобой и почти любым человеком на планете — всего несколько шагов знакомых.</strong></p>
+      <p>Не сотни, не тысячи, а примерно <strong>6 рукопожатий</strong>. Тебе не нужно знать всех, достаточно нескольких правильных людей, чтобы выйти куда угодно.</p>
+      <p>Теория шести рукопожатий гласит: <em>любой человек на Земле связан с любым другим через цепочку из примерно шести человек.</em></p>
+      <p>Формула простая:</p>
+      <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 10px 12px; margin: 6px 0; font-size: 13px; color: var(--accent-soft); text-align: center;">
+        Ты → твой знакомый → его знакомый → его знакомый → … → нужный человек<br>
+        <span style="font-size: 12px; color: var(--text-soft);">Каждое звено в цепочке — это «рукопожатие».</span>
+      </div>
+
+      <div style="background: rgba(250, 204, 21, 0.08); border: 1px solid rgba(250, 204, 21, 0.35); border-radius: 10px; padding: 10px 12px; margin: 8px 0;">
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+          <span style="font-size: 16px;">⭐</span>
+          <strong style="font-size: 13px; color: var(--accent-yellow);">Фан-факт</strong>
+        </div>
+        <p style="font-size: 13px; line-height: 1.45;">Это не просто красивая легенда.</p>
+        <p style="font-size: 13px; line-height: 1.45; margin-top: 4px;">Ещё в середине XX века психологи и социологи проводили эксперименты: просили людей переслать письмо незнакомцу в другой части страны, передавая его только знакомым. В среднем получалось около 5–6 шагов.</p>
+        <p style="font-size: 13px; line-height: 1.45; margin-top: 4px;">Потом, в эпоху соцсетей, крупные платформы анализировали реальные связи между миллионами людей и получали похожие цифры: цепочка между двумя случайными людьми — <strong>3–5 промежуточных контактов</strong>.</p>
+      </div>
+
+      <p>То есть:</p>
+      <ul>
+        <li>Мир действительно связан плотнее, чем кажется.</li>
+        <li>Наши сети знакомых перекрываются, создавая огромную «паутину» контактов.</li>
+      </ul>
+
+      <p style="margin-top: 8px;"><strong>У этого есть три важных следствия:</strong></p>
+      <p style="margin-top: 6px;"><strong style="color: var(--accent-soft);">1. Каждое знакомство ценнее, чем кажется.</strong><br>Ты знакомишься не только с человеком перед тобой, но и с его окружением.</p>
+      <p style="margin-top: 6px;"><strong style="color: var(--accent-soft);">2. Твоя задача — строить мосты между «островами».</strong><br>Особенно ценны контакты, которые связывают разные круги.</p>
+      <p style="margin-top: 6px;"><strong style="color: var(--accent-soft);">3. Качество важнее количества.</strong><br>Тебе нужны люди, которые реально готовы порекомендовать, познакомить, подсказать.</p>
+
+      <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 10px 12px; margin: 10px 0;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 16px;">❓</span>
+          <strong style="font-size: 14px; color: var(--accent-blue);">Итак, сколько знакомств ты планируешь завести?</strong>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-tag">Теория</div>
-        <h2>Сколько знакомств ты заведёшь?</h2>
 
-        <h3 style="margin-top: 6px;">Теория «6 рукопожатий»</h3>
-        <p>
-          Представь: ты сидишь вечером с чаем, случайно открываешь профиль какой-то «звезды» фармы или науки и думаешь: «Ну вот, это вообще из другого мира. Как я до такого человека когда-нибудь доберусь?» Но постой:
-        </p>
-        <p>
-          <strong>Между тобой и почти любым человеком на планете — всего несколько шагов знакомых.</strong>
-        </p>
-        <p>
-          Не сотни, не тысячи, а примерно <strong>6 рукопожатий</strong>. Тебе не нужно знать всех, достаточно нескольких правильных людей, чтобы выйти куда угодно.
-        </p>
-        <p>
-          Теория шести рукопожатий гласит: <em>любой человек на Земле связан с любым другим через цепочку из примерно шести человек.</em>
-        </p>
-        <p>Формула простая:</p>
-        <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 10px; padding: 10px 12px; margin: 6px 0; font-size: 13px; color: var(--accent-soft); text-align: center;">
-          Ты → твой знакомый → его знакомый → его знакомый → … → нужный человек<br>
-          <span style="font-size: 12px; color: var(--text-soft);">Каждое звено в цепочке — это «рукопожатие».</span>
-        </div>
+      <p>Нажимай на человечков слева, чтобы добавить их в свой план знакомств.</p>
 
-        <div style="background: rgba(250, 204, 21, 0.08); border: 1px solid rgba(250, 204, 21, 0.35); border-radius: 10px; padding: 10px 12px; margin: 8px 0;">
-          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-            <span style="font-size: 16px;">⭐</span>
-            <strong style="font-size: 13px; color: var(--accent-yellow);">Фан-факт</strong>
-          </div>
-          <p style="font-size: 13px; line-height: 1.45;">Это не просто красивая легенда.</p>
-          <p style="font-size: 13px; line-height: 1.45; margin-top: 4px;">
-            Ещё в середине XX века психологи и социологи проводили эксперименты: просили людей переслать письмо незнакомцу в другой части страны, передавая его только знакомым, у которых может быть «следующее звено». В среднем получалось около 5–6 шагов.
-          </p>
-          <p style="font-size: 13px; line-height: 1.45; margin-top: 4px;">
-            Потом, в эпоху соцсетей, крупные платформы (Facebook, Microsoft и др.) анализировали реальные связи между миллионами людей и получали похожие цифры: цепочка между двумя случайными людьми — <strong>3–5 промежуточных контактов</strong>.
-          </p>
-        </div>
-
-        <p>То есть:</p>
-        <ul>
-          <li>Мир действительно связан плотнее, чем кажется.</li>
-          <li>Наши сети знакомых перекрываются, создавая огромную «паутину» контактов.</li>
-        </ul>
-
-        <p style="margin-top: 8px;"><strong>У этого есть три важных следствия:</strong></p>
-        <p style="margin-top: 6px;">
-          <strong style="color: var(--accent-soft);">1. Каждое знакомство ценнее, чем кажется.</strong><br>
-          Ты знакомишься не только с человеком перед тобой, но и с его окружением.
-        </p>
-        <p style="margin-top: 6px;">
-          <strong style="color: var(--accent-soft);">2. Твоя задача — не расширять сеть до бесконечности, а строить мосты между «островами».</strong><br>
-          Особенно ценны контакты, которые связывают разные круги: другой отдел, другую компанию, другой город или страну.
-        </p>
-        <p style="margin-top: 6px;">
-          <strong style="color: var(--accent-soft);">3. Качество важнее количества.</strong><br>
-          Для доступа к возможностям тебе важны не сотни поверхностных «знакомы в лицо», а несколько людей, которые реально готовы тебя порекомендовать, познакомить, подсказать.
-        </p>
-
-        <p style="margin-top: 8px;">Тебе <strong>не нужно</strong>:</p>
-        <ul>
-          <li>знать 500+ человек;</li>
-          <li>обойти всю конференцию и «поздороваться со всеми»;</li>
-          <li>собирать визитки как покемонов.</li>
-        </ul>
-
-        <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 10px 12px; margin: 10px 0;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span style="font-size: 16px;">❓</span>
-            <strong style="font-size: 14px; color: var(--accent-blue);">Итак, сколько знакомств ты планируешь завести?</strong>
-          </div>
-        </div>
-
-        <p>Перетащи на панель слева столько человечков, сколько ты планируешь завести знакомств на конференции.</p>
-
-        <div class="actions-row">
-           <button class="btn secondary nav-back" data-prev>Назад</button>
-          <button class="btn" data-next="screen-16-1">Продолжить</button>
-        </div>
+      <div class="actions-row">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" data-next="screen-16-1">Продолжить</button>
       </div>
     </div>
   </div>
-
+</div>
+      
 <!-- Экран 16-1. Где ты будешь знакомиться -->
 <div class="screen" id="screen-16-1">
 
