@@ -891,55 +891,128 @@
     </div>
   </div>
 </div>
-  <!-- Экран 17. SMART цель -->
-  <div class="screen" id="screen-17">
-   
-    <div class="screen-layout">
-      <div class="scene">
-        <div class="scene-header">
-          <span class="tagline">Ставим чёткую цель</span>
-        </div>
-        <div class="scene-main">
-          <div class="fake-illustration">
-            Шаблон SMART-цели на экране.
-          </div>
-        </div>
+ 
+     <!-- Экран 17. SMART цель — майнд-карта -->
+<div class="screen" id="screen-17">
+  <div class="smart-fullscreen">
+
+    <!-- Заголовок -->
+    <div class="smart-header">
+      <div style="font-size: 36px;">🎯</div>
+      <h2>Ставим SMART-цель</h2>
+      <p style="color: var(--text-soft); max-width: 560px; line-height: 1.5;">
+        Сформулируй свою цель нетворкинга по модели SMART. Заполни каждую ветвь майнд-карты.
+      </p>
+    </div>
+
+    <!-- Майнд-карта -->
+    <div class="smart-mind-map">
+
+      <!-- Центр -->
+      <div class="smart-center">
+        <div class="smart-center-icon">🎯</div>
+        <div class="smart-center-label">Моя SMART-цель</div>
       </div>
-      <div class="panel">
-        <div class="panel-tag">Теория</div>
-        <h2>Ставим чёткую цель</h2>
-        <p>
-          Заполни свою цель по модели SMART.
-        </p>
-        <div class="smart-grid" id="smart-grid">
-          <div class="smart-field">
-            <label for="smart-s">S — Specific (конкретная)</label>
-            <textarea id="smart-s" rows="2"></textarea>
-          </div>
-          <div class="smart-field">
-            <label for="smart-m">M — Measurable (измеримая)</label>
-            <textarea id="smart-m" rows="2"></textarea>
-          </div>
-          <div class="smart-field">
-            <label for="smart-a">A — Achievable (достижимая)</label>
-            <textarea id="smart-a" rows="2"></textarea>
-          </div>
-          <div class="smart-field">
-            <label for="smart-r">R — Relevant (релевантная)</label>
-            <textarea id="smart-r" rows="2"></textarea>
-          </div>
-          <div class="smart-field">
-            <label for="smart-t">T — Time-bound (ограниченная по времени)</label>
-            <textarea id="smart-t" rows="2"></textarea>
-          </div>
+
+      <!-- Ветви -->
+      <div class="smart-branch smart-branch-s">
+        <div class="smart-branch-header" style="--branch-color: #22c55e;">
+          <span class="smart-letter">S</span>
+          <span class="smart-branch-title">Specific<br><small>Конкретная</small></span>
         </div>
-               <div class="actions-row">
-           <button class="btn secondary nav-back" data-prev>Назад</button>
-           <button class="btn" data-next="screen-19">Продолжить</button>
+        <textarea class="smart-textarea" id="smart-s" data-branch="s" placeholder="Что именно ты хочешь достичь? Например: «Познакомиться с 3 потенциальными партнёрами из фармы»"></textarea>
+      </div>
+
+      <div class="smart-branch smart-branch-m">
+        <div class="smart-branch-header" style="--branch-color: #3b82f6;">
+          <span class="smart-letter">M</span>
+          <span class="smart-branch-title">Measurable<br><small>Измеримая</small></span>
+        </div>
+        <textarea class="smart-textarea" id="smart-m" data-branch="m" placeholder="Как ты поймёшь, что цель достигнута? Например: «Обменяюсь контактами минимум с 3 людьми»"></textarea>
+      </div>
+
+      <div class="smart-branch smart-branch-a">
+        <div class="smart-branch-header" style="--branch-color: #f59e0b;">
+          <span class="smart-letter">A</span>
+          <span class="smart-branch-title">Achievable<br><small>Достижимая</small></span>
+        </div>
+        <textarea class="smart-textarea" id="smart-a" data-branch="a" placeholder="Реально ли это? Какие ресурсы есть? Например: «Да, конференция на 200 человек, у меня есть визитки»"></textarea>
+      </div>
+
+      <div class="smart-branch smart-branch-r">
+        <div class="smart-branch-header" style="--branch-color: #a855f7;">
+          <span class="smart-letter">R</span>
+          <span class="smart-branch-title">Relevant<br><small>Релевантная</small></span>
+        </div>
+        <textarea class="smart-textarea" id="smart-r" data-branch="r" placeholder="Зачем тебе это? Например: «Мне нужны контакты для запуска совместного проекта»"></textarea>
+      </div>
+
+      <div class="smart-branch smart-branch-t">
+        <div class="smart-branch-header" style="--branch-color: #ef4444;">
+          <span class="smart-letter">T</span>
+          <span class="smart-branch-title">Time-bound<br><small>Ограниченная по времени</small></span>
+        </div>
+        <textarea class="smart-textarea" id="smart-t" data-branch="t" placeholder="Когда? Например: «На конференции PharmaTech 15 марта»"></textarea>
+      </div>
+
+    </div>
+
+    <!-- Пример Златы -->
+    <div class="smart-example" id="smart-example-toggle">
+      <div class="smart-example-header">
+        <span>💡</span> <strong>Посмотреть пример Златы</strong>
+        <span class="smart-example-arrow" id="smart-example-arrow">▼</span>
+      </div>
+      <div class="smart-example-body" id="smart-example-body">
+        <div class="smart-example-row"><strong style="color:#22c55e;">S:</strong> Познакомиться с 3 специалистами из отдела регистрации других компаний</div>
+        <div class="smart-example-row"><strong style="color:#3b82f6;">M:</strong> Обменяться визитками или контактами в мессенджере с 3 людьми</div>
+        <div class="smart-example-row"><strong style="color:#f59e0b;">A:</strong> Конференция на 150 человек, есть визитки и подготовленное представление</div>
+        <div class="smart-example-row"><strong style="color:#a855f7;">R:</strong> Нужны контакты для ускорения процесса регистрации препаратов</div>
+        <div class="smart-example-row"><strong style="color:#ef4444;">T:</strong> На конференции PharmaTech 15 марта 2025</div>
+      </div>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="smart-actions">
+      <button class="btn secondary nav-back" data-prev>Назад</button>
+      <button class="btn secondary" id="btn-smart-save">💾 Сохранить ответ</button>
+      <button class="btn" id="btn-smart-submit">Ответить</button>
+      <button class="btn" id="btn-smart-continue" style="display:none;" data-next="screen-19">Продолжить →</button>
+    </div>
+
+    <!-- Уведомление о сохранении -->
+    <div class="smart-saved-toast" id="smart-saved-toast">💾 Ответ сохранён!</div>
+
+    <!-- Модалка предупреждения -->
+    <div class="modal-overlay" id="smart-warning-modal">
+      <div class="modal" style="text-align:center; max-width: 380px;">
+        <div style="font-size: 36px; margin-bottom: 8px;">⚠️</div>
+        <h3>Заполни все пункты цели!</h3>
+        <p style="color: var(--text-soft); margin-top: 6px;">Каждая ветвь SMART-цели должна быть заполнена, чтобы цель была конкретной и достижимой.</p>
+        <div style="margin-top: 14px;">
+          <button class="btn" id="smart-warning-ok">Понятно</button>
         </div>
       </div>
     </div>
+
+    <!-- Модалка ОС -->
+    <div class="modal-overlay" id="smart-feedback-modal">
+      <div class="modal" style="max-width: 500px;">
+        <div style="font-size: 36px; text-align: center; margin-bottom: 8px;">🎉</div>
+        <h3 style="text-align: center;">Отличная SMART-цель!</h3>
+        <div id="smart-feedback-content" style="margin-top: 12px;"></div>
+        <p style="margin-top: 12px; padding: 10px; border-radius: 10px; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); font-size: 13px; color: #166534; text-align: center;">
+          +2 к уровню нетворкинга 🚀
+        </p>
+        <div style="display: flex; justify-content: center; margin-top: 14px;">
+          <button class="btn" id="smart-feedback-continue">Продолжить →</button>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
+      
     <!-- Экран 19. Создание визитки -->
 
 <div class="screen" id="screen-19">
