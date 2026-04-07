@@ -1038,7 +1038,7 @@ function initPeopleDrag() {
       // Сначала сбрасываем
       createPeople();
 // Потом показываем сообщение (после createPeople)
-      feedback.innerHTML = '😅 Это слишком много! На одном мероприятии сложно качественно познакомиться с ' + count + ' людьми.<br>Помни: <strong>качество важнее количества</strong>. Попробуй выбрать от 1 до 6.';
+      feedback.innerHTML = 'Это слишком много! На одном мероприятии сложно качественно познакомиться с ' + count + ' людьми.<br>Помни: <strong>качество важнее количества</strong>. Попробуй выбрать от 1 до 6.';
       feedback.style.color = '#ef4444';
       feedback.style.display = 'block';
       return;
