@@ -1656,6 +1656,162 @@ function initProfileAndSticky() {
   showScreen('screen-17');
 });
   }
+
+// ===== Экран 17: SMART-цель =====
+function initSmartGoal() {
+  var fields = {
+    s: document.getElementById('smart-s'),
+    m: document.getElementById('smart-m'),
+    a: document.getElementById('smart-a'),
+    r: document.getElementById('smart-r'),
+    t: document.getElementById('smart-t')
+  };
+
+  var btnSubmit = document.getElementById('btn-smart-submit');
+  var btnSave = document.getElementById('btn-smart-save');
+  var btnContinue = document.getElementById('btn-smart-continue');
+  var warningModal = document.getElementById('smart-warning-modal');
+  var warningOk = document.getElementById('smart-warning-ok');
+  var feedbackModal = document.getElementById('smart-feedback-modal');
+  var feedbackContent = document.getElementById('smart-feedback-content');
+  var feedbackContinue = document.getElementById('smart-feedback-continue');
+  var exampleToggle = document.getElementById('smart-example-toggle');
+  var exampleBody = document.getElementById('smart-example-body');
+  var exampleArrow = document.getElementById('smart-example-arrow');
+  var toast = document.getElementById('smart-saved-toast');
+
+  if (!btnSubmit || !fields.s) return;
+
+  // Загрузка сохранённых ответов
+  var saved = localStorage.getItem('nc_smart_goal');
+  if (saved) {
+    try {
+      var data = JSON.parse(saved);
+      Object.keys(data).forEach(function(key) {
+        if (fields[key]) fields[key].value = data[key];
+      });
+    } catch (e) {}
+  }
+
+  // Автоподсветка заполненных полей
+  Object.keys(fields).forEach(function(key) {
+    fields[key].addEventListener('input', function() {
+      this.classList.remove('error');
+      if (this.value.trim()) {
+        this.classList.add('filled');
+      } else {
+        this.classList.remove('filled');
+      }
+    });
+    // Инициализация при загрузке
+    if (fields[key].value.trim()) {
+      fields[key].classList.add('filled');
+    }
+  });
+
+  // Пример Златы — аккордеон
+  exampleToggle.addEventListener('click', function() {
+    exampleBody.classList.toggle('open');
+    exampleArrow.classList.toggle('open');
+  });
+
+  // Проверка заполнения
+  function getAllFilled() {
+    var allFilled = true;
+    var values = {};
+    Object.keys(fields).forEach(function(key) {
+      var val = fields[key].value.trim();
+      values[key] = val;
+      if (!val) allFilled = false;
+    });
+    return { allFilled: allFilled, values: values };
+  }
+
+  // Кнопка «Ответить»
+  btnSubmit.addEventListener('click', function() {
+    var result = getAllFilled();
+
+    if (!result.allFilled) {
+      // Подсвечиваем пустые
+      Object.keys(fields).forEach(function(key) {
+        if (!fields[key].value.trim()) {
+          fields[key].classList.add('error');
+        }
+      });
+      warningModal.classList.add('active');
+      return;
+    }
+
+    // Формируем ОС
+    var html = '';
+    var labels = {
+      s: { letter: 'S', name: 'Конкретная', color: '#22c55e' },
+      m: { letter: 'M', name: 'Измеримая', color: '#3b82f6' },
+      a: { letter: 'A', name: 'Достижимая', color: '#f59e0b' },
+      r: { letter: 'R', name: 'Релевантная', color: '#a855f7' },
+      t: { letter: 'T', name: 'Ограниченная по времени', color: '#ef4444' }
+    };
+
+    Object.keys(labels).forEach(function(key) {
+      var l = labels[key];
+      html += '<div style="padding:8px 0; border-bottom:1px solid #f1f5f9;">';
+      html += '<strong style="color:' + l.color + ';">' + l.letter + ' — ' + l.name + ':</strong> ';
+      html += '<span style="color:var(--text);">' + result.values[key] + '</span>';
+      html += '</div>';
+    });
+
+    feedbackContent.innerHTML = html;
+    feedbackModal.classList.add('active');
+
+    // Автосохраняем
+    localStorage.setItem('nc_smart_goal', JSON.stringify(result.values));
+
+    addScore(2);
+    btnSubmit.style.display = 'none';
+    btnContinue.style.display = 'inline-flex';
+  });
+
+  // Закрытие предупреждения
+  warningOk.addEventListener('click', function() {
+    warningModal.classList.remove('active');
+    // Фокус на первое пустое поле
+    var keys = Object.keys(fields);
+    for (var i = 0; i < keys.length; i++) {
+      if (!fields[keys[i]].value.trim()) {
+        fields[keys[i]].focus();
+        break;
+      }
+    }
+  });
+
+  warningModal.addEventListener('click', function(e) {
+    if (e.target === warningModal) warningModal.classList.remove('active');
+  });
+
+  // Продолжить в модалке ОС
+  feedbackContinue.addEventListener('click', function() {
+    feedbackModal.classList.remove('active');
+  });
+
+  feedbackModal.addEventListener('click', function(e) {
+    if (e.target === feedbackModal) feedbackModal.classList.remove('active');
+  });
+
+  // Кнопка «Сохранить»
+  btnSave.addEventListener('click', function() {
+    var result = getAllFilled();
+    localStorage.setItem('nc_smart_goal', JSON.stringify(result.values));
+
+    // Тост
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  });
+}
+
 // ===== Экран 21-2: карта мероприятия =====
 function initVenueMap() {
   var objects = [
@@ -1736,6 +1892,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initWheel();
   initWheelSummary();
   initPeopleDrag();
+   initSmartGoal();
   initPhotoGame();
   initBizcard();
   initProfileAndSticky();
@@ -1743,3 +1900,4 @@ document.addEventListener('DOMContentLoaded', function() {
   initVenueMap();
   updateHud();
 });
+
