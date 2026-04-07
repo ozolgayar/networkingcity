@@ -708,10 +708,10 @@ function sectorPath(cx, cy, r1, r2, startAngle, endAngle) {
 }
 
 function renderWheel(svgId, values, activeIndex) {
-  const svg = document.getElementById(svgId);
+  var svg = document.getElementById(svgId);
   if (!svg) return;
-  const cx = 210, cy = 210, maxR = 150, innerR = 24;
-  const step = (maxR - innerR) / 10;
+  var cx = 250, cy = 250, maxR = 190, innerR = 28;
+  var step = (maxR - innerR) / 10;
   svg.innerHTML = '';
 
   for (let i = 1; i <= 10; i++) {
@@ -755,7 +755,7 @@ function renderWheel(svgId, values, activeIndex) {
       svg.appendChild(ring);
     }
 
-    const lp = polar(cx, cy, maxR + 34, start + 30);
+    const lp = polar(cx, cy, maxR + 42, start + 30);
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     text.setAttribute('x', lp.x); text.setAttribute('y', lp.y);
     text.setAttribute('font-size', '13');
