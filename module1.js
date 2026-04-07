@@ -505,7 +505,7 @@ var fearsInitialized = false;
 
 function initFears() {
   if (fearsInitialized) return;
-  
+
   var masks = document.querySelectorAll('#fear-masks-grid .fear-mask');
   var btnUnmask = document.getElementById('btn-unmask');
   var btnNoFear = document.getElementById('btn-no-fear');
@@ -517,9 +517,8 @@ function initFears() {
   var btnDone = document.getElementById('btn-fears-done');
   var modal = document.getElementById('fears-modal');
 
-  // Проверяем что элементы найдены
   if (!masks.length || !btnUnmask || !btnNoFear) {
-    console.warn('initFears: elements not found, will retry on screen show');
+    console.warn('initFears: elements not found');
     return;
   }
 
@@ -539,16 +538,12 @@ function initFears() {
 
   var selected = [];
 
-  // Клик по маскам
   masks.forEach(function(mask) {
     mask.addEventListener('click', function(e) {
-      // Не реагируем на клик по input
       if (e.target.tagName === 'INPUT') return;
-
       var fear = mask.dataset.fear;
 
       if (mask.classList.contains('selected')) {
-        // Снимаем выбор
         mask.classList.remove('selected');
         selected = selected.filter(function(f) { return f !== fear; });
         if (fear === 'custom') {
@@ -556,7 +551,6 @@ function initFears() {
           if (inp) inp.style.display = 'none';
         }
       } else {
-        // Выбираем
         mask.classList.add('selected');
         selected.push(fear);
         if (fear === 'custom') {
@@ -568,7 +562,6 @@ function initFears() {
         }
       }
 
-      // Показать/скрыть кнопку и валидации
       if (selected.length > 0) {
         btnUnmask.style.display = 'inline-flex';
         showValidations();
@@ -578,6 +571,98 @@ function initFears() {
       }
     });
   });
+
+  function showValidations() {
+    validationsList.innerHTML = '';
+    selected.forEach(function(fear) {
+      var d = fearsData[fear];
+      if (!d) return;
+      var customInput = document.querySelector('.fear-custom-input');
+      var label = (fear === 'custom' && customInput) ? (customInput.value || 'Свой вариант') : d.label;
+      var item = document.createElement('div');
+      item.className = 'fear-validation-item';
+      item.innerHTML =
+        '<span class="fear-validation-icon">' + d.icon + '</span>' +
+        '<div class="fear-validation-text"><strong>' + label + '</strong> — ' + d.validation + '</div>';
+      validationsList.appendChild(item);
+    });
+    validationsBox.style.display = 'block';
+  }
+
+  btnUnmask.addEventListener('click', function() {
+    strategyList.innerHTML = '';
+    selected.forEach(function(fear) {
+      var d = fearsData[fear];
+      if (!d) return;
+      var customInput = document.querySelector('.fear-custom-input');
+      var label = (fear === 'custom' && customInput) ? (customInput.value || 'Свой вариант') : d.label;
+      var card = document.createElement('div');
+      card.className = 'fear-strategy-card';
+      card.innerHTML =
+        '<div class="fear-strategy-header">' +
+          '<span class="fear-strategy-emoji">' + d.icon + '</span>' +
+          '<span class="fear-strategy-title">' + label + '</span>' +
+        '</div>' +
+        '<div class="fear-strategy-validation">💚 ' + d.validation + '</div>' +
+        '<textarea class="fear-strategy-textarea" data-fear="' + fear + '" placeholder="' + d.placeholder + '"></textarea>';
+      strategyList.appendChild(card);
+    });
+    step2.style.display = 'block';
+    step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  btnNoFear.addEventListener('click', function() {
+    addScore(1);
+    showScreen('screen-13-1');
+  });
+
+  btnSave.addEventListener('click', function() {
+    var data = {};
+    strategyList.querySelectorAll('.fear-strategy-textarea').forEach(function(ta) {
+      data[ta.dataset.fear] = ta.value;
+    });
+    localStorage.setItem('nc_fears', JSON.stringify({ selected: selected, strategies: data }));
+    var msg = document.getElementById('fears-saved-msg');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.id = 'fears-saved-msg';
+      msg.className = 'fear-saved-msg';
+      msg.textContent = '💾 Сохранено!';
+      btnSave.parentElement.appendChild(msg);
+    }
+    msg.classList.remove('show');
+    void msg.offsetWidth;
+    msg.classList.add('show');
+  });
+
+  btnDone.addEventListener('click', function() {
+    addScore(3);
+    modal.classList.add('active');
+  });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+}
+
+// ===== Экран 13-1: карточка Златы с целью =====
+function initZlataCard2() {
+  var card = document.getElementById('zlata-card-2');
+  var wrapper = card ? card.closest('.zlata-card-wrapper') : null;
+  var goalBtn = document.getElementById('inv-goal-2');
+
+  if (!card || !wrapper || !goalBtn) return;
+
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-goal-2')) return;
+    card.classList.toggle('flipped');
+  });
+
+  goalBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-14');
+  });
+}
 // ===== Экран 13-1: карточка Златы с целью =====
 function initZlataCard2() {
   var card = document.getElementById('zlata-card-2');
