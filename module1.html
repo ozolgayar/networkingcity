@@ -13,7 +13,7 @@
 <h4>Модуль 1 — Навигация</h4>
 <div class="menu-section">
 <ul class="menu-list">
-<li data-goto="screen-1">1. Начало</li>
+<li data-goto="screen-1">1. НАачало</li>
 <li data-goto="screen-2">2. Тест</li>
 <li data-goto="screen-3">3. Знакомство со Златой</li>
 <li data-goto="screen-10">4. Ноутбук Златы</li>
@@ -704,6 +704,7 @@
 </div>
 </div>
 </div>
+      
 <!-- Экран 16. Сколько знакомств ты заведёшь -->
 <div class="screen" id="screen-16">
   <div class="screen-layout">
@@ -792,9 +793,13 @@
 
       <p>Нажимай на человечков слева, чтобы добавить их в свой план знакомств.</p>
 
-      <div class="actions-row">
-        <button class="btn secondary nav-back" data-prev>Назад</button>
-        <button class="btn" data-next="screen-16-1">Продолжить</button>
+       <div id="people-feedback" style="display:none; font-size:14px; line-height:1.5; padding:10px 14px; border-radius:12px; background:rgba(241,245,249,0.8); border:1px solid #e2e8f0; margin-top:6px;"></div>
+
+        <div class="actions-row">
+          <button class="btn secondary nav-back" data-prev>Назад</button>
+          <button class="btn" id="btn-people-plan" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 12px 30px rgba(59,130,246,0.4);">📋 Запланировать</button>
+          <button class="btn" data-next="screen-16-1" style="display:none;">Продолжить →</button>
+        </div>
       </div>
     </div>
   </div>
