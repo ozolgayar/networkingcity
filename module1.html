@@ -812,47 +812,56 @@
 </div>
       
 <!-- Экран 16-1. Где ты будешь знакомиться -->
-<div class="screen" id="screen-16-1">
+ <div class="scene" style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f8fafc); border: none;">
+      <div class="scene-header">
+        <span class="tagline">Где ты будешь знакомиться?</span>
+      </div>
+      <div class="scene-main" style="flex-direction: column; gap: 10px; padding: 18px; align-items: stretch;">
+        <!-- Три колонки-категории -->
+        <div style="display: flex; gap: 12px; width: 100%; flex: 1; min-height: 0;">
 
-
-    <div class="screen-layout">
-      <div class="scene">
-        <div class="scene-header">
-          <span class="tagline">Экран 16.1 • Где ты будешь знакомиться?</span>
-        </div>
-        <div class="scene-main">
-          <div class="fake-illustration" style="align-items: flex-start; padding: 14px; overflow-y: auto;">
-            <!-- Три колонки-категории -->
-            <div style="display: flex; gap: 10px; width: 100%; height: 100%;">
-              
-              <div class="location-category" data-category="comfort" style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                <div style="font-size: 12px; font-weight: 600; color: #4ade80; text-align:center; padding: 6px; background: rgba(34,197,94,0.15); border-radius: 8px; border: 1px solid rgba(34,197,94,0.4);">
-                  🐟 Как рыба в воде
-                </div>
-                <div class="location-drop-zone" data-category="comfort" style="flex:1; min-height: 60px; border-radius: 10px; border: 1px dashed rgba(34,197,94,0.5); background: rgba(34,197,94,0.05); padding: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start;">
-                </div>
-              </div>
-
-              <div class="location-category" data-category="neutral" style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                <div style="font-size: 12px; font-weight: 600; color: #facc15; text-align:center; padding: 6px; background: rgba(250,204,21,0.15); border-radius: 8px; border: 1px solid rgba(250,204,21,0.4);">
-                  😐 Нейтрально
-                </div>
-                <div class="location-drop-zone" data-category="neutral" style="flex:1; min-height: 60px; border-radius: 10px; border: 1px dashed rgba(250,204,21,0.5); background: rgba(250,204,21,0.05); padding: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start;">
-                </div>
-              </div>
-
-              <div class="location-category" data-category="avoid" style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                <div style="font-size: 12px; font-weight: 600; color: #f97373; text-align:center; padding: 6px; background: rgba(239,68,68,0.15); border-radius: 8px; border: 1px solid rgba(239,68,68,0.4);">
-                  🚫 Ноги моей тут не будет
-                </div>
-                <div class="location-drop-zone" data-category="avoid" style="flex:1; min-height: 60px; border-radius: 10px; border: 1px dashed rgba(239,68,68,0.5); background: rgba(239,68,68,0.05); padding: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start;">
-                </div>
-              </div>
-
+          <div class="location-category" data-category="comfort" style="flex:1; display:flex; flex-direction:column; gap:6px; min-width:0;">
+            <div style="font-size: 12px; font-weight: 600; color: #16a34a; text-align:center; padding: 8px 6px; background: rgba(34,197,94,0.12); border-radius: 10px; border: 1px solid rgba(34,197,94,0.3);">
+              🐟 Как рыба в воде
             </div>
+            <div class="location-drop-zone" data-category="comfort" style="
+              flex:1; min-height: 80px; border-radius: 12px;
+              border: 2px dashed rgba(34,197,94,0.4);
+              background: rgba(34,197,94,0.04);
+              padding: 8px; display: flex; flex-wrap: wrap;
+              gap: 6px; align-content: flex-start;
+            "></div>
           </div>
+
+          <div class="location-category" data-category="neutral" style="flex:1; display:flex; flex-direction:column; gap:6px; min-width:0;">
+            <div style="font-size: 12px; font-weight: 600; color: #ca8a04; text-align:center; padding: 8px 6px; background: rgba(250,204,21,0.12); border-radius: 10px; border: 1px solid rgba(250,204,21,0.3);">
+              😐 Нейтрально
+            </div>
+            <div class="location-drop-zone" data-category="neutral" style="
+              flex:1; min-height: 80px; border-radius: 12px;
+              border: 2px dashed rgba(250,204,21,0.4);
+              background: rgba(250,204,21,0.04);
+              padding: 8px; display: flex; flex-wrap: wrap;
+              gap: 6px; align-content: flex-start;
+            "></div>
+          </div>
+
+          <div class="location-category" data-category="avoid" style="flex:1; display:flex; flex-direction:column; gap:6px; min-width:0;">
+            <div style="font-size: 12px; font-weight: 600; color: #dc2626; text-align:center; padding: 8px 6px; background: rgba(239,68,68,0.12); border-radius: 10px; border: 1px solid rgba(239,68,68,0.3);">
+              🚫 Ноги моей тут не будет
+            </div>
+            <div class="location-drop-zone" data-category="avoid" style="
+              flex:1; min-height: 80px; border-radius: 12px;
+              border: 2px dashed rgba(239,68,68,0.4);
+              background: rgba(239,68,68,0.04);
+              padding: 8px; display: flex; flex-wrap: wrap;
+              gap: 6px; align-content: flex-start;
+            "></div>
+          </div>
+
         </div>
       </div>
+    </div>
       <div class="panel" style="overflow-y: auto; min-height: 0; max-height: calc(100vh - 180px);">
         <div class="panel-tag">Теория</div>
         <h2>Где ты будешь знакомиться?</h2>
