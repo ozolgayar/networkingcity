@@ -1,40 +1,22 @@
 // Предупреждение для мобильных
-(function() {
+window.addEventListener('DOMContentLoaded', function() {
   if (window.innerWidth < 900) {
+    var app = document.getElementById('app');
+    if (app) app.style.display = 'none';
+
     var overlay = document.createElement('div');
     overlay.id = 'mobile-warning';
-    overlay.innerHTML = 
-      '<div style="' +
-        'position:fixed;inset:0;z-index:9999;' +
-        'background:rgba(15,23,42,0.85);' +
-        'display:flex;align-items:center;justify-content:center;' +
-        'padding:24px;' +
-      '">' +
-        '<div style="' +
-          'background:#ffffff;border-radius:18px;' +
-          'padding:32px 28px;max-width:400px;width:100%;' +
-          'text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);' +
-        '">' +
-          '<div style="font-size:48px;margin-bottom:16px;">💻</div>' +
-          '<h2 style="font-size:20px;color:#1e293b;margin-bottom:10px;">' +
-            'Курс доступен только с компьютера' +
-          '</h2>' +
-          '<p style="font-size:14px;color:#64748b;line-height:1.5;margin-bottom:20px;">' +
-            'Для прохождения курса необходим экран шириной от 900px. ' +
-            'Пожалуйста, открой эту страницу на компьютере или ноутбуке.' +
-          '</p>' +
-          '<a href="/" style="' +
-            'display:inline-block;padding:10px 24px;' +
-            'border-radius:999px;background:linear-gradient(135deg,#22c55e,#16a34a);' +
-            'color:#fff;text-decoration:none;font-weight:600;font-size:14px;' +
-            'box-shadow:0 8px 24px rgba(34,197,94,0.4);' +
-          '">← На главную</a>' +
-        '</div>' +
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.85);display:flex;align-items:center;justify-content:center;padding:24px;';
+    overlay.innerHTML =
+      '<div style="background:#ffffff;border-radius:18px;padding:32px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">' +
+        '<div style="font-size:48px;margin-bottom:16px;">💻</div>' +
+        '<h2 style="font-size:20px;color:#1e293b;margin-bottom:10px;">Курс доступен только с компьютера</h2>' +
+        '<p style="font-size:14px;color:#64748b;line-height:1.5;margin-bottom:20px;">Для прохождения курса необходим экран шириной от 900px. Пожалуйста, открой эту страницу на компьютере или ноутбуке.</p>' +
+        '<a href="index.html" style="display:inline-block;padding:10px 24px;border-radius:999px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;text-decoration:none;font-weight:600;font-size:14px;box-shadow:0 8px 24px rgba(34,197,94,0.4);">← На главную</a>' +
       '</div>';
     document.body.appendChild(overlay);
-    document.getElementById('app').style.display = 'none';
   }
-})();
+});
 // Глобальное состояние
 const state = {
   score: 0,
