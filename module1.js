@@ -16,11 +16,7 @@
 // Порядок экранов — ГЛОБАЛЬНО
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-10',
-  'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
-  'screen-16', 'screen-16-1', 'screen-17', 'screen-19',
-  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
-  'screen-final'
-];
+  'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
 
   // ===== Утилиты =====
 function showScreen(id) {
@@ -582,7 +578,26 @@ function initFears() {
       }
     });
   });
+// ===== Экран 13-1: карточка Златы с целью =====
+function initZlataCard2() {
+  var card = document.getElementById('zlata-card-2');
+  var wrapper = card ? card.closest('.zlata-card-wrapper') : null;
+  var goalBtn = document.getElementById('inv-goal-2');
 
+  if (!card || !wrapper || !goalBtn) return;
+
+  // Флип карточки
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-goal-2')) return;
+    card.classList.toggle('flipped');
+  });
+
+  // Клик по цели — переход на колесо баланса
+  goalBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-14');
+  });
+}
   function showValidations() {
     validationsList.innerHTML = '';
     selected.forEach(function(fear) {
@@ -1605,6 +1620,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initPurposeScreen();
   initBeadsGame();
   initFears();
+   initZlataCard2();
   initWheel();
   initWheelSummary();
   initPeopleDrag();
