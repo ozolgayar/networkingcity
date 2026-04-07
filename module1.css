@@ -2930,7 +2930,6 @@ color: #1e293b;
 
 /* ===== Экран 19: визитка ===== */
 #screen-19.active {
-  min-height: 0 !important;
   height: calc(100vh - 120px);
   overflow: hidden;
 }
@@ -2960,4 +2959,220 @@ color: #1e293b;
 #screen-19 .panel::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.4);
   border-radius: 999px;
+}
+
+/* Карточка визитки */
+.bizcard-template {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.bizcard-template.celebrate {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(34, 197, 94, 0.35);
+}
+
+/* Поля визитки */
+.bizcard-template input.bc-field,
+.bizcard-template textarea.bc-field {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  width: 100%;
+  min-height: 36px;
+  resize: none;
+  background: #f8fafc;
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.bizcard-template input.bc-field::placeholder,
+.bizcard-template textarea.bc-field::placeholder {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.bizcard-template input.bc-field:first-of-type {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.bizcard-template input.bc-field.error,
+.bizcard-template textarea.bc-field.error {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.04);
+}
+
+/* Строки с несколькими полями */
+.bizcard-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.bizcard-row input.bc-field {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Drop-зоны */
+.bizcard-drop-zone {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  border: 2px dashed #cbd5e1;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #94a3b8;
+  text-align: center;
+  cursor: default;
+  transition: .2s ease;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.bizcard-drop-zone.drag-over {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.bizcard-drop-zone.filled {
+  border-style: solid;
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+  font-size: 18px;
+}
+
+.bizcard-drop-zone.error-flash {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  animation: shake 0.4s ease;
+}
+
+/* Элементы перетаскивания */
+.drag-elements-panel {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.drag-el {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 12px;
+  cursor: grab;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: .15s ease;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.drag-el:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.drag-el:active {
+  cursor: grabbing;
+}
+
+.drag-el.placed {
+  opacity: 0.35;
+  pointer-events: none;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+/* Фидбек */
+.bizcard-feedback {
+  font-size: 13px;
+  min-height: 20px;
+  margin-top: 4px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: .2s ease;
+  line-height: 1.4;
+}
+
+.bizcard-feedback.ok {
+  color: #166534;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.bizcard-feedback.err {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Ошибка телефона */
+#bc-phone-error {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 600;
+  padding: 6px 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Пример визитки Златы */
+.bizcard-example {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.bizcard-example .bc-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.bizcard-example .bc-role {
+  font-size: 11px;
+  color: var(--text-soft);
+  margin-top: 1px;
+}
+
+.bizcard-example .bc-hint {
+  font-size: 12px;
+  font-style: italic;
+  color: #166534;
+  line-height: 1.4;
+  padding: 8px 10px;
+  background: rgba(34, 197, 94, 0.06);
+  border-left: 3px solid #22c55e;
+  border-radius: 0 8px 8px 0;
+  margin-top: 6px;
+}
+
+.bizcard-example .bc-contacts {
+  font-size: 12px;
+  color: var(--text-soft);
+  line-height: 1.6;
 }
