@@ -2957,7 +2957,7 @@ color: #1e293b;
 #screen-19 .panel {
   overflow-y: auto;
   min-height: 0;
-  max-height: calc(100vh - 220px);
+  max-height: calc(100vh - 160px);
 }
 
 #screen-19 .scene-main::-webkit-scrollbar,
