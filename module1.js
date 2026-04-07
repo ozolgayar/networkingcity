@@ -15,6 +15,9 @@ window.addEventListener('DOMContentLoaded', function() {
         '<a href="index.html" style="display:inline-block;padding:10px 24px;border-radius:999px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;text-decoration:none;font-weight:600;font-size:14px;box-shadow:0 8px 24px rgba(34,197,94,0.4);">← На главную</a>' +
       '</div>';
     document.body.appendChild(overlay);
+
+    // Блокируем инициализацию курса
+    window.__mobileBlocked = true;
   }
 });
 // Глобальное состояние
@@ -1908,6 +1911,8 @@ function initVenueMap() {
   });
 }
 document.addEventListener('DOMContentLoaded', function() {
+   // Не запускаем на мобилках
+  if (window.__mobileBlocked) return;
   initGlobalNav();
   initMainMenu();
   initQuiz();
