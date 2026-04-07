@@ -2712,3 +2712,7 @@ color: #1e293b;
   animation: fadeIn 0.3s ease;
 }
 .fear-saved-msg.show { display: block; }
+.screen:not(.active) {
+  pointer-events: none;
+  visibility: hidden;
+}
