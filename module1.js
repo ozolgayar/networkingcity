@@ -1598,7 +1598,3 @@ document.addEventListener('DOMContentLoaded', function() {
   initVenueMap();
   updateHud();
 });
-  var activeScreen = document.querySelector('.screen.active');
-  if (activeScreen && activeScreen.id === 'screen-13') {
-    initFears();
-  }
