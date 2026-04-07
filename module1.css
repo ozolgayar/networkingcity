@@ -1666,21 +1666,6 @@ color: #1e293b;
   border-style: dashed;
 }
 
-.bizcard-example {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 14px;
-  border: 1px solid #e2e8f0;
-  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-  padding: 14px;
-  font-size: 12px;
-  color: var(--text);
-}
-.bizcard-example .bc-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-.bizcard-example .bc-role { color: var(--text-soft); margin-bottom: 4px; }
-.bizcard-example .bc-hint { font-style: italic; color: var(--accent); margin: 6px 0; font-size: 11px; }
-.bizcard-example .bc-contacts { font-size: 11px; color: var(--text-soft); }
-
 .bizcard-feedback {
   font-size: 12px;
   min-height: 16px;
@@ -3102,4 +3087,9 @@ color: #1e293b;
   font-size: 12px;
   color: var(--text-soft);
   line-height: 1.6;
+}
+/* Принудительный скролл панели экрана 19 */
+#screen-19 .panel {
+  overflow-y: auto !important;
+  max-height: calc(100vh - 120px) !important;
 }
