@@ -639,9 +639,9 @@ function initZlataCard2() {
   });
 
   // Мне ничего не страшно
-  btnNoFear.addEventListener('click', function() {
+ btnNoFear.addEventListener('click', function() {
     addScore(1);
-    showScreen('screen-14');
+    showScreen('screen-13-1');
   });
 
   // Сохранить
