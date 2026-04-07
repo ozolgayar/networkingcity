@@ -1067,6 +1067,10 @@ function checkBizcard() {
   if (bizcardDone) return;
   var feedback = document.getElementById('bc-feedback');
   var template = document.getElementById('bc-template');
+  var phoneError = document.getElementById('bc-phone-error');
+
+  // Скрываем ошибку телефона
+  if (phoneError) phoneError.style.display = 'none';
 
   // Проверяем поля
   var fields = template.querySelectorAll('.bc-field');
@@ -1078,6 +1082,21 @@ function checkBizcard() {
       allFilled = false;
     }
   }
+
+  // Проверяем телефон на буквы
+  var phoneField = document.getElementById('bc-phone');
+  if (phoneField && phoneField.value.trim()) {
+    var phoneVal = phoneField.value.trim();
+    // Разрешаем цифры, +, -, (, ), пробелы
+    if (/[a-zA-Zа-яА-ЯёЁ]/.test(phoneVal)) {
+      phoneField.classList.add('error');
+      if (phoneError) phoneError.style.display = 'block';
+      feedback.textContent = '📞 В поле телефона должны быть только цифры!';
+      feedback.className = 'bizcard-feedback err';
+      return;
+    }
+  }
+
   if (!allFilled) {
     feedback.textContent = 'Заполни все поля, чтобы визитка работала.';
     feedback.className = 'bizcard-feedback err';
@@ -1094,7 +1113,7 @@ function checkBizcard() {
     return;
   }
 
-  // Проверяем остальные
+  // Проверяем остальные зоны
   if (!bizcardZones.qr.filled || !bizcardZones.photo.filled) {
     feedback.textContent = 'Визитка ещё не готова! Перетащи все нужные элементы на свои места.';
     feedback.className = 'bizcard-feedback err';
@@ -1107,12 +1126,16 @@ function checkBizcard() {
   feedback.textContent = '🎉 Отлично! Твоя визитка готова.';
   feedback.className = 'bizcard-feedback ok';
   addScore(1);
+  document.getElementById('btn-bizcard-check').style.display = 'none';
   document.getElementById('btn-bizcard-next').style.display = 'inline-flex';
 }
+
 window.checkBizcard = checkBizcard;
-window.showScreen = showScreen;
+
 function initBizcard() {
   var feedback = document.getElementById('bc-feedback');
+  var phoneField = document.getElementById('bc-phone');
+  var phoneError = document.getElementById('bc-phone-error');
   var currentDrag = null;
 
   bizcardZones = {
@@ -1121,7 +1144,29 @@ function initBizcard() {
     photo: { el: document.getElementById('bc-zone-photo'), filled: false, emoji: '📸', ok: '✅ Верно! Так человеку будет легче тебя запомнить.' }
   };
 
-  // Drag start — ловим на document
+  // Валидация телефона в реальном времени
+  if (phoneField) {
+    phoneField.addEventListener('input', function() {
+      var val = this.value;
+      if (/[a-zA-Zа-яА-ЯёЁ]/.test(val)) {
+        this.classList.add('error');
+        if (phoneError) phoneError.style.display = 'block';
+      } else {
+        this.classList.remove('error');
+        if (phoneError) phoneError.style.display = 'none';
+      }
+    });
+  }
+
+  // Кнопка проверки
+  var btnCheck = document.getElementById('btn-bizcard-check');
+  if (btnCheck) {
+    btnCheck.addEventListener('click', function() {
+      checkBizcard();
+    });
+  }
+
+  // Drag start
   document.addEventListener('dragstart', function(e) {
     if (!e.target.classList || !e.target.classList.contains('drag-el')) return;
     currentDrag = e.target;
@@ -1136,11 +1181,12 @@ function initBizcard() {
     currentDrag = null;
   });
 
-  // Настраиваем drop-зоны
+  // Drop-зоны
   var keys = ['logo', 'qr', 'photo'];
   for (var k = 0; k < keys.length; k++) {
     (function(key) {
       var z = bizcardZones[key];
+      if (!z.el) return;
 
       z.el.addEventListener('dragover', function(e) {
         e.preventDefault();
@@ -1160,7 +1206,6 @@ function initBizcard() {
 
         var elType = currentDrag.dataset.el;
 
-        // Правильная зона
         if (elType === key) {
           z.filled = true;
           z.el.classList.add('filled');
@@ -1178,6 +1223,7 @@ function initBizcard() {
     })(keys[k]);
   }
 }
+
 // ===== Экран 20: выбор фото =====
 var photoSelected = null;
 var photoDone = false;
