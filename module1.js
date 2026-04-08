@@ -1376,6 +1376,7 @@ function initProfileAndSticky() {
     var sticky = document.createElement('div');
     sticky.className = 'sticky';
     sticky.dataset.id = row.id;
+    sticky.dataset.text = row.text;  
     sticky.innerHTML =
       '<button class="sticky-delete" title="Удалить стикер">✕</button>' +
       '<div>' + escapeHtml(row.text) + '</div>' +
