@@ -1742,64 +1742,60 @@ function initStickyTooltip() {
   });
 
   // Положить в сумку
-  mTake.addEventListener('click', function() {
-    if (currentIdx < 0) return;
-    var item = items[currentIdx];
-    var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
+ mTake.addEventListener('click', function() {
+  if (currentIdx < 0) return;
+  var item = items[currentIdx];
+  var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
 
-    if (shelfEl && !shelfEl.classList.contains('taken')) {
-      // Анимация исчезновения с полки
-      shelfEl.classList.add('taken');
+  if (shelfEl && !shelfEl.classList.contains('taken')) {
+    shelfEl.classList.add('taken');
 
-      // Создаём предмет внутри сумки
-      var bagEl = document.createElement('div');
-      bagEl.className = 'bag-item-inside';
-      bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
+    var bagEl = document.createElement('div');
+    bagEl.className = 'bag-item-inside';
+    bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
 
-      // Случайное положение внутри сумки
-      var maxX = 60;
-      var maxY = 50;
-      var rx = (Math.random() * maxX * 2 - maxX);
-      var ry = (Math.random() * maxY * 2 - maxY);
-      var rot = (Math.random() * 30 - 15);
-      bagEl.style.transform =
-        'translate(' + rx + 'px, ' + ry + 'px) rotate(' + rot + 'deg)';
+    // Фиксированные позиции для каждого из 10 предметов
+    // left/top в процентах от размера .bag-inside
+    // Настрой под свою картинку сумки!
+    var positions = [
+      { left: '5%',  top: '5%'  },  // 0 визитница    — левый верх
+      { left: '35%', top: '2%'  },  // 1 ручка        — центр верх
+      { left: '62%', top: '5%'  },  // 2 книжка       — правый верх
+      { left: '2%',  top: '42%' },  // 3 салфетки     — левый центр
+      { left: '25%', top: '38%' },  // 4 пятновыв.    — центр лево
+      { left: '50%', top: '40%' },  // 5 аптечка      — центр право
+      { left: '72%', top: '38%' },  // 6 конфеты      — правый центр
+      { left: '8%',  top: '72%' },  // 7 книга        — левый низ
+      { left: '38%', top: '70%' },  // 8 зарядка      — центр низ
+      { left: '68%', top: '70%' }   // 9 парфюм       — правый низ
+    ];
 
-      bagInside.appendChild(bagEl);
-      taken++;
+    var pos = positions[currentIdx] || { left: '45%', top: '45%' };
+    bagEl.style.left = pos.left;
+    bagEl.style.top  = pos.top;
 
-      // Анимация появления
+    bagInside.appendChild(bagEl);
+    taken++;
+
+    // Анимация появления
+    requestAnimationFrame(function() {
       requestAnimationFrame(function() {
         bagEl.classList.add('dropped');
       });
+    });
 
-      if (taken >= items.length) {
-        setTimeout(function() {
-          doneMsg.style.display = 'block';
-          btnGo.style.display   = 'inline-flex';
-          addScore(2);
-        }, 400);
-      }
+    if (taken >= items.length) {
+      setTimeout(function() {
+        doneMsg.style.display = 'block';
+        btnGo.style.display   = 'inline-flex';
+        addScore(2);
+      }, 500);
     }
+  }
 
-    modal.classList.remove('active');
-    currentIdx = -1;
-  });
-
-  // Закрыть без добавления
-  mSkip.addEventListener('click', function() {
-    modal.classList.remove('active');
-    currentIdx = -1;
-  });
-
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-      currentIdx = -1;
-    }
-  });
-}
- 
+  modal.classList.remove('active');
+  currentIdx = -1;
+});
 
  // ===== Экран 16-1: локации =====
   function initLocations() {
