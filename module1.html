@@ -1941,114 +1941,115 @@
 </div><!-- закрытие #screen-21-1-1 -->
       
 <!-- Экран 21-2. Карта мероприятия -->
-<!-- Экран 21-2. Карта мероприятия -->
 <div class="screen" id="screen-21-2">
   <div class="screen-layout">
 
     <!-- СЦЕНА -->
-   <div class="scene">
-  <div class="scene-header">
-    <span class="tagline">Карта мероприятия</span>
-    <span class="badge" id="venue-counter">Найдено: 0 из 3 ⭐</span>
-  </div>
-  <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:0; overflow:hidden;">
-
-    <div id="venue-success" style="display:none; padding:8px 14px; background:rgba(34,197,94,0.12); border-bottom:1px solid rgba(34,197,94,0.3); font-size:13px; color:#166534; text-align:center; font-weight:600;">
-      🎉 Ты нашёл(а) все благоприятные точки! Теперь ты знаешь, где происходит магия нетворкинга.
-    </div>
-
-    <div id="venue-map" style="flex:1; overflow:hidden; background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%); display:flex; flex-direction:column; justify-content:space-between; padding:8px 0;">
-
-  <!-- ВХОД -->
-  <div style="text-align:center; padding:4px 0; position:relative; z-index:2;">
-    <span style="font-size:10px; color:rgba(255,255,255,0.35); letter-spacing:0.15em; text-transform:uppercase; background:rgba(255,255,255,0.05); padding:3px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.08);">— вход —</span>
-  </div>
-
-  <!-- ЗОНА 1: РЕГИСТРАЦИЯ -->
-  <div style="padding:6px 12px 4px;">
-    <div style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(148,163,184,0.6); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-      <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
-      Зона регистрации
-      <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
-    </div>
-    <div style="display:flex; justify-content:space-around; align-items:flex-start; gap:8px;">
-      <div class="venue-obj" data-obj="0">
-        <div class="venue-emoji">🧥</div>
-        <div class="venue-label">Гардероб</div>
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Карта мероприятия</span>
+        <span class="badge" id="venue-counter">Найдено: 0 из 3 ⭐</span>
       </div>
-      <div class="venue-obj" data-obj="1">
-        <div class="venue-emoji">🎫</div>
-        <div class="venue-label">Ресепшен</div>
-      </div>
-      <div class="venue-obj" data-obj="2">
-        <div class="venue-emoji">📋</div>
-        <div class="venue-label">Организатор</div>
-      </div>
-    </div>
-  </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:0; overflow:hidden; flex:1;">
 
-  <!-- РАЗДЕЛИТЕЛЬ -->
-  <div style="margin:2px 12px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);"></div>
+        <div id="venue-success" style="display:none; padding:8px 14px; background:rgba(34,197,94,0.12); border-bottom:1px solid rgba(34,197,94,0.3); font-size:13px; color:#166534; text-align:center; font-weight:600;">
+          🎉 Ты нашёл(а) все благоприятные точки! Теперь ты знаешь, где происходит магия нетворкинга.
+        </div>
 
-  <!-- ЗОНА 2: ОСНОВНОЙ ЗАЛ -->
-  <div style="padding:6px 12px 4px;">
-    <div style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(148,163,184,0.6); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-      <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
-      Основной зал
-      <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
-    </div>
-    <div style="display:flex; justify-content:space-around; align-items:flex-start; gap:8px;">
-      <div class="venue-obj" data-obj="3">
-        <div class="venue-emoji">🍹</div>
-        <div class="venue-label">Напитки (Бар)</div>
-      </div>
-      <!-- Декоративный элемент — сцена/трибуна -->
-      <div style="display:flex; flex-direction:column; align-items:center; gap:5px; padding:8px 6px; border-radius:14px; border:1.5px dashed rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); min-width:64px; max-width:80px; text-align:center; opacity:0.5; pointer-events:none;">
-        <div style="font-size:28px; line-height:1;">🎤</div>
-        <div style="font-size:10px; color:rgba(255,255,255,0.3); font-weight:600; line-height:1.3;">Сцена</div>
-      </div>
-      <div class="venue-obj" data-obj="4">
-        <div class="venue-emoji">🍱</div>
-        <div class="venue-label">Еда</div>
-      </div>
-    </div>
-  </div>
+        <div id="venue-map" style="flex:1; min-height:320px; overflow:hidden; background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%); display:flex; flex-direction:column; justify-content:space-between; padding:8px 0;">
 
-  <!-- РАЗДЕЛИТЕЛЬ -->
-  <div style="margin:2px 12px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);"></div>
+          <!-- ВХОД -->
+          <div style="text-align:center; padding:4px 0;">
+            <span style="font-size:10px; color:rgba(255,255,255,0.35); letter-spacing:0.15em; text-transform:uppercase; background:rgba(255,255,255,0.05); padding:3px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.08);">— вход —</span>
+          </div>
 
-  <!-- ЗОНА 3: ЗОНА ОТДЫХА -->
-  <div style="padding:6px 12px 8px;">
-    <div style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(148,163,184,0.6); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-      <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
-      Зона отдыха
-      <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
-    </div>
-    <div style="display:flex; justify-content:space-around; align-items:flex-start; gap:8px;">
-      <div class="venue-obj" data-obj="5">
-        <div class="venue-emoji">🍽️</div>
-        <div class="venue-label">Столик с<br>закусками</div>
-      </div>
-      <div class="venue-obj" data-obj="6">
-        <div class="venue-emoji">👋</div>
-        <div class="venue-label">Давний<br>знакомый</div>
-      </div>
-      <div class="venue-obj" data-obj="7">
-        <div class="venue-emoji">🚻</div>
-        <div class="venue-label">Туалеты</div>
-      </div>
-    </div>
-  </div>
+          <!-- ЗОНА 1: РЕГИСТРАЦИЯ -->
+          <div style="padding:4px 12px;">
+            <div style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(148,163,184,0.6); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
+              Зона регистрации
+              <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
+            </div>
+            <div style="display:flex; justify-content:space-around; align-items:flex-start; gap:8px;">
+              <div class="venue-obj" data-obj="0">
+                <div class="venue-emoji">🧥</div>
+                <div class="venue-label">Гардероб</div>
+              </div>
+              <div class="venue-obj" data-obj="1">
+                <div class="venue-emoji">🎫</div>
+                <div class="venue-label">Ресепшен</div>
+              </div>
+              <div class="venue-obj" data-obj="2">
+                <div class="venue-emoji">📋</div>
+                <div class="venue-label">Организатор</div>
+              </div>
+            </div>
+          </div>
 
-  <!-- Лайфхак -->
-  <div id="venue-lifehack" style="display:none; padding:10px 14px; background:rgba(250,204,21,0.07); border-top:1px solid rgba(250,204,21,0.2); font-size:11px; color:rgba(255,255,255,0.7); line-height:1.5;">
-    <strong style="color:#facc15;">💡 Лайфхак: метод «Корова на выпасе»</strong><br>
-    Ходи к столу несколько раз — каждый поход меняет позицию в зале и даёт повод познакомиться с новыми людьми.
-  </div>
+          <!-- РАЗДЕЛИТЕЛЬ -->
+          <div style="margin:0 12px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);"></div>
 
-</div><!-- закрытие #venue-map -->
+          <!-- ЗОНА 2: ОСНОВНОЙ ЗАЛ -->
+          <div style="padding:4px 12px;">
+            <div style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(148,163,184,0.6); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
+              Основной зал
+              <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
+            </div>
+            <div style="display:flex; justify-content:space-around; align-items:flex-start; gap:8px;">
+              <div class="venue-obj" data-obj="3">
+                <div class="venue-emoji">🍹</div>
+                <div class="venue-label">Напитки (Бар)</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:5px; padding:8px 6px; border-radius:14px; border:1.5px dashed rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); min-width:64px; max-width:80px; text-align:center; opacity:0.4; pointer-events:none;">
+                <div style="font-size:28px; line-height:1;">🎤</div>
+                <div style="font-size:10px; color:rgba(255,255,255,0.3); font-weight:600;">Сцена</div>
+              </div>
+              <div class="venue-obj" data-obj="4">
+                <div class="venue-emoji">🍱</div>
+                <div class="venue-label">Еда</div>
+              </div>
+            </div>
+          </div>
 
-          <!-- ПАНЕЛЬ -->
+          <!-- РАЗДЕЛИТЕЛЬ -->
+          <div style="margin:0 12px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);"></div>
+
+          <!-- ЗОНА 3: ЗОНА ОТДЫХА -->
+          <div style="padding:4px 12px 8px;">
+            <div style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(148,163,184,0.6); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
+              Зона отдыха
+              <div style="flex:1; height:1px; background:rgba(148,163,184,0.15);"></div>
+            </div>
+            <div style="display:flex; justify-content:space-around; align-items:flex-start; gap:8px;">
+              <div class="venue-obj" data-obj="5">
+                <div class="venue-emoji">🍽️</div>
+                <div class="venue-label">Столик с<br>закусками</div>
+              </div>
+              <div class="venue-obj" data-obj="6">
+                <div class="venue-emoji">👋</div>
+                <div class="venue-label">Давний<br>знакомый</div>
+              </div>
+              <div class="venue-obj" data-obj="7">
+                <div class="venue-emoji">🚻</div>
+                <div class="venue-label">Туалеты</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Лайфхак -->
+          <div id="venue-lifehack" style="display:none; padding:10px 14px; background:rgba(250,204,21,0.07); border-top:1px solid rgba(250,204,21,0.2); font-size:11px; color:rgba(255,255,255,0.7); line-height:1.5;">
+            <strong style="color:#facc15;">💡 Лайфхак: метод «Корова на выпасе»</strong><br>
+            Ходи к столу несколько раз — каждый поход меняет позицию в зале и даёт повод познакомиться с новыми людьми.
+          </div>
+
+        </div><!-- закрытие #venue-map -->
+
+      </div><!-- закрытие .scene-main -->
+    </div><!-- закрытие .scene -->
+
+    <!-- ПАНЕЛЬ -->
     <div class="panel">
       <div class="panel-tag">Теория</div>
       <h2>Карта мероприятия</h2>
@@ -2092,6 +2093,21 @@
         <button class="btn" id="btn-venue-next" data-next="screen-final" style="display:none;">Завершить модуль →</button>
       </div>
     </div><!-- закрытие .panel -->
+
+  </div><!-- закрытие .screen-layout -->
+</div><!-- закрытие #screen-21-2 -->
+
+<!-- Модалка объекта — ВНЕ экрана -->
+<div class="modal-overlay" id="venue-modal">
+  <div class="modal" style="max-width:380px;">
+    <h3 id="venue-modal-title"></h3>
+    <p id="venue-modal-text" style="line-height:1.5; font-size:13px; color:var(--text-soft);"></p>
+    <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
+      <button class="btn" id="venue-modal-ok">Понятно</button>
+    </div>
+  </div>
+</div>
+
         
 <!-- Модалка объекта — ВНЕ экрана -->
 <div class="modal-overlay" id="venue-modal">
