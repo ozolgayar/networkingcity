@@ -1271,6 +1271,7 @@ function setStatus() {
   var spec = document.getElementById('status-spec').value.trim();
   var focus = document.getElementById('status-focus').value.trim();
   var fb = document.getElementById('status-feedback');
+  var inlineFb = document.getElementById('status-inline-feedback');
 
   if (!role || !spec || !focus) {
     fb.textContent = 'Заполни все поля, чтобы установить статус.';
@@ -1290,12 +1291,13 @@ function setStatus() {
 
   addScore(1);
 
-  // Показываем модалку внутри сцены
-  var overlay = document.getElementById('status-modal');
-  if (overlay) {
-    overlay.classList.add('active');
+  // Показываем ОС инлайн вместо модалки
+  if (inlineFb) {
+    inlineFb.innerHTML = '✅ <strong>Отлично!</strong> Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».';
+    inlineFb.style.display = 'block';
   }
 }
+
 function retryStatus() {
   document.getElementById('status-role').value = '';
   document.getElementById('status-spec').value = '';
@@ -1306,10 +1308,17 @@ function retryStatus() {
   document.getElementById('btn-status-set').style.display = 'inline-flex';
   document.getElementById('btn-status-retry').style.display = 'none';
   document.getElementById('btn-status-next').style.display = 'none';
+
+  // Скрываем ОС при повторном заполнении
+  var inlineFb = document.getElementById('status-inline-feedback');
+  if (inlineFb) {
+    inlineFb.style.display = 'none';
+  }
 }
 
 window.setStatus = setStatus;
 window.retryStatus = retryStatus;
+
   // ===== Экран 20–21: повышение узнаваемости =====
   // ===== Supabase =====
 var SUPABASE_URL = 'https://hdzelembnsoejijvlhzj.supabase.co';
