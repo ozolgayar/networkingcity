@@ -3411,3 +3411,123 @@ color: #1e293b;
 .sticky-delete:active {
   transform: scale(0.95);
 }
+
+/* ===== Доска со стикерами ===== */
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  align-content: start;
+  overflow-y: auto;
+}
+
+/* ===== Стикер — квадратный ===== */
+.sticky {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;        /* ← квадрат */
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;            /* ← текст не вылезает */
+  cursor: default;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sticky:hover {
+  transform: translateY(-3px) rotate(0.5deg);
+  box-shadow: 4px 6px 16px rgba(0,0,0,0.2);
+}
+
+/* Текст внутри стикера — обрезаем если не влезает */
+.sticky > div:first-of-type {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #374151;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;       /* ← максимум 5 строк */
+  -webkit-box-orient: vertical;
+  flex: 1;
+  margin-top: 8px;             /* отступ от кнопки ✕ */
+}
+
+/* Футер стикера */
+.sticky-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: #9ca3af;
+  border-top: 1px dashed rgba(0,0,0,0.1);
+  padding-top: 4px;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+/* Лайк */
+.like-count {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  user-select: none;
+}
+
+.like-count:hover {
+  transform: scale(1.2);
+  color: #ef4444;
+}
+
+/* Кнопка удаления */
+.sticky {
+  position: relative;
+}
+
+.sticky-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  z-index: 2;
+  line-height: 1;
+}
+
+.sticky:hover .sticky-delete {
+  opacity: 1;
+}
+
+.sticky-delete:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: scale(1.15);
+}
+
+/* Цвета стикеров — чередуем через nth-child */
+.sticky:nth-child(4n+1) { background: #fef9c3; } /* жёлтый */
+.sticky:nth-child(4n+2) { background: #dcfce7; } /* зелёный */
+.sticky:nth-child(4n+3) { background: #dbeafe; } /* синий */
+.sticky:nth-child(4n+4) { background: #fce7f3; } /* розовый */
+
+/* Лёгкий наклон для живости */
+.sticky:nth-child(3n+1) { transform: rotate(-1deg); }
+.sticky:nth-child(3n+2) { transform: rotate(0.5deg); }
+.sticky:nth-child(3n+3) { transform: rotate(-0.5deg); }
+
+.sticky:nth-child(3n+1):hover { transform: rotate(0deg) translateY(-3px); }
+.sticky:nth-child(3n+2):hover { transform: rotate(0deg) translateY(-3px); }
+.sticky:nth-child(3n+3):hover { transform: rotate(0deg) translateY(-3px); }
