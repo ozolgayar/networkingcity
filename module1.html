@@ -1382,55 +1382,53 @@
   <p><strong>Три секунды</strong> — именно столько у тебя есть, когда незнакомый человек открывает твой профиль.</p>
   <p>Твоя задача — написать <strong>крючок-самопрезентацию</strong>: одну-две строчки для статуса, подписи или письма, после которых человек думает: <em>«Хочу узнать об этом человеке больше»</em></p>
   <p>А на доске прикреплены стикеры предыдущих участников. Читай, вдохновляйся, ставь лайки ❤️</p>
-  
+
+  <!-- Примеры -->
+  <div style="display:flex; flex-direction:column; gap:8px; margin:10px 0;">
+    <div style="padding:10px 14px; border-radius:10px; background:rgba(250,204,21,0.08); border-left:3px solid #facc15; font-size:13px; line-height:1.5; color:var(--text);">
+      «Моя работа невидима, когда всё идёт хорошо. И очень заметна, когда что-то пошло не так. Я делаю всё, чтобы оставаться невидимой»
+    </div>
+    <div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.08); border-left:3px solid #38bdf8; font-size:13px; line-height:1.5; color:var(--text);">
+      «Знаю, как объяснить механизм действия препарата так, чтобы врач не заснул. Проверено на 200+ визитах»
+    </div>
+    <div style="padding:10px 14px; border-radius:10px; background:rgba(167,139,250,0.08); border-left:3px solid #a78bfa; font-size:13px; line-height:1.5; color:var(--text);">
+      «Пришла в фарму, потому что хотела, чтобы моя работа имела значение. Пока не разочаровалась»
+    </div>
+  </div>
+
   <!-- Формулы -->
   <div style="margin-top:4px; padding:12px 14px; border-radius:12px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.2);">
     <div style="font-size:12px; font-weight:700; color:var(--accent-soft); margin-bottom:8px;">💡 Подсказка — попробуй одну из формул:</div>
     <div style="display:flex; flex-direction:column; gap:6px;">
       <div style="font-size:12px; line-height:1.5; color:var(--text);">
-        💡 Помогаю <span style="color:var(--accent-soft);">[кому]</span> + <span style="color:var(--accent-soft);">[делать что]</span> + <span style="color:var(--accent-soft);">[неожиданным способом или с неожиданным результатом]</span>
+        💡 «Помогаю <span style="color:var(--accent-soft);">[кому]</span> + <span style="color:var(--accent-soft);">[делать что]</span> + <span style="color:var(--accent-soft);">[неожиданным способом или с неожиданным результатом]</span>»
       </div>
       <div style="font-size:12px; line-height:1.5; color:var(--text);">
-        💡 <span style="color:var(--accent-soft);">[Необычный факт о твоей работе]</span>. <span style="color:var(--accent-soft);">[Почему это важно]</span>
+        💡 «<span style="color:var(--accent-soft);">[Необычный факт о твоей работе]</span>. <span style="color:var(--accent-soft);">[Почему это важно]</span>»
       </div>
       <div style="font-size:12px; line-height:1.5; color:var(--text);">
-        💡 Пришёл(а) в фарму из <span style="color:var(--accent-soft);">[откуда]</span>. Теперь <span style="color:var(--accent-soft);">[что делаю иначе]</span>
+        💡 «Пришёл(а) в фарму из <span style="color:var(--accent-soft);">[откуда]</span>. Теперь <span style="color:var(--accent-soft);">[что делаю иначе]</span>»
       </div>
     </div>
   </div>
-<!-- Мой сохранённый стикер -->
-<div id="my-sticky-preview" style="display:none; margin-bottom:10px; padding:10px 14px; border-radius:12px; background:linear-gradient(135deg,#fef9c3,#fef08a); border:2px solid #facc15; position:relative;">
-  <div style="font-size:10px; font-weight:700; color:#ca8a04; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em;">📌 Твой стикер</div>
-  <div class="my-sticky-text" style="font-size:13px; line-height:1.5; color:#374151;"></div>
-  <div style="font-size:10px; color:#ca8a04; margin-top:6px; opacity:0.7;">Сохранён на этом устройстве — всегда доступен</div>
-</div>
 
-<div style="margin-top: 6px;">
-  <div class="field-label">Твой стикер</div>
-  <textarea id="sticky-input" placeholder="Опиши себя так, чтобы это захотелось запомнить и пересказать"></textarea>
-</div>
-  <div style="margin-top: 10px;">
-    <div class="field-label">Твой стикер:</div>
+  <!-- Одно поле ввода -->
+  <div style="margin-top:10px;">
+    <div class="field-label">Твой стикер</div>
     <textarea id="sticky-input" placeholder="Опиши себя так, чтобы это захотелось запомнить и пересказать"></textarea>
   </div>
 
-  <div class="actions-row">
+  <!-- Мой сохранённый стикер — показывается после добавления -->
+  <div id="my-sticky-preview" style="display:none; margin-top:8px; padding:10px 14px; border-radius:12px; background:linear-gradient(135deg,#fef9c3,#fef08a); border:2px solid #facc15;">
+    <div style="font-size:10px; font-weight:700; color:#ca8a04; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em;">📌 Твой стикер сохранён</div>
+    <div class="my-sticky-text" style="font-size:13px; line-height:1.5; color:#374151;"></div>
+    <div style="font-size:10px; color:#ca8a04; margin-top:6px; opacity:0.7;">Сохранён на этом устройстве — всегда доступен</div>
+  </div>
+
+  <div class="actions-row" style="margin-top:10px;">
     <button class="btn secondary nav-back" data-prev>Назад</button>
     <button class="btn" id="btn-sticky-add">Добавить на доску</button>
     <button class="btn secondary" id="btn-sticky-next" data-next="screen-21-1" style="display:none;">Далее</button>
-  </div>
-</div>
-
-<!-- Модалка подтверждения удаления -->
-<div class="modal-overlay" id="sticky-delete-modal">
-  <div class="modal" style="text-align:center; max-width:380px;">
-    <div style="font-size:36px; margin-bottom:8px;">🗑️</div>
-    <h3>Удалить стикер?</h3>
-    <p style="color:var(--text-soft); margin-top:6px;">Это действие нельзя отменить.</p>
-    <div style="display:flex; justify-content:center; gap:10px; margin-top:14px;">
-      <button class="btn secondary" id="sticky-delete-cancel">Отмена</button>
-      <button class="btn" id="sticky-delete-confirm" style="background:linear-gradient(135deg,#ef4444,#dc2626);">Удалить</button>
-    </div>
   </div>
 </div>
 
