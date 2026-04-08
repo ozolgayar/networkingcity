@@ -1336,19 +1336,21 @@ function initProfileAndSticky() {
   var myStickEl = document.getElementById('my-sticky-preview');
   var stickyToDelete = null;
 
-  if (!board || !input || !addBtn) return;
+  if (!board || !input || !addBtn) {
+    console.warn('initProfileAndSticky: элементы не найдены');
+    return;
+  }
 
   // ===== Мой стикер из localStorage =====
   function loadMySticky() {
     var saved = localStorage.getItem('nc_my_sticky');
     if (!saved || !myStickEl) return;
-    var data = JSON.parse(saved);
-    myStickEl.style.display = 'block';
-    myStickEl.querySelector('.my-sticky-text').textContent = data.text;
-    // Показываем кнопку «Далее» если стикер уже был добавлен
-    if (btnNext) btnNext.style.display = 'inline-flex';
-    // Заполняем textarea сохранённым текстом
-    input.value = data.text;
+    try {
+      var data = JSON.parse(saved);
+      myStickEl.style.display = 'block';
+      myStickEl.querySelector('.my-sticky-text').textContent = data.text;
+      if (btnNext) btnNext.style.display = 'inline-flex';
+    } catch(e) {}
   }
 
   // ===== Загрузка стикеров с доски =====
@@ -1396,9 +1398,12 @@ function initProfileAndSticky() {
     if (!deleteBtn) return;
     e.stopPropagation();
     stickyToDelete = deleteBtn.closest('.sticky');
-    if (stickyToDelete && deleteModal) deleteModal.classList.add('active');
+    if (stickyToDelete && deleteModal) {
+      deleteModal.classList.add('active');
+    }
   });
 
+  // ===== Удаление: отмена =====
   if (deleteCancel) {
     deleteCancel.addEventListener('click', function() {
       stickyToDelete = null;
@@ -1406,6 +1411,7 @@ function initProfileAndSticky() {
     });
   }
 
+  // ===== Удаление: закрытие по оверлею =====
   if (deleteModal) {
     deleteModal.addEventListener('click', function(e) {
       if (e.target === deleteModal) {
@@ -1415,6 +1421,7 @@ function initProfileAndSticky() {
     });
   }
 
+  // ===== Удаление: подтверждение =====
   if (deleteConfirm) {
     deleteConfirm.addEventListener('click', function() {
       if (!stickyToDelete) {
@@ -1435,8 +1442,8 @@ function initProfileAndSticky() {
 
       if (supabase && stickyId) {
         supabase.from('stickies').delete().eq('id', stickyId)
-          .then(function(r) {
-            if (r.error) console.error('Ошибка удаления:', r.error);
+          .then(function(result) {
+            if (result.error) console.error('Ошибка удаления:', result.error);
           });
       }
     });
@@ -1451,10 +1458,10 @@ function initProfileAndSticky() {
       return;
     }
 
-    // ✅ Сохраняем в localStorage — навсегда
+    // Сохраняем в localStorage — личная копия навсегда
     localStorage.setItem('nc_my_sticky', JSON.stringify({ text: text }));
 
-    // ✅ Показываем "Мой стикер"
+    // Показываем жёлтый блок «Твой стикер»
     if (myStickEl) {
       myStickEl.style.display = 'block';
       myStickEl.querySelector('.my-sticky-text').textContent = text;
@@ -1472,7 +1479,7 @@ function initProfileAndSticky() {
             board.insertBefore(createStickyEl(result.data[0]), board.firstChild);
           }
 
-          // ✅ Если стикеров > 20 — удаляем самый старый с доски
+          // Если стикеров > 20 — удаляем самый старый с доски
           var allStickies = board.querySelectorAll('.sticky');
           if (allStickies.length > 20) {
             var oldest = allStickies[allStickies.length - 1];
@@ -1496,7 +1503,7 @@ function initProfileAndSticky() {
           if (btnNext) btnNext.style.display = 'inline-flex';
         });
     } else {
-      // Fallback
+      // Fallback без Supabase
       var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
       board.insertBefore(createStickyEl(fallback), board.firstChild);
       var allStickies = board.querySelectorAll('.sticky');
@@ -1569,7 +1576,7 @@ function initProfileAndSticky() {
     var obs = new MutationObserver(function() {
       if (document.getElementById('screen-21').classList.contains('active')) {
         loadStickies();
-        loadMySticky(); // ✅ восстанавливаем личный стикер
+        loadMySticky();
       }
     });
     obs.observe(document.getElementById('screen-container'), {
@@ -1582,7 +1589,6 @@ function initProfileAndSticky() {
     loadMySticky();
   }
 }
-
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
     var items = [
