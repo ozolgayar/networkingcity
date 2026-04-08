@@ -1363,52 +1363,58 @@
       
 <!-- Экран 21. Онлайн доска -->
 <div class="screen" id="screen-21">
-
-
-    <div class="screen-layout">
-      <div class="scene">
-        <div class="scene-header">
-          <span class="tagline">Запоминающееся представление</span>
-        </div>
-        <div class="scene-main">
-          <div class="board" id="sticky-board">
-            <!-- Стикеры примерные -->
-            <div class="sticky">
-              <div>Я помогаю продуктам находить свой голос через честный маркетинг.</div>
-              <div class="sticky-footer">
-                <span style="opacity:0.7;">@user_1</span>
-                <span class="like-count" data-likes="3">♥ 3</span>
-              </div>
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Запоминающееся представление</span>
+      </div>
+      <div class="scene-main">
+        <div class="board" id="sticky-board">
+          <!-- Примерные стикеры -->
+          <div class="sticky">
+            <div>Я помогаю продуктам находить свой голос через честный маркетинг.</div>
+            <div class="sticky-footer">
+              <span style="opacity:0.7;">@user_1</span>
+              <span class="like-count" data-likes="3">♥ 3</span>
             </div>
-            <div class="sticky">
-              <div>Соединяю людей и идеи: организатор комьюнити-встреч.</div>
-              <div class="sticky-footer">
-                <span style="opacity:0.7;">@user_2</span>
-                <span class="like-count" data-likes="5">♥ 5</span>
-              </div>
+          </div>
+          <div class="sticky">
+            <div>Соединяю людей и идеи: организатор комьюнити-встреч.</div>
+            <div class="sticky-footer">
+              <span style="opacity:0.7;">@user_2</span>
+              <span class="like-count" data-likes="5">♥ 5</span>
+            </div>
+          </div>
+          <div class="sticky">
+            <div>Помогаю выводить препараты на рынок без сюрпризов и задержек.</div>
+            <div class="sticky-footer">
+              <span style="opacity:0.7;">@zlata_k</span>
+              <span class="like-count" data-likes="7">♥ 7</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-tag">Теория</div>
-        <h2>Создаём запоминающееся представление о себе</h2>
-        <p>
-          На онлайн-доске участники курса оставляют свои «самопрезентации» на стикерах.
-          В полноценной версии другие пользователи могут ставить лайки.
-        </p>
-        <div style="margin-top: 6px;">
-          <div class="field-label">Твой стикер:</div>
-          <textarea id="sticky-input" placeholder="Опиши себя так, чтобы это захотелось запомнить и пересказать"></textarea>
-        </div>
-   <div class="actions-row">
-  <button class="btn secondary nav-back" data-prev>Назад</button>
-  <button class="btn" id="btn-sticky-add">Добавить на доску</button>
-  <button class="btn secondary" data-next="screen-21-1">Готово</button>
-</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Создаём запоминающееся представление о себе</h2>
+      <p>На онлайн-доске участники курса оставляют свои «самопрезентации» на стикерах.</p>
+      <p>Хорошая самопрезентация отвечает на вопрос: <strong>«Чем ты полезен и почему тебя стоит запомнить?»</strong></p>
+
+      <div style="margin-top: 6px;">
+        <div class="field-label">Твой стикер</div>
+        <textarea id="sticky-input" placeholder="Опиши себя так, чтобы это захотелось запомнить и пересказать"></textarea>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-sticky-add">Добавить на доску</button>
+        <button class="btn secondary" data-next="screen-21-1">Готово</button>
       </div>
     </div>
   </div>
+</div>
 
 <!-- Экран 21-1. Сумочка нетворкера -->
 <div class="screen" id="screen-21-1">
