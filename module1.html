@@ -1017,7 +1017,7 @@
   </div>
 </div>
 
-      <!-- Экран 17-1: карточка Златы — переход к визитке -->
+     <!-- Экран 17-1: карточка Златы — переход к визитке -->
 <div class="screen" id="screen-17-1">
   <div class="screen-layout">
 
@@ -1029,55 +1029,104 @@
       </div>
       <div class="scene-main" style="display:flex; align-items:center; justify-content:center; padding:24px 16px;">
 
-        <!-- Карточка Златы -->
         <div class="zlata-card-wrapper" id="zlata-card-wrapper-17">
           <div class="zlata-card" id="zlata-card-17">
 
-            <!-- Лицевая сторона -->
-            <div class="zlata-card-front">
+            <!-- ЛИЦЕВАЯ СТОРОНА — используем zlata-front как в screen-13-1 -->
+            <div class="zlata-front">
               <div class="zlata-avatar">
-                <img src="https://i.ibb.co/album/zlata-avatar.png"
-                     onerror="this.style.display='none'; this.parentElement.innerHTML='👩‍💼';"
-                     alt="Злата" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                <div class="zlata-avatar-circle">
+                  <img src="https://i.ibb.co/mVhvHjvS/1.png" alt="Злата">
+                </div>
               </div>
-              <div class="zlata-name">Злата Маленко</div>
-              <div class="zlata-role">Специалист по нетворкингу</div>
-              <div class="zlata-hint">Нажми, чтобы узнать больше →</div>
 
-              <!-- Иконка визитки -->
-              <button class="inv-item" id="inv-bizcard-17" title="Визитка" style="margin-top:16px;">
-                <span style="font-size:24px;">💳</span>
-                <span style="font-size:11px; color:var(--text-soft); margin-top:2px;">Визитка</span>
-              </button>
-            </div>
+              <div class="zlata-name">Злата Ковальчук</div>
+              <div class="zlata-role">Специалист отдела маркетинга</div>
+              <div class="zlata-badge-new">Цель поставлена ✅</div>
 
-            <!-- Обратная сторона -->
-            <div class="zlata-card-back">
-              <div class="zlata-back-title">Следующий шаг</div>
-              <div class="zlata-back-text">
-                Цель поставлена — отлично! Теперь пора подготовить главный инструмент нетворкера. 
-                Без визитки ни одно знакомство не заканчивается контактом.
+              <div class="zlata-quote">
+                «SMART-цель готова. Осталось подготовить визитку!»
               </div>
-              <div class="zlata-back-quote">
-                💬 «Визитка — это не бумажка. Это твой первый след в памяти человека.»
+
+              <!-- Инвентарь -->
+              <div class="zlata-inventory">
+                <div class="zlata-inv-item done" title="Ноутбук — готово">
+                  <span>💻</span>
+                  <small>Ноутбук</small>
+                </div>
+                <div class="zlata-inv-item done" title="Цель — готово">
+                  <span>🎯</span>
+                  <small>Цель</small>
+                </div>
+                <div class="zlata-inv-item active" id="inv-bizcard-17" title="Визитка — нажми!" style="cursor:pointer;">
+                  <span>📇</span>
+                  <small>Визитка</small>
+                </div>
+                <div class="zlata-inv-item locked" title="Телефон — откроется позже">
+                  <span>📱</span>
+                  <small>Телефон</small>
+                </div>
+                <div class="zlata-inv-item locked" title="Сумка — откроется позже">
+                  <span>👜</span>
+                  <small>Сумка</small>
+                </div>
+                <div class="zlata-inv-item locked" title="Карта — откроется позже">
+                  <span>🗺️</span>
+                  <small>Карта</small>
+                </div>
               </div>
 
               <!-- Прогресс -->
-              <div style="margin-top:16px; width:100%;">
-                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-soft); margin-bottom:4px;">
-                  <span>Прогресс модуля</span>
-                  <span>32%</span>
+              <div class="zlata-nw-bar">
+                <div class="zlata-nw-header">
+                  <span class="zlata-nw-label">Прогресс подготовки к нетворкингу</span>
+                  <span class="zlata-nw-value">32%</span>
                 </div>
-                <div style="height:6px; background:#e2e8f0; border-radius:999px; overflow:hidden;">
-                  <div style="height:100%; width:32%; background:var(--accent); border-radius:999px; transition:width 0.6s ease;"></div>
+                <div class="zlata-nw-track">
+                  <div class="zlata-nw-fill" style="width:32%;"></div>
                 </div>
               </div>
 
-              <button class="inv-item" id="inv-bizcard-17-back" title="Визитка" style="margin-top:16px;">
-                <span style="font-size:24px;">💳</span>
-                <span style="font-size:11px; color:var(--text-soft); margin-top:2px;">Визитка</span>
-              </button>
-            </div>
+              <div class="zlata-flip-hint">📇 Нажми на «Визитка»</div>
+            </div><!-- закрытие zlata-front -->
+
+            <!-- ОБРАТНАЯ СТОРОНА — используем zlata-back как в screen-13-1 -->
+            <div class="zlata-back">
+              <div class="zlata-back-scroll">
+                <h3>Следующий шаг</h3>
+                <p>SMART-цель поставлена — отлично! Теперь пора подготовить главный инструмент нетворкера.</p>
+
+                <div class="zlata-superpowers">
+                  <div class="zlata-sp-title">✅ Злата уже сделала:</div>
+                  <div class="zlata-sp-item">
+                    <span class="zlata-sp-icon">💻</span>
+                    <div><strong>Изучила расписание</strong><span> — знает, куда идти</span></div>
+                  </div>
+                  <div class="zlata-sp-item">
+                    <span class="zlata-sp-icon">🎯</span>
+                    <div><strong>Поставила SMART-цель</strong><span> — знает, зачем идёт</span></div>
+                  </div>
+                  <div class="zlata-sp-item">
+                    <span class="zlata-sp-icon">📇</span>
+                    <div><strong>Визитка</strong><span> — следующий шаг!</span></div>
+                  </div>
+                </div>
+
+                <div class="zlata-instruction">
+                  📇 Нажми на <strong>Визитка</strong> на лицевой стороне, чтобы создать свою визитку нетворкера.
+                </div>
+
+                <!-- Кнопка на обороте -->
+                <div style="display:flex; justify-content:center; margin-top:16px;">
+                  <div class="zlata-inv-item active" id="inv-bizcard-17-back" title="Визитка" style="cursor:pointer; flex-direction:row; gap:8px; padding:10px 20px; border-radius:12px;">
+                    <span>📇</span>
+                    <small style="font-size:13px; font-weight:600;">Создать визитку →</small>
+                  </div>
+                </div>
+
+                <div class="zlata-flip-hint">← Нажми, чтобы вернуться</div>
+              </div>
+            </div><!-- закрытие zlata-back -->
 
           </div><!-- закрытие .zlata-card -->
         </div><!-- закрытие .zlata-card-wrapper -->
@@ -1109,7 +1158,7 @@
       </div>
 
       <div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.07); border:1px solid rgba(56,189,248,0.2); font-size:13px; line-height:1.5; color:var(--text); margin-top:8px;">
-        <strong style="color:#0284c7;">👇 Задание:</strong> нажми на иконку <strong>💳 Визитка</strong> на карточке Златы, чтобы создать свою визитку нетворкера.
+        <strong style="color:#0284c7;">👇 Задание:</strong> нажми на иконку <strong>📇 Визитка</strong> на карточке Златы, чтобы создать свою визитку нетворкера.
       </div>
 
       <div class="actions-row" style="margin-top:auto;">
