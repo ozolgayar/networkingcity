@@ -1329,12 +1329,16 @@ function initProfileAndSticky() {
   var board = document.getElementById('sticky-board');
   var input = document.getElementById('sticky-input');
   var addBtn = document.getElementById('btn-sticky-add');
+  var btnNext = document.getElementById('btn-sticky-next');
   var deleteModal = document.getElementById('sticky-delete-modal');
   var deleteCancel = document.getElementById('sticky-delete-cancel');
   var deleteConfirm = document.getElementById('sticky-delete-confirm');
   var stickyToDelete = null;
 
-  if (!board || !input || !addBtn) return;
+  if (!board || !input || !addBtn) {
+    console.warn('initProfileAndSticky: основные элементы не найдены');
+    return;
+  }
 
   // ===== Загрузка стикеров =====
   function loadStickies() {
@@ -1411,11 +1415,13 @@ function initProfileAndSticky() {
         if (deleteModal) deleteModal.classList.remove('active');
         return;
       }
+
       var elToRemove = stickyToDelete;
       var stickyId = elToRemove.dataset.id;
       stickyToDelete = null;
       deleteModal.classList.remove('active');
 
+      // Анимация удаления из DOM
       elToRemove.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
       elToRemove.style.opacity = '0';
       elToRemove.style.transform = 'scale(0.8)';
@@ -1423,22 +1429,29 @@ function initProfileAndSticky() {
         if (elToRemove && elToRemove.parentNode) elToRemove.remove();
       }, 300);
 
+      // Удаляем из Supabase
       if (supabase && stickyId) {
-        supabase.from('stickies').delete().eq('id', stickyId)
+        supabase
+          .from('stickies')
+          .delete()
+          .eq('id', stickyId)
           .then(function(result) {
-            if (result.error) console.error('Ошибка удаления:', result.error);
+            if (result.error) {
+              console.error('Ошибка удаления из Supabase:', result.error);
+              // Подсказка по RLS
+              if (result.error.code === '42501') {
+                console.warn('Включи политику DELETE в Supabase RLS для таблицы stickies');
+              }
+            }
           });
       }
     });
   }
 
- // ===== Добавление стикера =====
-  var btnNext = document.getElementById('btn-sticky-next');
-
+  // ===== Добавление стикера =====
   addBtn.addEventListener('click', function() {
     var text = input.value.trim();
     if (!text) {
-      // Подсвечиваем поле если пустое
       input.style.borderColor = '#ef4444';
       setTimeout(function() { input.style.borderColor = ''; }, 1500);
       return;
@@ -1456,17 +1469,19 @@ function initProfileAndSticky() {
           }
           addScore(1);
           input.value = '';
-          // Показываем кнопку «Далее» после добавления стикера
-          if (btnNext) btnNext.style.display = 'inline-flex';
+          // Показываем кнопку «Далее»
+          if (btnNext) {
+            btnNext.style.display = 'inline-flex';
+          }
         });
     } else {
-      // Fallback без Supabase
       var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
       board.insertBefore(createStickyEl(fallback), board.firstChild);
       addScore(1);
       input.value = '';
-      // Показываем кнопку «Далее» после добавления стикера
-      if (btnNext) btnNext.style.display = 'inline-flex';
+      if (btnNext) {
+        btnNext.style.display = 'inline-flex';
+      }
     }
   });
 
@@ -1532,7 +1547,7 @@ function initProfileAndSticky() {
 
     loadStickies();
   }
-} // ← закрытие initProfileAndSticky
+}
 
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
