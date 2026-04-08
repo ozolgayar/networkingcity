@@ -2120,9 +2120,10 @@ function initSmartGoal() {
   });
 
   // Продолжить в модалке ОС
-  feedbackContinue.addEventListener('click', function() {
-    feedbackModal.classList.remove('active');
-  });
+feedbackContinue.addEventListener('click', function() {
+  feedbackModal.classList.remove('active');
+  showScreen('screen-17-1'); // ← переходим к карточке Златы
+});
 
   feedbackModal.addEventListener('click', function(e) {
     if (e.target === feedbackModal) feedbackModal.classList.remove('active');
