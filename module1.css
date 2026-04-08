@@ -3372,15 +3372,3 @@ color: #1e293b;
 .like-count:hover {
   background: rgba(239,68,68,0.15);
 }
-
-/* Медленный градиентный переход — почти незаметный, 0 нагрузки */
-#app {
-  background: linear-gradient(135deg, #f8fafc, #f0f9ff, #f8fafc, #f0fdf4);
-  background-size: 400% 400%;
-  animation: bg-breathe 20s ease-in-out infinite;
-}
-
-@keyframes bg-breathe {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
