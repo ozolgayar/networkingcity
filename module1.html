@@ -1625,7 +1625,7 @@
 <div class="actions-row" style="margin-top:10px;">
     <button class="btn secondary nav-back" data-prev>Назад</button>
     <button class="btn" id="btn-sticky-add">Добавить на доску</button>
-    <button class="btn secondary" id="btn-sticky-next" data-next="screen-21-1" style="display:none;">Далее</button>
+    <button class="btn secondary" id="btn-sticky-next" data-next="screen-21-0" style="display:none;">Далее</button>
   </div>
 </div><!-- закрытие .panel -->
   </div><!-- закрытие .screen-layout -->
@@ -1644,6 +1644,125 @@
   </div>
 </div>
 
+      <!-- Экран 21-0: карточка Златы — переход к сумке нетворкера -->
+<div class="screen" id="screen-21-0">
+  <button class="btn secondary nav-back" data-prev>← Назад</button>
+
+  <div style="display:flex; justify-content:center; padding:10px 0;">
+
+    <div class="zlata-card-wrapper" id="zlata-card-wrapper-21">
+      <div class="zlata-card" id="zlata-card-21">
+
+        <!-- ЛИЦЕВАЯ СТОРОНА -->
+        <div class="zlata-front">
+          <div class="zlata-avatar">
+            <div class="zlata-avatar-circle">
+              <img src="https://i.ibb.co/mVhvHjvS/1.png" alt="Злата">
+            </div>
+          </div>
+
+          <div class="zlata-name">Злата Ковальчук</div>
+          <div class="zlata-role">Специалист отдела маркетинга</div>
+          <div class="zlata-badge-new">Крючок готов ✅</div>
+
+          <div class="zlata-quote">
+            «Самопрезентация есть! Теперь собираю сумку — и на мероприятие!»
+          </div>
+
+          <div class="zlata-inventory">
+            <div class="zlata-inv-item done" title="Ноутбук — готово">
+              <span>💻</span>
+              <small>Ноутбук</small>
+            </div>
+            <div class="zlata-inv-item done" title="Цель — готово">
+              <span>🎯</span>
+              <small>Цель</small>
+            </div>
+            <div class="zlata-inv-item done" title="Визитка — готово">
+              <span>📇</span>
+              <small>Визитка</small>
+            </div>
+            <div class="zlata-inv-item done" title="Телефон — готово">
+              <span>📱</span>
+              <small>Телефон</small>
+            </div>
+            <div class="zlata-inv-item active" id="inv-bag-21" title="Сумка — нажми!" style="cursor:pointer;">
+              <span>👜</span>
+              <small>Сумка</small>
+            </div>
+            <div class="zlata-inv-item locked" title="Карта — откроется позже">
+              <span>🗺️</span>
+              <small>Карта</small>
+            </div>
+          </div>
+
+          <div class="zlata-nw-bar">
+            <div class="zlata-nw-header">
+              <span class="zlata-nw-label">Прогресс подготовки к нетворкингу</span>
+              <span class="zlata-nw-value">80%</span>
+            </div>
+            <div class="zlata-nw-track">
+              <div class="zlata-nw-fill" style="width:80%;"></div>
+            </div>
+          </div>
+
+          <div class="zlata-flip-hint">👜 Нажми на «Сумка» или переверни карточку →</div>
+        </div><!-- закрытие zlata-front -->
+
+        <!-- ОБРАТНАЯ СТОРОНА -->
+        <div class="zlata-back">
+          <div class="zlata-back-scroll">
+            <h3>Последний шаг!</h3>
+            <p>Крючок-самопрезентация готов. Осталось собрать сумку нетворкера и изучить карту мероприятия.</p>
+
+            <div class="zlata-superpowers">
+              <div class="zlata-sp-title">✅ Злата уже сделала:</div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">💻</span>
+                <div><strong>Изучила расписание</strong><span> — знает, куда идти</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🎯</span>
+                <div><strong>Поставила SMART-цель</strong><span> — знает, зачем идёт</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">📇</span>
+                <div><strong>Создала визитку</strong><span> — готова к знакомствам</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">📱</span>
+                <div><strong>Настроила профиль</strong><span> — фото и статус готовы</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🎤</span>
+                <div><strong>Написала крючок</strong><span> — самопрезентация готова</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">👜</span>
+                <div><strong>Сумка нетворкера</strong><span> — следующий шаг!</span></div>
+              </div>
+            </div>
+
+            <div class="zlata-instruction">
+              👜 Нажми на <strong>Сумка</strong> на лицевой стороне, чтобы собрать сумку нетворкера.
+            </div>
+
+            <div style="display:flex; justify-content:center; margin-top:16px;">
+              <div class="zlata-inv-item active" id="inv-bag-21-back" title="Сумка" style="cursor:pointer;">
+                <span>👜</span>
+                <small>Собрать сумку →</small>
+              </div>
+            </div>
+
+            <div class="zlata-flip-hint">← Нажми, чтобы вернуться</div>
+          </div>
+        </div><!-- закрытие zlata-back -->
+
+      </div><!-- закрытие .zlata-card -->
+    </div><!-- закрытие .zlata-card-wrapper -->
+
+  </div>
+</div><!-- закрытие #screen-21-0 -->
       
 <!-- Экран 21-1. Сумочка нетворкера -->
 <div class="screen" id="screen-21-1">
