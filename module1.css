@@ -3476,32 +3476,20 @@ color: #1e293b;
   transform: scale(1) translateY(0);
 }
 
-/* ===== Экран 21-2: карта мероприятия — финальный стиль ===== */
+/* ===== Экран 21-2: карта мероприятия ===== */
 
-/* Layout */
-#screen-21-2 .screen-layout {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  overflow: hidden;
-  gap: 16px;
-}
-
+/* Сцена — светлый фон под стиль курса */
 #screen-21-2 .scene {
-  flex: 1;
-  min-width: 0;
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0f9ff) !important;
+  padding: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0f9ff 100%);
-  padding: 0;
 }
 
 #screen-21-2 .scene-header {
-  flex-shrink: 0;
   padding: 10px 14px 8px;
+  flex-shrink: 0;
 }
 
 #screen-21-2 .scene-main {
@@ -3509,16 +3497,15 @@ color: #1e293b;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   padding: 0 !important;
+  overflow: hidden;
 }
 
+/* Панель — скролл */
 #screen-21-2 .panel {
   overflow-y: auto;
-  max-height: 100%;
-  min-height: 0;
+  max-height: calc(100vh - 180px);
 }
-
 #screen-21-2 .panel::-webkit-scrollbar { width: 5px; }
 #screen-21-2 .panel::-webkit-scrollbar-thumb {
   background: rgba(148,163,184,0.4);
@@ -3528,20 +3515,23 @@ color: #1e293b;
 /* Карта */
 #venue-map {
   flex: 1;
-  min-height: 0;
-  width: 100%;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0f9ff 100%);
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0f9ff) !important;
   padding: 8px 0;
 }
 
-/* Объекты на карте */
+/* Сброс старых стилей объектов */
 .venue-obj {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
   flex: 1;
   min-width: 0;
+  max-width: none !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3554,11 +3544,6 @@ color: #1e293b;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   transition: all 0.2s ease;
   text-align: center;
-  /* сбрасываем старый position:absolute */
-  position: static !important;
-  top: auto !important;
-  left: auto !important;
-  max-width: none !important;
 }
 
 .venue-obj:hover {
@@ -3568,62 +3553,57 @@ color: #1e293b;
   box-shadow: 0 4px 12px rgba(34,197,94,0.15);
 }
 
+/* Сброс старых стилей эмодзи */
 .venue-emoji {
   font-size: 24px;
   line-height: 1;
-  /* сбрасываем старые стили */
   width: auto !important;
   height: auto !important;
   border-radius: 0 !important;
   border: none !important;
   background: none !important;
+  box-shadow: none !important;
   display: block;
+  filter: none;
 }
 
-.venue-label {
+/* Сброс старых стилей подписи */
+.venue-label,
+.venue-label-sm {
   font-size: 10px;
-  color: #64748b;
+  color: #64748b !important;
   font-weight: 600;
   line-height: 1.3;
   text-align: center;
-  /* сбрасываем старый белый цвет */
-  white-space: normal !important;
+  white-space: normal;
 }
 
-/* Хорошее место — зелёное */
+/* Хорошее место */
 .venue-obj.venue-good {
-  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-  border-color: rgba(34,197,94,0.5);
-  box-shadow: 0 0 12px rgba(34,197,94,0.2);
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7) !important;
+  border-color: rgba(34,197,94,0.5) !important;
+  box-shadow: 0 0 12px rgba(34,197,94,0.2) !important;
+  opacity: 1 !important;
 }
-
-.venue-obj.venue-good .venue-emoji {
-  /* убираем старые стили */
-  border-color: transparent !important;
-  background: none !important;
-  box-shadow: none !important;
-}
-
 .venue-obj.venue-good .venue-label {
-  color: #16a34a;
+  color: #16a34a !important;
+}
+.venue-obj.venue-good .venue-emoji {
+  filter: none !important;
 }
 
-/* Плохое место — серое */
+/* Плохое место */
 .venue-obj.venue-bad {
-  background: #f8fafc;
-  border-color: #f1f5f9;
-  opacity: 0.55;
-}
-
-.venue-obj.venue-bad .venue-emoji {
-  filter: grayscale(0.5);
-  border-color: transparent !important;
-  background: none !important;
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  opacity: 0.55 !important;
   box-shadow: none !important;
 }
-
 .venue-obj.venue-bad .venue-label {
-  color: #94a3b8;
+  color: #94a3b8 !important;
+}
+.venue-obj.venue-bad .venue-emoji {
+  filter: grayscale(0.5) !important;
 }
 
 /* Лайфхак */
@@ -3636,12 +3616,6 @@ color: #1e293b;
   color: #78350f !important;
   line-height: 1.5;
 }
-
 #venue-lifehack strong {
   color: #b45309 !important;
-}
-
-/* Успех */
-#venue-success {
-  flex-shrink: 0;
 }
