@@ -16,8 +16,8 @@ const state = {
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
-  'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1', // ← добавили screen-17-1
-  'screen-19',
+  'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
+  'screen-19', 'screen-19-1', // ← добавили
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
   'screen-final'
 ];
@@ -708,6 +708,32 @@ function initZlataCard17() {
     showScreen('screen-19');
   });
 }
+
+function initZlataCard19() {
+  var card    = document.getElementById('zlata-card-19');
+  var wrapper = document.getElementById('zlata-card-wrapper-19');
+  var btnFront = document.getElementById('inv-phone-19');
+  var btnBack  = document.getElementById('inv-phone-19-back');
+
+  if (!card || !wrapper) return;
+
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-phone-19') ||
+        e.target.closest('#inv-phone-19-back')) return;
+    card.classList.toggle('flipped');
+  });
+
+  btnFront.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-20');
+  });
+
+  btnBack.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-20');
+  });
+}
+
 
   // ===== Экран 14: колесо баланса =====
   // ===== SVG-колесо: вспомогательные функции =====
@@ -2263,6 +2289,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initFears();
    initZlataCard2();
    initZlataCard17();
+    initZlataCard19(); 
   initWheel();
   initWheelSummary();
   initPeopleDrag();
