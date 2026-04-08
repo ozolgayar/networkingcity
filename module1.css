@@ -3623,3 +3623,28 @@ color: #1e293b;
 .venue-obj.venue-bad .venue-emoji {
   filter: grayscale(0.5) drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
+
+/* Фикс для экрана карты */
+#screen-21-2 .screen-layout {
+  display: flex;
+  height: 100%;
+}
+
+#screen-21-2 .scene {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#screen-21-2 .scene-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+#screen-21-2 #venue-map {
+  flex: 1;
+  min-height: 320px;
+}
