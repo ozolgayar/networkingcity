@@ -1372,6 +1372,7 @@
         <div class="board" id="sticky-board">
           <!-- Примерные стикеры -->
           <div class="sticky">
+            <button class="sticky-delete" title="Удалить стикер">✕</button>
             <div>Я помогаю продуктам находить свой голос через честный маркетинг.</div>
             <div class="sticky-footer">
               <span style="opacity:0.7;">@user_1</span>
@@ -1379,6 +1380,7 @@
             </div>
           </div>
           <div class="sticky">
+            <button class="sticky-delete" title="Удалить стикер">✕</button>
             <div>Соединяю людей и идеи: организатор комьюнити-встреч.</div>
             <div class="sticky-footer">
               <span style="opacity:0.7;">@user_2</span>
@@ -1386,6 +1388,7 @@
             </div>
           </div>
           <div class="sticky">
+            <button class="sticky-delete" title="Удалить стикер">✕</button>
             <div>Помогаю выводить препараты на рынок без сюрпризов и задержек.</div>
             <div class="sticky-footer">
               <span style="opacity:0.7;">@zlata_k</span>
@@ -1412,6 +1415,19 @@
         <button class="btn" id="btn-sticky-add">Добавить на доску</button>
         <button class="btn secondary" data-next="screen-21-1">Готово</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка подтверждения удаления -->
+<div class="modal-overlay" id="sticky-delete-modal">
+  <div class="modal" style="text-align:center; max-width:380px;">
+    <div style="font-size:36px; margin-bottom:8px;">🗑️</div>
+    <h3>Удалить стикер?</h3>
+    <p style="color:var(--text-soft); margin-top:6px;">Это действие нельзя отменить.</p>
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:14px;">
+      <button class="btn secondary" id="sticky-delete-cancel">Отмена</button>
+      <button class="btn" id="sticky-delete-confirm" style="background:linear-gradient(135deg,#ef4444,#dc2626);">Удалить</button>
     </div>
   </div>
 </div>
