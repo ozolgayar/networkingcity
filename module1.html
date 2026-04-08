@@ -1799,7 +1799,7 @@
 
       <div class="actions-row" style="margin-top:auto;">
         <button class="btn secondary" data-prev>Назад</button>
-        <button class="btn" id="btn-bag-go" style="display:none;" data-next="screen-21-2">Далее →</button>
+        <button class="btn" id="btn-bag-go" style="display:none;" data-next="screen-21-1-1">Далее →</button>
       </div>
     </div>
 
@@ -1821,6 +1821,129 @@
   </div>
 </div>
 
+ <!-- Экран 21-1-1: карточка Златы — переход к карте мероприятия -->
+<div class="screen" id="screen-21-1-1">
+  <button class="btn secondary nav-back" data-prev>← Назад</button>
+
+  <div style="display:flex; justify-content:center; padding:10px 0;">
+
+    <div class="zlata-card-wrapper" id="zlata-card-wrapper-211">
+      <div class="zlata-card" id="zlata-card-211">
+
+        <!-- ЛИЦЕВАЯ СТОРОНА -->
+        <div class="zlata-front">
+          <div class="zlata-avatar">
+            <div class="zlata-avatar-circle">
+              <img src="https://i.ibb.co/mVhvHjvS/1.png" alt="Злата">
+            </div>
+          </div>
+
+          <div class="zlata-name">Злата Ковальчук</div>
+          <div class="zlata-role">Специалист отдела маркетинга</div>
+          <div class="zlata-badge-new">Сумка собрана ✅</div>
+
+          <div class="zlata-quote">
+            «Сумка собрана. Последний шаг — изучить карту мероприятия!»
+          </div>
+
+          <div class="zlata-inventory">
+            <div class="zlata-inv-item done" title="Ноутбук — готово">
+              <span>💻</span>
+              <small>Ноутбук</small>
+            </div>
+            <div class="zlata-inv-item done" title="Цель — готово">
+              <span>🎯</span>
+              <small>Цель</small>
+            </div>
+            <div class="zlata-inv-item done" title="Визитка — готово">
+              <span>📇</span>
+              <small>Визитка</small>
+            </div>
+            <div class="zlata-inv-item done" title="Телефон — готово">
+              <span>📱</span>
+              <small>Телефон</small>
+            </div>
+            <div class="zlata-inv-item done" title="Сумка — готово">
+              <span>👜</span>
+              <small>Сумка</small>
+            </div>
+            <div class="zlata-inv-item active" id="inv-map-211" title="Карта — нажми!" style="cursor:pointer;">
+              <span>🗺️</span>
+              <small>Карта</small>
+            </div>
+          </div>
+
+          <div class="zlata-nw-bar">
+            <div class="zlata-nw-header">
+              <span class="zlata-nw-label">Прогресс подготовки к нетворкингу</span>
+              <span class="zlata-nw-value">95%</span>
+            </div>
+            <div class="zlata-nw-track">
+              <div class="zlata-nw-fill" style="width:95%;"></div>
+            </div>
+          </div>
+
+          <div class="zlata-flip-hint">🗺️ Нажми на «Карта» или переверни карточку →</div>
+        </div><!-- закрытие zlata-front -->
+
+        <!-- ОБРАТНАЯ СТОРОНА -->
+        <div class="zlata-back">
+          <div class="zlata-back-scroll">
+            <h3>Финальный шаг!</h3>
+            <p>Сумка собрана — ты полностью готов к мероприятию. Осталось изучить карту и знать, где искать лучшие точки для знакомства.</p>
+
+            <div class="zlata-superpowers">
+              <div class="zlata-sp-title">✅ Злата уже сделала:</div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">💻</span>
+                <div><strong>Изучила расписание</strong><span> — знает, куда идти</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🎯</span>
+                <div><strong>Поставила SMART-цель</strong><span> — знает, зачем идёт</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">📇</span>
+                <div><strong>Создала визитку</strong><span> — готова к знакомствам</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">📱</span>
+                <div><strong>Настроила профиль</strong><span> — фото и статус готовы</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🎤</span>
+                <div><strong>Написала крючок</strong><span> — самопрезентация готова</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">👜</span>
+                <div><strong>Собрала сумку</strong><span> — всё необходимое с собой</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🗺️</span>
+                <div><strong>Карта мероприятия</strong><span> — финальный шаг!</span></div>
+              </div>
+            </div>
+
+            <div class="zlata-instruction">
+              🗺️ Нажми на <strong>Карта</strong> на лицевой стороне, чтобы изучить карту мероприятия.
+            </div>
+
+            <div style="display:flex; justify-content:center; margin-top:16px;">
+              <div class="zlata-inv-item active" id="inv-map-211-back" title="Карта" style="cursor:pointer;">
+                <span>🗺️</span>
+                <small>Карта мероприятия →</small>
+              </div>
+            </div>
+
+            <div class="zlata-flip-hint">← Нажми, чтобы вернуться</div>
+          </div>
+        </div><!-- закрытие zlata-back -->
+
+      </div><!-- закрытие .zlata-card -->
+    </div><!-- закрытие .zlata-card-wrapper -->
+
+  </div>
+</div><!-- закрытие #screen-21-1-1 -->
       
 <!-- Экран 21-2. Карта мероприятия -->
 <!-- Экран 21-2. Карта мероприятия -->
