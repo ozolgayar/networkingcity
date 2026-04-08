@@ -682,6 +682,33 @@ function initZlataCard2() {
   });
 }
 
+function initZlataCard17() {
+  var card = document.getElementById('zlata-card-17');
+  var wrapper = document.getElementById('zlata-card-wrapper-17');
+  var btnFront = document.getElementById('inv-bizcard-17');
+  var btnBack  = document.getElementById('inv-bizcard-17-back');
+
+  if (!card || !wrapper) return;
+
+  // Флип карточки
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-bizcard-17') ||
+        e.target.closest('#inv-bizcard-17-back')) return;
+    card.classList.toggle('flipped');
+  });
+
+  // Обе кнопки ведут на экран визитки
+  btnFront.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-19');
+  });
+
+  btnBack.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-19');
+  });
+}
+
   // ===== Экран 14: колесо баланса =====
   // ===== SVG-колесо: вспомогательные функции =====
 const wheelCategories = [
@@ -2234,6 +2261,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initBeadsGame();
   initFears();
    initZlataCard2();
+   initZlataCard17();
   initWheel();
   initWheelSummary();
   initPeopleDrag();
