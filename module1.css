@@ -3698,13 +3698,21 @@ color: #1e293b;
 /* Фикс для экрана карты */
 #screen-21-2 .screen-layout {
   display: flex;
+  flex-direction: row;
   height: 100%;
+  overflow: hidden;
 }
 
 #screen-21-2 .scene {
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-width: 0;
+}
+
+#screen-21-2 .scene-header {
+  flex-shrink: 0;
 }
 
 #screen-21-2 .scene-main {
@@ -3713,9 +3721,27 @@ color: #1e293b;
   flex-direction: column;
   overflow: hidden;
   min-height: 0;
+  padding: 0 !important;
 }
 
 #screen-21-2 #venue-map {
   flex: 1;
-  min-height: 320px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Объекты — фикс обрезания */
+#screen-21-2 .venue-obj {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+}
+
+/* Ряды объектов — равномерное растягивание */
+#screen-21-2 [style*="justify-content:space-around"] {
+  width: 100%;
 }
