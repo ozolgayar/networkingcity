@@ -1348,7 +1348,7 @@ function initProfileAndSticky() {
       .select('*')
       .eq('screen', 'screen-21')
       .order('created_at', { ascending: false })
-      .limit(50)
+      .limit(20)
       .then(function(result) {
         if (result.error) { console.error(result.error); return; }
         board.innerHTML = '';
