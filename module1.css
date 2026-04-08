@@ -3287,58 +3287,36 @@ color: #1e293b;
   width: 100%;
   height: 100%;
   min-height: 340px;
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-content: flex-start;
-  border-radius: 0 0 14px 14px;
-  /* Фон-картинка доски */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  align-content: start;
+  overflow-y: auto;
+  overflow-x: hidden;
   background-image: url('https://i.ibb.co/zhdfyzzr/677ac048ffa79288a9ee3f68d321c4c3-06b4c1f8-76dc-48f7-9ee1-62d92c1ebc5a.png');
   background-size: cover;
   background-position: center;
-  overflow-y: auto;
+  border-radius: 0 0 14px 14px;
 }
 
-/* Стикеры побольше */
+/* Стикер — квадратный */
 .sticky {
-  width: 200px;
-  min-height: 140px;
-  padding: 16px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 10px;
   border-radius: 4px;
-  font-size: 14px;
-  line-height: 1.5;
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 2px 3px 8px rgba(0,0,0,0.2);
-  transform: rotate(-1deg);
-  transition: transform 0.2s ease;
-  position: relative;
+  overflow: visible;        /* ← ключевое! тултип не обрезается */
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.sticky:nth-child(even) {
-  transform: rotate(1.5deg);
-}
-
-.sticky:nth-child(3n) {
-  transform: rotate(-2deg);
-}
-
-.sticky:hover {
-  transform: rotate(0deg) scale(1.05);
-  z-index: 2;
-}
-
-/* Цвета стикеров */
-.sticky:nth-child(6n+1) { background: #fff9c4; }
-.sticky:nth-child(6n+2) { background: #c8e6c9; }
-.sticky:nth-child(6n+3) { background: #bbdefb; }
-.sticky:nth-child(6n+4) { background: #f8bbd0; }
-.sticky:nth-child(6n+5) { background: #ffe0b2; }
-.sticky:nth-child(6n+6) { background: #e1bee7; }
-
-/* «Скотч» сверху */
+/* Скотч сверху */
 .sticky::before {
   content: '';
   position: absolute;
@@ -3350,112 +3328,15 @@ color: #1e293b;
   background: rgba(255,255,255,0.5);
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-.sticky-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(0,0,0,0.15);
-  font-size: 12px;
-}
-
-.like-count {
-  cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.like-count:hover {
-  background: rgba(239,68,68,0.15);
-}
-
-/* ===== Кнопка удаления стикера ===== */
-.sticky {
-  position: relative;
-}
-
-.sticky-delete {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(239, 68, 68, 0.08);
-  color: #ef4444;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
-  z-index: 2;
-}
-
-.sticky:hover .sticky-delete {
-  opacity: 1;
-}
-
-.sticky-delete:hover {
-  background: rgba(239, 68, 68, 0.2);
-  transform: scale(1.15);
-}
-
-.sticky-delete:active {
-  transform: scale(0.95);
-}
-
-/* ===== Доска со стикерами ===== */
-.board {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  padding: 16px;
-  align-content: start;
-  overflow-y: auto;
-}
-
-/* ===== Стикер — квадратный ===== */
-.sticky {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  padding: 10px;
-  border-radius: 4px;
-  box-shadow: 2px 3px 8px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Текст обрезан */
-.sticky > div:first-of-type {
-  font-size: 12px;
-  line-height: 1.4;
-  color: #374151;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  flex: 1;
-  margin-top: 8px;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Тултип с полным текстом */
 .sticky::after {
   content: attr(data-text);
   position: absolute;
-  bottom: calc(100% + 6px);
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   background: #1e293b;
@@ -3471,29 +3352,61 @@ color: #1e293b;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 100;
+  z-index: 200;
+}
+
+.sticky:hover {
+  transform: rotate(0deg) translateY(-3px);
+  z-index: 10;
 }
 
 .sticky:hover::after {
   opacity: 1;
 }
+
+/* Текст внутри стикера — обрезаем до 4 строк */
+.sticky > div:first-of-type {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #374151;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  flex: 1;
+  margin-top: 8px;
+  word-break: break-word;
+}
+
+/* Футер стикера */
+.sticky-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(0,0,0,0.15);
+  font-size: 10px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
 /* Лайк */
 .like-count {
   cursor: pointer;
   transition: transform 0.15s ease;
   user-select: none;
+  padding: 2px 4px;
+  border-radius: 6px;
 }
 
 .like-count:hover {
   transform: scale(1.2);
   color: #ef4444;
+  background: rgba(239,68,68,0.1);
 }
 
 /* Кнопка удаления */
-.sticky {
-  position: relative;
-}
-
 .sticky-delete {
   position: absolute;
   top: 4px;
@@ -3512,7 +3425,7 @@ color: #1e293b;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.2s ease, background 0.2s ease, transform 0.15s ease;
-  z-index: 2;
+  z-index: 3;
   line-height: 1;
 }
 
@@ -3525,17 +3438,13 @@ color: #1e293b;
   transform: scale(1.15);
 }
 
-/* Цвета стикеров — чередуем через nth-child */
-.sticky:nth-child(4n+1) { background: #fef9c3; } /* жёлтый */
-.sticky:nth-child(4n+2) { background: #dcfce7; } /* зелёный */
-.sticky:nth-child(4n+3) { background: #dbeafe; } /* синий */
-.sticky:nth-child(4n+4) { background: #fce7f3; } /* розовый */
+/* Цвета стикеров */
+.sticky:nth-child(4n+1) { background: #fef9c3; }
+.sticky:nth-child(4n+2) { background: #dcfce7; }
+.sticky:nth-child(4n+3) { background: #dbeafe; }
+.sticky:nth-child(4n+4) { background: #fce7f3; }
 
-/* Лёгкий наклон для живости */
+/* Лёгкий наклон */
 .sticky:nth-child(3n+1) { transform: rotate(-1deg); }
 .sticky:nth-child(3n+2) { transform: rotate(0.5deg); }
 .sticky:nth-child(3n+3) { transform: rotate(-0.5deg); }
-
-.sticky:nth-child(3n+1):hover { transform: rotate(0deg) translateY(-3px); }
-.sticky:nth-child(3n+2):hover { transform: rotate(0deg) translateY(-3px); }
-.sticky:nth-child(3n+3):hover { transform: rotate(0deg) translateY(-3px); }
