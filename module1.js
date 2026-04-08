@@ -1793,9 +1793,25 @@ function initStickyTooltip() {
     }
   }
 
-  modal.classList.remove('active');
+ modal.classList.remove('active');
   currentIdx = -1;
 });
+
+  // Закрыть без добавления
+  mSkip.addEventListener('click', function() {
+    modal.classList.remove('active');
+    currentIdx = -1;
+  });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      currentIdx = -1;
+    }
+  });
+
+} // ← закрытие initBag
+
 
  // ===== Экран 16-1: локации =====
   function initLocations() {
