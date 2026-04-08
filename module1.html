@@ -1437,44 +1437,67 @@
       
 <!-- Экран 21-1. Сумочка нетворкера -->
 <div class="screen" id="screen-21-1">
-<div class="screen-layout">
-<div class="scene">
-<div class="scene-header">
-<span class="tagline">Что в сумочке у нетворкера?/span>
+  <div class="screen-layout">
+
+    <!-- СЦЕНА — сумка с предметами внутри -->
+    <div class="scene" style="padding:0; overflow:hidden;">
+      <div class="bag-scene">
+
+        <!-- Полка с предметами (до добавления) -->
+        <div class="bag-shelf-visual" id="bag-shelf-visual">
+          <!-- Предметы генерируются JS -->
+        </div>
+
+        <!-- Сумка — вид сверху -->
+        <div class="bag-visual-wrap">
+          <div class="bag-visual">
+            <!-- ↓ СУМКА — вставь ссылку на изображение сумки (вид сверху, открытая) -->
+            <img src="https://i.ibb.co/jkS6pPgr/6-1.png" class="bag-img" alt="Сумка">
+            <!-- Зона внутри сумки куда падают предметы -->
+            <div class="bag-inside" id="bag-inside">
+              <!-- предметы появляются здесь -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ПАНЕЛЬ -->
+    <div class="panel">
+      <div class="panel-tag">Практика</div>
+      <h2>🎒 Собери сумку нетворкера</h2>
+      <p>Нажми на каждый предмет, узнай зачем он нужен — и положи в сумку!</p>
+
+      <div id="bag-done-msg" style="display:none; padding:10px 14px; border-radius:12px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#166534; font-size:13px; line-height:1.5;">
+        🎉 <strong>Отлично!</strong> Сумка собрана. Ты готов к мероприятию!
+      </div>
+
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary" data-prev>Назад</button>
+        <button class="btn" id="btn-bag-go" style="display:none;" data-next="screen-21-2">Далее →</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-<div class="scene-main" style="flex-direction:column; align-items:stretch; overflow-y:auto;">
-<div style="font-size:12px; color:var(--text-soft); margin-bottom:6px;">📦 Полка с предметами — нажми, чтобы узнать подробнее:</div>
-<div class="bag-shelf" id="bag-shelf"></div>
-<div style="font-size:12px; color:var(--text-soft); margin-top:10px;">👜 Сумка:</div>
-<div class="bag-zone" id="bag-zone"></div>
-<div id="bag-done-msg" style="display:none; margin-top:8px; padding:10px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); font-size:13px; color:#166534; text-align:center;">
-🎉 Сумка собрана! Злата готова отправиться в путь!
-</div>
+
 <!-- Модалка предмета -->
 <div class="modal-overlay" id="bag-modal">
-<div class="modal" style="max-width:400px;">
-<h3 id="bag-modal-title"></h3>
-<p id="bag-modal-text" style="line-height:1.5;"></p>
-<div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
-<button class="btn" id="bag-modal-take">Взять</button>
+  <div class="modal" style="max-width:360px; text-align:center;">
+    <div id="bag-modal-img-wrap" style="margin-bottom:12px;">
+      <img id="bag-modal-img" src="" alt="" style="width:100px; height:100px; object-fit:contain; border-radius:16px;">
+    </div>
+    <h3 id="bag-modal-title" style="margin-bottom:8px;"></h3>
+    <p id="bag-modal-text" style="font-size:13px; line-height:1.6; color:var(--text-soft);"></p>
+    <div style="display:flex; gap:8px; justify-content:center; margin-top:14px;">
+      <button class="btn secondary" id="bag-modal-skip">Закрыть</button>
+      <button class="btn" id="bag-modal-take">Положить в сумку 🎒</button>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-tag">Задание</div>
-<h2>Сумочка нетворкера</h2>
-<p>Что может понадобиться нетворкеру на конференции?</p>
-<p>Нажимай на предметы на полке, чтобы узнать о них и добавить в сумочку.</p>
-<p class="note">Собери все 10 предметов!</p>
-<div class="actions-row" style="margin-top:auto;">
-<button class="btn secondary nav-back" data-prev>Назад</button>
-<button class="btn" id="btn-bag-go" style="display:none;" data-next="screen-21-2">В путь! 🚀</button>
-</div>
-</div>
-</div>
-</div>
+
+      
 <!-- Экран 21-2. Карта мероприятия -->
 <div class="screen" id="screen-21-2">
 <div class="screen-layout">
