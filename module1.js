@@ -1641,71 +1641,164 @@ function initStickyTooltip() {
 }
 
  // ===== Экран 21-1: сумочка нетворкера =====
-  function initBag() {
-    var items = [
-      {emoji:'💼',name:'Визитница',text:'Это не та визитница, которая находится в левом внутреннем кармане пиджака или блейзера. Это запасная визитница — неприкосновенный запас, пользоваться которым нужно в случае крайней необходимости.'},
-      {emoji:'🖊️',name:'Ручка',text:'Всегда имей при себе запасную ручку, а лучше две. Идеально, если они именные или корпоративные.'},
-      {emoji:'📓',name:'Записная книжка',text:'Понадобится для записей мыслей в дороге, во время семинаров или конференций. Не бери в привычку запоминать имена, телефоны, идеи и любые мысли. Забудешь.'},
-      {emoji:'🧻',name:'Салфетки',text:'Частые переезды, десятки рукопожатий в день, регулярные кофе-брейки, где еду чаще всего берут руками. Влажные салфетки тут просто незаменимы. Рекомендация: используй антибактериальные жидкости на спиртовой основе.'},
-      {emoji:'🧴',name:'Пятновыводитель',text:'Порой случается этот неловкий момент, когда приятный и вкусный кофе-брейк заканчивается пятном на сорочке или брюках. А ведь конференция только началась. Но зачем выдумывать велосипед, когда есть компактные пятновыводители?'},
-      {emoji:'💊',name:'Аптечка',text:'Частые переезды и длительные конференции выматывают. Не нужно с собой брать огромную аптечку. Отрежь по 2–4 таблетки от каждой пластины и возьми только средства от головной боли, от давления и для улучшения пищеварения.'},
-      {emoji:'🍬',name:'Мятные конфеты',text:'Продолжая тему кофе-брейков, убедись, что после его завершения с тобой приятно общаться. Как говорится: «Свежесть дыхания облегчает понимание».'},
-      {emoji:'📖',name:'Книга или журнал',text:'Любой нетворкер должен уделять время развитию своего кругозора. Он помогает поддержать разговор на разные темы. Поэтому возьми в привычку читать книги и журналы в свободную минуту.'},
-      {emoji:'🔋',name:'Зарядное устройство',text:'Универсальное зарядное устройство — гаджет размером с визитницу, которое заряжает ваш телефон без подключения к электричеству. Выручает при каждой поездке.'},
-      {emoji:'✨',name:'Парфюм',text:'Дело каждого использовать парфюм или нет. Можно держать в сумке парфюм маленькой ёмкости 30 мл или купить пробники.'}
-    ];
-    var shelf = document.getElementById('bag-shelf');
-    var zone = document.getElementById('bag-zone');
-    var modal = document.getElementById('bag-modal');
-    var mTitle = document.getElementById('bag-modal-title');
-    var mText = document.getElementById('bag-modal-text');
-    var mTake = document.getElementById('bag-modal-take');
-    var btnGo = document.getElementById('btn-bag-go');
-    var doneMsg = document.getElementById('bag-done-msg');
-    var currentIdx = -1;
-    var taken = 0;
+ function initBag() {
+  var items = [
+    {
+      name: 'Визитница',
+      // ↓ ПРЕДМЕТ 1 — визитница
+      img: 'https://i.ibb.co/Z6Cpr5wM/image.png',
+      text: 'Это не та визитница, которая находится в левом внутреннем кармане пиджака или блейзера. Это запасная визитница — неприкосновенный запас, пользоваться которым нужно в случае крайней необходимости.'
+    },
+    {
+      name: 'Ручка',
+      // ↓ ПРЕДМЕТ 2 — ручка
+      img: 'https://i.ibb.co/pttqb8S/1.png',
+      text: 'Всегда имей при себе запасную ручку, а лучше две. Идеально, если они именные или корпоративные.'
+    },
+    {
+      name: 'Записная книжка',
+      // ↓ ПРЕДМЕТ 3 — записная книжка
+      img: 'https://i.ibb.co/7xtcQfFK/image.png',
+      text: 'Понадобится для записей мыслей в дороге, во время семинаров или конференций. Не бери в привычку запоминать имена, телефоны, идеи и любые мысли. Забудешь.'
+    },
+    {
+      name: 'Салфетки',
+      // ↓ ПРЕДМЕТ 4 — салфетки
+      img: 'https://i.ibb.co/jv0Lw5fN/1.png',
+      text: 'Частые переезды, десятки рукопожатий в день, регулярные кофе-брейки, где еду чаще всего берут руками. Влажные салфетки тут просто незаменимы.'
+    },
+    {
+      name: 'Пятновыводитель',
+      // ↓ ПРЕДМЕТ 5 — пятновыводитель
+      img: 'https://i.ibb.co/Z6Cpr5wM/image.png',
+      text: 'Порой случается этот неловкий момент, когда приятный кофе-брейк заканчивается пятном на сорочке. А ведь конференция только началась!'
+    },
+    {
+      name: 'Аптечка',
+      // ↓ ПРЕДМЕТ 6 — аптечка
+      img: 'https://i.ibb.co/FL4zkrHF/image.png',
+      text: 'Частые переезды и длительные конференции выматывают. Возьми только средства от головной боли, от давления и для улучшения пищеварения.'
+    },
+    {
+      name: 'Мятные конфеты',
+      // ↓ ПРЕДМЕТ 7 — мятные конфеты
+      img: 'https://i.ibb.co/99kG2qvJ/1.png',
+      text: 'Убедись, что после кофе-брейка с тобой приятно общаться. Как говорится: «Свежесть дыхания облегчает понимание».'
+    },
+    {
+      name: 'Книга или журнал',
+      // ↓ ПРЕДМЕТ 8 — книга/журнал
+      img: 'https://i.ibb.co/HDKPmVhn/image.png',
+      text: 'Любой нетворкер должен уделять время развитию кругозора. Он помогает поддержать разговор на разные темы.'
+    },
+    {
+      name: 'Зарядное устройство',
+      // ↓ ПРЕДМЕТ 9 — зарядное устройство
+      img: 'https://i.ibb.co/LdBxNkkf/image.png',
+      text: 'Универсальное зарядное устройство — гаджет размером с визитницу. Выручает при каждой поездке.'
+    },
+    {
+      name: 'Парфюм',
+      // ↓ ПРЕДМЕТ 10 — парфюм
+      img: 'https://i.ibb.co/fVtRzjqZ/1.png',
+      text: 'Можно держать в сумке парфюм маленькой ёмкости 30 мл или купить пробники.'
+    }
+  ];
 
-    items.forEach(function(item, i) {
-      var el = document.createElement('div');
-      el.className = 'bag-item';
-      el.dataset.idx = i;
-      el.innerHTML = '<span class="bag-emoji">' + item.emoji + '</span>' + item.name;
-      el.addEventListener('click', function() {
-        currentIdx = i;
-        mTitle.textContent = item.emoji + ' ' + item.name;
-        mText.textContent = item.text;
-        modal.classList.add('active');
-      });
-      shelf.appendChild(el);
+  var shelfVisual = document.getElementById('bag-shelf-visual');
+  var bagInside   = document.getElementById('bag-inside');
+  var modal       = document.getElementById('bag-modal');
+  var mTitle      = document.getElementById('bag-modal-title');
+  var mText       = document.getElementById('bag-modal-text');
+  var mImg        = document.getElementById('bag-modal-img');
+  var mTake       = document.getElementById('bag-modal-take');
+  var mSkip       = document.getElementById('bag-modal-skip');
+  var btnGo       = document.getElementById('btn-bag-go');
+  var doneMsg     = document.getElementById('bag-done-msg');
+
+  var currentIdx = -1;
+  var taken = 0;
+
+  if (!shelfVisual || !bagInside) return;
+
+  // Создаём предметы на полке
+  items.forEach(function(item, i) {
+    var el = document.createElement('div');
+    el.className = 'bag-item-visual';
+    el.dataset.idx = i;
+    el.innerHTML =
+      '<img src="' + item.img + '" alt="' + item.name + '">' +
+      '<span>' + item.name + '</span>';
+    el.addEventListener('click', function() {
+      if (el.classList.contains('taken')) return;
+      currentIdx = i;
+      mImg.src = item.img;
+      mTitle.textContent = item.name;
+      mText.textContent = item.text;
+      mTake.style.display = 'inline-flex';
+      modal.classList.add('active');
     });
+    shelfVisual.appendChild(el);
+  });
 
-    mTake.addEventListener('click', function() {
-      if (currentIdx < 0) return;
-      var el = shelf.querySelector('[data-idx="' + currentIdx + '"]');
-      if (el && !el.classList.contains('taken')) {
-        el.classList.add('taken');
-        var chip = document.createElement('div');
-        chip.className = 'bag-chip';
-        chip.textContent = items[currentIdx].emoji + ' ' + items[currentIdx].name;
-        zone.appendChild(chip);
-        taken++;
-        if (taken >= items.length) {
+  // Положить в сумку
+  mTake.addEventListener('click', function() {
+    if (currentIdx < 0) return;
+    var item = items[currentIdx];
+    var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
+
+    if (shelfEl && !shelfEl.classList.contains('taken')) {
+      // Анимация исчезновения с полки
+      shelfEl.classList.add('taken');
+
+      // Создаём предмет внутри сумки
+      var bagEl = document.createElement('div');
+      bagEl.className = 'bag-item-inside';
+      bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
+
+      // Случайное положение внутри сумки
+      var maxX = 60;
+      var maxY = 50;
+      var rx = (Math.random() * maxX * 2 - maxX);
+      var ry = (Math.random() * maxY * 2 - maxY);
+      var rot = (Math.random() * 30 - 15);
+      bagEl.style.transform =
+        'translate(' + rx + 'px, ' + ry + 'px) rotate(' + rot + 'deg)';
+
+      bagInside.appendChild(bagEl);
+      taken++;
+
+      // Анимация появления
+      requestAnimationFrame(function() {
+        bagEl.classList.add('dropped');
+      });
+
+      if (taken >= items.length) {
+        setTimeout(function() {
           doneMsg.style.display = 'block';
-          btnGo.style.display = 'inline-flex';
-        }
+          btnGo.style.display   = 'inline-flex';
+          addScore(2);
+        }, 400);
       }
+    }
+
+    modal.classList.remove('active');
+    currentIdx = -1;
+  });
+
+  // Закрыть без добавления
+  mSkip.addEventListener('click', function() {
+    modal.classList.remove('active');
+    currentIdx = -1;
+  });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
       modal.classList.remove('active');
       currentIdx = -1;
-    });
-
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-
-  btnGo.addEventListener('click', function() {
-      showScreen('screen-21-2');
-    });
-  }
+    }
+  });
+}
  
 
  // ===== Экран 16-1: локации =====
