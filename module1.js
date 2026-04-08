@@ -17,8 +17,9 @@ const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
-  'screen-19', 'screen-19-1', // ← добавили
-  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
+  'screen-19', 'screen-19-1',
+  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0', // ← добавили
+  'screen-21-1', 'screen-21-2',
   'screen-final'
 ];
 
@@ -733,7 +734,30 @@ function initZlataCard19() {
     showScreen('screen-20');
   });
 }
+function initZlataCard21() {
+  var card     = document.getElementById('zlata-card-21');
+  var wrapper  = document.getElementById('zlata-card-wrapper-21');
+  var btnFront = document.getElementById('inv-bag-21');
+  var btnBack  = document.getElementById('inv-bag-21-back');
 
+  if (!card || !wrapper) return;
+
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-bag-21') ||
+        e.target.closest('#inv-bag-21-back')) return;
+    card.classList.toggle('flipped');
+  });
+
+  btnFront.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-21-1');
+  });
+
+  btnBack.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-21-1');
+  });
+}
 
   // ===== Экран 14: колесо баланса =====
   // ===== SVG-колесо: вспомогательные функции =====
@@ -2290,6 +2314,7 @@ document.addEventListener('DOMContentLoaded', function() {
    initZlataCard2();
    initZlataCard17();
     initZlataCard19(); 
+   initZlataCard21();
   initWheel();
   initWheelSummary();
   initPeopleDrag();
