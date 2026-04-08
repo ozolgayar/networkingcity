@@ -1243,14 +1243,15 @@
 </div>
 <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:12px; gap:10px; overflow-y:auto;">
 
-
-   <!-- Верное фото с экрана 20 -->
-<div style="display:flex; justify-content:center;">
-  <div style="width:160px; border-radius:12px; border:2px solid #22c55e; overflow:hidden; box-shadow:0 2px 12px rgba(34,197,94,0.15);">
-    <div style="aspect-ratio:4/3; overflow:hidden;">
-      <img src="https://i.ibb.co/GfR0fkSf/1-1.png" alt="Выбранное фото" style="width:100%; height:100%; object-fit:cover; display:block;">
-    </div>
-     </div>
+    <!-- Верное фото с экрана 20 -->
+    <div style="display:flex; justify-content:center;">
+      <div style="width:160px; border-radius:12px; border:2px solid #22c55e; overflow:hidden; box-shadow:0 2px 12px rgba(34,197,94,0.15);">
+        <div style="aspect-ratio:4/3; overflow:hidden;">
+          <img src="https://i.ibb.co/GfR0fkSf/1-1.png" alt="Выбранное фото" style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>
+        <div style="padding:4px 6px; font-size:10px; text-align:center; background:#f0fdf4; color:#16a34a; font-weight:600;">✅ Выбрано</div>
+      </div>
+    </div><!-- закрытие flex-контейнера фото -->
 
     <!-- Статус -->
     <div style="font-size:14px; font-weight:600; color:var(--text);">📝 Твой статус</div>
@@ -1273,7 +1274,7 @@
         <div>
           <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Фокус / Интерес</label>
           <input type="text" id="status-focus" placeholder="Например: Редкие заболевания, GMP" class="bc-field" style="margin-top:2px;">
-                    </div>
+        </div>
       </div>
     </div>
 
@@ -1286,8 +1287,9 @@
       <button class="btn" id="btn-status-next" style="display:none;" onclick="showScreen('screen-21')">Далее →</button>
     </div>
 
-  </div>
-</div>
+</div><!-- закрытие .scene-main -->
+</div><!-- закрытие .scene -->
+
 <div class="panel">
   <div class="panel-tag">Теория</div>
   <h2>Статус в соцсети</h2>
@@ -1301,7 +1303,7 @@
   <h3 style="margin-top:8px;">Статус помогает:</h3>
   <p><strong>Быть понятным</strong> — у человека не возникает вопроса: «А что он/она вообще делает?»</p>
   <p><strong>Привлекать «своих» людей</strong> — если ты обозначаешь сферу и интерес, к тебе чаще приходят с релевантными предложениями.</p>
-  <p><strong>Стать «находкой» в нужный момент</strong> — кто-то думает: 💭 Нужен человек, который шарит в фарме» и, увидев твой статус, думает: «О, вот оно!»</p>
+  <p><strong>Стать «находкой» в нужный момент</strong> — кто-то думает: 💭 «Нужен человек, который шарит в фарме» и, увидев твой статус, думает: «О, вот оно!»</p>
 
   <h3 style="margin-top:8px;">Главное правило</h3>
   <p>Статус — не пафос, а <strong>«подсказка, кто ты и чем полезен»</strong>.</p>
@@ -1343,20 +1345,22 @@
     <li>Укажи конкретный фокус/интерес</li>
   </ol>
   <p>Нажми «Установить статус» — и увидишь, как он будет выглядеть.</p>
-    <!-- Модалка статуса -->
-    <div class="modal-overlay" id="status-modal">
-      <div class="modal">
-        <h3>🎉 Отлично!</h3>
-        <p>Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».</p>
-        <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
-          <button class="btn" onclick="document.getElementById('status-modal').classList.remove('active')">Понятно</button>
-        </div>
+
+  <!-- Модалка статуса -->
+  <div class="modal-overlay" id="status-modal">
+    <div class="modal">
+      <h3>🎉 Отлично!</h3>
+      <p>Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».</p>
+      <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
+        <button class="btn" onclick="document.getElementById('status-modal').classList.remove('active')">Понятно</button>
       </div>
     </div>
-</div>
+  </div>
+</div><!-- закрытие .panel -->
 
-</div>
-</div>
+</div><!-- закрытие .screen-layout -->
+</div><!-- закрытие #screen-20-1 -->
+      
 <!-- Экран 21. Онлайн доска -->
 <div class="screen" id="screen-21">
 
