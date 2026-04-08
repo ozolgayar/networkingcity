@@ -1236,12 +1236,124 @@
       <div class="actions-row" style="margin-top:auto;">
         <button class="btn secondary nav-back" data-prev>Назад</button>
         <button class="btn" id="btn-bizcard-check">Проверить</button>
-        <button class="btn" id="btn-bizcard-next" style="display:none;" data-next="screen-20">Далее →</button>
+        <button class="btn" id="btn-bizcard-next" style="display:none;" data-next="screen-19-1">Далее →</button>
       </div>
     </div><!-- закрытие .panel -->
 
   </div><!-- закрытие .screen-layout -->
 </div><!-- закрытие #screen-19 -->
+
+      <!-- Экран 19-1: карточка Златы — переход к фото профиля -->
+<div class="screen" id="screen-19-1">
+  <button class="btn secondary nav-back" data-prev>← Назад</button>
+
+  <div style="display:flex; justify-content:center; padding:10px 0;">
+
+    <div class="zlata-card-wrapper" id="zlata-card-wrapper-19">
+      <div class="zlata-card" id="zlata-card-19">
+
+        <!-- ЛИЦЕВАЯ СТОРОНА -->
+        <div class="zlata-front">
+          <div class="zlata-avatar">
+            <div class="zlata-avatar-circle">
+              <img src="https://i.ibb.co/mVhvHjvS/1.png" alt="Злата">
+            </div>
+          </div>
+
+          <div class="zlata-name">Злата Ковальчук</div>
+          <div class="zlata-role">Специалист отдела маркетинга</div>
+          <div class="zlata-badge-new">Визитка готова ✅</div>
+
+          <div class="zlata-quote">
+            «Визитка есть! Теперь нужно выбрать правильное фото для профиля.»
+          </div>
+
+          <div class="zlata-inventory">
+            <div class="zlata-inv-item done" title="Ноутбук — готово">
+              <span>💻</span>
+              <small>Ноутбук</small>
+            </div>
+            <div class="zlata-inv-item done" title="Цель — готово">
+              <span>🎯</span>
+              <small>Цель</small>
+            </div>
+            <div class="zlata-inv-item done" title="Визитка — готово">
+              <span>📇</span>
+              <small>Визитка</small>
+            </div>
+            <div class="zlata-inv-item active" id="inv-phone-19" title="Телефон — нажми!" style="cursor:pointer;">
+              <span>📱</span>
+              <small>Телефон</small>
+            </div>
+            <div class="zlata-inv-item locked" title="Сумка — откроется позже">
+              <span>👜</span>
+              <small>Сумка</small>
+            </div>
+            <div class="zlata-inv-item locked" title="Карта — откроется позже">
+              <span>🗺️</span>
+              <small>Карта</small>
+            </div>
+          </div>
+
+          <div class="zlata-nw-bar">
+            <div class="zlata-nw-header">
+              <span class="zlata-nw-label">Прогресс подготовки к нетворкингу</span>
+              <span class="zlata-nw-value">48%</span>
+            </div>
+            <div class="zlata-nw-track">
+              <div class="zlata-nw-fill" style="width:48%;"></div>
+            </div>
+          </div>
+
+          <div class="zlata-flip-hint">📱 Нажми на «Телефон» или переверни карточку →</div>
+        </div><!-- закрытие zlata-front -->
+
+        <!-- ОБРАТНАЯ СТОРОНА -->
+        <div class="zlata-back">
+          <div class="zlata-back-scroll">
+            <h3>Следующий шаг</h3>
+            <p>Визитка готова — отлично! Теперь нужно позаботиться об онлайн-присутствии. Первое, что видит человек в твоём профиле — это фото.</p>
+
+            <div class="zlata-superpowers">
+              <div class="zlata-sp-title">✅ Злата уже сделала:</div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">💻</span>
+                <div><strong>Изучила расписание</strong><span> — знает, куда идти</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">🎯</span>
+                <div><strong>Поставила SMART-цель</strong><span> — знает, зачем идёт</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">📇</span>
+                <div><strong>Создала визитку</strong><span> — готова к знакомствам</span></div>
+              </div>
+              <div class="zlata-sp-item">
+                <span class="zlata-sp-icon">📱</span>
+                <div><strong>Фото профиля</strong><span> — следующий шаг!</span></div>
+              </div>
+            </div>
+
+            <div class="zlata-instruction">
+              📱 Нажми на <strong>Телефон</strong> на лицевой стороне, чтобы выбрать фото профиля.
+            </div>
+
+            <div style="display:flex; justify-content:center; margin-top:16px;">
+              <div class="zlata-inv-item active" id="inv-phone-19-back" title="Телефон" style="cursor:pointer;">
+                <span>📱</span>
+                <small>Выбрать фото →</small>
+              </div>
+            </div>
+
+            <div class="zlata-flip-hint">← Нажми, чтобы вернуться</div>
+          </div>
+        </div><!-- закрытие zlata-back -->
+
+      </div><!-- закрытие .zlata-card -->
+    </div><!-- закрытие .zlata-card-wrapper -->
+
+  </div>
+</div><!-- закрытие #screen-19-1 -->
       
 <!-- Экран 20. Фото для профиля -->
 <div class="screen" id="screen-20">
