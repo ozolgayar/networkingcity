@@ -1340,7 +1340,63 @@ function initProfileAndSticky() {
     console.warn('initProfileAndSticky: элементы не найдены');
     return;
   }
+// ===== Глобальный тултип для стикеров =====
+function initStickyTooltip() {
+  var tooltip = document.getElementById('sticky-tooltip');
+  if (!tooltip) return;
 
+  var currentTarget = null;
+
+  document.addEventListener('mouseover', function(e) {
+    var sticky = e.target.closest('.sticky');
+    if (!sticky) return;
+    // Не показываем если навели на кнопку удаления
+    if (e.target.closest('.sticky-delete')) return;
+
+    var text = sticky.dataset.text;
+    if (!text) return;
+
+    currentTarget = sticky;
+    tooltip.textContent = text;
+    tooltip.classList.add('visible');
+    positionTooltip(e);
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!currentTarget) return;
+    positionTooltip(e);
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    var sticky = e.target.closest('.sticky');
+    if (!sticky) return;
+    currentTarget = null;
+    tooltip.classList.remove('visible');
+  });
+
+  function positionTooltip(e) {
+    var x = e.clientX;
+    var y = e.clientY;
+    var tw = tooltip.offsetWidth;
+    var th = tooltip.offsetHeight;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+
+    // Тултип появляется над курсором
+    var left = x - tw / 2;
+    var top = y - th - 14;
+
+    // Не вылезает за правый край
+    if (left + tw > vw - 10) left = vw - tw - 10;
+    // Не вылезает за левый край
+    if (left < 10) left = 10;
+    // Если не влезает сверху — показываем снизу
+    if (top < 10) top = y + 18;
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+}
   // ===== Мой стикер из localStorage =====
   function loadMySticky() {
     var saved = localStorage.getItem('nc_my_sticky');
@@ -2047,6 +2103,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initPhotoGame();
   initBizcard();
   initProfileAndSticky();
+  initStickyTooltip();
   initBag();
   initVenueMap();
   updateHud();
