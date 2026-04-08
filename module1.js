@@ -1325,11 +1325,16 @@ var SUPABASE_URL = 'https://hdzelembnsoejijvlhzj.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4';
 var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-// ===== Экран 20–21: повышение узнаваемости =====
 function initProfileAndSticky() {
   var board = document.getElementById('sticky-board');
   var input = document.getElementById('sticky-input');
   var addBtn = document.getElementById('btn-sticky-add');
+
+  // Модалка удаления
+  var deleteModal = document.getElementById('sticky-delete-modal');
+  var deleteCancel = document.getElementById('sticky-delete-cancel');
+  var deleteConfirm = document.getElementById('sticky-delete-confirm');
+  var stickyToDelete = null; // DOM-элемент, который хотим удалить
 
   // Загрузка стикеров из Supabase
   function loadStickies() {
@@ -1355,6 +1360,7 @@ function initProfileAndSticky() {
     sticky.className = 'sticky';
     sticky.dataset.id = row.id;
     sticky.innerHTML =
+      '<button class="sticky-delete" title="Удалить стикер">✕</button>' +
       '<div>' + escapeHtml(row.text) + '</div>' +
       '<div class="sticky-footer">' +
         '<span style="opacity:0.7;">' + escapeHtml(row.author || 'Аноним') + '</span>' +
@@ -1369,7 +1375,71 @@ function initProfileAndSticky() {
     return div.innerHTML;
   }
 
-  // Добавление стикера
+  // ===== УДАЛЕНИЕ СТИКЕРА =====
+
+  // Клик по кнопке удаления — открываем модалку подтверждения
+  board.addEventListener('click', function(e) {
+    var deleteBtn = e.target.closest('.sticky-delete');
+    if (!deleteBtn) return;
+
+    e.stopPropagation();
+    stickyToDelete = deleteBtn.closest('.sticky');
+    if (stickyToDelete) {
+      deleteModal.classList.add('active');
+    }
+  });
+
+  // Отмена удаления
+  deleteCancel.addEventListener('click', function() {
+    stickyToDelete = null;
+    deleteModal.classList.remove('active');
+  });
+
+  // Закрытие по клику на оверлей
+  deleteModal.addEventListener('click', function(e) {
+    if (e.target === deleteModal) {
+      stickyToDelete = null;
+      deleteModal.classList.remove('active');
+    }
+  });
+
+  // Подтверждение удаления
+  deleteConfirm.addEventListener('click', function() {
+    if (!stickyToDelete) {
+      deleteModal.classList.remove('active');
+      return;
+    }
+
+    var stickyId = stickyToDelete.dataset.id;
+    var el = stickyToDelete;
+
+    // Анимация удаления
+    el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'scale(0.8)';
+
+    setTimeout(function() {
+      el.remove();
+    }, 300);
+
+    // Удаляем из Supabase
+    if (supabase && stickyId) {
+      supabase
+        .from('stickies')
+        .delete()
+        .eq('id', stickyId)
+        .then(function(result) {
+          if (result.error) {
+            console.error('Ошибка удаления:', result.error);
+          }
+        });
+    }
+
+    stickyToDelete = null;
+    deleteModal.classList.remove('active');
+  });
+
+  // ===== ДОБАВЛЕНИЕ СТИКЕРА =====
   addBtn.addEventListener('click', function() {
     var text = input.value.trim();
     if (!text) return;
@@ -1400,8 +1470,11 @@ function initProfileAndSticky() {
     }
   });
 
-  // Лайки
+  // ===== ЛАЙКИ =====
   board.addEventListener('click', function(e) {
+    // Не реагируем на кнопку удаления
+    if (e.target.closest('.sticky-delete')) return;
+
     var target = e.target.closest('.like-count');
     if (!target) return;
     var sticky = target.closest('.sticky');
@@ -1422,7 +1495,7 @@ function initProfileAndSticky() {
     }
   });
 
-  // Realtime подписка — новые стикеры появляются у всех
+  // ===== REALTIME =====
   if (supabase) {
     supabase
       .channel('stickies-realtime')
@@ -1432,7 +1505,6 @@ function initProfileAndSticky() {
         table: 'stickies',
         filter: 'screen=eq.screen-21'
       }, function(payload) {
-        // Не дублируем если уже есть
         if (board.querySelector('[data-id="' + payload.new.id + '"]')) return;
         board.insertBefore(createStickyEl(payload.new), board.firstChild);
       })
@@ -1449,9 +1521,22 @@ function initProfileAndSticky() {
           lc.textContent = '♥ ' + payload.new.likes;
         }
       })
+      .on('postgres_changes', {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'stickies'
+      }, function(payload) {
+        // Realtime: удаляем у всех подключённых пользователей
+        var el = board.querySelector('[data-id="' + payload.old.id + '"]');
+        if (el) {
+          el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          el.style.opacity = '0';
+          el.style.transform = 'scale(0.8)';
+          setTimeout(function() { el.remove(); }, 300);
+        }
+      })
       .subscribe();
 
-    // Загружаем при открытии экрана
     var obs = new MutationObserver(function() {
       if (document.getElementById('screen-21').classList.contains('active')) {
         loadStickies();
