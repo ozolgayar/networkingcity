@@ -1456,7 +1456,19 @@ function initProfileAndSticky() {
       setTimeout(function() { input.style.borderColor = ''; }, 1500);
       return;
     }
-
+ // ✅ Проверяем — не больше 1 стикера от одного участника
+  var existing = board.querySelectorAll('.sticky');
+  if (existing.length >= 30) {
+    input.style.borderColor = '#f59e0b';
+    setTimeout(function() { input.style.borderColor = ''; }, 1500);
+    // Показываем сообщение
+    var warn = document.getElementById('sticky-limit-warn');
+    if (warn) {
+      warn.style.display = 'block';
+      setTimeout(function() { warn.style.display = 'none'; }, 3000);
+    }
+    return;
+  }
     if (supabase) {
       supabase
         .from('stickies')
