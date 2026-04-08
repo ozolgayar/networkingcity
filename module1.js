@@ -18,8 +18,9 @@ const screenOrder = [
   'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
   'screen-19', 'screen-19-1',
-  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0', // ← добавили
-  'screen-21-1', 'screen-21-2',
+  'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0',
+  'screen-21-1', 'screen-21-1-1', // ← добавили
+  'screen-21-2',
   'screen-final'
 ];
 
@@ -756,6 +757,31 @@ function initZlataCard21() {
   btnBack.addEventListener('click', function(e) {
     e.stopPropagation();
     showScreen('screen-21-1');
+  });
+}
+
+function initZlataCard211() {
+  var card     = document.getElementById('zlata-card-211');
+  var wrapper  = document.getElementById('zlata-card-wrapper-211');
+  var btnFront = document.getElementById('inv-map-211');
+  var btnBack  = document.getElementById('inv-map-211-back');
+
+  if (!card || !wrapper) return;
+
+  wrapper.addEventListener('click', function(e) {
+    if (e.target.closest('#inv-map-211') ||
+        e.target.closest('#inv-map-211-back')) return;
+    card.classList.toggle('flipped');
+  });
+
+  btnFront.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-21-2');
+  });
+
+  btnBack.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showScreen('screen-21-2');
   });
 }
 
@@ -2315,6 +2341,7 @@ document.addEventListener('DOMContentLoaded', function() {
    initZlataCard17();
     initZlataCard19(); 
    initZlataCard21();
+    initZlataCard211();
   initWheel();
   initWheelSummary();
   initPeopleDrag();
