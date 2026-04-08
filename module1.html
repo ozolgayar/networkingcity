@@ -809,9 +809,7 @@
 
       <p>Нажимай на человечков слева, чтобы добавить их в свой план знакомств.</p>
 
-       <div id="people-feedback" style="display:none; font-size:14px; line-height:1.5; padding:10px 14px; border-radius:12px; background:rgba(241,245,249,0.8); border:1px solid #e2e8f0; margin-top:6px;"></div>
-
-     <div class="actions-row">
+          <div class="actions-row">
           <button class="btn secondary nav-back" data-prev>Назад</button>
           <button class="btn" data-next="screen-16-1" style="display:none;">Продолжить →</button>
         </div>
@@ -1139,70 +1137,103 @@
       
 <!-- Экран 20. Фото для профиля -->
 <div class="screen" id="screen-20">
-<div class="screen-layout">
-<div class="scene">
-<div class="scene-header">
-<span class="tagline">Экран 20 • Фото профиля</span>
-</div>
-<div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:8px; overflow-y:auto;">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Фото профиля</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:8px; overflow-y:auto;">
 
+        <div class="photo-grid" id="photo-grid">
+          <div class="photo-card" data-photo="1">
+            <div class="photo-placeholder" style="padding:0; overflow:hidden;">
+              <img src="https://i.ibb.co/GfR0fkSf/1-1.png" alt="Портрет в офисе" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+            </div>
+            <div class="photo-label">Фото 1: Портрет в офисе</div>
+          </div>
 
-    <div class="photo-grid" id="photo-grid">
-      <div class="photo-card" data-photo="1">
-  <div class="photo-placeholder" style="padding:0; overflow:hidden;">
-    <img src="https://i.ibb.co/GfR0fkSf/1-1.png" alt="Портрет в офисе" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
-  </div>
-  <div class="photo-label">Фото 1: Портрет в офисе</div>
-</div>
+          <div class="photo-card" data-photo="2">
+            <div class="photo-placeholder" style="padding:0; overflow:hidden;">
+              <img src="https://i.ibb.co/bgWD6tK0/1-2.png" alt="Селфи в лифте" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+            </div>
+            <div class="photo-label">Фото 2: Селфи в лифте</div>
+          </div>
 
-<div class="photo-card" data-photo="2">
-  <div class="photo-placeholder" style="padding:0; overflow:hidden;">
-    <img src="https://i.ibb.co/bgWD6tK0/1-2.png" alt="Селфи в лифте" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
-  </div>
-  <div class="photo-label">Фото 2: Селфи в лифте</div>
-</div>
+          <div class="photo-card" data-photo="3">
+            <div class="photo-placeholder" style="padding:0; overflow:hidden;">
+              <img src="https://i.ibb.co/8DvV1ScL/1-3.png" alt="С корпоратива" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+            </div>
+            <div class="photo-label">Фото 3: С корпоратива</div>
+          </div>
 
-<div class="photo-card" data-photo="3">
-  <div class="photo-placeholder" style="padding:0; overflow:hidden;">
-    <img src="https://i.ibb.co/8DvV1ScL/1-3.png" alt="С корпоратива" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
-  </div>
-  <div class="photo-label">Фото 3: С корпоратива</div>
-</div>
+          <div class="photo-card" data-photo="4">
+            <div class="photo-placeholder" style="padding:0; overflow:hidden;">
+              <img src="https://i.ibb.co/21k1fWrS/1-4.png" alt="Командное фото" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+            </div>
+            <div class="photo-label">Фото 4: Командное фото</div>
+          </div>
 
-<div class="photo-card" data-photo="4">
-  <div class="photo-placeholder" style="padding:0; overflow:hidden;">
-    <img src="https://i.ibb.co/21k1fWrS/1-4.png" alt="Командное фото" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
-  </div>
-  <div class="photo-label">Фото 4: Командное фото</div>
-</div>
+          <div class="photo-card" data-photo="5">
+            <div class="photo-placeholder" style="padding:0; overflow:hidden;">
+              <img src="https://i.ibb.co/BK3yqG2K/1-5.png" alt="С отпуска" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+            </div>
+            <div class="photo-label">Фото 5: С отпуска</div>
+          </div>
 
-<div class="photo-card" data-photo="5">
-  <div class="photo-placeholder" style="padding:0; overflow:hidden;">
-    <img src="https://i.ibb.co/BK3yqG2K/1-5.png" alt="С отпуска" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
-  </div>
-  <div class="photo-label">Фото 5: С отпуска</div>
-</div>
+          <div class="photo-card" data-photo="6">
+            <div class="photo-placeholder" style="padding:0; overflow:hidden;">
+              <img src="https://i.ibb.co/RpghcrTW/1-6.png" alt="Вечернее фото" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+            </div>
+            <div class="photo-label">Фото 6: Вечернее фото</div>
+          </div>
+        </div><!-- закрытие .photo-grid -->
 
-<div class="photo-card" data-photo="6">
-  <div class="photo-placeholder" style="padding:0; overflow:hidden;">
-    <img src="https://i.ibb.co/RpghcrTW/1-6.png" alt="Вечернее фото" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
-  </div>
-  <div class="photo-label">Фото 6: Вечернее фото</div>
-</div>
+        <div class="photo-feedback" id="photo-feedback"></div>
 
-    <div class="photo-feedback" id="photo-feedback"></div>
+        <div class="actions-row">
+          <button class="btn secondary nav-back" data-prev>Назад</button>
+          <button class="btn" id="btn-photo-check" onclick="window.checkPhoto()">Проверить</button>
+          <button class="btn" id="btn-photo-next" style="display:none;" onclick="showScreen('screen-20-1')">Далее →</button>
+        </div>
 
-    <div class="actions-row">
-      <button class="btn secondary nav-back" data-prev>Назад</button>
-      <button class="btn" id="btn-photo-check" onclick="window.checkPhoto()">Проверить</button>
-      <button class="btn" id="btn-photo-next" style="display:none;" onclick="showScreen('screen-20-1')">Далее →</button>
-    </div>
-  </div>
-</div>
-<div class="panel">
-  <div class="panel-tag">Теория</div>
-  <h2>Выбери фото для профиля Златы</h2>
-  <p class="subtitle">Перед тобой 6 фотографий Златы. Выбери ту, которая лучше всего подходит для профессионального профиля. Вспомни критерии из теории.</p>
+      </div><!-- закрытие .scene-main -->
+    </div><!-- закрытие .scene -->
+
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Выбери фото для профиля Златы</h2>
+      <p>Перед тобой 6 фотографий Златы. Выбери ту, которая лучше всего подходит для профессионального профиля. Вспомни критерии из теории.</p>
+
+      <h3 style="margin-top:10px;">Аватарка для профиля</h3>
+      <p>Аватарка — это первое рукопожатие онлайн. Ещё до того, как человек прочитает статус, он уже что-то решил по фото.</p>
+      <p>Онлайн-профиль без хорошей фотографии:</p>
+      <ul>
+        <li>вызывает меньше доверия</li>
+        <li>реже получает ответы</li>
+        <li>хуже запоминается после встречи</li>
+      </ul>
+
+      <h3 style="margin-top:8px;">Принципы хорошей аватарки</h3>
+      <p><strong>1. Лицо — главный герой.</strong> Кадр по плечи или по грудь, смотрим в камеру.</p>
+      <p><strong>2. Чистый фон.</strong> Однотонная стена, размытый офис. Без бардака и толпы людей.</p>
+      <p><strong>3. Хороший свет.</strong> Естественный свет от окна, без резких теней.</p>
+      <p><strong>4. Одежда как на встрече.</strong> Чистая, аккуратная, спокойные цвета.</p>
+      <p><strong>5. Живое выражение лица.</strong> Лёгкая улыбка, доброжелательный взгляд.</p>
+
+      <h3 style="margin-top:8px;">Главные вопросы к фото:</h3>
+      <ul>
+        <li>Похож ли ты на себя в реальной жизни?</li>
+        <li>Хочется ли с тобой заговорить, глядя на это фото?</li>
+      </ul>
+
+      <hr style="border:none; border-top:1px dashed #cbd5e1; margin:12px 0;">
+
+      <h2 style="margin-top:4px;">Задание: Выбери фото для профиля Златы</h2>
+      <p>Перед тобой 6 фотографий Златы. Выбери ту, которая лучше всего подходит для профессионального профиля, опираясь на критерии из теории.</p>
+    </div><!-- закрытие .panel -->
+
+  </div><!-- закрытие .screen-layout -->
+</div><!-- закрытие #screen-20 -->
   <h3 style="margin-top:10px;">Аватарка для профиля</h3>
   <p>Аватарка — это первое рукопожатие онлайн. Ещё до того, как человек прочитает статус, он уже что-то решил по фото.</p>
   <p>Онлайн-профиль без хорошей фотографии:</p>
