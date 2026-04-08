@@ -16,7 +16,8 @@ const state = {
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
-  'screen-16', 'screen-16-1', 'screen-17', 'screen-19',
+  'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1', // ← добавили screen-17-1
+  'screen-19',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2',
   'screen-final'
 ];
