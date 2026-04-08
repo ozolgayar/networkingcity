@@ -1403,38 +1403,48 @@ function initProfileAndSticky() {
     }
   });
 
-  // Подтверждение удаления
-  deleteConfirm.addEventListener('click', function() {
-    if (!stickyToDelete) {
-      deleteModal.classList.remove('active');
-      return;
+ // Подтверждение удаления
+deleteConfirm.addEventListener('click', function() {
+  if (!stickyToDelete) {
+    deleteModal.classList.remove('active');
+    return;
+  }
+
+  // Сохраняем ссылку локально СРАЗУ — до любых async операций
+  var elToRemove = stickyToDelete;
+  var stickyId = elToRemove.dataset.id;
+
+  // Сбрасываем глобальную переменную немедленно
+  stickyToDelete = null;
+  deleteModal.classList.remove('active');
+
+  // Анимация удаления
+  elToRemove.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  elToRemove.style.opacity = '0';
+  elToRemove.style.transform = 'scale(0.8)';
+
+  // Удаляем из DOM через 300мс
+  setTimeout(function() {
+    if (elToRemove && elToRemove.parentNode) {
+      elToRemove.remove();
     }
+  }, 300);
 
-    var stickyId = stickyToDelete.dataset.id;
-    var el = stickyToDelete;
-
-    // Анимация удаления
-    el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    el.style.opacity = '0';
-    el.style.transform = 'scale(0.8)';
-
-    setTimeout(function() {
-      el.remove();
-    }, 300);
-
-    // Удаляем из Supabase
-    if (supabase && stickyId) {
-      supabase
-        .from('stickies')
-        .delete()
-        .eq('id', stickyId)
-        .then(function(result) {
-          if (result.error) {
-            console.error('Ошибка удаления:', result.error);
-          }
-        });
-    }
-
+  // Удаляем из Supabase только если есть id
+  if (supabase && stickyId) {
+    supabase
+      .from('stickies')
+      .delete()
+      .eq('id', stickyId)
+      .then(function(result) {
+        if (result.error) {
+          console.error('Ошибка удаления:', result.error);
+        }
+      });
+  }
+  // Если id нет (захардкоженный стикер) — просто удалили из DOM, всё ок
+});
+  
     stickyToDelete = null;
     deleteModal.classList.remove('active');
   });
