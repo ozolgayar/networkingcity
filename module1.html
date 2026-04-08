@@ -1016,6 +1016,109 @@
 
   </div>
 </div>
+
+      <!-- Экран 17-1: карточка Златы — переход к визитке -->
+<div class="screen" id="screen-17-1">
+  <div class="screen-layout">
+
+    <!-- СЦЕНА -->
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Знакомство со Златой</span>
+        <span class="badge">32%</span>
+      </div>
+      <div class="scene-main" style="display:flex; align-items:center; justify-content:center; padding:24px 16px;">
+
+        <!-- Карточка Златы -->
+        <div class="zlata-card-wrapper" id="zlata-card-wrapper-17">
+          <div class="zlata-card" id="zlata-card-17">
+
+            <!-- Лицевая сторона -->
+            <div class="zlata-card-front">
+              <div class="zlata-avatar">
+                <img src="https://i.ibb.co/album/zlata-avatar.png"
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='👩‍💼';"
+                     alt="Злата" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+              </div>
+              <div class="zlata-name">Злата Маленко</div>
+              <div class="zlata-role">Специалист по нетворкингу</div>
+              <div class="zlata-hint">Нажми, чтобы узнать больше →</div>
+
+              <!-- Иконка визитки -->
+              <button class="inv-item" id="inv-bizcard-17" title="Визитка" style="margin-top:16px;">
+                <span style="font-size:24px;">💳</span>
+                <span style="font-size:11px; color:var(--text-soft); margin-top:2px;">Визитка</span>
+              </button>
+            </div>
+
+            <!-- Обратная сторона -->
+            <div class="zlata-card-back">
+              <div class="zlata-back-title">Следующий шаг</div>
+              <div class="zlata-back-text">
+                Цель поставлена — отлично! Теперь пора подготовить главный инструмент нетворкера. 
+                Без визитки ни одно знакомство не заканчивается контактом.
+              </div>
+              <div class="zlata-back-quote">
+                💬 «Визитка — это не бумажка. Это твой первый след в памяти человека.»
+              </div>
+
+              <!-- Прогресс -->
+              <div style="margin-top:16px; width:100%;">
+                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-soft); margin-bottom:4px;">
+                  <span>Прогресс модуля</span>
+                  <span>32%</span>
+                </div>
+                <div style="height:6px; background:#e2e8f0; border-radius:999px; overflow:hidden;">
+                  <div style="height:100%; width:32%; background:var(--accent); border-radius:999px; transition:width 0.6s ease;"></div>
+                </div>
+              </div>
+
+              <button class="inv-item" id="inv-bizcard-17-back" title="Визитка" style="margin-top:16px;">
+                <span style="font-size:24px;">💳</span>
+                <span style="font-size:11px; color:var(--text-soft); margin-top:2px;">Визитка</span>
+              </button>
+            </div>
+
+          </div><!-- закрытие .zlata-card -->
+        </div><!-- закрытие .zlata-card-wrapper -->
+
+      </div><!-- закрытие .scene-main -->
+    </div><!-- закрытие .scene -->
+
+    <!-- ПАНЕЛЬ -->
+    <div class="panel">
+      <div class="panel-tag">Совет</div>
+      <h2>Визитка нетворкера</h2>
+
+      <p>SMART-цель поставлена — ты уже знаешь, <strong>зачем</strong> идёшь на мероприятие. Теперь нужно подготовить то, что оставит след после знакомства.</p>
+
+      <div style="padding:10px 14px; border-radius:10px; background:rgba(250,204,21,0.08); border-left:3px solid #facc15; font-size:13px; line-height:1.5; color:var(--text);">
+        💡 <strong>Факт:</strong> по исследованиям, 72% людей судят о профессионализме человека по качеству его визитки. Это первое, что остаётся у нового знакомого после встречи.
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+        <div style="padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0; background:#ffffff; font-size:13px; line-height:1.5;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">📋 Что должно быть на визитке</div>
+          <div style="color:var(--text-soft);">Имя, должность, компания, телефон, email, QR-код на профиль или сайт, фото — чтобы тебя легко вспомнили.</div>
+        </div>
+
+        <div style="padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0; background:#ffffff; font-size:13px; line-height:1.5;">
+          <div style="font-weight:700; color:var(--text); margin-bottom:4px;">🎯 Главное правило</div>
+          <div style="color:var(--text-soft);">Визитка — не просто контакт. Это продолжение первого впечатления. Она должна отвечать на вопрос: «Почему мне стоит с тобой связаться?»</div>
+        </div>
+      </div>
+
+      <div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.07); border:1px solid rgba(56,189,248,0.2); font-size:13px; line-height:1.5; color:var(--text); margin-top:8px;">
+        <strong style="color:#0284c7;">👇 Задание:</strong> нажми на иконку <strong>💳 Визитка</strong> на карточке Златы, чтобы создать свою визитку нетворкера.
+      </div>
+
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary" data-prev>Назад</button>
+      </div>
+    </div><!-- закрытие .panel -->
+
+  </div><!-- закрытие .screen-layout -->
+</div><!-- закрытие #screen-17-1 -->
       
    <!-- Экран 19. Создание визитки -->
 <div class="screen" id="screen-19">
