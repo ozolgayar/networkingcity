@@ -1325,18 +1325,17 @@ var SUPABASE_URL = 'https://hdzelembnsoejijvlhzj.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4';
 var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-function initProfileAndSticky() {
-  var board = document.getElementById('sticky-board');
+ var board = document.getElementById('sticky-board');
   var input = document.getElementById('sticky-input');
   var addBtn = document.getElementById('btn-sticky-add');
-
-  // Модалка удаления
   var deleteModal = document.getElementById('sticky-delete-modal');
   var deleteCancel = document.getElementById('sticky-delete-cancel');
   var deleteConfirm = document.getElementById('sticky-delete-confirm');
-  var stickyToDelete = null; // DOM-элемент, который хотим удалить
+  var stickyToDelete = null;
 
-  // Загрузка стикеров из Supabase
+  if (!board || !input || !addBtn) return;
+
+  // ===== Загрузка стикеров =====
   function loadStickies() {
     if (!supabase) return;
     supabase
@@ -1354,7 +1353,7 @@ function initProfileAndSticky() {
       });
   }
 
-  // Создание DOM-элемента стикера
+  // ===== Создание стикера =====
   function createStickyEl(row) {
     var sticky = document.createElement('div');
     sticky.className = 'sticky';
@@ -1375,81 +1374,72 @@ function initProfileAndSticky() {
     return div.innerHTML;
   }
 
-  // ===== УДАЛЕНИЕ СТИКЕРА =====
-
-  // Клик по кнопке удаления — открываем модалку подтверждения
+  // ===== Удаление: открыть модалку =====
   board.addEventListener('click', function(e) {
     var deleteBtn = e.target.closest('.sticky-delete');
     if (!deleteBtn) return;
-
     e.stopPropagation();
     stickyToDelete = deleteBtn.closest('.sticky');
-    if (stickyToDelete) {
+    if (stickyToDelete && deleteModal) {
       deleteModal.classList.add('active');
     }
   });
 
-  // Отмена удаления
-  deleteCancel.addEventListener('click', function() {
-    stickyToDelete = null;
-    deleteModal.classList.remove('active');
-  });
-
-  // Закрытие по клику на оверлей
-  deleteModal.addEventListener('click', function(e) {
-    if (e.target === deleteModal) {
+  // ===== Удаление: отмена =====
+  if (deleteCancel) {
+    deleteCancel.addEventListener('click', function() {
       stickyToDelete = null;
       deleteModal.classList.remove('active');
-    }
-  });
-
- // Подтверждение удаления
-deleteConfirm.addEventListener('click', function() {
-  if (!stickyToDelete) {
-    deleteModal.classList.remove('active');
-    return;
+    });
   }
 
-  // Сохраняем ссылку локально СРАЗУ — до любых async операций
-  var elToRemove = stickyToDelete;
-  var stickyId = elToRemove.dataset.id;
+  // ===== Удаление: закрытие по оверлею =====
+  if (deleteModal) {
+    deleteModal.addEventListener('click', function(e) {
+      if (e.target === deleteModal) {
+        stickyToDelete = null;
+        deleteModal.classList.remove('active');
+      }
+    });
+  }
 
-  // Сбрасываем глобальную переменную немедленно
-  stickyToDelete = null;
-  deleteModal.classList.remove('active');
+  // ===== Удаление: подтверждение =====
+  if (deleteConfirm) {
+    deleteConfirm.addEventListener('click', function() {
+      if (!stickyToDelete) {
+        if (deleteModal) deleteModal.classList.remove('active');
+        return;
+      }
 
-  // Анимация удаления
-  elToRemove.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-  elToRemove.style.opacity = '0';
-  elToRemove.style.transform = 'scale(0.8)';
+      var elToRemove = stickyToDelete;
+      var stickyId = elToRemove.dataset.id;
 
-  // Удаляем из DOM через 300мс
-  setTimeout(function() {
-    if (elToRemove && elToRemove.parentNode) {
-      elToRemove.remove();
-    }
-  }, 300);
+      stickyToDelete = null;
+      deleteModal.classList.remove('active');
 
-  // Удаляем из Supabase только если есть id
-  if (supabase && stickyId) {
-    supabase
-      .from('stickies')
-      .delete()
-      .eq('id', stickyId)
-      .then(function(result) {
-        if (result.error) {
-          console.error('Ошибка удаления:', result.error);
+      elToRemove.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      elToRemove.style.opacity = '0';
+      elToRemove.style.transform = 'scale(0.8)';
+
+      setTimeout(function() {
+        if (elToRemove && elToRemove.parentNode) {
+          elToRemove.remove();
         }
-      });
-  }
-  // Если id нет (захардкоженный стикер) — просто удалили из DOM, всё ок
-});
-  
-    stickyToDelete = null;
-    deleteModal.classList.remove('active');
-  });
+      }, 300);
 
-  // ===== ДОБАВЛЕНИЕ СТИКЕРА =====
+      if (supabase && stickyId) {
+        supabase
+          .from('stickies')
+          .delete()
+          .eq('id', stickyId)
+          .then(function(result) {
+            if (result.error) console.error('Ошибка удаления:', result.error);
+          });
+      }
+    });
+  }
+
+  // ===== Добавление стикера =====
   addBtn.addEventListener('click', function() {
     var text = input.value.trim();
     if (!text) return;
@@ -1460,19 +1450,14 @@ deleteConfirm.addEventListener('click', function() {
         .insert({ screen: 'screen-21', text: text, author: 'Участник', likes: 0 })
         .select()
         .then(function(result) {
-          if (result.error) {
-            console.error(result.error);
-            return;
-          }
+          if (result.error) { console.error(result.error); return; }
           if (result.data && result.data.length > 0) {
-            var el = createStickyEl(result.data[0]);
-            board.insertBefore(el, board.firstChild);
+            board.insertBefore(createStickyEl(result.data[0]), board.firstChild);
           }
           addScore(1);
           input.value = '';
         });
     } else {
-      // Fallback без Supabase
       var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
       board.insertBefore(createStickyEl(fallback), board.firstChild);
       addScore(1);
@@ -1480,48 +1465,35 @@ deleteConfirm.addEventListener('click', function() {
     }
   });
 
-  // ===== ЛАЙКИ =====
+  // ===== Лайки =====
   board.addEventListener('click', function(e) {
-    // Не реагируем на кнопку удаления
     if (e.target.closest('.sticky-delete')) return;
-
     var target = e.target.closest('.like-count');
     if (!target) return;
     var sticky = target.closest('.sticky');
     var id = sticky ? sticky.dataset.id : null;
     var likes = parseInt(target.dataset.likes || '0', 10) + 1;
-
     target.dataset.likes = String(likes);
     target.textContent = '♥ ' + likes;
-
     if (supabase && id) {
-      supabase
-        .from('stickies')
-        .update({ likes: likes })
-        .eq('id', id)
-        .then(function(result) {
-          if (result.error) console.error(result.error);
-        });
+      supabase.from('stickies').update({ likes: likes }).eq('id', id)
+        .then(function(r) { if (r.error) console.error(r.error); });
     }
   });
 
-  // ===== REALTIME =====
+  // ===== Realtime =====
   if (supabase) {
     supabase
       .channel('stickies-realtime')
       .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'stickies',
+        event: 'INSERT', schema: 'public', table: 'stickies',
         filter: 'screen=eq.screen-21'
       }, function(payload) {
         if (board.querySelector('[data-id="' + payload.new.id + '"]')) return;
         board.insertBefore(createStickyEl(payload.new), board.firstChild);
       })
       .on('postgres_changes', {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'stickies'
+        event: 'UPDATE', schema: 'public', table: 'stickies'
       }, function(payload) {
         var el = board.querySelector('[data-id="' + payload.new.id + '"]');
         if (!el) return;
@@ -1532,11 +1504,8 @@ deleteConfirm.addEventListener('click', function() {
         }
       })
       .on('postgres_changes', {
-        event: 'DELETE',
-        schema: 'public',
-        table: 'stickies'
+        event: 'DELETE', schema: 'public', table: 'stickies'
       }, function(payload) {
-        // Realtime: удаляем у всех подключённых пользователей
         var el = board.querySelector('[data-id="' + payload.old.id + '"]');
         if (el) {
           el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
@@ -1559,6 +1528,7 @@ deleteConfirm.addEventListener('click', function() {
     loadStickies();
   }
 }
+
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
     var items = [
