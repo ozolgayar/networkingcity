@@ -1325,7 +1325,8 @@ var SUPABASE_URL = 'https://hdzelembnsoejijvlhzj.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4';
 var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
- var board = document.getElementById('sticky-board');
+function initProfileAndSticky() {
+  var board = document.getElementById('sticky-board');
   var input = document.getElementById('sticky-input');
   var addBtn = document.getElementById('btn-sticky-add');
   var deleteModal = document.getElementById('sticky-delete-modal');
@@ -1410,28 +1411,20 @@ var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPA
         if (deleteModal) deleteModal.classList.remove('active');
         return;
       }
-
       var elToRemove = stickyToDelete;
       var stickyId = elToRemove.dataset.id;
-
       stickyToDelete = null;
       deleteModal.classList.remove('active');
 
       elToRemove.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
       elToRemove.style.opacity = '0';
       elToRemove.style.transform = 'scale(0.8)';
-
       setTimeout(function() {
-        if (elToRemove && elToRemove.parentNode) {
-          elToRemove.remove();
-        }
+        if (elToRemove && elToRemove.parentNode) elToRemove.remove();
       }, 300);
 
       if (supabase && stickyId) {
-        supabase
-          .from('stickies')
-          .delete()
-          .eq('id', stickyId)
+        supabase.from('stickies').delete().eq('id', stickyId)
           .then(function(result) {
             if (result.error) console.error('Ошибка удаления:', result.error);
           });
@@ -1443,7 +1436,6 @@ var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPA
   addBtn.addEventListener('click', function() {
     var text = input.value.trim();
     if (!text) return;
-
     if (supabase) {
       supabase
         .from('stickies')
@@ -1527,7 +1519,7 @@ var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPA
 
     loadStickies();
   }
-}
+} // ← закрытие initProfileAndSticky
 
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
