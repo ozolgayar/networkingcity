@@ -1432,10 +1432,18 @@ function initProfileAndSticky() {
     });
   }
 
-  // ===== Добавление стикера =====
+ // ===== Добавление стикера =====
+  var btnNext = document.getElementById('btn-sticky-next');
+
   addBtn.addEventListener('click', function() {
     var text = input.value.trim();
-    if (!text) return;
+    if (!text) {
+      // Подсвечиваем поле если пустое
+      input.style.borderColor = '#ef4444';
+      setTimeout(function() { input.style.borderColor = ''; }, 1500);
+      return;
+    }
+
     if (supabase) {
       supabase
         .from('stickies')
@@ -1448,12 +1456,17 @@ function initProfileAndSticky() {
           }
           addScore(1);
           input.value = '';
+          // Показываем кнопку «Далее» после добавления стикера
+          if (btnNext) btnNext.style.display = 'inline-flex';
         });
     } else {
+      // Fallback без Supabase
       var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
       board.insertBefore(createStickyEl(fallback), board.firstChild);
       addScore(1);
       input.value = '';
+      // Показываем кнопку «Далее» после добавления стикера
+      if (btnNext) btnNext.style.display = 'inline-flex';
     }
   });
 
