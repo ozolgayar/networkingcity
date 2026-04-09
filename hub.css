@@ -1308,182 +1308,131 @@ a.cover-btn {
   100% { transform: translateX(0); }
 }
 
-/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ — ОБЛОЖКА И КАРТА ===== */
-@media (max-width: 768px) {
-
-  /* ===== ОБЛОЖКА ===== */
-  .cover-content {
-    padding: 24px 16px;
-    max-width: 100%;
-  }
-
-  .cover-title {
-    font-size: 36px;
-  }
-
-  .cover-subtitle {
-    font-size: 18px;
-  }
-
-  .cover-desc {
-    font-size: 14px;
-  }
-
-  .cover-btn {
-    padding: 12px 28px;
-    font-size: 15px;
-  }
-
-  .cover-stats {
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .cover-stat-num {
-    font-size: 22px;
-  }
-
-  .cover-stat-label {
-    font-size: 11px;
-  }
-
-  /* Стикеры — меньше и не вылезают за экран */
-  .cover-sticker {
-    width: 80px;
-    height: 80px;
-  }
-
-  /* ===== КАРТА ===== */
-  .map-header {
-    top: 20px;
-    padding: 0 16px;
-  }
-
-  .map-title {
-    font-size: 20px;
-  }
-
-  .map-back {
-    font-size: 13px;
-    left: 16px;
-  }
-
-  .map-scene {
-    min-height: 380px;
-  }
-
-  /* Точки модулей — меньше */
-  .map-point-circle {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-
-  .map-point-status {
-    font-size: 9px;
-    padding: 2px 6px;
-  }
-
-  /* Позиции точек на мобиле */
-  .map-point-1 { left: 22%; bottom: 18%; }
-  .map-point-2 { left: 50%; bottom: 38%; }
-  .map-point-3 { right: 6%; bottom: 16%; }
-
-  /* Подсказка — скрываем на мобиле, мешает */
-  .map-hint {
-    display: none;
-  }
-
-  /* Тултип — на всю ширину снизу */
-  .map-tooltip {
-    width: calc(100% - 32px);
-    left: 16px !important;
-    bottom: 12px;
-    top: auto !important;
-  }
-
-  /* Прогресс-бар */
-  .map-progress-wrap {
-    padding: 16px 16px 8px;
-  }
-
-  .map-progress-bar {
-    height: 28px;
-  }
-
-  .map-progress-pct {
-    font-size: 12px;
-  }
-
-  /* Цитаты */
-  .map-quote {
-    padding: 16px 16px 24px;
-  }
-
-  .map-quote-text {
-    font-size: 13px;
-  }
-
-  .map-quote-author {
-    font-size: 12px;
-  }
-
-  /* Солнечные лучи — меньше */
-  .map-sun-rays {
-    width: 200px;
-    height: 200px;
-    top: -40px;
-    left: -40px;
-  }
-
-  .sun-ray {
-    width: 140px;
-  }
+/* ===== ПОПАП ПОВОРОТА ===== */
+.rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
-/* ===== Очень маленькие экраны (до 400px) ===== */
+.rotate-overlay.visible {
+  display: flex;
+}
+
+.rotate-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  max-width: 280px;
+  width: 85%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10000;
+}
+
+.rotate-icon {
+  font-size: 52px;
+  animation: rotate-hint 2s ease-in-out infinite;
+}
+
+@keyframes rotate-hint {
+  0%   { transform: rotate(0deg); }
+  30%  { transform: rotate(-90deg); }
+  60%  { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.rotate-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.rotate-btn {
+  background: #16884F;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.rotate-btn:hover {
+  opacity: 0.85;
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
 @media (max-width: 768px) {
 
-  /* Сцена растягивается под изображение */
+  /* Сцена по высоте изображения */
   .map-scene {
     min-height: unset;
     height: auto;
   }
 
-  /* Изображение — полная высота, точки поверх него */
+  /* Изображение на всю ширину */
   .map-city-img {
-    height: auto;
     width: 100%;
+    height: auto;
     object-fit: unset;
     display: block;
   }
 
-  /* Точки теперь поверх изображения */
-  .map-point-1 { left: 22%; top: 55%; bottom: auto; }
-  .map-point-2 { left: 48%; top: 30%; bottom: auto; }
-  .map-point-3 { right: 6%; top: 60%; bottom: auto; }
-
   /* Заголовок */
   .map-header {
-    top: 16px;
-    padding: 0 16px;
+    top: 12px;
+    padding: 0 12px;
   }
 
   .map-title {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .map-back {
-    font-size: 13px;
-    left: 16px;
+    font-size: 12px;
+    left: 12px;
+  }
+
+  /* Точки ПОВЕРХ изображения по top */
+  .map-point-1 {
+    left: 20%;
+    top: 60%;
+    bottom: auto;
+  }
+
+  .map-point-2 {
+    left: 46%;
+    top: 38%;
+    bottom: auto;
+  }
+
+  .map-point-3 {
+    right: 5%;
+    top: 62%;
+    bottom: auto;
   }
 
   /* Точки меньше */
   .map-point-circle {
-    width: 38px;
-    height: 38px;
-    font-size: 15px;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
   }
 
   .map-point-status {
@@ -1500,87 +1449,104 @@ a.cover-btn {
   .map-tooltip {
     width: calc(100% - 32px);
     left: 16px !important;
-    bottom: 12px;
     top: auto !important;
+    bottom: 8px;
+  }
+
+  /* Солнечные лучи меньше */
+  .map-sun-rays {
+    width: 150px;
+    height: 150px;
+    top: -20px;
+    left: -20px;
+  }
+
+  .sun-ray {
+    width: 100px;
   }
 
   /* Прогресс */
   .map-progress-wrap {
-    padding: 16px 16px 8px;
+    padding: 12px 16px 8px;
   }
 
   .map-progress-bar {
-    height: 28px;
+    height: 26px;
+  }
+
+  .map-progress-pct {
+    font-size: 12px;
   }
 
   /* Цитаты */
   .map-quote {
-    padding: 16px 16px 24px;
+    padding: 12px 16px 20px;
   }
 
   .map-quote-text {
     font-size: 13px;
   }
 
-  /* Солнечные лучи */
-  .map-sun-rays {
-    width: 160px;
-    height: 160px;
-    top: -30px;
-    left: -30px;
+  .map-quote-author {
+    font-size: 12px;
   }
 
-  .sun-ray {
-    width: 120px;
+  /* Стикеры обложки */
+  .cover-sticker {
+    width: 70px;
+    height: 70px;
+  }
+
+  .cover-title {
+    font-size: 32px;
+  }
+
+  .cover-subtitle {
+    font-size: 17px;
+  }
+
+  .cover-desc {
+    font-size: 13px;
+  }
+
+  .cover-btn {
+    padding: 12px 28px;
+    font-size: 15px;
+  }
+
+  .cover-stats {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cover-stat-num {
+    font-size: 20px;
+  }
+
+  .cover-stat-label {
+    font-size: 10px;
   }
 }
 
-/* ===== СООБЩЕНИЕ О ПОВОРОТЕ ===== */
-.rotate-message {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #f0f7f0;
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 40px;
-}
+/* ===== Очень маленькие экраны ===== */
+@media (max-width: 400px) {
 
-.rotate-message-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
+  .map-title {
+    font-size: 14px;
+  }
 
-.rotate-icon {
-  font-size: 64px;
-  animation: rotate-hint 2s ease-in-out infinite;
-}
+  .map-point-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
 
-@keyframes rotate-hint {
-  0%   { transform: rotate(0deg); }
-  30%  { transform: rotate(-90deg); }
-  60%  { transform: rotate(-90deg); }
-  100% { transform: rotate(0deg); }
-}
+  .cover-title {
+    font-size: 26px;
+  }
 
-.rotate-text {
-  font-size: 18px;
-  font-weight: 600;
-  color: #16884F;
-  line-height: 1.6;
-  max-width: 280px;
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Показываем только на горизонтальных мобильных */
-@media (max-height: 500px) and (orientation: landscape) {
-  .rotate-message {
-    display: flex;
+  .cover-stat-divider {
+    display: none;
   }
 }
