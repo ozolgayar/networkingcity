@@ -969,3 +969,9 @@ body {
   0%, 100% { opacity: 0.5; }
   50%       { opacity: 0.9; }
 }
+
+a.cover-btn {
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+}
