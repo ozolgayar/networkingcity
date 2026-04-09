@@ -1002,7 +1002,7 @@ a.cover-btn {
 .map-back {
   position: absolute;
   left: 40px;
-  color: #fff;
+  color: #16884F;
   text-decoration: none;
   font-size: 15px;
   font-weight: 600;
@@ -1017,7 +1017,7 @@ a.cover-btn {
 .map-title {
   font-size: 28px;
   font-weight: 800;
-  color: #fff;
+  color: #16884F;
   margin: 0;
   text-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
