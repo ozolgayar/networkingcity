@@ -945,19 +945,6 @@ body {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
-/* Треугольник */
-.sticker-tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: -7px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 7px solid transparent;
-  border-bottom: none;
-  border-top-color: rgba(15, 23, 42, 0.92);
-}
-
 /* cover-content поверх всего */
 .cover-content {
   position: relative;
