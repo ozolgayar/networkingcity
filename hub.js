@@ -279,43 +279,51 @@ document.getElementById('btn-dive').addEventListener('click', function() {
       tooltip.textContent = msg;
       tooltip.classList.remove('visible');
 
-      requestAnimationFrame(function() {
-        var rect = sticker.getBoundingClientRect();
-        var tw = 240;
-        var th = tooltip.offsetHeight || 100;
+requestAnimationFrame(function() {
+  var rect = sticker.getBoundingClientRect();
+  var tw = 240;
+  var th = tooltip.offsetHeight || 100;
 
-        // Проверяем атрибут data-tip-pos
-        var tipPos = sticker.getAttribute('data-tip-pos');
-        var left, top;
+  var tipPos = sticker.getAttribute('data-tip-pos');
+  var left, top;
 
-        if (tipPos === 'top') {
-          left = rect.left + rect.width / 2 - tw / 2;
-          top = rect.top - th - 16;
-        } else {
-          left = rect.right + 12;
-          top = rect.top + 10;
-        }
+  if (tipPos === 'top') {
+    // Строго вверх от стикера
+    left = rect.left + rect.width / 2 - tw / 2;
+    top = rect.top - th - 16;
 
-        // Не выходить за правый край
-        if (left + tw > window.innerWidth - 16) {
-          left = rect.left - tw - 12;
-        }
+    // Если уходит за верхний край — вправо от стикера
+    if (top < 16) {
+      left = rect.right + 12;
+      top = rect.top + 10;
+    }
 
-        // Не выходить за левый край
-        if (left < 16) {
-          left = rect.left + rect.width / 2 - tw / 2;
-          top = rect.bottom + 12;
-        }
+  } else if (tipPos === 'left') {
+    // Строго влево
+    left = rect.left - tw - 12;
+    top = rect.top + rect.height / 2 - th / 2;
 
-        if (left + tw > window.innerWidth - 16) left = window.innerWidth - tw - 16;
-        if (left < 16) left = 16;
-        if (top + th > window.innerHeight - 16) top = rect.top - th - 12;
-        if (top < 16) top = rect.bottom + 12;
+  } else {
+    // По умолчанию — справа
+    left = rect.right + 12;
+    top = rect.top + 10;
 
-        tooltip.style.left = left + 'px';
-        tooltip.style.top = top + 'px';
-        tooltip.classList.add('visible');
-      });
+    // Нет места справа — влево
+    if (left + tw > window.innerWidth - 16) {
+      left = rect.left - tw - 12;
+    }
+  }
+
+  // Защита от выхода за края экрана
+  if (left + tw > window.innerWidth - 16) left = window.innerWidth - tw - 16;
+  if (left < 16) left = 16;
+  if (top + th > window.innerHeight - 16) top = rect.top - th - 16;
+  if (top < 16) top = rect.bottom + 12;
+
+  tooltip.style.left = left + 'px';
+  tooltip.style.top = top + 'px';
+  tooltip.classList.add('visible');
+});
 
       clearTimeout(hideTimer);
       hideTimer = setTimeout(hideTooltip, 4000);
