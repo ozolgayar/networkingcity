@@ -254,3 +254,72 @@ document.getElementById('btn-dive').addEventListener('click', function() {
     }, 8000);
   }
 });
+
+// ===== Тултипы стикеров =====
+(function() {
+  var tooltip = document.getElementById('sticker-tooltip');
+  if (!tooltip) return;
+
+  var currentSticker = null;
+  var hideTimer = null;
+
+  document.querySelectorAll('.cover-sticker').forEach(function(sticker) {
+    sticker.addEventListener('click', function(e) {
+      e.stopPropagation();
+
+      var msg = sticker.getAttribute('data-tip');
+      if (!msg) return;
+
+      // Если тот же стикер — скрываем
+      if (currentSticker === sticker && tooltip.classList.contains('visible')) {
+        hideTooltip();
+        return;
+      }
+
+      currentSticker = sticker;
+      tooltip.textContent = msg;
+      tooltip.classList.remove('visible');
+
+      // Позиционирование
+      var rect = sticker.getBoundingClientRect();
+      var tw = 260;
+      var left = rect.left + rect.width / 2 - tw / 2;
+      var top = rect.top - 14;
+
+      // Не выходить за края
+      if (left < 10) left = 10;
+      if (left + tw > window.innerWidth - 10) left = window.innerWidth - tw - 10;
+      if (top < 60) top = rect.bottom + 14;
+
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = (top - tooltip.offsetHeight - 8) + 'px';
+
+      // Показываем — через rAF чтобы сработала анимация
+      requestAnimationFrame(function() {
+        // Пересчитываем высоту после рендера
+        var th = tooltip.offsetHeight || 80;
+        var finalTop = rect.top - th - 14;
+        if (finalTop < 60) finalTop = rect.bottom + 14;
+        tooltip.style.top = finalTop + 'px';
+        tooltip.classList.add('visible');
+      });
+
+      // Автоскрытие через 4 секунды
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hideTooltip, 4000);
+    });
+  });
+
+  // Клик вне стикера — скрываем
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.cover-sticker')) {
+      hideTooltip();
+    }
+  });
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible');
+    currentSticker = null;
+    clearTimeout(hideTimer);
+  }
+})();
