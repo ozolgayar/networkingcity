@@ -270,7 +270,6 @@ document.getElementById('btn-dive').addEventListener('click', function() {
       var msg = sticker.getAttribute('data-tip');
       if (!msg) return;
 
-      // Если тот же стикер — скрываем
       if (currentSticker === sticker && tooltip.classList.contains('visible')) {
         hideTooltip();
         return;
@@ -280,37 +279,49 @@ document.getElementById('btn-dive').addEventListener('click', function() {
       tooltip.textContent = msg;
       tooltip.classList.remove('visible');
 
-      // Позиционирование
-      var rect = sticker.getBoundingClientRect();
-      var tw = 260;
-      var left = rect.left + rect.width / 2 - tw / 2;
-      var top = rect.top - 14;
-
-      // Не выходить за края
-      if (left < 10) left = 10;
-      if (left + tw > window.innerWidth - 10) left = window.innerWidth - tw - 10;
-      if (top < 60) top = rect.bottom + 14;
-
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = (top - tooltip.offsetHeight - 8) + 'px';
-
-      // Показываем — через rAF чтобы сработала анимация
       requestAnimationFrame(function() {
-        // Пересчитываем высоту после рендера
-        var th = tooltip.offsetHeight || 80;
-        var finalTop = rect.top - th - 14;
-        if (finalTop < 60) finalTop = rect.bottom + 14;
-        tooltip.style.top = finalTop + 'px';
+        var rect = sticker.getBoundingClientRect();
+        var tw = 240;
+        var th = tooltip.offsetHeight || 100;
+
+        // Проверяем атрибут data-tip-pos
+        var tipPos = sticker.getAttribute('data-tip-pos');
+        var left, top;
+
+        if (tipPos === 'top') {
+          left = rect.left + rect.width / 2 - tw / 2;
+          top = rect.top - th - 16;
+        } else {
+          left = rect.right + 12;
+          top = rect.top + 10;
+        }
+
+        // Не выходить за правый край
+        if (left + tw > window.innerWidth - 16) {
+          left = rect.left - tw - 12;
+        }
+
+        // Не выходить за левый край
+        if (left < 16) {
+          left = rect.left + rect.width / 2 - tw / 2;
+          top = rect.bottom + 12;
+        }
+
+        if (left + tw > window.innerWidth - 16) left = window.innerWidth - tw - 16;
+        if (left < 16) left = 16;
+        if (top + th > window.innerHeight - 16) top = rect.top - th - 12;
+        if (top < 16) top = rect.bottom + 12;
+
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
         tooltip.classList.add('visible');
       });
 
-      // Автоскрытие через 4 секунды
       clearTimeout(hideTimer);
       hideTimer = setTimeout(hideTooltip, 4000);
     });
   });
 
-  // Клик вне стикера — скрываем
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.cover-sticker')) {
       hideTooltip();
