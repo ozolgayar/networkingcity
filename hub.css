@@ -1443,40 +1443,94 @@ a.cover-btn {
 }
 
 /* ===== Очень маленькие экраны (до 400px) ===== */
-@media (max-width: 400px) {
+@media (max-width: 768px) {
 
-  .cover-title {
-    font-size: 28px;
-  }
-
-  .cover-subtitle {
-    font-size: 16px;
-  }
-
-  .cover-stats {
-    gap: 8px;
-  }
-
-  .cover-stat-divider {
-    display: none;
-  }
-
+  /* Сцена растягивается под изображение */
   .map-scene {
-    min-height: 300px;
+    min-height: unset;
+    height: auto;
   }
 
-  .map-point-circle {
-    width: 34px;
-    height: 34px;
-    font-size: 14px;
+  /* Изображение — полная высота, точки поверх него */
+  .map-city-img {
+    height: auto;
+    width: 100%;
+    object-fit: unset;
+    display: block;
+  }
+
+  /* Точки теперь поверх изображения */
+  .map-point-1 { left: 22%; top: 55%; bottom: auto; }
+  .map-point-2 { left: 48%; top: 30%; bottom: auto; }
+  .map-point-3 { right: 6%; top: 60%; bottom: auto; }
+
+  /* Заголовок */
+  .map-header {
+    top: 16px;
+    padding: 0 16px;
   }
 
   .map-title {
-    font-size: 17px;
+    font-size: 18px;
   }
 
-  .cover-sticker {
-    width: 60px;
-    height: 60px;
+  .map-back {
+    font-size: 13px;
+    left: 16px;
+  }
+
+  /* Точки меньше */
+  .map-point-circle {
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
+  }
+
+  .map-point-status {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  /* Подсказка скрыта */
+  .map-hint {
+    display: none;
+  }
+
+  /* Тултип внизу */
+  .map-tooltip {
+    width: calc(100% - 32px);
+    left: 16px !important;
+    bottom: 12px;
+    top: auto !important;
+  }
+
+  /* Прогресс */
+  .map-progress-wrap {
+    padding: 16px 16px 8px;
+  }
+
+  .map-progress-bar {
+    height: 28px;
+  }
+
+  /* Цитаты */
+  .map-quote {
+    padding: 16px 16px 24px;
+  }
+
+  .map-quote-text {
+    font-size: 13px;
+  }
+
+  /* Солнечные лучи */
+  .map-sun-rays {
+    width: 160px;
+    height: 160px;
+    top: -30px;
+    left: -30px;
+  }
+
+  .sun-ray {
+    width: 120px;
   }
 }
