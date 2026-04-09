@@ -263,3 +263,106 @@ document.addEventListener('DOMContentLoaded', function() {
     clearTimeout(hideTimer);
   }
 })();
+
+// ===== Точки модулей на карте =====
+var mapPoints = document.querySelectorAll('.map-point');
+var mapTooltip = document.getElementById('map-tooltip');
+var mapTooltipTitle = document.getElementById('map-tooltip-title');
+var mapTooltipDesc = document.getElementById('map-tooltip-desc');
+
+// Обновляем статусы из localStorage
+var m1status = localStorage.getItem('nc_mod1_status') || '';
+var m2status = localStorage.getItem('nc_mod2_status') || '';
+var m3status = localStorage.getItem('nc_mod3_status') || '';
+
+mapPoints.forEach(function(point) {
+  var mod = point.getAttribute('data-module');
+
+  // Обновляем классы статусов
+  if (mod === '1') {
+    if (m1status === 'complete') {
+      point.classList.remove('unlocked', 'locked', 'pulsing');
+      point.classList.add('completed');
+      point.querySelector('.map-point-status').textContent = '✅ Пройден';
+    }
+  }
+  if (mod === '2') {
+    if (m1status === 'complete') {
+      point.classList.remove('locked');
+      point.classList.add('unlocked', 'pulsing');
+      point.querySelector('.map-point-status').textContent = '🟢 Доступен';
+    }
+    if (m2status === 'complete') {
+      point.classList.remove('unlocked', 'locked', 'pulsing');
+      point.classList.add('completed');
+      point.querySelector('.map-point-status').textContent = '✅ Пройден';
+    }
+  }
+  if (mod === '3') {
+    if (m2status === 'complete') {
+      point.classList.remove('locked');
+      point.classList.add('unlocked', 'pulsing');
+      point.querySelector('.map-point-status').textContent = '🟢 Доступен';
+    }
+    if (m3status === 'complete') {
+      point.classList.remove('unlocked', 'locked', 'pulsing');
+      point.classList.add('completed');
+      point.querySelector('.map-point-status').textContent = '✅ Пройден';
+    }
+  }
+
+  // Тултип при наведении
+  point.addEventListener('mouseenter', function() {
+    if (!mapTooltip) return;
+    mapTooltipTitle.textContent = point.getAttribute('data-tip-title');
+    mapTooltipDesc.textContent = point.getAttribute('data-tip-desc');
+
+    var rect = point.getBoundingClientRect();
+    var sceneRect = point.closest('.map-scene').getBoundingClientRect();
+
+    var left = rect.left - sceneRect.left + rect.width / 2 - 120;
+    var top = rect.top - sceneRect.top - 120;
+
+    if (left < 8) left = 8;
+    if (left + 240 > sceneRect.width - 8) left = sceneRect.width - 248;
+    if (top < 8) top = rect.bottom - sceneRect.top + 10;
+
+    mapTooltip.style.left = left + 'px';
+    mapTooltip.style.top = top + 'px';
+    mapTooltip.classList.add('visible');
+  });
+
+  point.addEventListener('mouseleave', function() {
+    if (mapTooltip) mapTooltip.classList.remove('visible');
+  });
+
+  // Клик
+  point.addEventListener('click', function() {
+    var mod = point.getAttribute('data-module');
+    var href = point.getAttribute('data-href');
+
+    if (point.classList.contains('locked')) {
+      // Трясём точку
+      point.style.animation = 'none';
+      point.querySelector('.map-point-circle').style.animation = 'shake 0.4s ease';
+      setTimeout(function() {
+        point.querySelector('.map-point-circle').style.animation = '';
+      }, 400);
+      return;
+    }
+
+    if (href) window.location.href = href;
+  });
+});
+
+// Прогресс-бар
+var completedCount = 0;
+if (m1status === 'complete') completedCount++;
+if (m2status === 'complete') completedCount++;
+if (m3status === 'complete') completedCount++;
+
+var pct = Math.round((completedCount / 3) * 100);
+var fill = document.getElementById('map-progress-fill');
+var pctEl = document.getElementById('map-progress-pct');
+if (fill) setTimeout(function() { fill.style.width = pct + '%'; }, 300);
+if (pctEl) pctEl.textContent = pct + '%';
