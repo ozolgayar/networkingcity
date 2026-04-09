@@ -142,33 +142,32 @@ document.addEventListener('DOMContentLoaded', function() {
       observer.observe(card);
     });
 
-    // Смена цитат
-    var quotes = [
-      { text: '«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»', author: '— Кейт Ферраци' },
-      { text: '«Чаще бывает полезнее знать многих, чем многое»', author: '— Роберт Лембке' },
-      { text: '«Нетворкинг — это искусство создания отношений, которые в перспективе могут быть полезны в любой сфере жизни»', author: '— Гил Петерсил' },
-      { text: '«Нетворкинг — умение открыто и искренне общаться с самыми разными людьми, выстраивая сеть полезных знакомств»', author: '— Кейт Феррацци' },
-      { text: '«Если из-за страха перед неизвестным мы отгораживаемся от общения друг с другом, мы теряем себя как личности»', author: '— Джефф Джарвис' }
-    ];
+   // Смена цитат
+var quotes = [
+  { text: '«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»', author: '— Кейт Ферраци' },
+  { text: '«Чаще бывает полезнее знать многих, чем многое»', author: '— Роберт Лембке' },
+  { text: '«Нетворкинг — это искусство создания отношений, которые в перспективе могут быть полезны в любой сфере жизни»', author: '— Гил Петерсил' },
+  { text: '«Нетворкинг — умение открыто и искренне общаться с самыми разными людьми, выстраивая сеть полезных знакомств»', author: '— Кейт Феррацци' },
+  { text: '«Если из-за страха перед неизвестным мы отгораживаемся от общения друг с другом, мы теряем себя как личности»', author: '— Джефф Джарвис' }
+];
 
-    var quoteText = document.querySelector('.hub-quote-text') || document.querySelector('.map-quote-text');
-var quoteAuthor = document.querySelector('.hub-quote-author') || document.querySelector('.map-quote-author');
-    var quoteIndex = 0;
+var quoteText = document.getElementById('map-quote-text');
+var quoteAuthor = document.getElementById('map-quote-author');
+var quoteIndex = 0;
 
-    if (quoteText && quoteAuthor) {
-      setInterval(function() {
-        quoteIndex = (quoteIndex + 1) % quotes.length;
-        quoteText.style.opacity = '0';
-        quoteAuthor.style.opacity = '0';
-        setTimeout(function() {
-          quoteText.textContent = quotes[quoteIndex].text;
-          quoteAuthor.textContent = quotes[quoteIndex].author;
-          quoteText.style.opacity = '1';
-          quoteAuthor.style.opacity = '1';
-        }, 500);
-      }, 8000);
-    }
-
+if (quoteText && quoteAuthor) {
+  setInterval(function() {
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+    quoteText.style.opacity = '0';
+    quoteAuthor.style.opacity = '0';
+    setTimeout(function() {
+      quoteText.textContent = quotes[quoteIndex].text;
+      quoteAuthor.textContent = quotes[quoteIndex].author;
+      quoteText.style.opacity = '1';
+      quoteAuthor.style.opacity = '1';
+    }, 500);
+  }, 8000);
+}
   } // конец isMapPage
 
   // ===== Код только для index.html =====
