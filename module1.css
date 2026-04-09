@@ -3710,3 +3710,8 @@ color: #1e293b;
 .rotate-btn:hover {
   opacity: 0.85;
 }
+
+@keyframes growBar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
