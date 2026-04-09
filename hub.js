@@ -3,10 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var isMapPage = document.querySelector('.map-scene') !== null;
   var isCoverPage = document.querySelector('.cover') !== null;
 
-  // ===== Код только для map.html =====
-  if (isMapPage) {
 
-    // ===== Сообщение о повороте =====
 // ===== Попап поворота экрана =====
 var rotateOverlay = document.getElementById('rotate-overlay');
 var rotateBtnOk = document.getElementById('rotate-btn-ok');
@@ -40,8 +37,10 @@ if (rotateBtnOk) {
 checkOrientation();
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
-    
-    var m1status = localStorage.getItem('nc_mod1_status') || '';
+
+    // ===== Код только для map.html =====
+  if (isMapPage) {
+        var m1status = localStorage.getItem('nc_mod1_status') || '';
     var m2status = localStorage.getItem('nc_mod2_status') || '';
     var m3status = localStorage.getItem('nc_mod3_status') || '';
 
