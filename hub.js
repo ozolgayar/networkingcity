@@ -1,173 +1,134 @@
 document.addEventListener('DOMContentLoaded', function() {
- var isMapPage = document.getElementById('hub') !== null;
+
+  var isMapPage = document.querySelector('.map-scene') !== null;
   var isCoverPage = document.querySelector('.cover') !== null;
 
- // ===== Код только для map.html =====
+  // ===== Код только для map.html =====
   if (isMapPage) {
 
-    // Прогресс
-    var mod1Progress = parseInt(localStorage.getItem('nc_mod1_progress') || '0', 10);
-    var mod1Status = localStorage.getItem('nc_mod1_status') || '';
-    var mod2Status = localStorage.getItem('nc_mod2_status') || '';
-    var mod3Status = localStorage.getItem('nc_mod3_status') || '';
+    var m1status = localStorage.getItem('nc_mod1_status') || '';
+    var m2status = localStorage.getItem('nc_mod2_status') || '';
+    var m3status = localStorage.getItem('nc_mod3_status') || '';
 
-    // Прогресс-бар модуля 1
-    var mod1Bar = document.getElementById('mod1-bar');
-    var mod1Pct = document.getElementById('mod1-pct');
-    if (mod1Bar) mod1Bar.style.width = mod1Progress + '%';
-    if (mod1Pct) mod1Pct.textContent = mod1Progress + '%';
+    // ===== Точки модулей =====
+    var mapPoints = document.querySelectorAll('.map-point');
+    var mapTooltip = document.getElementById('map-tooltip');
+    var mapTooltipTitle = document.getElementById('map-tooltip-title');
+    var mapTooltipDesc = document.getElementById('map-tooltip-desc');
 
-    // Созвездие
-    var completedModules = 0;
-    if (mod1Status === 'complete') completedModules = 1;
-    if (mod2Status === 'complete') completedModules = 2;
-    if (mod3Status === 'complete') completedModules = 3;
+    mapPoints.forEach(function(point) {
+      var mod = point.getAttribute('data-module');
 
-    var totalPct = Math.round((completedModules / 3) * 100);
-    var constPct = document.getElementById('const-pct');
-    if (constPct) {
-      constPct.textContent = totalPct + '%';
-      if (totalPct > 0) constPct.classList.add('glow');
-    }
-
-    // Дерево нетворкинга
-    function activateNode(id) {
-      var el = document.getElementById(id);
-      if (el) el.classList.add('active');
-    }
-    function activateLabel(id) {
-      var el = document.getElementById(id);
-      if (el) el.classList.add('active');
-    }
-
-    if (completedModules >= 1) {
-      activateNode('cstar-1');
-      activateLabel('clabel-1');
-      activateNode('cline-1');
-      activateNode('cline-1b');
-    }
-    if (completedModules >= 2) {
-      activateNode('cstar-2');
-      activateNode('cstar-2b');
-      activateLabel('clabel-2');
-      activateNode('cline-2');
-      activateNode('cline-2b');
-      activateNode('cline-2c');
-      activateNode('cline-2d');
-      activateNode('cline-2e');
-      activateNode('cline-2f');
-    }
-    if (completedModules >= 3) {
-      activateNode('cstar-3a');
-      activateNode('cstar-3b');
-      activateNode('cstar-3c');
-      activateNode('cstar-3d');
-      activateNode('cstar-3e');
-      activateNode('cstar-3f');
-      activateLabel('clabel-3');
-    }
-
-    if (mod1Progress > 0 && mod1Status !== 'complete') {
-      var root = document.getElementById('cstar-1');
-      if (root) {
-        root.style.opacity = '0.6';
-        root.classList.add('active');
-      }
-    }
-
-    // Карточки модулей
-    if (mod1Status === 'complete') {
-      var card1 = document.querySelector('[data-module="1"]');
-      if (card1) {
-        card1.classList.remove('unlocked');
-        card1.classList.add('completed');
-        var s1 = card1.querySelector('.hub-card-status');
-        if (s1) s1.textContent = '✅ Пройден';
-        var b1 = card1.querySelector('.hub-card-btn');
-        if (b1) b1.textContent = 'Повторить';
-      }
-      var card2 = document.querySelector('[data-module="2"]');
-      if (card2) {
-        card2.classList.remove('locked');
-        card2.classList.add('unlocked');
-        var s2 = card2.querySelector('.hub-card-status');
-        if (s2) s2.textContent = '🟢 Доступен';
-        var b2 = card2.querySelector('.hub-card-btn');
-        if (b2) {
-          b2.classList.remove('disabled');
-          b2.textContent = 'Начать →';
+      if (mod === '1') {
+        if (m1status === 'complete') {
+          point.classList.remove('unlocked', 'locked', 'pulsing');
+          point.classList.add('completed');
+          point.querySelector('.map-point-status').textContent = '✅ Пройден';
         }
       }
-    }
-
-    if (mod2Status === 'complete') {
-      var card2c = document.querySelector('[data-module="2"]');
-      if (card2c) {
-        card2c.classList.remove('unlocked');
-        card2c.classList.add('completed');
-        var s2c = card2c.querySelector('.hub-card-status');
-        if (s2c) s2c.textContent = '✅ Пройден';
-        var b2c = card2c.querySelector('.hub-card-btn');
-        if (b2c) b2c.textContent = 'Повторить';
-      }
-      var card3 = document.querySelector('[data-module="3"]');
-      if (card3) {
-        card3.classList.remove('locked');
-        card3.classList.add('unlocked');
-        var s3 = card3.querySelector('.hub-card-status');
-        if (s3) s3.textContent = '🟢 Доступен';
-        var b3 = card3.querySelector('.hub-card-btn');
-        if (b3) {
-          b3.classList.remove('disabled');
-          b3.textContent = 'Начать →';
+      if (mod === '2') {
+        if (m1status === 'complete') {
+          point.classList.remove('locked');
+          point.classList.add('unlocked', 'pulsing');
+          point.querySelector('.map-point-status').textContent = '🟢 Доступен';
+        }
+        if (m2status === 'complete') {
+          point.classList.remove('unlocked', 'locked', 'pulsing');
+          point.classList.add('completed');
+          point.querySelector('.map-point-status').textContent = '✅ Пройден';
         }
       }
-    }
-
-    // Анимация карточек
-    var cards = document.querySelectorAll('.hub-card');
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+      if (mod === '3') {
+        if (m2status === 'complete') {
+          point.classList.remove('locked');
+          point.classList.add('unlocked', 'pulsing');
+          point.querySelector('.map-point-status').textContent = '🟢 Доступен';
         }
+        if (m3status === 'complete') {
+          point.classList.remove('unlocked', 'locked', 'pulsing');
+          point.classList.add('completed');
+          point.querySelector('.map-point-status').textContent = '✅ Пройден';
+        }
+      }
+
+      // Тултип при наведении
+      point.addEventListener('mouseenter', function() {
+        if (!mapTooltip) return;
+        mapTooltipTitle.textContent = point.getAttribute('data-tip-title');
+        mapTooltipDesc.textContent = point.getAttribute('data-tip-desc');
+
+        var rect = point.getBoundingClientRect();
+        var sceneRect = point.closest('.map-scene').getBoundingClientRect();
+
+        var left = rect.left - sceneRect.left + rect.width / 2 - 120;
+        var top = rect.top - sceneRect.top - 120;
+
+        if (left < 8) left = 8;
+        if (left + 240 > sceneRect.width - 8) left = sceneRect.width - 248;
+        if (top < 8) top = rect.bottom - sceneRect.top + 10;
+
+        mapTooltip.style.left = left + 'px';
+        mapTooltip.style.top = top + 'px';
+        mapTooltip.classList.add('visible');
       });
-    }, { threshold: 0.1 });
 
-    cards.forEach(function(card, i) {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'all 0.5s ease ' + (i * 0.1) + 's';
-      observer.observe(card);
+      point.addEventListener('mouseleave', function() {
+        if (mapTooltip) mapTooltip.classList.remove('visible');
+      });
+
+      // Клик
+      point.addEventListener('click', function() {
+        var href = point.getAttribute('data-href');
+        if (point.classList.contains('locked')) {
+          point.querySelector('.map-point-circle').style.animation = 'shake 0.4s ease';
+          setTimeout(function() {
+            point.querySelector('.map-point-circle').style.animation = '';
+          }, 400);
+          return;
+        }
+        if (href) window.location.href = href;
+      });
     });
 
-   // Смена цитат
-var quotes = [
-  { text: '«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»', author: '— Кейт Ферраци' },
-  { text: '«Чаще бывает полезнее знать многих, чем многое»', author: '— Роберт Лембке' },
-  { text: '«Нетворкинг — это искусство создания отношений, которые в перспективе могут быть полезны в любой сфере жизни»', author: '— Гил Петерсил' },
-  { text: '«Нетворкинг — умение открыто и искренне общаться с самыми разными людьми, выстраивая сеть полезных знакомств»', author: '— Кейт Феррацци' },
-  { text: '«Если из-за страха перед неизвестным мы отгораживаемся от общения друг с другом, мы теряем себя как личности»', author: '— Джефф Джарвис' }
-];
+    // ===== Прогресс-бар =====
+    var completedCount = 0;
+    if (m1status === 'complete') completedCount++;
+    if (m2status === 'complete') completedCount++;
+    if (m3status === 'complete') completedCount++;
 
-var quoteText = document.getElementById('map-quote-text');
-var quoteAuthor = document.getElementById('map-quote-author');
-var quoteIndex = 0;
+    var pct = Math.round((completedCount / 3) * 100);
+    var fill = document.getElementById('map-progress-fill');
+    var pctEl = document.getElementById('map-progress-pct');
+    if (fill) setTimeout(function() { fill.style.width = pct + '%'; }, 300);
+    if (pctEl) pctEl.textContent = pct + '%';
 
-if (quoteText && quoteAuthor) {
-  setInterval(function() {
-    quoteIndex = (quoteIndex + 1) % quotes.length;
-    quoteText.style.opacity = '0';
-    quoteAuthor.style.opacity = '0';
-    setTimeout(function() {
-      quoteText.textContent = quotes[quoteIndex].text;
-      quoteAuthor.textContent = quotes[quoteIndex].author;
-      quoteText.style.opacity = '1';
-      quoteAuthor.style.opacity = '1';
-    }, 500);
-  }, 8000);
-}
+    // ===== Смена цитат =====
+    var quotes = [
+      { text: '«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»', author: '— Кейт Ферраци' },
+      { text: '«Чаще бывает полезнее знать многих, чем многое»', author: '— Роберт Лембке' },
+      { text: '«Нетворкинг — это искусство создания отношений, которые в перспективе могут быть полезны в любой сфере жизни»', author: '— Гил Петерсил' },
+      { text: '«Нетворкинг — умение открыто и искренне общаться с самыми разными людьми, выстраивая сеть полезных знакомств»', author: '— Кейт Феррацци' },
+      { text: '«Если из-за страха перед неизвестным мы отгораживаемся от общения друг с другом, мы теряем себя как личности»', author: '— Джефф Джарвис' }
+    ];
+
+    var quoteText = document.getElementById('map-quote-text');
+    var quoteAuthor = document.getElementById('map-quote-author');
+    var quoteIndex = 0;
+
+    if (quoteText && quoteAuthor) {
+      setInterval(function() {
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+        quoteText.style.opacity = '0';
+        quoteAuthor.style.opacity = '0';
+        setTimeout(function() {
+          quoteText.textContent = quotes[quoteIndex].text;
+          quoteAuthor.textContent = quotes[quoteIndex].author;
+          quoteText.style.opacity = '1';
+          quoteAuthor.style.opacity = '1';
+        }, 500);
+      }, 8000);
+    }
+
   } // конец isMapPage
 
   // ===== Код только для index.html =====
@@ -262,106 +223,3 @@ if (quoteText && quoteAuthor) {
     clearTimeout(hideTimer);
   }
 })();
-
-// ===== Точки модулей на карте =====
-var mapPoints = document.querySelectorAll('.map-point');
-var mapTooltip = document.getElementById('map-tooltip');
-var mapTooltipTitle = document.getElementById('map-tooltip-title');
-var mapTooltipDesc = document.getElementById('map-tooltip-desc');
-
-// Обновляем статусы из localStorage
-var m1status = localStorage.getItem('nc_mod1_status') || '';
-var m2status = localStorage.getItem('nc_mod2_status') || '';
-var m3status = localStorage.getItem('nc_mod3_status') || '';
-
-mapPoints.forEach(function(point) {
-  var mod = point.getAttribute('data-module');
-
-  // Обновляем классы статусов
-  if (mod === '1') {
-    if (m1status === 'complete') {
-      point.classList.remove('unlocked', 'locked', 'pulsing');
-      point.classList.add('completed');
-      point.querySelector('.map-point-status').textContent = '✅ Пройден';
-    }
-  }
-  if (mod === '2') {
-    if (m1status === 'complete') {
-      point.classList.remove('locked');
-      point.classList.add('unlocked', 'pulsing');
-      point.querySelector('.map-point-status').textContent = '🟢 Доступен';
-    }
-    if (m2status === 'complete') {
-      point.classList.remove('unlocked', 'locked', 'pulsing');
-      point.classList.add('completed');
-      point.querySelector('.map-point-status').textContent = '✅ Пройден';
-    }
-  }
-  if (mod === '3') {
-    if (m2status === 'complete') {
-      point.classList.remove('locked');
-      point.classList.add('unlocked', 'pulsing');
-      point.querySelector('.map-point-status').textContent = '🟢 Доступен';
-    }
-    if (m3status === 'complete') {
-      point.classList.remove('unlocked', 'locked', 'pulsing');
-      point.classList.add('completed');
-      point.querySelector('.map-point-status').textContent = '✅ Пройден';
-    }
-  }
-
-  // Тултип при наведении
-  point.addEventListener('mouseenter', function() {
-    if (!mapTooltip) return;
-    mapTooltipTitle.textContent = point.getAttribute('data-tip-title');
-    mapTooltipDesc.textContent = point.getAttribute('data-tip-desc');
-
-    var rect = point.getBoundingClientRect();
-    var sceneRect = point.closest('.map-scene').getBoundingClientRect();
-
-    var left = rect.left - sceneRect.left + rect.width / 2 - 120;
-    var top = rect.top - sceneRect.top - 120;
-
-    if (left < 8) left = 8;
-    if (left + 240 > sceneRect.width - 8) left = sceneRect.width - 248;
-    if (top < 8) top = rect.bottom - sceneRect.top + 10;
-
-    mapTooltip.style.left = left + 'px';
-    mapTooltip.style.top = top + 'px';
-    mapTooltip.classList.add('visible');
-  });
-
-  point.addEventListener('mouseleave', function() {
-    if (mapTooltip) mapTooltip.classList.remove('visible');
-  });
-
-  // Клик
-  point.addEventListener('click', function() {
-    var mod = point.getAttribute('data-module');
-    var href = point.getAttribute('data-href');
-
-    if (point.classList.contains('locked')) {
-      // Трясём точку
-      point.style.animation = 'none';
-      point.querySelector('.map-point-circle').style.animation = 'shake 0.4s ease';
-      setTimeout(function() {
-        point.querySelector('.map-point-circle').style.animation = '';
-      }, 400);
-      return;
-    }
-
-    if (href) window.location.href = href;
-  });
-});
-
-// Прогресс-бар
-var completedCount = 0;
-if (m1status === 'complete') completedCount++;
-if (m2status === 'complete') completedCount++;
-if (m3status === 'complete') completedCount++;
-
-var pct = Math.round((completedCount / 3) * 100);
-var fill = document.getElementById('map-progress-fill');
-var pctEl = document.getElementById('map-progress-pct');
-if (fill) setTimeout(function() { fill.style.width = pct + '%'; }, 300);
-if (pctEl) pctEl.textContent = pct + '%';
