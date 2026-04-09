@@ -7,21 +7,34 @@ document.addEventListener('DOMContentLoaded', function() {
   if (isMapPage) {
 
     // ===== Сообщение о повороте =====
-var rotateMessage = document.getElementById('rotate-message');
+// ===== Попап поворота экрана =====
+var rotateOverlay = document.getElementById('rotate-overlay');
+var rotateBtnOk = document.getElementById('rotate-btn-ok');
+var rotateShown = false;
 
 function checkOrientation() {
-  if (rotateMessage) {
-    if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
-      rotateMessage.style.display = 'flex';
-    } else {
-      rotateMessage.style.display = 'none';
+  if (!rotateOverlay) return;
+  if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
+    if (!rotateShown) {
+      rotateOverlay.classList.add('visible');
     }
+  } else {
+    rotateOverlay.classList.remove('visible');
+    rotateShown = false;
   }
+}
+
+if (rotateBtnOk) {
+  rotateBtnOk.addEventListener('click', function() {
+    rotateOverlay.classList.remove('visible');
+    rotateShown = true;
+  });
 }
 
 checkOrientation();
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
+    
     var m1status = localStorage.getItem('nc_mod1_status') || '';
     var m2status = localStorage.getItem('nc_mod2_status') || '';
     var m3status = localStorage.getItem('nc_mod3_status') || '';
