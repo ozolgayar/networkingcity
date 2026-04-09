@@ -3356,6 +3356,7 @@ color: #1e293b;
 .sticky:nth-child(3n+1) { transform: rotate(-1deg); }
 .sticky:nth-child(3n+2) { transform: rotate(0.5deg); }
 .sticky:nth-child(3n+3) { transform: rotate(-0.5deg); }
+
 /* ===== Экран 21-1: Сумка нетворкера ===== */
 .bag-scene {
   width: 100%;
@@ -3633,4 +3634,11 @@ color: #1e293b;
 @keyframes hintPulse {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 0.9; }
+}
+
+/* Кнопка назад внизу на экранах с карточками */
+.screen .nav-back {
+  display: block;
+  margin: 16px auto 8px;
+  order: 999;
 }
