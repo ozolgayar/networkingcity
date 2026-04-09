@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
       { text: '«Если из-за страха перед неизвестным мы отгораживаемся от общения друг с другом, мы теряем себя как личности»', author: '— Джефф Джарвис' }
     ];
 
-    var quoteText = document.querySelector('.hub-quote-text');
-    var quoteAuthor = document.querySelector('.hub-quote-author');
+    var quoteText = document.querySelector('.hub-quote-text') || document.querySelector('.map-quote-text');
+var quoteAuthor = document.querySelector('.hub-quote-author') || document.querySelector('.map-quote-author');
     var quoteIndex = 0;
 
     if (quoteText && quoteAuthor) {
