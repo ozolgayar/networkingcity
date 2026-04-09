@@ -1307,3 +1307,176 @@ a.cover-btn {
   80%  { transform: translateX(4px); }
   100% { transform: translateX(0); }
 }
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ — ОБЛОЖКА И КАРТА ===== */
+@media (max-width: 768px) {
+
+  /* ===== ОБЛОЖКА ===== */
+  .cover-content {
+    padding: 24px 16px;
+    max-width: 100%;
+  }
+
+  .cover-title {
+    font-size: 36px;
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+  }
+
+  .cover-desc {
+    font-size: 14px;
+  }
+
+  .cover-btn {
+    padding: 12px 28px;
+    font-size: 15px;
+  }
+
+  .cover-stats {
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cover-stat-num {
+    font-size: 22px;
+  }
+
+  .cover-stat-label {
+    font-size: 11px;
+  }
+
+  /* Стикеры — меньше и не вылезают за экран */
+  .cover-sticker {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* ===== КАРТА ===== */
+  .map-header {
+    top: 20px;
+    padding: 0 16px;
+  }
+
+  .map-title {
+    font-size: 20px;
+  }
+
+  .map-back {
+    font-size: 13px;
+    left: 16px;
+  }
+
+  .map-scene {
+    min-height: 380px;
+  }
+
+  /* Точки модулей — меньше */
+  .map-point-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .map-point-status {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  /* Позиции точек на мобиле */
+  .map-point-1 { left: 22%; bottom: 18%; }
+  .map-point-2 { left: 50%; bottom: 38%; }
+  .map-point-3 { right: 6%; bottom: 16%; }
+
+  /* Подсказка — скрываем на мобиле, мешает */
+  .map-hint {
+    display: none;
+  }
+
+  /* Тултип — на всю ширину снизу */
+  .map-tooltip {
+    width: calc(100% - 32px);
+    left: 16px !important;
+    bottom: 12px;
+    top: auto !important;
+  }
+
+  /* Прогресс-бар */
+  .map-progress-wrap {
+    padding: 16px 16px 8px;
+  }
+
+  .map-progress-bar {
+    height: 28px;
+  }
+
+  .map-progress-pct {
+    font-size: 12px;
+  }
+
+  /* Цитаты */
+  .map-quote {
+    padding: 16px 16px 24px;
+  }
+
+  .map-quote-text {
+    font-size: 13px;
+  }
+
+  .map-quote-author {
+    font-size: 12px;
+  }
+
+  /* Солнечные лучи — меньше */
+  .map-sun-rays {
+    width: 200px;
+    height: 200px;
+    top: -40px;
+    left: -40px;
+  }
+
+  .sun-ray {
+    width: 140px;
+  }
+}
+
+/* ===== Очень маленькие экраны (до 400px) ===== */
+@media (max-width: 400px) {
+
+  .cover-title {
+    font-size: 28px;
+  }
+
+  .cover-subtitle {
+    font-size: 16px;
+  }
+
+  .cover-stats {
+    gap: 8px;
+  }
+
+  .cover-stat-divider {
+    display: none;
+  }
+
+  .map-scene {
+    min-height: 300px;
+  }
+
+  .map-point-circle {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+  }
+
+  .map-title {
+    font-size: 17px;
+  }
+
+  .cover-sticker {
+    width: 60px;
+    height: 60px;
+  }
+}
