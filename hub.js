@@ -12,8 +12,14 @@ var rotateOverlay = document.getElementById('rotate-overlay');
 var rotateBtnOk = document.getElementById('rotate-btn-ok');
 var rotateShown = false;
 
+function isMobile() {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+}
+
 function checkOrientation() {
   if (!rotateOverlay) return;
+  if (!isMobile()) return; // На десктопе не показываем
+
   if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
     if (!rotateShown) {
       rotateOverlay.classList.add('visible');
