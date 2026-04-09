@@ -9,42 +9,82 @@
 <body>
 
 <!-- ===== ОБЛОЖКА ===== -->
+<!-- ===== ОБЛОЖКА ===== -->
 <section class="cover" id="cover">
-  <div class="cover-bg">
+
+  <!-- Градиентный фон -->
+  <div class="cover-bg-gradient"></div>
+
+  <!-- Орбы (оставляем для атмосферы, без сетки) -->
+  <div class="cover-orbs">
     <div class="cover-orb cover-orb-1"></div>
     <div class="cover-orb cover-orb-2"></div>
     <div class="cover-orb cover-orb-3"></div>
-    <div class="cover-grid"></div>
-    <div class="cover-dots"></div>
-    <div class="cover-sweep"></div>
-    <div class="cover-sparkles">
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
-      <div class="cover-sparkle"></div>
+  </div>
+
+  <!-- Стикеры -->
+  <div class="cover-stickers">
+
+    <!-- 1. Будь собой — слева по центру -->
+    <div class="cover-sticker" style="left:12%; top:38%;"
+         data-tip="Тебе не нужно становиться «душой компании». Нетворкинг — это не про экстраверсию. Это про навык. А навыки можно развить.">
+      <img src="sticker-budsoboj.png" alt="Будь собой">
     </div>
+
+    <!-- 2. После курса — другой разговор — сверху слева -->
+    <div class="cover-sticker" style="left:17%; top:10%;"
+         data-tip="🦔 Даже ёжики разворачиваются, когда чувствуют себя в безопасности. Дай себе время — и ты тоже раскроешься.">
+      <img src="sticker-posle.png" alt="После курса — другой разговор">
+    </div>
+
+    <!-- 3. Ты готов! — сверху по центру -->
+    <div class="cover-sticker" style="left:46%; top:5%;"
+         data-tip="🤫 Маленький секрет: даже самые уверенные люди на конференциях нервничают. Они просто знают пару приёмов. Скоро ты тоже будешь их знать.">
+      <img src="sticker-ready.png" alt="Ты готов!">
+    </div>
+
+    <!-- 4. Здесь куют контакты — сверху справа -->
+    <div class="cover-sticker" style="right:10%; top:10%;"
+         data-tip="❤️ Нетворкинг в своей основе — это не про выгоду. Это про людей. Про настоящий интерес к другому человеку. И когда он настоящий — всё остальное происходит само.">
+      <img src="sticker-kontakty.png" alt="Здесь куют контакты">
+    </div>
+
+    <!-- 5. Один шаг. Одно «Привет» — справа по центру -->
+    <div class="cover-sticker" style="right:8%; top:38%;"
+         data-tip="🚪 Каждый новый контакт — это дверь. Ты не знаешь, что за ней: проект мечты, наставник, партнёр, друг. Но чтобы узнать — нужно просто сказать «привет».">
+      <img src="sticker-privet.png" alt="Один шаг. Одно «Привет»">
+    </div>
+
+    <!-- 6. Твой выход — снизу слева -->
+    <div class="cover-sticker" style="left:18%; bottom:12%;"
+         data-tip="🧩 Где-то в зале конференции стоит человек, которому нужно именно то, что умеешь ты. А тебе нужно то, что умеет он. Нетворкинг — это искусство найти свой пазл.">
+      <img src="sticker-vyhod.png" alt="Твой выход">
+    </div>
+
+    <!-- 7. Учись сейчас — используй завтра — снизу по центру -->
+    <div class="cover-sticker" style="left:44%; bottom:8%;"
+         data-tip="🌱 Сегодня ты посадишь семечко — скажешь «привет» одному человеку. Через полгода из этого может вырасти проект, партнёрство, дружба.">
+      <img src="sticker-uchis.png" alt="Учись сейчас — используй завтра">
+    </div>
+
+    <!-- 8. Иди и знакомься — снизу справа -->
+    <div class="cover-sticker" style="right:10%; bottom:10%;"
+         data-tip="🎁 Каждый человек, с которым ты знакомишься, несёт в себе подарок: знание, идею, контакт, вдохновение. Иногда — просто хорошую историю за кофе.">
+      <img src="sticker-idi.png" alt="Иди и знакомься">
+    </div>
+
+    <!-- 9. Осторожно, секретная информация! — слева снизу -->
+    <div class="cover-sticker" style="left:5%; bottom:35%;"
+         data-tip="🍕 Знал(а) ли ты, что зона у еды на конференции — одно из худших мест для знакомства? Но не переживай, мы объясним почему и покажем, где лучше.">
+      <img src="sticker-secret.png" alt="Осторожно, секретная информация!">
+    </div>
+
+    <!-- Тултип (один общий) -->
+    <div class="sticker-tooltip" id="sticker-tooltip"></div>
+
   </div>
-   <!-- Мерцающие пойнты — по краям экрана -->
- <div class="wisdom-points" id="wisdom-points">
-    <div class="wisdom-hint" id="wisdom-hint">✦ Нажимай на мерцающие огоньки, чтобы настроиться на курс ✦</div>
-    <div class="wisdom-point" data-msg="🎯 Тебе не нужно становиться «душой компании». Нетворкинг — это не про экстраверсию. Это про навык. А навыки можно развить." style="top:10%; left:12%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🤫 Маленький секрет: даже самые уверенные люди на конференциях нервничают. Они просто знают пару приёмов. Скоро ты тоже будешь их знать." style="top:8%; left:82%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🦔 Даже ёжики разворачиваются, когда чувствуют себя в безопасности. Дай себе время — и ты тоже раскроешься." style="top:30%; left:85%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🍕 Знал(а) ли ты, что зона у еды на конференции — одно из худших мест для знакомства? Но не переживай, мы объясним почему и покажем, где лучше." style="top:50%; left:10%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🚪 Каждый новый контакт — это дверь. Ты не знаешь, что за ней: проект мечты, наставник, партнёр, друг. Но чтобы узнать — нужно просто сказать «привет»." style="top:68%; left:85%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🧩 Где-то в зале конференции стоит человек, которому нужно именно то, что умеешь ты. А тебе нужно то, что умеет он. Нетворкинг — это искусство найти свой пазл." style="top:82%; left:14%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🎁 Каждый человек, с которым ты знакомишься, несёт в себе подарок: знание, идею, контакт, вдохновение. Иногда — просто хорошую историю за кофе." style="top:85%; left:75%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🌱 Сегодня ты посадишь семечко — скажешь «привет» одному человеку. Через полгода из этого может вырасти проект, партнёрство, дружба." style="top:42%; left:88%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="❤️ Нетворкинг в своей основе — это не про выгоду. Это про людей. Про настоящий интерес к другому человеку. И когда он настоящий — всё остальное происходит само." style="top:22%; left:10%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-point" data-msg="🌍 Ты находишься в среднем в 3–4 рукопожатиях от любого человека в твоей отрасли. Осталось сделать первое." style="top:65%; left:12%;"><span class="wp-dot"></span></div>
-    <div class="wisdom-tooltip" id="wisdom-tooltip"></div>
-  </div>
+
+  <!-- Центральный контент — БЕЗ ИЗМЕНЕНИЙ -->
   <div class="cover-content">
     <div class="cover-badge">симулятор нетворкинга</div>
     <h1 class="cover-title">Есть <span class="cover-accent">контакт!</span></h1>
@@ -55,15 +95,15 @@
       <span class="cover-btn-arrow">↓</span>
     </button>
     <div class="cover-stats">
-        <div class="cover-stat"><div class="cover-stat-num">3</div><div class="cover-stat-label">модуля</div></div>
+      <div class="cover-stat"><div class="cover-stat-num">3</div><div class="cover-stat-label">модуля</div></div>
       <div class="cover-stat-divider"></div>
       <div class="cover-stat"><div class="cover-stat-num">30</div><div class="cover-stat-label">уроков</div></div>
       <div class="cover-stat-divider"></div>
       <div class="cover-stat"><div class="cover-stat-num">∞</div><div class="cover-stat-label">связей</div></div>
     </div>
   </div>
-</section>
 
+</section>
 <!-- ===== ХАБ (скрыт по умолчанию) ===== -->
 <section class="hub" id="hub" style="display:none;">
   <div class="hub-container">
