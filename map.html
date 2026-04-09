@@ -9,24 +9,18 @@
 </head>
 <body>
 
-<!-- Страница карты -->
 <div class="map-page">
-
-  <!-- Заголовок -->
-  <div class="map-header">
-    <a href="index.html" class="map-back">← На главную</a>
-    <h1 class="map-title">Карта курса</h1>
-  </div>
 
   <!-- Карта с фоном -->
   <div class="map-scene">
- 
+
+    <!-- Заголовок ТОЛЬКО здесь, внутри сцены -->
     <div class="map-header">
-    <a href="index.html" class="map-back">← На главную</a>
-    <h1 class="map-title">Карта курса</h1>
-  </div>
-    
-    <!-- Солнечные лучи (анимация) -->
+      <a href="index.html" class="map-back">← На главную</a>
+      <h1 class="map-title">Карта курса</h1>
+    </div>
+
+    <!-- Солнечные лучи -->
     <div class="map-sun-rays">
       <div class="sun-ray"></div>
       <div class="sun-ray"></div>
@@ -38,20 +32,18 @@
       <div class="sun-ray"></div>
     </div>
 
-    <!-- Фоновое изображение города -->
+    <!-- Фоновое изображение -->
     <img src="https://i.ibb.co/234j4RPG/291297c2d40c9ad95bcc981e6ff5ae2e-e0779546-d56d-4910-b22d-6996cb4f223c-1-1.jpg" alt="Карта города" class="map-city-img">
 
-    <!-- Блик поверх изображения -->
+    <!-- Блик -->
     <div class="map-glare"></div>
 
-    <!-- Подсказка слева -->
+    <!-- Подсказка -->
     <div class="map-hint">
       <p>Проходи модули по порядку.<br>Каждый следующий открывается<br>после завершения предыдущего.</p>
-      </div>
+    </div>
 
-    <!-- Точки модулей -->
-
-    <!-- Модуль 1 — доступен -->
+    <!-- Модуль 1 -->
     <div class="map-point map-point-1 unlocked pulsing"
          data-module="1"
          data-href="module1.html"
@@ -61,7 +53,7 @@
       <div class="map-point-status">🟢 Доступен</div>
     </div>
 
-    <!-- Модуль 2 — заблокирован -->
+    <!-- Модуль 2 -->
     <div class="map-point map-point-2 locked"
          data-module="2"
          data-href="module2.html"
@@ -71,7 +63,7 @@
       <div class="map-point-status">🔒 Заблокирован</div>
     </div>
 
-    <!-- Модуль 3 — заблокирован -->
+    <!-- Модуль 3 -->
     <div class="map-point map-point-3 locked"
          data-module="3"
          data-href="module3.html"
