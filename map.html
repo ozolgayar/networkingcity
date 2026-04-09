@@ -5,163 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Карта курса — Есть контакт!</title>
   <link rel="stylesheet" href="hub.css">
+  <link rel="stylesheet" href="map.css">
 </head>
 <body>
 
-<section class="hub" id="hub">
-  <div class="hub-container">
+<!-- Страница карты -->
+<div class="map-page">
 
-    <!-- Дерево нетворкинга -->
-    <div class="net-tree" id="net-tree">
-      <div class="net-tree-title">Уровень развития нетворкинга</div>
-      <div class="net-tree-progress"><span class="net-tree-pct" id="const-pct">0%</span></div>
+  <!-- Заголовок -->
+  <div class="map-header">
+    <a href="index.html" class="map-back">← На главную</a>
+    <h1 class="map-title">Карта курса</h1>
+  </div>
 
-      <div class="net-tree-map">
+  <!-- Карта с фоном -->
+  <div class="map-scene">
 
-        <div class="net-level net-level-1">
-          <div class="net-node" id="cstar-1">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-        </div>
-        <div class="net-level-label" id="clabel-1">Первый шаг</div>
-
-        <div class="net-branches net-branches-1">
-          <div class="net-branch" id="cline-1"></div>
-          <div class="net-branch" id="cline-1b"></div>
-        </div>
-
-        <div class="net-level net-level-2">
-          <div class="net-node" id="cstar-2">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-          <div class="net-node" id="cstar-2b">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-        </div>
-        <div class="net-level-label" id="clabel-2">Диалог на двоих</div>
-
-        <div class="net-branches net-branches-2">
-          <div class="net-branch" id="cline-2"></div>
-          <div class="net-branch" id="cline-2b"></div>
-          <div class="net-branch" id="cline-2c"></div>
-          <div class="net-branch" id="cline-2d"></div>
-          <div class="net-branch" id="cline-2e"></div>
-          <div class="net-branch" id="cline-2f"></div>
-        </div>
-
-        <div class="net-level net-level-3">
-          <div class="net-node" id="cstar-3a">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-          <div class="net-node" id="cstar-3b">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-          <div class="net-node" id="cstar-3c">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-          <div class="net-node" id="cstar-3d">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-          <div class="net-node" id="cstar-3e">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-          <div class="net-node" id="cstar-3f">
-            <span class="net-node-icon">👤</span>
-            <span class="net-node-glow"></span>
-          </div>
-        </div>
-        <div class="net-level-label" id="clabel-3">Шесть рукопожатий</div>
-
-      </div>
+    <!-- Солнечные лучи (анимация) -->
+    <div class="map-sun-rays">
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
+      <div class="sun-ray"></div>
     </div>
 
-    <!-- Карта курса -->
-    <div class="hub-welcome">
-      <h2>Карта курса</h2>
-      <p>Проходи модули по порядку. Каждый следующий открывается после завершения предыдущего.</p>
+    <!-- Фоновое изображение города -->
+    <img src="city-map.png" alt="Карта города" class="map-city-img">
+
+    <!-- Блик поверх изображения -->
+    <div class="map-glare"></div>
+
+    <!-- Подсказка слева -->
+    <div class="map-hint">
+      <p>Проходи модули по порядку.<br>Каждый следующий открывается<br>после завершения предыдущего.</p>
+      <p class="map-hint-sub">Нажми на цифру 1</p>
     </div>
 
-    <!-- Модули -->
-    <div class="hub-modules" id="hub-modules">
+    <!-- Точки модулей -->
 
-      <!-- Модуль 1 -->
-      <div class="hub-card unlocked" data-module="1">
-        <div class="hub-card-left">
-          <div class="hub-card-icon">📋</div>
-        </div>
-        <div class="hub-card-body">
-          <div class="hub-card-status">🟢 Доступен</div>
-          <h3>Модуль 1</h3>
-          <p class="hub-card-title">Подготовка — залог успеха</p>
-          <p class="hub-card-desc">Постановка цели, создание визитки, настройка профиля, сбор сумки нетворкера. Всё, чтобы приехать на конференцию во всеоружии.</p>
-          <div class="hub-card-progress">
-            <div class="hub-card-bar"><div class="hub-card-bar-fill" id="mod1-bar"></div></div>
-            <span class="hub-card-pct" id="mod1-pct">0%</span>
-          </div>
-        </div>
-        <div class="hub-card-right">
-          <a href="module1.html" class="hub-card-btn">Начать →</a>
-        </div>
-      </div>
-
-      <!-- Модуль 2 -->
-      <div class="hub-card locked" data-module="2">
-        <div class="hub-card-left">
-          <div class="hub-card-icon">🤝</div>
-        </div>
-        <div class="hub-card-body">
-          <div class="hub-card-status">🔒 Заблокирован</div>
-          <h3>Модуль 2</h3>
-          <p class="hub-card-title">Нетворкинг в действии</p>
-          <p class="hub-card-desc">Учимся производить первое впечатление, презентовать себя и вести беседу. Практика живого общения.</p>
-          <div class="hub-card-progress">
-            <div class="hub-card-bar"><div class="hub-card-bar-fill"></div></div>
-            <span class="hub-card-pct">0%</span>
-          </div>
-        </div>
-        <div class="hub-card-right">
-          <div class="hub-card-btn disabled">Пройди модуль 1</div>
-        </div>
-      </div>
-
-      <!-- Модуль 3 -->
-      <div class="hub-card locked" data-module="3">
-        <div class="hub-card-left">
-          <div class="hub-card-icon">💎</div>
-        </div>
-        <div class="hub-card-body">
-          <div class="hub-card-status">🔒 Заблокирован</div>
-          <h3>Модуль 3</h3>
-          <p class="hub-card-title">Удержание связей</p>
-          <p class="hub-card-desc">Напоминания о себе, электронные письма и рекомендации. Как не потерять тех, с кем познакомился.</p>
-          <div class="hub-card-progress">
-            <div class="hub-card-bar"><div class="hub-card-bar-fill"></div></div>
-            <span class="hub-card-pct">0%</span>
-          </div>
-        </div>
-        <div class="hub-card-right">
-          <div class="hub-card-btn disabled">Пройди модуль 2</div>
-        </div>
-      </div>
-
+    <!-- Модуль 1 — доступен -->
+    <div class="map-point map-point-1 unlocked pulsing"
+         data-module="1"
+         data-href="module1.html"
+         data-tip-title="Модуль 1. Подготовка — залог успеха"
+         data-tip-desc="Постановка цели, создание визитки, настройка профиля, сбор сумки нетворкера. Всё, чтобы приехать на конференцию во всеоружии.">
+      <div class="map-point-circle">1</div>
+      <div class="map-point-status">🟢 Доступен</div>
     </div>
 
-    <!-- Цитата -->
-    <div class="hub-quote">
-      <div class="hub-quote-text">«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»</div>
-      <div class="hub-quote-author">— Кейт Ферраци</div>
+    <!-- Модуль 2 — заблокирован -->
+    <div class="map-point map-point-2 locked"
+         data-module="2"
+         data-href="module2.html"
+         data-tip-title="Модуль 2. Нетворкинг в действии"
+         data-tip-desc="Учимся производить первое впечатление, презентовать себя и вести беседу. Практика живого общения.">
+      <div class="map-point-circle">2</div>
+      <div class="map-point-status">🔒 Заблокирован</div>
+    </div>
+
+    <!-- Модуль 3 — заблокирован -->
+    <div class="map-point map-point-3 locked"
+         data-module="3"
+         data-href="module3.html"
+         data-tip-title="Модуль 3. Удержание связей"
+         data-tip-desc="Напоминания о себе, электронные письма и рекомендации. Как не потерять тех, с кем познакомился.">
+      <div class="map-point-circle">3</div>
+      <div class="map-point-status">🔒 Заблокирован</div>
+    </div>
+
+    <!-- Тултип -->
+    <div class="map-tooltip" id="map-tooltip">
+      <div class="map-tooltip-title" id="map-tooltip-title"></div>
+      <div class="map-tooltip-desc" id="map-tooltip-desc"></div>
     </div>
 
   </div>
-</section>
+
+  <!-- Прогресс-бар -->
+  <div class="map-progress-wrap">
+    <div class="map-progress-bar">
+      <div class="map-progress-fill" id="map-progress-fill"></div>
+      <span class="map-progress-pct" id="map-progress-pct">0%</span>
+    </div>
+    <div class="map-progress-label">Уровень нетворкинга</div>
+  </div>
+
+  <!-- Цитаты -->
+  <div class="map-quote">
+    <div class="map-quote-text" id="map-quote-text">«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»</div>
+    <div class="map-quote-author" id="map-quote-author">— Кейт Ферраци</div>
+  </div>
+
+</div>
 
 <script src="hub.js"></script>
 </body>
