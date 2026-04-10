@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var isCoverPage = document.querySelector('.cover') !== null;
 
 
-// ===== Попап поворота экрана =====
+// ===== Попап для мобильных =====
 var rotateOverlay = document.getElementById('rotate-overlay');
 var rotateBtnOk = document.getElementById('rotate-btn-ok');
-var rotateShown = false;
+var rotateText = document.querySelector('.rotate-text');
 
 function isMobile() {
   return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
@@ -17,27 +17,35 @@ function checkOrientation() {
   if (!rotateOverlay) return;
   if (!isMobile()) return; // На десктопе не показываем
 
-  if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
-    if (!rotateShown) {
-      rotateOverlay.classList.add('visible');
-    }
+  if (window.innerHeight > window.innerWidth) {
+    // Вертикальное положение
+    if (rotateText) rotateText.textContent = 'Пожалуйста, переверните устройство горизонтально для прохождения курса';
   } else {
-    rotateOverlay.classList.remove('visible');
-    rotateShown = false;
+    // Горизонтальное положение
+    if (rotateText) rotateText.textContent = 'Курс пока доступен только с компьютера. Пожалуйста, откройте его на ПК или ноутбуке.';
   }
+
+  // Показываем в любом случае на мобильном
+  rotateOverlay.classList.add('visible');
 }
 
 if (rotateBtnOk) {
   rotateBtnOk.addEventListener('click', function() {
     rotateOverlay.classList.remove('visible');
-    rotateShown = true;
   });
 }
 
+// Показываем сразу при загрузке
 checkOrientation();
-window.addEventListener('resize', checkOrientation);
-window.addEventListener('orientationchange', checkOrientation);
 
+// Следим за поворотом
+window.addEventListener('resize', function() {
+  setTimeout(checkOrientation, 300);
+});
+window.addEventListener('orientationchange', function() {
+  setTimeout(checkOrientation, 300);
+});
+  
     // ===== Код только для map.html =====
   if (isMapPage) {
         var m1status = localStorage.getItem('nc_mod1_status') || '';
