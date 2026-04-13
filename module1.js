@@ -260,35 +260,64 @@ function addScore(delta) {
   
    // ===== Экран 10: ноутбук =====
 function initLaptopHotspot() {
-    document.getElementById('folder-goal').addEventListener('click', function() {
-      showScreen('screen-11');
-    });
-    document.getElementById('folder-schedule').addEventListener('click', function() {
-      document.getElementById('schedule-modal').classList.add('active');
-    });
-    document.getElementById('schedule-modal-ok').addEventListener('click', function() {
-      document.getElementById('schedule-modal').classList.remove('active');
-    });
-    document.getElementById('schedule-modal').addEventListener('click', function(e) {
-      if (e.target === document.getElementById('schedule-modal')) {
-        document.getElementById('schedule-modal').classList.remove('active');
-      }
-    });
 
-    // Папка: Карта мероприятия
-    var folderMap = document.getElementById('folder-map');
-    if (folderMap) {
-      folderMap.addEventListener('click', function() {
-        showScreen('screen-21-2');
-      });
-    }
+  // ===== Проверка: показать кнопку "Далее" если все 3 пройдены =====
+  function checkAllDone() {
+    var scheduleDone = localStorage.getItem('laptopScheduleDone') === '1';
+    var goalDone     = localStorage.getItem('laptopGoalDone') === '1';
+    var mapDone      = localStorage.getItem('mapViewed') === '1';
 
-    // Восстанавливаем бейдж если карта уже просмотрена
-    if (localStorage.getItem('mapViewed') === '1') {
-      var badge = document.getElementById('map-done-badge');
-      if (badge) badge.style.display = 'flex';
+    // Бейджи
+    var badgeSchedule = document.getElementById('schedule-done-badge');
+    var badgeGoal     = document.getElementById('goal-done-badge');
+    var badgeMap      = document.getElementById('map-done-badge');
+
+    if (badgeSchedule && scheduleDone) badgeSchedule.style.display = 'flex';
+    if (badgeGoal && goalDone)         badgeGoal.style.display = 'flex';
+    if (badgeMap && mapDone)           badgeMap.style.display = 'flex';
+
+    // Кнопка "Далее"
+    var btnNext = document.getElementById('btn-laptop-next');
+    if (btnNext) {
+      btnNext.style.display = (scheduleDone && goalDone && mapDone) ? 'inline-flex' : 'none';
     }
   }
+
+  // ===== Папка: Расписание =====
+  document.getElementById('folder-schedule').addEventListener('click', function() {
+    document.getElementById('schedule-modal').classList.add('active');
+  });
+
+  document.getElementById('schedule-modal-ok').addEventListener('click', function() {
+    document.getElementById('schedule-modal').classList.remove('active');
+    localStorage.setItem('laptopScheduleDone', '1');
+    checkAllDone();
+  });
+
+  document.getElementById('schedule-modal').addEventListener('click', function(e) {
+    if (e.target === document.getElementById('schedule-modal')) {
+      document.getElementById('schedule-modal').classList.remove('active');
+      localStorage.setItem('laptopScheduleDone', '1');
+      checkAllDone();
+    }
+  });
+
+  // ===== Папка: Цель =====
+  document.getElementById('folder-goal').addEventListener('click', function() {
+    showScreen('screen-11');
+  });
+
+  // ===== Папка: Карта мероприятия =====
+  var folderMap = document.getElementById('folder-map');
+  if (folderMap) {
+    folderMap.addEventListener('click', function() {
+      showScreen('screen-21-2');
+    });
+  }
+
+  // ===== Восстанавливаем статусы при возврате на экран =====
+  checkAllDone();
+}
 
   // ===== Экран 11: цель нетворкинга =====
   function initPurposeScreen() {
@@ -328,14 +357,15 @@ function initLaptopHotspot() {
     floatMsg.classList.add('show');
   });
 
-  cont.addEventListener('click', function() {
-    // Автосохраняем при переходе
+ cont.addEventListener('click', function() {
     var text = textarea.value.trim();
     if (text) {
       localStorage.setItem('nc_purpose_text', text);
     }
     modal.classList.remove('active');
-    showScreen('screen-12');
+    // Ставим галочку "Цель пройдена" и возвращаемся на рабочий стол
+    localStorage.setItem('laptopGoalDone', '1');
+    showScreen('screen-10');
   });
 }
 
@@ -2341,17 +2371,11 @@ function initVenueMap() {
   });
 
   // Кнопка "Далее" — возврат на рабочий стол + бейдж
-  var btnVenueNext = document.getElementById('btn-venue-next');
+var btnVenueNext = document.getElementById('btn-venue-next');
   if (btnVenueNext) {
-    // Убираем старый data-next чтобы глобальный nav не перехватил
     btnVenueNext.removeAttribute('data-next');
-
     btnVenueNext.addEventListener('click', function() {
-      // Ставим бейдж "просмотрена"
       localStorage.setItem('mapViewed', '1');
-      var badge = document.getElementById('map-done-badge');
-      if (badge) badge.style.display = 'flex';
-      // Возвращаемся на рабочий стол
       showScreen('screen-10');
     });
   }
