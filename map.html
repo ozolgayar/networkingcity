@@ -1,286 +1,262 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карта курса — Есть контакт!</title>
-  <link rel="stylesheet" href="map.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карта курса — Есть контакт!</title>
+<link rel="stylesheet" href="map.css">
 </head>
 <body>
 
 <div class="map-page">
 
-  <!-- Шапка -->
-  <div class="map-header">
-    <a href="index.html" class="map-back">← На главную</a>
+  <!-- ШАПКА -->
+  <header class="map-header">
+    <a href="index.html" class="map-back">← Назад</a>
     <h1 class="map-title">Карта курса</h1>
     <div></div>
-  </div>
+  </header>
 
-  <!-- Подзаголовок -->
-  <p class="map-subtitle">Пройди все три модуля — и соберётся рукопожатие!</p>
+  <p class="map-subtitle">Три модуля — три шага к мастерству нетворкинга</p>
 
-  <!-- ===== ГЛАВНАЯ СЦЕНА ===== -->
-  <div class="handshake-scene">
-    <div class="scene-ring scene-ring-1"></div>
-<div class="scene-ring scene-ring-2"></div>
-<div class="scene-ring scene-ring-3"></div>
-<div class="scene-ring scene-ring-4"></div>
+  <!-- СОТЫ -->
+  <div class="honeycomb-wrap">
 
-    <!-- ЧАСТИЦЫ ФОН -->
-    <div class="particles" id="particles"></div>
+    <!-- Декоративный фон -->
+    <div class="hc-bg-glow hc-glow-1"></div>
+    <div class="hc-bg-glow hc-glow-2"></div>
+    <div class="hc-bg-glow hc-glow-3"></div>
 
-    <!-- РУКОПОЖАТИЕ -->
-    <div class="handshake-wrap" id="handshake-wrap">
+    <!-- ВЕРХНИЙ РЯД: Модуль 1 + Модуль 2 -->
+    <div class="hc-row hc-row-top">
 
-      <!-- ЛЕВАЯ РУКА — Модуль 1 -->
-      <div class="hand-block left-block" id="block-1">
-        <div class="module-badge" id="badge-1">
-          <span class="badge-num">1</span>
-          <span class="badge-lock" id="lock-1">🔒</span>
-        </div>
-        <svg class="hand-svg hand-svg-left" id="hand-svg-1"
-             viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
-          <!-- Рукав -->
-          <rect x="45" y="130" width="70" height="90" rx="14" class="sleeve"/>
-          <!-- Манжет -->
-          <rect x="38" y="118" width="84" height="26" rx="10" class="cuff"/>
-          <!-- Ладонь -->
-          <ellipse cx="80" cy="112" rx="38" ry="32" class="palm"/>
-          <!-- Пальцы -->
-          <rect x="42" y="68" width="18" height="50" rx="9" class="finger"/>
-          <rect x="62" y="56" width="18" height="62" rx="9" class="finger"/>
-          <rect x="82" y="56" width="18" height="62" rx="9" class="finger"/>
-          <rect x="102" y="64" width="18" height="54" rx="9" class="finger"/>
-          <!-- Большой палец -->
-          <ellipse cx="32" cy="106" rx="12" ry="20" class="thumb"
-                   transform="rotate(-25 32 106)"/>
-        </svg>
-        <div class="hand-label">
-          <strong>Модуль 1</strong>
-          <span>Подготовка к нетворкингу</span>
+      <!-- МОДУЛЬ 1 -->
+      <div class="hc-cell hc-cell--active" id="hex-1" onclick="goModule(1)">
+        <div class="hc-inner">
+          <div class="hc-shine"></div>
+          <div class="hc-particles" id="particles-1"></div>
+          <div class="hc-content">
+            <div class="hc-num">01</div>
+            <div class="hc-emoji">🎯</div>
+            <div class="hc-name">Подготовка</div>
+            <div class="hc-sub">залог успеха</div>
+            <div class="hc-status hc-status--done">✓ Пройден</div>
+          </div>
+          <div class="hc-progress-ring">
+            <svg viewBox="0 0 100 100">
+              <circle class="hc-ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-1"/>
+            </svg>
+          </div>
         </div>
       </div>
 
-      <!-- ЦЕНТР — вспышка + эмодзи рукопожатия -->
-      <div class="center-flash" id="center-flash">
-        <div class="flash-ring" id="flash-ring"></div>
-        <div class="flash-emoji" id="flash-emoji">🤝</div>
-        <div class="flash-text" id="flash-text">Контакт установлен!</div>
-      </div>
-
-      <!-- ПРАВАЯ РУКА — Модуль 2 -->
-      <div class="hand-block right-block" id="block-2">
-        <div class="module-badge" id="badge-2">
-          <span class="badge-num">2</span>
-          <span class="badge-lock" id="lock-2">🔒</span>
-        </div>
-        <svg class="hand-svg hand-svg-right" id="hand-svg-2"
-             viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
-          <rect x="45" y="130" width="70" height="90" rx="14" class="sleeve"/>
-          <rect x="38" y="118" width="84" height="26" rx="10" class="cuff"/>
-          <ellipse cx="80" cy="112" rx="38" ry="32" class="palm"/>
-          <rect x="100" y="68" width="18" height="50" rx="9" class="finger"/>
-          <rect x="80" y="56" width="18" height="62" rx="9" class="finger"/>
-          <rect x="60" y="56" width="18" height="62" rx="9" class="finger"/>
-          <rect x="40" y="64" width="18" height="54" rx="9" class="finger"/>
-          <ellipse cx="128" cy="106" rx="12" ry="20" class="thumb"
-                   transform="rotate(25 128 106)"/>
-        </svg>
-        <div class="hand-label">
-          <strong>Модуль 2</strong>
-          <span>Навыки нетворкинга</span>
+      <!-- МОДУЛЬ 2 -->
+      <div class="hc-cell hc-cell--locked" id="hex-2" onclick="goModule(2)">
+        <div class="hc-inner">
+          <div class="hc-shine"></div>
+          <div class="hc-content">
+            <div class="hc-num">02</div>
+            <div class="hc-emoji">🗣️</div>
+            <div class="hc-name">Знакомство</div>
+            <div class="hc-sub">первый контакт</div>
+            <div class="hc-status hc-status--locked">🔒 Заблокирован</div>
+          </div>
+          <div class="hc-progress-ring">
+            <svg viewBox="0 0 100 100">
+              <circle class="hc-ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-2"/>
+            </svg>
+          </div>
         </div>
       </div>
 
-    </div><!-- /handshake-wrap -->
+    </div><!-- конец hc-row-top -->
 
-    <!-- МОДУЛЬ 3 — снизу по центру -->
-    <div class="module3-wrap" id="block-3">
-      <div class="module3-connector" id="connector-3"></div>
-      <div class="module3-circle" id="circle-3">
-        <span class="badge-num">3</span>
-        <span class="badge-lock" id="lock-3">🔒</span>
+    <!-- НИЖНИЙ РЯД: центральная иконка курса + Модуль 3 -->
+    <div class="hc-row hc-row-bottom">
+
+      <!-- ИКОНКА КУРСА (центральная большая сота) -->
+      <div class="hc-cell hc-cell--course" id="hex-course">
+        <div class="hc-inner">
+          <div class="hc-shine"></div>
+          <div class="hc-course-glow"></div>
+          <div class="hc-content">
+            <div class="hc-course-emoji">🤝</div>
+            <div class="hc-course-name">Есть<br>контакт!</div>
+          </div>
+        </div>
       </div>
-      <div class="module3-label">
-        <strong>Модуль 3</strong>
-        <span>Удержание связей</span>
+
+      <!-- МОДУЛЬ 3 -->
+      <div class="hc-cell hc-cell--locked" id="hex-3" onclick="goModule(3)">
+        <div class="hc-inner">
+          <div class="hc-shine"></div>
+          <div class="hc-content">
+            <div class="hc-num">03</div>
+            <div class="hc-emoji">🌟</div>
+            <div class="hc-name">Удержание</div>
+            <div class="hc-sub">тёплая сеть</div>
+            <div class="hc-status hc-status--locked">🔒 Заблокирован</div>
+          </div>
+          <div class="hc-progress-ring">
+            <svg viewBox="0 0 100 100">
+              <circle class="hc-ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-3"/>
+            </svg>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- КОНФЕТТИ -->
-    <div class="confetti-wrap" id="confetti-wrap"></div>
+    </div><!-- конец hc-row-bottom -->
 
-  </div><!-- /handshake-scene -->
+    <!-- СОЕДИНИТЕЛЬНЫЕ ЛИНИИ -->
+    <svg class="hc-connectors" viewBox="0 0 600 400" preserveAspectRatio="none">
+      <!-- Модуль 1 → Курс -->
+      <line class="hc-conn-line" id="conn-1" x1="185" y1="140" x2="265" y2="280"/>
+      <!-- Модуль 2 → Курс -->
+      <line class="hc-conn-line" id="conn-2" x1="415" y1="140" x2="335" y2="280"/>
+      <!-- Курс → Модуль 3 -->
+      <line class="hc-conn-line" id="conn-3" x1="335" y1="320" x2="415" y2="280"/>
+    </svg>
 
-  <!-- Прогресс -->
+  </div><!-- конец honeycomb-wrap -->
+
+  <!-- ПРОГРЕСС -->
   <div class="progress-section">
     <div class="progress-label">
-      <span>Прогресс курса</span>
-      <span id="progress-pct">0%</span>
+      <span>Общий прогресс курса</span>
+      <span id="prog-pct">33%</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-fill" id="prog-fill" style="width:33%"></div>
     </div>
-    <div class="progress-modules">
-      <span id="done-count">0 из 3 модулей пройдено</span>
-    </div>
+    <div class="progress-modules">Пройдено модулей: <strong>1 из 3</strong></div>
   </div>
 
-  <!-- Цитата -->
-  <div class="map-quote">
-    «Ваша сеть — это ваш капитал»
-    <span>— Поршия Маунт</span>
-  </div>
+  <!-- ЦИТАТА -->
+  <p class="map-quote">
+    «Нетворкинг — это не коллекционирование визиток, это выращивание отношений.»
+    <span>— Мишна Ли</span>
+  </p>
 
-</div><!-- /map-page -->
+</div><!-- конец .map-page -->
 
-<!-- ===== ТЕСТ-ПАНЕЛЬ (удали в продакшне) ===== -->
-<div class="test-panel">
-  <button onclick="completeModule(1)">✅ М1 пройден</button>
-  <button onclick="completeModule(2)">✅ М2 пройден</button>
-  <button onclick="completeModule(3)">✅ М3 пройден</button>
-  <button onclick="resetAll()" style="background:#ef4444">🔄 Сброс</button>
-</div>
+<!-- ТУЛТИП -->
+<div class="hc-tooltip" id="hc-tooltip"></div>
+
+<!-- КОНФЕТТИ -->
+<div class="confetti-wrap" id="confetti-wrap"></div>
 
 <script>
-// ===== СОСТОЯНИЕ =====
-const state = { 1: false, 2: false, 3: false };
-
-const COLORS = {
-  locked:  { main: '#d1d5db', glow: 'none',                     text: '#9ca3af' },
-  active:  { main: '#22c55e', glow: '0 0 20px rgba(34,197,94,0.6)', text: '#166534' },
-  done:    { main: '#16884F', glow: '0 0 30px rgba(22,136,79,0.9) , 0 0 60px rgba(22,136,79,0.4)', text: '#fff' },
+// ===== ДАННЫЕ МОДУЛЕЙ =====
+const modules = {
+  1: {
+    status: 'done',
+    progress: 100,
+    href: 'module1.html',
+    name: 'Подготовка — залог успеха',
+    desc: 'Цель, визитка, самопрезентация'
+  },
+  2: {
+    status: 'locked',
+    progress: 0,
+    href: '#',
+    name: 'Знакомство. Первый контакт',
+    desc: 'Начать разговор и произвести впечатление'
+  },
+  3: {
+    status: 'locked',
+    progress: 0,
+    href: '#',
+    name: 'Удержание. Тёплая сеть',
+    desc: 'Поддерживать и развивать контакты'
+  }
 };
 
-// ===== ПРИМЕНИТЬ СОСТОЯНИЕ =====
-function applyState() {
-  const done = [1,2,3].filter(n => state[n]);
-  const pct  = Math.round(done.length / 3 * 100);
-
-  // Прогресс
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-pct').textContent  = pct + '%';
-  document.getElementById('done-count').textContent    =
-    done.length + ' из 3 модулей пройдено';
-
-  // Руки 1 и 2
-  [1, 2].forEach(n => {
-    const svg    = document.getElementById('hand-svg-' + n);
-    const lock   = document.getElementById('lock-' + n);
-    const isDone = state[n];
-
-    // Цвет всех частей SVG
-    svg.querySelectorAll('.sleeve,.cuff,.palm,.finger,.thumb').forEach(el => {
-      el.style.fill = isDone ? COLORS.done.main : COLORS.locked.main;
-      el.style.transition = 'fill 0.8s ease';
-    });
-
-    // Свечение
-    svg.style.filter = isDone
-      ? 'drop-shadow(0 0 16px rgba(34,197,94,0.9))'
-      : 'none';
-    svg.style.transition = 'filter 0.8s ease';
-
-    // Замок
-    lock.textContent = isDone ? '✅' : '🔒';
-  });
-
-  // Модуль 3
-  const circ  = document.getElementById('circle-3');
-  const lock3 = document.getElementById('lock-3');
-  const conn  = document.getElementById('connector-3');
-
-  circ.classList.toggle('circle-done',   state[3]);
-  circ.classList.toggle('circle-locked', !state[3]);
-  lock3.textContent = state[3] ? '✅' : '🔒';
-  conn.classList.toggle('connector-active', state[2] || state[3]);
-
-  // Финал
-  if (state[1] && state[2] && state[3]) {
-    triggerFinale();
+// ===== НАВИГАЦИЯ =====
+function goModule(num) {
+  const m = modules[num];
+  if (m.status === 'locked') {
+    shakeLocked(num);
+    showTooltip('🔒 Сначала пройди предыдущий модуль!', num);
+    return;
   }
+  window.location.href = m.href;
 }
 
-// ===== ФИНАЛ =====
-function triggerFinale() {
-  const wrap = document.getElementById('handshake-wrap');
+function shakeLocked(num) {
+  const el = document.getElementById('hex-' + num);
+  el.classList.add('hc-shake');
+  setTimeout(() => el.classList.remove('hc-shake'), 500);
+}
 
-  // Руки сближаются
-  wrap.classList.add('hands-together');
+// ===== ТУЛТИП =====
+function showTooltip(text, num) {
+  const tooltip = document.getElementById('hc-tooltip');
+  const cell = document.getElementById('hex-' + num);
+  const rect = cell.getBoundingClientRect();
+  tooltip.textContent = text;
+  tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+  tooltip.style.top = (rect.top - 48 + window.scrollY) + 'px';
+  tooltip.classList.add('visible');
+  setTimeout(() => tooltip.classList.remove('visible'), 2000);
+}
 
+// ===== ПРОГРЕСС КОЛЬЦА =====
+function setRing(id, percent) {
+  const ring = document.getElementById('ring-' + id);
+  if (!ring) return;
+  const circumference = 2 * Math.PI * 44; // r=44
+  const offset = circumference - (percent / 100) * circumference;
+  ring.style.strokeDasharray = circumference;
+  ring.style.strokeDashoffset = offset;
+}
+
+// ===== ИНИЦИАЛИЗАЦИЯ =====
+window.addEventListener('DOMContentLoaded', () => {
+
+  // Кольца прогресса
   setTimeout(() => {
-    // Вспышка
-    document.getElementById('flash-ring').classList.add('ring-burst');
-    document.getElementById('flash-emoji').classList.add('emoji-show');
-    document.getElementById('flash-text').classList.add('text-show');
-    // Конфетти
-    spawnConfetti();
-    // Частицы ускорить
-    document.getElementById('particles').classList.add('particles-active');
-  }, 700);
-}
+    setRing(1, 100);
+    setRing(2, 0);
+    setRing(3, 0);
+  }, 300);
 
-// ===== КОНФЕТТИ =====
-function spawnConfetti() {
-  const wrap   = document.getElementById('confetti-wrap');
-  const colors = ['#22c55e','#16884F','#fbbf24','#34d399','#86efac','#ffffff','#a3e635'];
-  for (let i = 0; i < 80; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    const size = 6 + Math.random() * 10;
-    el.style.cssText = `
-      left: ${10 + Math.random() * 80}%;
-      width: ${size}px;
-      height: ${size}px;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      border-radius: ${Math.random() > 0.5 ? '50%' : '3px'};
-      animation-delay: ${Math.random() * 1.2}s;
-      animation-duration: ${1.8 + Math.random() * 2}s;
-      transform: rotate(${Math.random()*360}deg);
+  // Частицы для пройденного модуля
+  spawnParticles('particles-1');
+
+  // Прогресс-бар
+  setTimeout(() => {
+    document.getElementById('prog-fill').style.width = '33%';
+  }, 400);
+
+  // Линии-коннекторы
+  setTimeout(() => {
+    document.getElementById('conn-1').classList.add('conn-active');
+  }, 600);
+
+});
+
+// ===== ЧАСТИЦЫ =====
+function spawnParticles(containerId) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  for (let i = 0; i < 6; i++) {
+    const p = document.createElement('div');
+    p.className = 'hc-particle';
+    p.style.cssText = `
+      left: ${20 + Math.random() * 60}%;
+      top: ${20 + Math.random() * 60}%;
+      width: ${3 + Math.random() * 4}px;
+      height: ${3 + Math.random() * 4}px;
+      animation-delay: ${Math.random() * 3}s;
+      animation-duration: ${2 + Math.random() * 2}s;
     `;
-    wrap.appendChild(el);
+    wrap.appendChild(p);
   }
 }
-
-// ===== ЧАСТИЦЫ ФОН =====
-function createParticles() {
-  const wrap = document.getElementById('particles');
-  for (let i = 0; i < 20; i++) {
-    const el = document.createElement('div');
-    el.className = 'particle';
-    el.style.cssText = `
-      left: ${Math.random() * 100}%;
-      top:  ${Math.random() * 100}%;
-      width:  ${4 + Math.random() * 8}px;
-      height: ${4 + Math.random() * 8}px;
-      animation-delay:    ${Math.random() * 6}s;
-      animation-duration: ${4 + Math.random() * 6}s;
-      opacity: ${0.2 + Math.random() * 0.4};
-    `;
-    wrap.appendChild(el);
-  }
-}
-
-// ===== ТЕСТ =====
-function completeModule(n) {
-  state[n] = true;
-  applyState();
-}
-function resetAll() {
-  state[1] = state[2] = state[3] = false;
-  document.getElementById('handshake-wrap').classList.remove('hands-together');
-  document.getElementById('flash-ring').classList.remove('ring-burst');
-  document.getElementById('flash-emoji').classList.remove('emoji-show');
-  document.getElementById('flash-text').classList.remove('text-show');
-  document.getElementById('confetti-wrap').innerHTML = '';
-  document.getElementById('particles').classList.remove('particles-active');
-  applyState();
-}
-
-// Старт
-createParticles();
-applyState();
 </script>
+
 </body>
 </html>
