@@ -2346,9 +2346,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Не запускаем на мобилках
-  if (window.__mobileBlocked) return;
-
   initGlobalNav();
   initMainMenu();
   initQuiz();
