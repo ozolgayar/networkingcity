@@ -8,21 +8,22 @@
   <link rel="stylesheet" href="map.css">
 </head>
 <body>
-<!-- Сообщение о повороте экрана -->
+
+<!-- Попап поворота -->
 <div class="rotate-overlay" id="rotate-overlay">
   <div class="rotate-modal">
     <div class="rotate-icon">📱</div>
-    <p class="rotate-text">Мобильная версия в разработке. Для комфортного прохождения рекомендуем открывать курс с компьютера или ноутбука. На мобильных устройствах курс может отображаться некорректно.</p>
+    <p class="rotate-text">Для комфортного прохождения рекомендуем открывать курс с компьютера или ноутбука.</p>
     <button class="rotate-btn" id="rotate-btn-ok">ОК</button>
   </div>
 </div>
-  
+
 <div class="map-page">
 
-  <!-- Карта с фоном -->
+  <!-- СЦЕНА -->
   <div class="map-scene">
 
-    <!-- Заголовок ТОЛЬКО здесь, внутри сцены -->
+    <!-- Заголовок -->
     <div class="map-header">
       <a href="index.html" class="map-back">← На главную</a>
       <h1 class="map-title">Карта курса</h1>
@@ -40,46 +41,77 @@
       <div class="sun-ray"></div>
     </div>
 
-    <!-- Фоновое изображение -->
-    <img src="https://i.ibb.co/234j4RPG/291297c2d40c9ad95bcc981e6ff5ae2e-e0779546-d56d-4910-b22d-6996cb4f223c-1-1.jpg" alt="Карта города" class="map-city-img">
+    <!-- Фон -->
+    <img
+      src="https://i.ibb.co/234j4RPG/291297c2d40c9ad95bcc981e6ff5ae2e-e0779546-d56d-4910-b22d-6996cb4f223c-1-1.jpg"
+      alt="Карта города"
+      class="map-city-img"
+    >
 
     <!-- Блик -->
     <div class="map-glare"></div>
 
-    <!-- Подсказка -->
-    <div class="map-hint">
-      <p>Проходи модули по порядку.<br>Каждый следующий открывается<br>после завершения предыдущего.</p>
+    <!-- ===== РУКОПОЖАТИЕ — центр сцены ===== -->
+    <div class="handshake-wrap" id="handshake-wrap">
+
+      <!-- Левая рука (Модуль 1) -->
+      <div class="hand hand-left" id="hand-left">
+        <svg viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
+          <!-- Рукав -->
+          <rect x="30" y="100" width="60" height="80" rx="10"
+                fill="currentColor" opacity="0.9"/>
+          <!-- Манжет -->
+          <rect x="25" y="88" width="70" height="22" rx="8"
+                fill="white" opacity="0.3"/>
+          <!-- Ладонь -->
+          <ellipse cx="60" cy="85" rx="32" ry="28"
+                   fill="currentColor" opacity="0.95"/>
+          <!-- Пальцы -->
+          <rect x="28" y="52" width="14" height="38" rx="7" fill="currentColor"/>
+          <rect x="44" y="44" width="14" height="46" rx="7" fill="currentColor"/>
+          <rect x="60" y="44" width="14" height="46" rx="7" fill="currentColor"/>
+          <rect x="76" y="50" width="14" height="40" rx="7" fill="currentColor"/>
+          <!-- Большой палец -->
+          <ellipse cx="24" cy="80" rx="10" ry="16" fill="currentColor"
+                   transform="rotate(-30 24 80)"/>
+        </svg>
+        <div class="hand-label">Модуль 1<br><span>Подготовка</span></div>
+      </div>
+
+      <!-- Центральная вспышка (появляется после всех модулей) -->
+      <div class="handshake-flash" id="handshake-flash">🤝</div>
+
+      <!-- Правая рука (Модуль 2) -->
+      <div class="hand hand-right" id="hand-right">
+        <svg viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="100" width="60" height="80" rx="10"
+                fill="currentColor" opacity="0.9"/>
+          <rect x="25" y="88" width="70" height="22" rx="8"
+                fill="white" opacity="0.3"/>
+          <ellipse cx="60" cy="85" rx="32" ry="28"
+                   fill="currentColor" opacity="0.95"/>
+          <rect x="78" y="52" width="14" height="38" rx="7" fill="currentColor"/>
+          <rect x="62" y="44" width="14" height="46" rx="7" fill="currentColor"/>
+          <rect x="46" y="44" width="14" height="46" rx="7" fill="currentColor"/>
+          <rect x="30" y="50" width="14" height="40" rx="7" fill="currentColor"/>
+          <ellipse cx="96" cy="80" rx="10" ry="16" fill="currentColor"
+                   transform="rotate(30 96 80)"/>
+        </svg>
+        <div class="hand-label">Модуль 2<br><span>Нетворкинг</span></div>
+      </div>
+
+    </div><!-- /handshake-wrap -->
+
+    <!-- Третий модуль — отдельно внизу как "звезда" -->
+    <div class="map-point-3-wrap" id="module3-point">
+      <div class="module3-circle" id="module3-circle">
+        <span>3</span>
+      </div>
+      <div class="module3-label">Модуль 3 · Удержание связей</div>
     </div>
 
-    <!-- Модуль 1 -->
-    <div class="map-point map-point-1 unlocked pulsing"
-         data-module="1"
-         data-href="module1.html"
-         data-tip-title="Модуль 1. Подготовка — залог успеха"
-         data-tip-desc="Постановка цели, создание визитки, настройка профиля, сбор сумки нетворкера. Всё, чтобы приехать на конференцию во всеоружии.">
-      <div class="map-point-circle">1</div>
-      <div class="map-point-status">🟢 Доступен</div>
-    </div>
-
-    <!-- Модуль 2 -->
-    <div class="map-point map-point-2 locked"
-         data-module="2"
-         data-href="module2.html"
-         data-tip-title="Модуль 2. Нетворкинг в действии"
-         data-tip-desc="Учимся производить первое впечатление, презентовать себя и вести беседу. Практика живого общения.">
-      <div class="map-point-circle">2</div>
-      <div class="map-point-status">🔒 Заблокирован</div>
-    </div>
-
-    <!-- Модуль 3 -->
-    <div class="map-point map-point-3 locked"
-         data-module="3"
-         data-href="module3.html"
-         data-tip-title="Модуль 3. Удержание связей"
-         data-tip-desc="Напоминания о себе, электронные письма и рекомендации. Как не потерять тех, с кем познакомился.">
-      <div class="map-point-circle">3</div>
-      <div class="map-point-status">🔒 Заблокирован</div>
-    </div>
+    <!-- Конфетти-контейнер -->
+    <div class="confetti-container" id="confetti-container"></div>
 
     <!-- Тултип -->
     <div class="map-tooltip" id="map-tooltip">
@@ -87,7 +119,7 @@
       <div class="map-tooltip-desc" id="map-tooltip-desc"></div>
     </div>
 
-  </div>
+  </div><!-- /map-scene -->
 
   <!-- Прогресс-бар -->
   <div class="map-progress-wrap">
@@ -100,12 +132,127 @@
 
   <!-- Цитаты -->
   <div class="map-quote">
-    <div class="map-quote-text" id="map-quote-text">«Поставьте себе цель каждую неделю знакомиться с новым человеком. Неважно, кем он будет и где это произойдёт»</div>
+    <div class="map-quote-text" id="map-quote-text">
+      «Поставьте себе цель каждую неделю знакомиться с новым человеком»
+    </div>
     <div class="map-quote-author" id="map-quote-author">— Кейт Ферраци</div>
   </div>
 
 </div>
 
 <script src="hub.js"></script>
+<script>
+// ===== СОСТОЯНИЕ МОДУЛЕЙ =====
+// Меняй true/false для теста, потом подключишь к реальному прогрессу
+const moduleState = {
+  1: { done: false, href: 'module1.html' },
+  2: { done: false, href: 'module2.html' },
+  3: { done: false, href: 'module3.html' },
+};
+
+// ===== ПРИМЕНИТЬ СОСТОЯНИЕ =====
+function applyState() {
+  const m1 = moduleState[1].done;
+  const m2 = moduleState[2].done;
+  const m3 = moduleState[3].done;
+
+  // Левая рука
+  const handLeft = document.getElementById('hand-left');
+  handLeft.classList.toggle('hand-active', m1);
+  handLeft.classList.toggle('hand-done',   m1);
+
+  // Правая рука
+  const handRight = document.getElementById('hand-right');
+  handRight.classList.toggle('hand-active', m2);
+  handRight.classList.toggle('hand-done',   m2);
+
+  // Модуль 3
+  const m3circle = document.getElementById('module3-circle');
+  m3circle.classList.toggle('m3-done', m3);
+  m3circle.classList.toggle('m3-locked', !m3);
+
+  // Финал — все три пройдены
+  if (m1 && m2 && m3) {
+    triggerHandshake();
+  }
+
+  // Прогресс
+  const done = [m1, m2, m3].filter(Boolean).length;
+  const pct  = Math.round((done / 3) * 100);
+  document.getElementById('map-progress-fill').style.width = pct + '%';
+  document.getElementById('map-progress-pct').textContent  = pct + '%';
+}
+
+// ===== ФИНАЛЬНАЯ АНИМАЦИЯ =====
+function triggerHandshake() {
+  const wrap  = document.getElementById('handshake-wrap');
+  const flash = document.getElementById('handshake-flash');
+  wrap.classList.add('handshake-complete');
+  setTimeout(() => flash.classList.add('flash-visible'), 600);
+  setTimeout(() => launchConfetti(), 800);
+}
+
+// ===== КОНФЕТТИ =====
+function launchConfetti() {
+  const container = document.getElementById('confetti-container');
+  const colors = ['#22c55e','#16884F','#fbbf24','#34d399','#fff','#a3e4a3'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random() * 100}%;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-delay: ${Math.random() * 1.5}s;
+      animation-duration: ${1.5 + Math.random() * 2}s;
+      width: ${6 + Math.random() * 8}px;
+      height: ${6 + Math.random() * 8}px;
+      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+    `;
+    container.appendChild(el);
+  }
+}
+
+// ===== КЛИК ПО РУКАМ =====
+document.getElementById('hand-left').addEventListener('click', () => {
+  if (!moduleState[1].done) {
+    // Пока просто переход — потом подключишь проверку
+    window.location.href = moduleState[1].href;
+  }
+});
+
+document.getElementById('hand-right').addEventListener('click', () => {
+  const canOpen = moduleState[1].done;
+  if (canOpen) window.location.href = moduleState[2].href;
+  else shakeElement(document.getElementById('hand-right'));
+});
+
+document.getElementById('module3-point').addEventListener('click', () => {
+  const canOpen = moduleState[1].done && moduleState[2].done;
+  if (canOpen) window.location.href = moduleState[3].href;
+  else shakeElement(document.getElementById('module3-point'));
+});
+
+function shakeElement(el) {
+  el.style.animation = 'shake 0.5s ease';
+  setTimeout(() => el.style.animation = '', 500);
+}
+
+// ===== ТЕСТ-КНОПКИ (удали в продакшне) =====
+// Раскомментируй чтобы проверить анимацию:
+// setTimeout(() => { moduleState[1].done = true; applyState(); }, 1000);
+// setTimeout(() => { moduleState[2].done = true; applyState(); }, 2500);
+// setTimeout(() => { moduleState[3].done = true; applyState(); }, 4000);
+
+// Запуск
+applyState();
+
+// Попап поворота
+document.getElementById('rotate-btn-ok').addEventListener('click', () => {
+  document.getElementById('rotate-overlay').classList.remove('visible');
+});
+if (window.innerWidth < 768) {
+  document.getElementById('rotate-overlay').classList.add('visible');
+}
+</script>
 </body>
 </html>
