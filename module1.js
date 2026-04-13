@@ -21,6 +21,7 @@ const screenOrder = [
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0',
   'screen-21-1', 'screen-21-1-1', // ← добавили
   'screen-21-2',
+   'screen-zlata-ready',
   'screen-final'
 ];
 
