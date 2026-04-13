@@ -17,66 +17,105 @@
     <div></div>
   </header>
 
-  <!-- СБОРКА СОТОВ -->
-  <div class="hc-cluster">
+  <p class="map-subtitle">Три модуля — три шага к мастерству нетворкинга</p>
 
-    <!-- ПЛЮМБОБ (иконка курса) — сверху по центру -->
-    <div class="hc-plumbob">
-      <!-- Заглушка плюмбоба — потом заменишь на <img src="images/plumbob.png"> -->
-      <div class="plumbob-placeholder">
-        <div class="plumbob-shape"></div>
+  <!-- ПЛЮМБОБ -->
+  <div class="plumbob-wrap">
+    <svg class="plumbob-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#90f060"/>
+          <stop offset="50%"  stop-color="#3db52a"/>
+          <stop offset="100%" stop-color="#1a6e10"/>
+        </linearGradient>
+        <filter id="pglow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Тень -->
+      <polygon points="50,8 95,55 50,122 5,55" fill="rgba(0,0,0,0.18)" transform="translate(3,4)"/>
+      <!-- Основной ромб -->
+      <polygon points="50,8 95,55 50,122 5,55" fill="url(#pg1)" filter="url(#pglow)"/>
+      <!-- Внутренний ромб (светлее) -->
+      <polygon points="50,26 80,55 50,98 20,55" fill="#6ee040" opacity="0.45"/>
+      <!-- Блик -->
+      <polygon points="50,14 70,42 50,62 30,42" fill="white" opacity="0.22"/>
+      <polygon points="38,20 52,18 44,36" fill="white" opacity="0.35"/>
+    </svg>
+    <div class="plumbob-label">Есть контакт!</div>
+  </div>
+
+  <!-- ТРИ СОТЫ -->
+  <div class="hexmap">
+
+    <!-- МОДУЛЬ 1 -->
+    <div class="hx-wrap hx-done" onclick="goModule(1)">
+      <svg class="hx-bg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#daeaf8"/>
+            <stop offset="100%" stop-color="#8ab4dc"/>
+          </linearGradient>
+        </defs>
+        <!-- Тёмная обводка -->
+        <polygon points="100,4 196,54 196,166 100,216 4,166 4,54" fill="#2a3f6e"/>
+        <!-- Заливка -->
+        <polygon points="100,12 188,59 188,161 100,208 12,161 12,59" fill="url(#hg1)"/>
+        <!-- Блик -->
+        <polygon points="100,18 160,52 100,90 40,52" fill="white" opacity="0.18"/>
+      </svg>
+      <div class="hx-content">
+        <div class="hx-icon">🎯</div>
+        <div class="hx-num">01</div>
+        <div class="hx-name">Подготовка —<br>основа успеха</div>
+        <div class="hx-badge done">✓ Пройден</div>
       </div>
-      <div class="plumbob-label">Есть контакт!</div>
     </div>
 
-    <!-- ТРИ СОТЫ -->
-    <div class="hc-trio">
-
-      <!-- СОТА 1 — Подготовка -->
-      <div class="hc-cell" id="hex-1" onclick="goModule(1)">
-        <div class="hc-inner">
-          <div class="hc-shine"></div>
-          <div class="hc-content">
-            <!-- Заглушка иконки — потом заменишь на <img src="images/module1.png"> -->
-            <div class="hc-icon-placeholder">🎯</div>
-            <div class="hc-name">Подготовка —<br>основа успеха</div>
-            <div class="hc-status hc-done">✓ Пройден</div>
-          </div>
-        </div>
-        <div class="hc-num-badge">01</div>
+    <!-- МОДУЛЬ 2 -->
+    <div class="hx-wrap hx-current" onclick="goModule(2)">
+      <svg class="hx-bg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hg2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#d0e8ff"/>
+            <stop offset="100%" stop-color="#7aafd8"/>
+          </linearGradient>
+        </defs>
+        <polygon points="100,4 196,54 196,166 100,216 4,166 4,54" fill="#2a3f6e"/>
+        <polygon points="100,12 188,59 188,161 100,208 12,161 12,59" fill="url(#hg2)"/>
+        <polygon points="100,18 160,52 100,90 40,52" fill="white" opacity="0.22"/>
+      </svg>
+      <div class="hx-content">
+        <div class="hx-icon">🗣️</div>
+        <div class="hx-num">02</div>
+        <div class="hx-name">Есть<br>контакт!</div>
+        <div class="hx-badge current">▶ Текущий</div>
       </div>
+    </div>
 
-      <!-- СОТА 2 — Есть контакт! -->
-      <div class="hc-cell hc-locked" id="hex-2" onclick="goModule(2)">
-        <div class="hc-inner">
-          <div class="hc-shine"></div>
-          <div class="hc-content">
-            <!-- Заглушка иконки — потом заменишь на <img src="images/module2.png"> -->
-            <div class="hc-icon-placeholder">🤝</div>
-            <div class="hc-name">Есть<br>контакт!</div>
-            <div class="hc-status hc-lock">🔒 Заблокирован</div>
-          </div>
-        </div>
-        <div class="hc-num-badge">02</div>
+    <!-- МОДУЛЬ 3 -->
+    <div class="hx-wrap hx-locked" id="hex-3" onclick="goModule(3)">
+      <svg class="hx-bg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hg3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#c0d0e4"/>
+            <stop offset="100%" stop-color="#8096b0"/>
+          </linearGradient>
+        </defs>
+        <polygon points="100,4 196,54 196,166 100,216 4,166 4,54" fill="#2a3f6e"/>
+        <polygon points="100,12 188,59 188,161 100,208 12,161 12,59" fill="url(#hg3)" opacity="0.7"/>
+        <polygon points="100,18 160,52 100,90 40,52" fill="white" opacity="0.12"/>
+      </svg>
+      <div class="hx-content">
+        <div class="hx-icon lock-icon">🔒</div>
+        <div class="hx-num">03</div>
+        <div class="hx-name">На<br>связи</div>
+        <div class="hx-badge locked">🔒 Заблокирован</div>
       </div>
+    </div>
 
-      <!-- СОТА 3 — На связи -->
-      <div class="hc-cell hc-locked" id="hex-3" onclick="goModule(3)">
-        <div class="hc-inner">
-          <div class="hc-shine"></div>
-          <div class="hc-content">
-            <!-- Заглушка иконки — потом заменишь на <img src="images/module3.png"> -->
-            <div class="hc-icon-placeholder">📡</div>
-            <div class="hc-name">На<br>связи</div>
-            <div class="hc-status hc-lock">🔒 Заблокирован</div>
-          </div>
-        </div>
-        <div class="hc-num-badge">03</div>
-      </div>
-
-    </div><!-- /hc-trio -->
-
-  </div><!-- /hc-cluster -->
+  </div><!-- /hexmap -->
 
   <!-- ПРОГРЕСС -->
   <div class="progress-section">
@@ -90,50 +129,39 @@
     <div class="progress-sub">Пройдено: <strong>1 из 3 модулей</strong></div>
   </div>
 
-</div>
+</div><!-- /map-page -->
 
 <!-- ТУЛТИП -->
-<div class="hc-tooltip" id="tooltip"></div>
+<div class="hc-tooltip" id="hc-tooltip"></div>
 
 <script>
-const MODULES = {
-  1: { status: 'done',   href: 'module1.html' },
-  2: { status: 'locked', href: '#' },
-  3: { status: 'locked', href: '#' }
-};
-
-function goModule(num) {
-  const m = MODULES[num];
-  if (m.status === 'locked') {
-    const el = document.getElementById('hex-' + num);
-    el.classList.remove('hc-shake');
-    void el.offsetWidth;
-    el.classList.add('hc-shake');
-    setTimeout(() => el.classList.remove('hc-shake'), 500);
-    showTooltip('🔒 Сначала пройди предыдущий модуль!', el);
+function goModule(n) {
+  const urls = { 1:'module1.html', 2:'module2.html', 3:'#' };
+  if (n === 3) {
+    const el = document.getElementById('hex-3');
+    el.classList.add('shake');
+    setTimeout(()=> el.classList.remove('shake'), 500);
+    showTip('🔒 Сначала пройди предыдущий модуль!', el);
     return;
   }
-  window.location.href = m.href;
+  location.href = urls[n];
 }
 
-let tipTimer;
-function showTooltip(text, el) {
-  const tip  = document.getElementById('tooltip');
-  const rect = el.getBoundingClientRect();
+let tipT;
+function showTip(text, el) {
+  const tip = document.getElementById('hc-tooltip');
+  const r   = el.getBoundingClientRect();
   tip.textContent = text;
-  tip.style.left  = (rect.left + rect.width / 2) + 'px';
-  tip.style.top   = (rect.top - 50 + window.scrollY) + 'px';
-  tip.classList.add('visible');
-  clearTimeout(tipTimer);
-  tipTimer = setTimeout(() => tip.classList.remove('visible'), 2200);
+  tip.style.left  = (r.left + r.width/2) + 'px';
+  tip.style.top   = (r.top - 48 + scrollY) + 'px';
+  tip.classList.add('on');
+  clearTimeout(tipT);
+  tipT = setTimeout(()=> tip.classList.remove('on'), 2200);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    document.getElementById('prog-fill').style.width = '33%';
-  }, 400);
+window.addEventListener('DOMContentLoaded', ()=>{
+  setTimeout(()=>{ document.getElementById('prog-fill').style.width='33%'; }, 400);
 });
 </script>
-
 </body>
 </html>
