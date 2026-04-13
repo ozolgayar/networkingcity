@@ -3915,19 +3915,49 @@ color: #1e293b;
   .panel-tag { font-size: 10px; padding: 3px 8px; }
 
   /* ===== КНОПКИ — ЕДИНЫЙ СТАНДАРТ ДЛЯ ВСЕХ ЭКРАНОВ ===== */
+button.btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: var(--btn-text);
+  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.45);
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+@media (max-width: 899px) {
   button.btn {
     padding: 16px 24px !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
     min-height: 56px !important;
     border-radius: 16px !important;
     width: 100% !important;
     justify-content: center !important;
-    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4) !important;
-    letter-spacing: 0.01em !important;
-    display: inline-flex !important;
+    display: flex !important;
     align-items: center !important;
+    box-sizing: border-box !important;
   }
+
+  button.btn.secondary {
+    width: auto !important;
+    min-width: 130px !important;
+    padding: 14px 20px !important;
+    font-size: 15px !important;
+    min-height: 52px !important;
+    box-shadow: none !important;
+  }
+
+  button.btn.danger {
+    width: 100% !important;
+    min-height: 56px !important;
+  }
+}
 
   /* Secondary — компактная */
   button.btn.secondary {
@@ -4271,5 +4301,35 @@ color: #1e293b;
   }
   #screen-19 .scene,
   #screen-19 .panel { max-height: none !important; }
+
+     /* ===== СЦЕНА — ограничение высоты ===== */
+  .scene {
+    min-height: 140px !important;
+    max-height: 35vh !important;
+  }
+
+  /* ===== ПАНЕЛЬ — растягивается на остаток ===== */
+  .panel {
+    flex: 1 !important;
+    overflow-y: auto !important;
+  }
+
+  /* ===== КНОПКИ ВНУТРИ СЦЕНЫ (Ответить и др.) ===== */
+  .scene button.btn,
+  .scene-main button.btn {
+    padding: 14px 20px !important;
+    font-size: 15px !important;
+    min-height: 52px !important;
+    border-radius: 14px !important;
+    width: auto !important;
+    min-width: 140px !important;
+  }
+
+  /* ===== seg-level-buttons — не растягивать как btn ===== */
+  .seg-level-buttons button {
+    width: auto !important;
+    min-height: 44px !important;
+    min-width: unset !important;
+  }
 
 } /* ===== конец @media (max-width: 899px) ===== */
