@@ -294,12 +294,7 @@
     <span style="color:#e2e8f0;font-size:11px;text-align:center;">Карта<br>мероприятия</span>
   </div>
 
-     <div style="padding:10px 14px; text-align:center;">
-  <button id="btn-laptop-next" class="btn" style="display:none;">
-    Далее →
-  </button>
-</div>
-     
+ 
 </div>
 <!-- Мысль Златы -->
 <div style="padding:8px 14px 10px; background:rgba(0,0,0,0.3); font-size:12px; color:#94a3b8; line-height:1.4;">
@@ -324,17 +319,49 @@
 </div>
 </div>
 <div class="panel">
-<div class="panel-tag">Теория</div>
-<h2>Включаем режим подготовки</h2>
-<p>Злата открыла ноутбук, чтобы подготовиться к конференции.</p>
-<p>На рабочем столе три папки. Нажми на каждую:</p>
-<ul>
-<li><strong>Расписание конференции</strong> — узнаешь, как грамотно учесть его</li>
-<li><strong>Цель</strong> — перейдёшь к упражнению</li>
-<li><strong>Карта мероприятия</strong> — изучишь план площадки</li>
-</ul>
-</div>
-</div>
+  <div class="panel-tag">Теория</div>
+  <h2>Включаем режим подготовки</h2>
+  <p>Злата открыла ноутбук, чтобы подготовиться к конференции.</p>
+  <p>На рабочем столе три папки. Нажми на каждую:</p>
+  <ul>
+    <li><strong>Расписание конференции</strong> — узнаешь, как грамотно учесть его</li>
+    <li><strong>Цель</strong> — перейдёшь к упражнению</li>
+    <li><strong>Карта мероприятия</strong> — изучишь план площадки</li>
+  </ul>
+
+  <!-- Кнопка появляется когда все 3 папки открыты -->
+  <div style="margin-top:24px; border-top:1px solid #f1f5f9; padding-top:16px;">
+    
+    <!-- Подсказка пока не всё открыто -->
+    <p id="laptop-next-hint" style="
+      font-size:12px;
+      color:#94a3b8;
+      text-align:center;
+      margin:0 0 8px 0;
+      line-height:1.5;
+    ">🔒 Открой все три папки, чтобы продолжить</p>
+
+    <!-- Кнопка — скрыта по умолчанию -->
+    <button id="btn-laptop-next" style="
+      display:none;
+      width:100%;
+      padding:14px 24px;
+      font-size:15px;
+      font-weight:700;
+      color:#fff;
+      background:linear-gradient(135deg,#16a34a,#22c55e);
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      box-shadow:0 4px 16px rgba(34,197,94,0.4);
+      transition:all 0.2s ease;
+    "
+    onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(34,197,94,0.5)';"
+    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(34,197,94,0.4)';"
+    >
+      ✅ Всё готово — Далее →
+    </button>
+  </div>
 </div>
 
 
