@@ -4528,44 +4528,57 @@ color: #1e293b;
     margin: 0 auto 10px auto !important;
   } 
      /* Экран 1 — фит в экран */
-  #screen-1 {
-    height: 100dvh;
-    overflow: hidden;
-  }
+ #screen-1 {
+  height: 100dvh !important;
+  overflow: hidden !important;
+  position: relative !important;
+  padding: 0 !important;
+}
 
-  .s1-cover {
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+ .s1-cover {
+  position: absolute !important;
+  inset: 0 !important;
+  height: 100dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
 
-  /* Картинка занимает всё свободное место */
-  .s1-cover-img {
-    flex: 1;
-    min-height: 0;       /* ← ключевое! без этого не сожмётся */
-    overflow: hidden;
-  }
+ /* Картинка занимает всё свободное место */
+.s1-cover-img {
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
 
-  .s1-cover-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top; /* чтобы заголовок не обрезался */
-    display: block;
-  }
+.s1-cover-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+  display: block !important;
+}
+  /* Кнопка снизу — не сжимается */
+.s1-cover-btn-wrap {
+  flex-shrink: 0 !important;
+  position: relative !important;
+  bottom: auto !important;
+  padding: 20px 16px !important;
+  padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
+  display: flex !important;
+  justify-content: center !important;
+  z-index: 5 !important;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent) !important;
+}
 
-  /* Кнопка снизу */
-  .s1-cover-btn-wrap {
-    flex-shrink: 0;
-    padding: 16px;
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
-  }
-
-  .s1-start-btn {
-    width: 100% !important;
-    display: block !important;
-  }
+.s1-start-btn {
+  width: 90% !important;
+  display: block !important;
+  margin: 0 auto !important;
+  font-size: 22px !important;
+  min-height: 68px !important;
+  border-radius: 999px !important;
+}
 
 } /* конец @media (max-width: 899px) */
 
