@@ -224,20 +224,23 @@ window.addEventListener('orientationchange', function() {
         var isBottom = rect.top > window.innerHeight * 0.55;
         var isRight  = rect.left > window.innerWidth  * 0.55;
 
-        if (tipPos === 'top' || isBottom) {
-          // Тултип СВЕРХУ стикера
+        if (tipPos === 'force-right') {
+          // Принудительно справа
+          left = rect.right + 12;
+          top  = rect.top + rect.height / 2 - th / 2;
+        } else if (tipPos === 'top' || isBottom) {
+          // Тултип СВЕРХУ
           left = rect.left + rect.width / 2 - tw / 2;
           top  = rect.top - th - 16;
         } else if (tipPos === 'left' || isRight) {
-          // Тултип СЛЕВА от стикера
+          // Тултип СЛЕВА
           left = rect.left - tw - 12;
           top  = rect.top + rect.height / 2 - th / 2;
         } else {
-          // Тултип СПРАВА от стикера
+          // Тултип СПРАВА
           left = rect.right + 12;
           top  = rect.top + 10;
         }
-
         if (left + tw > window.innerWidth - 16) left = window.innerWidth - tw - 16;
         if (left < 16) left = 16;
         if (top + th > window.innerHeight - 16) top = rect.top - th - 16;
