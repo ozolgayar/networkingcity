@@ -4209,3 +4209,297 @@ color: #1e293b;
     height: 64px;
   }
 }
+
+/* ===== МОБИЛЬНАЯ ВЕРТИКАЛЬНАЯ ВЕРСИЯ (portrait) ===== */
+@media (max-width: 899px) and (orientation: portrait) {
+
+  /* Убираем заглушку — показываем курс */
+  #mobile-warning {
+    display: none !important;
+  }
+
+  #app {
+    pointer-events: auto !important;
+    filter: none !important;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  /* === ХЕДЕР === */
+  header {
+    padding: 8px 12px;
+    border-radius: 16px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  header .logo {
+    font-size: 15px;
+  }
+
+  header .logo-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  /* Скрываем лишнее в хедере */
+  .header-stats {
+    display: none;
+  }
+
+  .pill {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  /* === КОНТЕЙНЕР ЭКРАНОВ === */
+  #screen-container {
+    padding: 12px;
+    min-height: unset;
+    border-radius: 16px;
+  }
+
+  /* === LAYOUT: 1 колонка вертикально === */
+  .screen-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    height: auto;
+    max-height: none;
+  }
+
+  /* === СЦЕНА === */
+  .scene {
+    padding: 10px;
+    min-height: 220px;
+    max-height: 45vh;
+  }
+
+  .scene-main {
+    min-height: 160px;
+  }
+
+  .tagline {
+    font-size: 11px;
+  }
+
+  /* === ПАНЕЛЬ === */
+  .panel {
+    padding: 14px 14px 12px;
+    gap: 10px;
+    font-size: 14px;
+    overflow-y: auto;
+    max-height: 50vh;
+    border-radius: 14px;
+  }
+
+  .panel::-webkit-scrollbar { width: 4px; }
+  .panel::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,0.4);
+    border-radius: 999px;
+  }
+
+  .panel h2 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  .panel h3 {
+    font-size: 15px;
+  }
+
+  .panel p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .panel ul, .panel ol {
+    font-size: 14px;
+    gap: 4px;
+  }
+
+  .panel-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  /* === КНОПКИ — крупные для пальца === */
+  button.btn {
+    padding: 12px 20px;
+    font-size: 15px;
+    min-height: 48px;
+    border-radius: 999px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  button.btn.secondary {
+    width: auto;
+    min-width: 100px;
+  }
+
+  .actions-row {
+    gap: 8px;
+    margin-top: 10px;
+    flex-direction: column;
+  }
+
+  /* Кнопка "Назад" — не растягиваем */
+  .nav-back {
+    width: auto !important;
+    align-self: flex-start;
+  }
+
+  /* === ПОЛЯ ВВОДА === */
+  input[type="text"],
+  textarea {
+    font-size: 16px; /* важно! иначе iOS зумит */
+    padding: 12px 14px;
+    border-radius: 12px;
+    min-height: 48px;
+  }
+
+  textarea {
+    min-height: 90px;
+  }
+
+  /* === GIF / ИЛЛЮСТРАЦИИ === */
+  .fake-illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  /* === КАРТОЧКА ЗЛАТЫ === */
+  .zlata-card-wrapper {
+    max-width: 100%;
+  }
+
+  .zlata-front {
+    padding: 16px;
+    min-height: unset;
+  }
+
+  .zlata-avatar-circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .zlata-name {
+    font-size: 18px;
+  }
+
+  .zlata-inventory {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  /* === БУСИНЫ === */
+  .bead {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+
+  /* === МАСКИ СТРАХОВ === */
+  .fear-masks-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .fear-mask-face {
+    width: 80px;
+    height: 90px;
+  }
+
+  .fear-mask-text {
+    font-size: 12px;
+  }
+
+  /* === SMART майнд-карта === */
+  .smart-mind-map {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+
+  .smart-branch-s,
+  .smart-branch-m,
+  .smart-branch-a,
+  .smart-branch-r,
+  .smart-branch-t {
+    grid-column: 1;
+    grid-row: auto;
+    max-width: 100%;
+  }
+
+  .smart-center {
+    grid-column: 1;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+  }
+
+  /* === ВИЗИТКА === */
+  .bizcard-template {
+    max-width: 100%;
+  }
+
+  .drag-el {
+    font-size: 13px;
+    padding: 10px 14px;
+    min-height: 44px;
+  }
+
+  /* === СТИКЕРЫ === */
+  .board {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 12px;
+    min-height: 200px;
+  }
+
+  /* === КАРТА МЕРОПРИЯТИЯ === */
+  .venue-obj {
+    padding: 8px 4px !important;
+  }
+
+  .venue-emoji {
+    font-size: 22px !important;
+  }
+
+  .venue-label {
+    font-size: 9px !important;
+  }
+
+  /* === ЧЕЛОВЕЧКИ === */
+  .person-avatar {
+    width: 44px;
+    height: 60px;
+  }
+
+  /* === МЕНЮ === */
+  #main-menu {
+    width: 240px;
+    top: 56px;
+    left: 12px;
+  }
+
+  #main-menu-toggle {
+    top: 12px;
+    left: 12px;
+  }
+
+  /* === МОДАЛКИ === */
+  .modal {
+    max-width: 95%;
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .modal h3 {
+    font-size: 16px;
+  }
+}
