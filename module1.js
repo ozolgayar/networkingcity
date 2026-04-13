@@ -281,8 +281,13 @@ function initLaptopHotspot() {
     if (btnNext) {
       btnNext.style.display = (scheduleDone && goalDone && mapDone) ? 'inline-flex' : 'none';
     }
+     var btnLaptopNext = document.getElementById('btn-laptop-next');
+  if (btnLaptopNext) {
+    btnLaptopNext.addEventListener('click', function() {
+      showScreen('screen-zlata-bizcard'); // ← замени на ID твоего экрана
+    });
   }
-
+  
   // ===== Папка: Расписание =====
   document.getElementById('folder-schedule').addEventListener('click', function() {
     document.getElementById('schedule-modal').classList.add('active');
