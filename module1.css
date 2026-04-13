@@ -4527,6 +4527,46 @@ color: #1e293b;
     display: block !important;
     margin: 0 auto 10px auto !important;
   } 
+     /* Экран 1 — фит в экран */
+  #screen-1 {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .s1-cover {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Картинка занимает всё свободное место */
+  .s1-cover-img {
+    flex: 1;
+    min-height: 0;       /* ← ключевое! без этого не сожмётся */
+    overflow: hidden;
+  }
+
+  .s1-cover-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top; /* чтобы заголовок не обрезался */
+    display: block;
+  }
+
+  /* Кнопка снизу */
+  .s1-cover-btn-wrap {
+    flex-shrink: 0;
+    padding: 16px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  .s1-start-btn {
+    width: 100% !important;
+    display: block !important;
+  }
+
 } /* конец @media (max-width: 899px) */
 
 
