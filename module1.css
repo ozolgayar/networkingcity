@@ -4365,3 +4365,17 @@ color: #1e293b;
   }
 
 }
+
+/* ===== ЯДЕРНЫЙ ФИК КНОПОК ===== */
+@media (max-width: 899px) {
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 56px !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    padding: 16px 24px !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
+  }
+}
