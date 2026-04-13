@@ -125,10 +125,11 @@ function showScreen(id) {
   }
 
   if (id === 'screen-final') {
-    localStorage.setItem('nc_mod1_status', 'complete');
-    localStorage.setItem('nc_mod1_progress', '100');
-    document.getElementById('final-score').textContent = state.score;
-  }
+  localStorage.setItem('nc_mod1_status', 'complete');
+  localStorage.setItem('nc_mod1_progress', '100');
+  var finalScoreEl = document.getElementById('final-score');
+  if (finalScoreEl) finalScoreEl.textContent = state.score;
+}
 }
 
 function clamp(v, min, max) {
