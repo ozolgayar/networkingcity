@@ -27,7 +27,27 @@
     }
 
     body {
-    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+    background:
+    radial-gradient(ellipse 55% 70% at 50% 46%,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.55) 25%,
+      rgba(255,255,255,0.15) 50%,
+      transparent 70%
+    ),
+    radial-gradient(ellipse 90% 28% at 50% 75%,
+      rgba(210,230,255,0.55) 0%,
+      transparent 70%
+    ),
+    linear-gradient(115deg,
+      #2d6abf 0%,
+      #3a82cc 18%,
+      #4aafc8 36%,
+      #3ec8a8 52%,
+      #2ec48a 68%,
+      #1db86a 84%,
+      #18a858 100%
+    );
+  background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;
   display: flex;
@@ -37,14 +57,15 @@
 
     #app {
       width: 100%;
-      max-width: 1200px;
-      min-height: 100vh;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-    }
+  max-width: 1200px;
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+         background: transparent;
+}
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
   position: fixed;
