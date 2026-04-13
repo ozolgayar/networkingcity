@@ -685,6 +685,12 @@ color: #1e293b;
       color: var(--text-soft);
     }
 
+@keyframes popIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  80%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
 /* ===== КРУГЛАЯ КНОПКА СТАРТ ===== */
 .s1-round-btn-wrap {
   position: absolute;
