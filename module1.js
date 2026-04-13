@@ -277,12 +277,12 @@ function addScore(delta) {
       }
 
       result.style.display = 'block';
-      result.innerHTML =
-        '<h3>Твой результат: ' + total + ' из 50</h3>' +
-        '<p style="font-size:13px; line-height:1.5;">' + msg + '</p>' +
-        '<div class="actions-row" style="margin-top:12px;">' +
-          '<button class="btn" onclick="showScreen(\'screen-3-0\')">Продолжить →</button>'
-        '</div>';
+    result.innerHTML =
+  '<h3>Твой результат: ' + total + ' из 50</h3>' +
+  '<p style="font-size:13px; line-height:1.5;">' + msg + '</p>' +
+  '<div class="actions-row" style="margin-top:12px;">' +
+    '<button class="btn" onclick="showScreen(\'screen-3-0\')">Продолжить →</button>' +
+  '</div>';
 
       localStorage.setItem('nc_quiz_score', total);
     }
