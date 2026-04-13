@@ -243,13 +243,13 @@ body {
 .cover-subtitle {
   font-size: clamp(18px, 3vw, 26px);
   font-weight: 600;
-  color: #475569;
+  color: #1a3a6b;
   margin-bottom: 12px;
 }
 
 .cover-desc {
   font-size: 16px;
-  color: #64748b;
+  color: #1e4080;
   line-height: 1.5;
   margin-bottom: 32px;
 }
@@ -301,18 +301,18 @@ a.cover-btn {
 .cover-stat-num {
   font-size: 28px;
   font-weight: 800;
-  color: #1e293b;
+  color: #0f2448;
 }
 .cover-stat-label {
   font-size: 12px;
-  color: #64748b;
+  color: #2a5298;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 .cover-stat-divider {
   width: 1px;
   height: 32px;
-  background: #cbd5e1;
+  background: rgba(15, 36, 72, 0.25);
 }
 
 /* ===== ПОДСКАЗКА ===== */
