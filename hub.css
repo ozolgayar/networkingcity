@@ -1550,3 +1550,198 @@ a.cover-btn {
     display: none;
   }
 }
+
+/* ===== РУКОПОЖАТИЕ ===== */
+.handshake-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  z-index: 20;
+}
+
+/* Рука — базовое состояние (заблокирована) */
+.hand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 120px;
+}
+
+.hand svg {
+  width: 100px;
+  height: 150px;
+  color: #ccc;           /* серый = заблокирован */
+  filter: grayscale(1) opacity(0.4);
+  transition: color 0.6s ease, filter 0.6s ease;
+  drop-shadow: none;
+}
+
+/* Активная рука (модуль доступен) */
+.hand.hand-active svg {
+  color: #16884F;
+  filter: grayscale(0) opacity(1) drop-shadow(0 0 12px rgba(22,136,79,0.6));
+}
+
+/* Пройденная рука */
+.hand.hand-done svg {
+  color: #22c55e;
+  filter: grayscale(0) opacity(1)
+          drop-shadow(0 0 16px rgba(34,197,94,0.9))
+          drop-shadow(0 0 32px rgba(34,197,94,0.4));
+}
+
+/* Левая рука — зеркало */
+.hand-left svg {
+  transform: scaleX(1);
+}
+.hand-right svg {
+  transform: scaleX(-1);
+}
+
+/* Лейблы под руками */
+.hand-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  background: rgba(255,255,255,0.88);
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  line-height: 1.4;
+}
+
+.hand-label span {
+  font-weight: 400;
+  font-size: 11px;
+  color: #666;
+}
+
+/* Сближение рук при завершении */
+.handshake-complete .hand-left {
+  animation: hand-come-left 0.6s ease forwards;
+}
+.handshake-complete .hand-right {
+  animation: hand-come-right 0.6s ease forwards;
+}
+
+@keyframes hand-come-left {
+  to { transform: translateX(30px); }
+}
+@keyframes hand-come-right {
+  to { transform: translateX(-30px); }
+}
+
+/* ===== ВСПЫШКА В ЦЕНТРЕ ===== */
+.handshake-flash {
+  font-size: 0px;
+  transition: font-size 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4),
+              opacity 0.4s ease;
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  filter: drop-shadow(0 0 20px rgba(34,197,94,0.9));
+}
+
+.handshake-flash.flash-visible {
+  font-size: 64px;
+  opacity: 1;
+  animation: flash-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes flash-pulse {
+  0%, 100% { transform: translateX(-50%) scale(1);   filter: drop-shadow(0 0 20px rgba(34,197,94,0.8)); }
+  50%       { transform: translateX(-50%) scale(1.15); filter: drop-shadow(0 0 40px rgba(34,197,94,1)); }
+}
+
+/* ===== МОДУЛЬ 3 — нижняя точка ===== */
+.map-point-3-wrap {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.module3-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  border: 3px solid;
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+/* Заблокирован */
+.module3-circle.m3-locked {
+  background: rgba(255,255,255,0.5);
+  border-color: #aaa;
+  color: #aaa;
+}
+
+/* Пройден */
+.module3-circle.m3-done {
+  background: #22c55e;
+  border-color: #16884F;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(34,197,94,0.8),
+              0 0 40px rgba(34,197,94,0.4);
+  animation: m3-glow 2s ease-in-out infinite;
+}
+
+@keyframes m3-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,0.8), 0 0 40px rgba(34,197,94,0.4); }
+  50%       { box-shadow: 0 0 30px rgba(34,197,94,1),   0 0 60px rgba(34,197,94,0.6); }
+}
+
+.module3-label {
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.9);
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ===== КОНФЕТТИ ===== */
+.confetti-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  0%   { transform: translateY(0)   rotate(0deg);   opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
