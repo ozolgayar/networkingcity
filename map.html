@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Карта курса — Есть контакт!</title>
-<link rel="stylesheet" href="map.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карта курса — Есть контакт!</title>
+  <link rel="stylesheet" href="map.css">
 </head>
 <body>
 
@@ -22,15 +22,28 @@
   <!-- СОТЫ -->
   <div class="honeycomb-wrap">
 
-    <!-- Декоративный фон -->
+    <!-- Фоновые свечения -->
     <div class="hc-bg-glow hc-glow-1"></div>
     <div class="hc-bg-glow hc-glow-2"></div>
     <div class="hc-bg-glow hc-glow-3"></div>
 
-    <!-- ВЕРХНИЙ РЯД: Модуль 1 + Модуль 2 -->
+    <!-- SVG коннекторы (под сотами) -->
+    <svg class="hc-connectors" viewBox="0 0 560 380" preserveAspectRatio="xMidYMid meet">
+      <!-- М1 → Курс -->
+      <line class="hc-conn-line" id="conn-1"
+            x1="148" y1="158" x2="248" y2="268"/>
+      <!-- М2 → Курс -->
+      <line class="hc-conn-line" id="conn-2"
+            x1="412" y1="158" x2="312" y2="268"/>
+      <!-- Курс → М3 -->
+      <line class="hc-conn-line" id="conn-3"
+            x1="312" y1="310" x2="412" y2="268"/>
+    </svg>
+
+    <!-- РЯД 1: Модуль 1 + Модуль 2 -->
     <div class="hc-row hc-row-top">
 
-      <!-- МОДУЛЬ 1 -->
+      <!-- МОДУЛЬ 1 — пройден -->
       <div class="hc-cell hc-cell--active" id="hex-1" onclick="goModule(1)">
         <div class="hc-inner">
           <div class="hc-shine"></div>
@@ -44,14 +57,14 @@
           </div>
           <div class="hc-progress-ring">
             <svg viewBox="0 0 100 100">
-              <circle class="hc-ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="hc-ring-bg"   cx="50" cy="50" r="44"/>
               <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-1"/>
             </svg>
           </div>
         </div>
       </div>
 
-      <!-- МОДУЛЬ 2 -->
+      <!-- МОДУЛЬ 2 — заблокирован -->
       <div class="hc-cell hc-cell--locked" id="hex-2" onclick="goModule(2)">
         <div class="hc-inner">
           <div class="hc-shine"></div>
@@ -64,19 +77,19 @@
           </div>
           <div class="hc-progress-ring">
             <svg viewBox="0 0 100 100">
-              <circle class="hc-ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="hc-ring-bg"   cx="50" cy="50" r="44"/>
               <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-2"/>
             </svg>
           </div>
         </div>
       </div>
 
-    </div><!-- конец hc-row-top -->
+    </div>
 
-    <!-- НИЖНИЙ РЯД: центральная иконка курса + Модуль 3 -->
+    <!-- РЯД 2: Иконка курса + Модуль 3 -->
     <div class="hc-row hc-row-bottom">
 
-      <!-- ИКОНКА КУРСА (центральная большая сота) -->
+      <!-- ЦЕНТР — иконка курса -->
       <div class="hc-cell hc-cell--course" id="hex-course">
         <div class="hc-inner">
           <div class="hc-shine"></div>
@@ -88,7 +101,7 @@
         </div>
       </div>
 
-      <!-- МОДУЛЬ 3 -->
+      <!-- МОДУЛЬ 3 — заблокирован -->
       <div class="hc-cell hc-cell--locked" id="hex-3" onclick="goModule(3)">
         <div class="hc-inner">
           <div class="hc-shine"></div>
@@ -101,46 +114,36 @@
           </div>
           <div class="hc-progress-ring">
             <svg viewBox="0 0 100 100">
-              <circle class="hc-ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="hc-ring-bg"   cx="50" cy="50" r="44"/>
               <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-3"/>
             </svg>
           </div>
         </div>
       </div>
 
-    </div><!-- конец hc-row-bottom -->
+    </div>
 
-    <!-- СОЕДИНИТЕЛЬНЫЕ ЛИНИИ -->
-    <svg class="hc-connectors" viewBox="0 0 600 400" preserveAspectRatio="none">
-      <!-- Модуль 1 → Курс -->
-      <line class="hc-conn-line" id="conn-1" x1="185" y1="140" x2="265" y2="280"/>
-      <!-- Модуль 2 → Курс -->
-      <line class="hc-conn-line" id="conn-2" x1="415" y1="140" x2="335" y2="280"/>
-      <!-- Курс → Модуль 3 -->
-      <line class="hc-conn-line" id="conn-3" x1="335" y1="320" x2="415" y2="280"/>
-    </svg>
-
-  </div><!-- конец honeycomb-wrap -->
+  </div><!-- /honeycomb-wrap -->
 
   <!-- ПРОГРЕСС -->
   <div class="progress-section">
     <div class="progress-label">
-      <span>Общий прогресс курса</span>
+      <span>Общий прогресс</span>
       <span id="prog-pct">33%</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="prog-fill" style="width:33%"></div>
+      <div class="progress-fill" id="prog-fill"></div>
     </div>
-    <div class="progress-modules">Пройдено модулей: <strong>1 из 3</strong></div>
+    <div class="progress-modules">Пройдено: <strong>1 из 3 модулей</strong></div>
   </div>
 
   <!-- ЦИТАТА -->
   <p class="map-quote">
-    «Нетворкинг — это не коллекционирование визиток, это выращивание отношений.»
+    «Нетворкинг — это не коллекционирование визиток,<br>это выращивание отношений.»
     <span>— Мишна Ли</span>
   </p>
 
-</div><!-- конец .map-page -->
+</div><!-- /map-page -->
 
 <!-- ТУЛТИП -->
 <div class="hc-tooltip" id="hc-tooltip"></div>
@@ -149,113 +152,121 @@
 <div class="confetti-wrap" id="confetti-wrap"></div>
 
 <script>
-// ===== ДАННЫЕ МОДУЛЕЙ =====
-const modules = {
-  1: {
-    status: 'done',
-    progress: 100,
-    href: 'module1.html',
-    name: 'Подготовка — залог успеха',
-    desc: 'Цель, визитка, самопрезентация'
-  },
-  2: {
-    status: 'locked',
-    progress: 0,
-    href: '#',
-    name: 'Знакомство. Первый контакт',
-    desc: 'Начать разговор и произвести впечатление'
-  },
-  3: {
-    status: 'locked',
-    progress: 0,
-    href: '#',
-    name: 'Удержание. Тёплая сеть',
-    desc: 'Поддерживать и развивать контакты'
-  }
+/* ========== ДАННЫЕ ========== */
+const MODULES = {
+  1: { status:'done',   progress:100, href:'module1.html', name:'Подготовка — залог успеха' },
+  2: { status:'locked', progress:0,   href:'#',            name:'Знакомство. Первый контакт' },
+  3: { status:'locked', progress:0,   href:'#',            name:'Удержание. Тёплая сеть' }
 };
 
-// ===== НАВИГАЦИЯ =====
+/* ========== КОЛЬЦО ПРОГРЕССА ========== */
+function setRing(id, pct) {
+  const el = document.getElementById('ring-' + id);
+  if (!el) return;
+  const C = 2 * Math.PI * 44;          // длина окружности r=44
+  el.style.strokeDasharray  = C;
+  el.style.strokeDashoffset = C - (pct / 100) * C;
+}
+
+/* ========== ЧАСТИЦЫ ========== */
+function spawnParticles(containerId, count) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'hc-particle';
+    p.style.cssText = `
+      left:${15 + Math.random() * 70}%;
+      top:${15 + Math.random() * 70}%;
+      width:${3 + Math.random() * 4}px;
+      height:${3 + Math.random() * 4}px;
+      animation-delay:${(Math.random() * 3).toFixed(2)}s;
+      animation-duration:${(2 + Math.random() * 2).toFixed(2)}s;
+    `;
+    wrap.appendChild(p);
+  }
+}
+
+/* ========== ТУЛТИП ========== */
+let tooltipTimer;
+function showTooltip(text, hexId) {
+  const tip  = document.getElementById('hc-tooltip');
+  const cell = document.getElementById(hexId);
+  const rect = cell.getBoundingClientRect();
+  tip.textContent = text;
+  tip.style.left  = (rect.left + rect.width  / 2) + 'px';
+  tip.style.top   = (rect.top  - 52 + window.scrollY) + 'px';
+  tip.classList.add('visible');
+  clearTimeout(tooltipTimer);
+  tooltipTimer = setTimeout(() => tip.classList.remove('visible'), 2200);
+}
+
+/* ========== НАВИГАЦИЯ ========== */
 function goModule(num) {
-  const m = modules[num];
+  const m = MODULES[num];
   if (m.status === 'locked') {
-    shakeLocked(num);
-    showTooltip('🔒 Сначала пройди предыдущий модуль!', num);
+    // встряска
+    const el = document.getElementById('hex-' + num);
+    el.classList.remove('hc-shake');
+    void el.offsetWidth;                  // reflow
+    el.classList.add('hc-shake');
+    setTimeout(() => el.classList.remove('hc-shake'), 500);
+    // тултип
+    showTooltip('🔒 Сначала пройди предыдущий модуль!', 'hex-' + num);
     return;
   }
   window.location.href = m.href;
 }
 
-function shakeLocked(num) {
-  const el = document.getElementById('hex-' + num);
-  el.classList.add('hc-shake');
-  setTimeout(() => el.classList.remove('hc-shake'), 500);
+/* ========== КОНФЕТТИ ========== */
+function launchConfetti() {
+  const wrap   = document.getElementById('confetti-wrap');
+  const colors = ['#22c55e','#4ade80','#fbbf24','#f97316','#60a5fa','#e879f9'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    const size = 6 + Math.random() * 8;
+    c.style.cssText = `
+      left:${Math.random() * 100}%;
+      width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+      animation-duration:${2.5 + Math.random() * 2}s;
+      animation-delay:${Math.random() * 1}s;
+    `;
+    wrap.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
 }
 
-// ===== ТУЛТИП =====
-function showTooltip(text, num) {
-  const tooltip = document.getElementById('hc-tooltip');
-  const cell = document.getElementById('hex-' + num);
-  const rect = cell.getBoundingClientRect();
-  tooltip.textContent = text;
-  tooltip.style.left = (rect.left + rect.width / 2) + 'px';
-  tooltip.style.top = (rect.top - 48 + window.scrollY) + 'px';
-  tooltip.classList.add('visible');
-  setTimeout(() => tooltip.classList.remove('visible'), 2000);
-}
+/* ========== ИНИЦИАЛИЗАЦИЯ ========== */
+document.addEventListener('DOMContentLoaded', () => {
 
-// ===== ПРОГРЕСС КОЛЬЦА =====
-function setRing(id, percent) {
-  const ring = document.getElementById('ring-' + id);
-  if (!ring) return;
-  const circumference = 2 * Math.PI * 44; // r=44
-  const offset = circumference - (percent / 100) * circumference;
-  ring.style.strokeDasharray = circumference;
-  ring.style.strokeDashoffset = offset;
-}
-
-// ===== ИНИЦИАЛИЗАЦИЯ =====
-window.addEventListener('DOMContentLoaded', () => {
-
-  // Кольца прогресса
+  // Кольца прогресса (с задержкой для анимации)
   setTimeout(() => {
     setRing(1, 100);
     setRing(2, 0);
     setRing(3, 0);
-  }, 300);
+  }, 350);
 
-  // Частицы для пройденного модуля
-  spawnParticles('particles-1');
+  // Частицы на пройденном модуле
+  spawnParticles('particles-1', 7);
 
   // Прогресс-бар
   setTimeout(() => {
     document.getElementById('prog-fill').style.width = '33%';
-  }, 400);
+  }, 450);
 
-  // Линии-коннекторы
+  // Линия М1 → Курс активна (модуль 1 пройден)
   setTimeout(() => {
     document.getElementById('conn-1').classList.add('conn-active');
-  }, 600);
+  }, 700);
+
+  // Если все модули пройдены — конфетти
+  const allDone = Object.values(MODULES).every(m => m.status === 'done');
+  if (allDone) setTimeout(launchConfetti, 800);
 
 });
-
-// ===== ЧАСТИЦЫ =====
-function spawnParticles(containerId) {
-  const wrap = document.getElementById(containerId);
-  if (!wrap) return;
-  for (let i = 0; i < 6; i++) {
-    const p = document.createElement('div');
-    p.className = 'hc-particle';
-    p.style.cssText = `
-      left: ${20 + Math.random() * 60}%;
-      top: ${20 + Math.random() * 60}%;
-      width: ${3 + Math.random() * 4}px;
-      height: ${3 + Math.random() * 4}px;
-      animation-delay: ${Math.random() * 3}s;
-      animation-duration: ${2 + Math.random() * 2}s;
-    `;
-    wrap.appendChild(p);
-  }
-}
 </script>
 
 </body>
