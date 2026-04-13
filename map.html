@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карта курса — Есть контакт!</title>
+  <title>Карта курса</title>
   <link rel="stylesheet" href="map.css">
 </head>
 <body>
@@ -17,255 +17,121 @@
     <div></div>
   </header>
 
-  <p class="map-subtitle">Три модуля — три шага к мастерству нетворкинга</p>
+  <!-- СБОРКА СОТОВ -->
+  <div class="hc-cluster">
 
-  <!-- СОТЫ -->
-  <div class="honeycomb-wrap">
-
-    <!-- Фоновые свечения -->
-    <div class="hc-bg-glow hc-glow-1"></div>
-    <div class="hc-bg-glow hc-glow-2"></div>
-    <div class="hc-bg-glow hc-glow-3"></div>
-
-    <!-- SVG коннекторы (под сотами) -->
-    <svg class="hc-connectors" viewBox="0 0 560 380" preserveAspectRatio="xMidYMid meet">
-      <!-- М1 → Курс -->
-      <line class="hc-conn-line" id="conn-1"
-            x1="148" y1="158" x2="248" y2="268"/>
-      <!-- М2 → Курс -->
-      <line class="hc-conn-line" id="conn-2"
-            x1="412" y1="158" x2="312" y2="268"/>
-      <!-- Курс → М3 -->
-      <line class="hc-conn-line" id="conn-3"
-            x1="312" y1="310" x2="412" y2="268"/>
-    </svg>
-
-    <!-- РЯД 1: Модуль 1 + Модуль 2 -->
-    <div class="hc-row hc-row-top">
-
-      <!-- МОДУЛЬ 1 — пройден -->
-      <div class="hc-cell hc-cell--active" id="hex-1" onclick="goModule(1)">
-        <div class="hc-inner">
-          <div class="hc-shine"></div>
-          <div class="hc-particles" id="particles-1"></div>
-          <div class="hc-content">
-            <div class="hc-num">01</div>
-            <div class="hc-emoji">🎯</div>
-            <div class="hc-name">Подготовка</div>
-            <div class="hc-sub">залог успеха</div>
-            <div class="hc-status hc-status--done">✓ Пройден</div>
-          </div>
-          <div class="hc-progress-ring">
-            <svg viewBox="0 0 100 100">
-              <circle class="hc-ring-bg"   cx="50" cy="50" r="44"/>
-              <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-1"/>
-            </svg>
-          </div>
-        </div>
+    <!-- ПЛЮМБОБ (иконка курса) — сверху по центру -->
+    <div class="hc-plumbob">
+      <!-- Заглушка плюмбоба — потом заменишь на <img src="images/plumbob.png"> -->
+      <div class="plumbob-placeholder">
+        <div class="plumbob-shape"></div>
       </div>
-
-      <!-- МОДУЛЬ 2 — заблокирован -->
-      <div class="hc-cell hc-cell--locked" id="hex-2" onclick="goModule(2)">
-        <div class="hc-inner">
-          <div class="hc-shine"></div>
-          <div class="hc-content">
-            <div class="hc-num">02</div>
-            <div class="hc-emoji">🗣️</div>
-            <div class="hc-name">Знакомство</div>
-            <div class="hc-sub">первый контакт</div>
-            <div class="hc-status hc-status--locked">🔒 Заблокирован</div>
-          </div>
-          <div class="hc-progress-ring">
-            <svg viewBox="0 0 100 100">
-              <circle class="hc-ring-bg"   cx="50" cy="50" r="44"/>
-              <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-2"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
+      <div class="plumbob-label">Есть контакт!</div>
     </div>
 
-    <!-- РЯД 2: Иконка курса + Модуль 3 -->
-    <div class="hc-row hc-row-bottom">
+    <!-- ТРИ СОТЫ -->
+    <div class="hc-trio">
 
-      <!-- ЦЕНТР — иконка курса -->
-      <div class="hc-cell hc-cell--course" id="hex-course">
-        <div class="hc-inner">
-          <div class="hc-shine"></div>
-          <div class="hc-course-glow"></div>
-          <div class="hc-content">
-            <div class="hc-course-emoji">🤝</div>
-            <div class="hc-course-name">Есть<br>контакт!</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- МОДУЛЬ 3 — заблокирован -->
-      <div class="hc-cell hc-cell--locked" id="hex-3" onclick="goModule(3)">
+      <!-- СОТА 1 — Подготовка -->
+      <div class="hc-cell" id="hex-1" onclick="goModule(1)">
         <div class="hc-inner">
           <div class="hc-shine"></div>
           <div class="hc-content">
-            <div class="hc-num">03</div>
-            <div class="hc-emoji">🌟</div>
-            <div class="hc-name">Удержание</div>
-            <div class="hc-sub">тёплая сеть</div>
-            <div class="hc-status hc-status--locked">🔒 Заблокирован</div>
-          </div>
-          <div class="hc-progress-ring">
-            <svg viewBox="0 0 100 100">
-              <circle class="hc-ring-bg"   cx="50" cy="50" r="44"/>
-              <circle class="hc-ring-fill" cx="50" cy="50" r="44" id="ring-3"/>
-            </svg>
+            <!-- Заглушка иконки — потом заменишь на <img src="images/module1.png"> -->
+            <div class="hc-icon-placeholder">🎯</div>
+            <div class="hc-name">Подготовка —<br>основа успеха</div>
+            <div class="hc-status hc-done">✓ Пройден</div>
           </div>
         </div>
+        <div class="hc-num-badge">01</div>
       </div>
 
-    </div>
+      <!-- СОТА 2 — Есть контакт! -->
+      <div class="hc-cell hc-locked" id="hex-2" onclick="goModule(2)">
+        <div class="hc-inner">
+          <div class="hc-shine"></div>
+          <div class="hc-content">
+            <!-- Заглушка иконки — потом заменишь на <img src="images/module2.png"> -->
+            <div class="hc-icon-placeholder">🤝</div>
+            <div class="hc-name">Есть<br>контакт!</div>
+            <div class="hc-status hc-lock">🔒 Заблокирован</div>
+          </div>
+        </div>
+        <div class="hc-num-badge">02</div>
+      </div>
 
-  </div><!-- /honeycomb-wrap -->
+      <!-- СОТА 3 — На связи -->
+      <div class="hc-cell hc-locked" id="hex-3" onclick="goModule(3)">
+        <div class="hc-inner">
+          <div class="hc-shine"></div>
+          <div class="hc-content">
+            <!-- Заглушка иконки — потом заменишь на <img src="images/module3.png"> -->
+            <div class="hc-icon-placeholder">📡</div>
+            <div class="hc-name">На<br>связи</div>
+            <div class="hc-status hc-lock">🔒 Заблокирован</div>
+          </div>
+        </div>
+        <div class="hc-num-badge">03</div>
+      </div>
+
+    </div><!-- /hc-trio -->
+
+  </div><!-- /hc-cluster -->
 
   <!-- ПРОГРЕСС -->
   <div class="progress-section">
     <div class="progress-label">
-      <span>Общий прогресс</span>
-      <span id="prog-pct">33%</span>
+      <span>Прогресс курса</span>
+      <span>33%</span>
     </div>
     <div class="progress-track">
       <div class="progress-fill" id="prog-fill"></div>
     </div>
-    <div class="progress-modules">Пройдено: <strong>1 из 3 модулей</strong></div>
+    <div class="progress-sub">Пройдено: <strong>1 из 3 модулей</strong></div>
   </div>
 
-  <!-- ЦИТАТА -->
-  <p class="map-quote">
-    «Нетворкинг — это не коллекционирование визиток,<br>это выращивание отношений.»
-    <span>— Мишна Ли</span>
-  </p>
-
-</div><!-- /map-page -->
+</div>
 
 <!-- ТУЛТИП -->
-<div class="hc-tooltip" id="hc-tooltip"></div>
-
-<!-- КОНФЕТТИ -->
-<div class="confetti-wrap" id="confetti-wrap"></div>
+<div class="hc-tooltip" id="tooltip"></div>
 
 <script>
-/* ========== ДАННЫЕ ========== */
 const MODULES = {
-  1: { status:'done',   progress:100, href:'module1.html', name:'Подготовка — залог успеха' },
-  2: { status:'locked', progress:0,   href:'#',            name:'Знакомство. Первый контакт' },
-  3: { status:'locked', progress:0,   href:'#',            name:'Удержание. Тёплая сеть' }
+  1: { status: 'done',   href: 'module1.html' },
+  2: { status: 'locked', href: '#' },
+  3: { status: 'locked', href: '#' }
 };
 
-/* ========== КОЛЬЦО ПРОГРЕССА ========== */
-function setRing(id, pct) {
-  const el = document.getElementById('ring-' + id);
-  if (!el) return;
-  const C = 2 * Math.PI * 44;          // длина окружности r=44
-  el.style.strokeDasharray  = C;
-  el.style.strokeDashoffset = C - (pct / 100) * C;
-}
-
-/* ========== ЧАСТИЦЫ ========== */
-function spawnParticles(containerId, count) {
-  const wrap = document.getElementById(containerId);
-  if (!wrap) return;
-  for (let i = 0; i < count; i++) {
-    const p = document.createElement('div');
-    p.className = 'hc-particle';
-    p.style.cssText = `
-      left:${15 + Math.random() * 70}%;
-      top:${15 + Math.random() * 70}%;
-      width:${3 + Math.random() * 4}px;
-      height:${3 + Math.random() * 4}px;
-      animation-delay:${(Math.random() * 3).toFixed(2)}s;
-      animation-duration:${(2 + Math.random() * 2).toFixed(2)}s;
-    `;
-    wrap.appendChild(p);
-  }
-}
-
-/* ========== ТУЛТИП ========== */
-let tooltipTimer;
-function showTooltip(text, hexId) {
-  const tip  = document.getElementById('hc-tooltip');
-  const cell = document.getElementById(hexId);
-  const rect = cell.getBoundingClientRect();
-  tip.textContent = text;
-  tip.style.left  = (rect.left + rect.width  / 2) + 'px';
-  tip.style.top   = (rect.top  - 52 + window.scrollY) + 'px';
-  tip.classList.add('visible');
-  clearTimeout(tooltipTimer);
-  tooltipTimer = setTimeout(() => tip.classList.remove('visible'), 2200);
-}
-
-/* ========== НАВИГАЦИЯ ========== */
 function goModule(num) {
   const m = MODULES[num];
   if (m.status === 'locked') {
-    // встряска
     const el = document.getElementById('hex-' + num);
     el.classList.remove('hc-shake');
-    void el.offsetWidth;                  // reflow
+    void el.offsetWidth;
     el.classList.add('hc-shake');
     setTimeout(() => el.classList.remove('hc-shake'), 500);
-    // тултип
-    showTooltip('🔒 Сначала пройди предыдущий модуль!', 'hex-' + num);
+    showTooltip('🔒 Сначала пройди предыдущий модуль!', el);
     return;
   }
   window.location.href = m.href;
 }
 
-/* ========== КОНФЕТТИ ========== */
-function launchConfetti() {
-  const wrap   = document.getElementById('confetti-wrap');
-  const colors = ['#22c55e','#4ade80','#fbbf24','#f97316','#60a5fa','#e879f9'];
-  for (let i = 0; i < 60; i++) {
-    const c = document.createElement('div');
-    c.className = 'confetti-piece';
-    const size = 6 + Math.random() * 8;
-    c.style.cssText = `
-      left:${Math.random() * 100}%;
-      width:${size}px; height:${size}px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
-      animation-duration:${2.5 + Math.random() * 2}s;
-      animation-delay:${Math.random() * 1}s;
-    `;
-    wrap.appendChild(c);
-    setTimeout(() => c.remove(), 5000);
-  }
+let tipTimer;
+function showTooltip(text, el) {
+  const tip  = document.getElementById('tooltip');
+  const rect = el.getBoundingClientRect();
+  tip.textContent = text;
+  tip.style.left  = (rect.left + rect.width / 2) + 'px';
+  tip.style.top   = (rect.top - 50 + window.scrollY) + 'px';
+  tip.classList.add('visible');
+  clearTimeout(tipTimer);
+  tipTimer = setTimeout(() => tip.classList.remove('visible'), 2200);
 }
 
-/* ========== ИНИЦИАЛИЗАЦИЯ ========== */
-document.addEventListener('DOMContentLoaded', () => {
-
-  // Кольца прогресса (с задержкой для анимации)
-  setTimeout(() => {
-    setRing(1, 100);
-    setRing(2, 0);
-    setRing(3, 0);
-  }, 350);
-
-  // Частицы на пройденном модуле
-  spawnParticles('particles-1', 7);
-
-  // Прогресс-бар
+window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('prog-fill').style.width = '33%';
-  }, 450);
-
-  // Линия М1 → Курс активна (модуль 1 пройден)
-  setTimeout(() => {
-    document.getElementById('conn-1').classList.add('conn-active');
-  }, 700);
-
-  // Если все модули пройдены — конфетти
-  const allDone = Object.values(MODULES).every(m => m.status === 'done');
-  if (allDone) setTimeout(launchConfetti, 800);
-
+  }, 400);
 });
 </script>
 
