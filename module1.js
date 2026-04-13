@@ -2509,9 +2509,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Показываем оверлей «Добро пожаловать» вместо перехода на screen-2
-    setTimeout(function() {
+ setTimeout(function() {
       if (cover)   cover.style.display   = 'none';
       if (overlay) overlay.style.display = 'flex';
+
+      // Скрываем кнопку «Начать» и подпись
+      if (wrap) wrap.style.display = 'none';
     }, 400);
   });
 })();
