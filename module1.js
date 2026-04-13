@@ -327,7 +327,7 @@ function initLaptopHotspot() {
   var btnLaptopNext = document.getElementById('btn-laptop-next');
   if (btnLaptopNext) {
     btnLaptopNext.addEventListener('click', function() {
-      showScreen('screen-17-1');
+      showScreen('screen-19');
     });
   }
 
