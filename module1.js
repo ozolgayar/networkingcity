@@ -274,6 +274,20 @@ function initLaptopHotspot() {
         document.getElementById('schedule-modal').classList.remove('active');
       }
     });
+
+    // Папка: Карта мероприятия
+    var folderMap = document.getElementById('folder-map');
+    if (folderMap) {
+      folderMap.addEventListener('click', function() {
+        showScreen('screen-21-2');
+      });
+    }
+
+    // Восстанавливаем бейдж если карта уже просмотрена
+    if (localStorage.getItem('mapViewed') === '1') {
+      var badge = document.getElementById('map-done-badge');
+      if (badge) badge.style.display = 'flex';
+    }
   }
 
   // ===== Экран 11: цель нетворкинга =====
