@@ -7,7 +7,7 @@
 }
 
 body {
-   background:
+  background:
     linear-gradient(115deg,
       #2d6abf 0%,
       #3a82cc 25%,
@@ -15,11 +15,17 @@ body {
       #1db86a 100%
     );
   background-attachment: fixed;
-}
   color: #1e293b;
   min-height: 100vh;
 }
-
+.cover {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 /* ===== ОБЛОЖКА ===== */
 .cover-content {
   position: relative;
@@ -208,21 +214,6 @@ body {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
-/* ===== КОНТЕНТ ОБЛОЖКИ ===== */
-.cover-content {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;      /* ← по центру */
-  text-align: center;       /* ← текст по центру */
-  max-width: 560px;
-  width: 100%;
-  margin: 0 auto;           /* ← центрирование по горизонтали */
-  padding: 0 20px;
-}
-
 .cover-badge {
   display: inline-block;
   padding: 6px 16px;
