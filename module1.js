@@ -14,7 +14,7 @@ const state = {
 
 // Порядок экранов
 const screenOrder = [
-  'screen-1', 'screen-2', 'screen-3', 'screen-10',
+  'screen-1', 'screen-2', 'screen-3-0', 'screen-3', 'screen-10',
   'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
   'screen-19', 'screen-19-1',
@@ -281,7 +281,7 @@ function addScore(delta) {
         '<h3>Твой результат: ' + total + ' из 50</h3>' +
         '<p style="font-size:13px; line-height:1.5;">' + msg + '</p>' +
         '<div class="actions-row" style="margin-top:12px;">' +
-          '<button class="btn" onclick="showScreen(\'screen-3\')">Продолжить →</button>' +
+          '<button class="btn" onclick="showScreen(\'screen-3-0\')">Продолжить →</button>'
         '</div>';
 
       localStorage.setItem('nc_quiz_score', total);
