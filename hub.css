@@ -7,7 +7,15 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+   background:
+    linear-gradient(115deg,
+      #2d6abf 0%,
+      #3a82cc 25%,
+      #3ec8a8 55%,
+      #1db86a 100%
+    );
+  background-attachment: fixed;
+}
   color: #1e293b;
   min-height: 100vh;
 }
@@ -28,52 +36,69 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
+
   background:
-    radial-gradient(ellipse at 20% 50%, #a8e6b0 0%, transparent 50%),
-    radial-gradient(ellipse at 75% 30%, #f5e97a 0%, transparent 45%),
-    radial-gradient(ellipse at 60% 80%, #c8f0d0 0%, transparent 40%),
-    radial-gradient(ellipse at 90% 70%, #f0f0f0 0%, transparent 40%),
-    linear-gradient(135deg, #d4f1dc 0%, #e8f5c8 30%, #f5ef90 55%, #e8e8e8 100%);
+    /* белое свечение в центре — как прожектор */
+    radial-gradient(ellipse 55% 70% at 50% 46%,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.55) 25%,
+      rgba(255,255,255,0.15) 50%,
+      transparent 70%
+    ),
+    /* светлая полоса по горизонту снизу */
+    radial-gradient(ellipse 90% 28% at 50% 75%,
+      rgba(210,230,255,0.55) 0%,
+      transparent 70%
+    ),
+    /* основной градиент: синий слева → зелёный справа */
+    linear-gradient(115deg,
+      #2d6abf 0%,
+      #3a82cc 18%,
+      #4aafc8 36%,
+      #3ec8a8 52%,
+      #2ec48a 68%,
+      #1db86a 84%,
+      #18a858 100%
+    );
 }
 
 /* Орбы */
-.cover-orbs {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
 .cover-orb-1 {
   position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 500px; height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(100,220,120,0.25), transparent 70%);
-  top: -100px;
-  left: -100px;
+  /* синий орб — левый верх */
+  background: radial-gradient(circle,
+    rgba(50,110,220,0.30) 0%,
+    transparent 70%
+  );
+  top: -100px; left: -100px;
   animation: orbFloat 8s ease-in-out infinite;
 }
 
 .cover-orb-2 {
   position: absolute;
-  width: 400px;
-  height: 400px;
+  width: 400px; height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(240,220,80,0.2), transparent 70%);
-  top: 10%;
-  right: 10%;
+  /* зелёный орб — правый верх */
+  background: radial-gradient(circle,
+    rgba(25,185,100,0.28) 0%,
+    transparent 70%
+  );
+  top: 5%; right: 5%;
   animation: orbFloat 10s ease-in-out infinite reverse;
 }
 
 .cover-orb-3 {
   position: absolute;
-  width: 350px;
-  height: 350px;
+  width: 350px; height: 350px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(180,240,200,0.2), transparent 70%);
-  bottom: -50px;
-  left: 30%;
+  /* голубой орб — центр низ, усиливает свечение */
+  background: radial-gradient(circle,
+    rgba(180,220,255,0.22) 0%,
+    transparent 70%
+  );
+  bottom: -30px; left: 28%;
   animation: orbFloat 12s ease-in-out infinite 2s;
 }
 
