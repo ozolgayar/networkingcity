@@ -4518,17 +4518,16 @@ color: #1e293b;
     justify-content: center !important;
     z-index: 5 !important;
   }
-
-  .s1-start-btn {
-    padding: 18px 52px !important;
-    font-size: 22px !important;
-    min-height: 64px !important;
-    min-width: 220px !important;
-    width: auto !important;
-    border-radius: 999px !important;
-    font-weight: 700 !important;
-    white-space: nowrap !important;
+.s1-start-btn {
+    width: 90% !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
+   .s1-subtitle {
+    width: 90% !important;
+    display: block !important;
+    margin: 0 auto 10px auto !important;
+  } 
 } /* конец @media (max-width: 899px) */
 
 
