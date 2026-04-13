@@ -2481,9 +2481,13 @@ var btnVenueNext = document.getElementById('btn-venue-next');
 document.addEventListener('DOMContentLoaded', function() {
 
   // Экран 1
+// Экран 1
 (function() {
-  var btn  = document.getElementById('btn-screen1-start');
-  var wrap = document.getElementById('s1-round-wrap');
+  var btn    = document.getElementById('btn-screen1-start');
+  var wrap   = document.getElementById('s1-round-wrap');
+  var cover  = document.getElementById('screen-1-cover');
+  var overlay = document.getElementById('screen-1-overlay');
+
   if (!btn) return;
 
   btn.addEventListener('click', function() {
@@ -2498,15 +2502,16 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
           var r = document.createElement('div');
           r.className = 's1-ripple';
-          wrap.appendChild(r);
+          if (wrap) wrap.appendChild(r);
           setTimeout(function() { r.remove(); }, 950);
         }, delay);
       })(i * 160);
     }
 
-    // Переход на следующий экран
+    // Показываем оверлей «Добро пожаловать» вместо перехода на screen-2
     setTimeout(function() {
-      showScreen('screen-2'); // ← поменяй на нужный ID
+      if (cover)   cover.style.display   = 'none';
+      if (overlay) overlay.style.display = 'flex';
     }, 400);
   });
 })();
