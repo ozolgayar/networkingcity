@@ -4588,3 +4588,53 @@ color: #1e293b;
 } /* конец @media (max-width: 899px) */
 
 
+/* ДЕСКТОП — экран 1 */
+@media (min-width: 900px) {
+  #screen-1 {
+    position: relative !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .s1-cover {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .s1-cover-img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .s1-cover-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
+  }
+
+  /* Кнопка — правый нижний угол, не перекрывает бейдж */
+  .s1-cover-btn-wrap {
+    position: absolute !important;
+    bottom: 60px !important;
+    right: 80px !important;
+    left: auto !important;
+    background: none !important;
+    padding: 0 !important;
+    z-index: 10 !important;
+  }
+
+  .s1-start-btn {
+    width: auto !important;
+    min-width: 220px !important;
+    font-size: 24px !important;
+    min-height: 64px !important;
+    padding: 0 40px !important;
+    border-radius: 999px !important;
+  }
+}
