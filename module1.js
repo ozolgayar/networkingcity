@@ -2326,14 +2326,16 @@ function initVenueMap() {
     if (e.target === modal) modal.classList.remove('active');
   });
 }
+
 document.addEventListener('DOMContentLoaded', function() {
-   const btnStart = document.getElementById('btn-screen1-start');
+
+  // ===== Экран 1: кнопка "Начать" =====
+  const btnStart = document.getElementById('btn-screen1-start');
   const cover    = document.getElementById('screen-1-cover');
   const overlay  = document.getElementById('screen-1-overlay');
 
   if (btnStart && cover && overlay) {
     btnStart.addEventListener('click', function () {
-      // Плавно скрываем обложку
       cover.style.transition = 'opacity 0.3s ease';
       cover.style.opacity = '0';
 
@@ -2344,9 +2346,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-});
   // Не запускаем на мобилках
   if (window.__mobileBlocked) return;
+
   initGlobalNav();
   initMainMenu();
   initQuiz();
@@ -2355,15 +2357,15 @@ document.addEventListener('DOMContentLoaded', function() {
   initPurposeScreen();
   initBeadsGame();
   initFears();
-   initZlataCard2();
-   initZlataCard17();
-    initZlataCard19(); 
-   initZlataCard21();
-    initZlataCard211();
+  initZlataCard2();
+  initZlataCard17();
+  initZlataCard19(); 
+  initZlataCard21();
+  initZlataCard211();
   initWheel();
   initWheelSummary();
   initPeopleDrag();
-   initSmartGoal();
+  initSmartGoal();
   initPhotoGame();
   initBizcard();
   initProfileAndSticky();
@@ -2371,5 +2373,5 @@ document.addEventListener('DOMContentLoaded', function() {
   initBag();
   initVenueMap();
   updateHud();
-});
 
+});
