@@ -27,61 +27,21 @@ const screenOrder = [
 
 // ===== Утилиты =====
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(function(s) { 
-    s.classList.remove('active'); 
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
   });
 
-  // Ленивая инициализация экранов
-  if (id === 'screen-16-1' && !window._locationsInited) {
-    window._locationsInited = true;
-    initLocations();
-  }
-  if (id === 'screen-17' && !window._smartInited) {
-    window._smartInited = true;
-    initSmartGoal();
-  }
-  if (id === 'screen-17-1' && !window._zlataCard17Inited) {
-    window._zlataCard17Inited = true;
-    initZlataCard17();
-  }
-  if (id === 'screen-19' && !window._bizcardInited) {
-    window._bizcardInited = true;
-    initBizcard();
-  }
-  if (id === 'screen-20' && !window._photoInited) {
-    window._photoInited = true;
-    initPhotoGame();
-  }
-  if (id === 'screen-21' && !window._stickyInited) {
-    window._stickyInited = true;
-    initProfileAndSticky();
-  }
-  if (id === 'screen-21-1' && !window._bagInited) {
-    window._bagInited = true;
-    initBag();
-  }
-  if (id === 'screen-21-2' && !window._venueInited) {
-    window._venueInited = true;
-    initVenueMap();
-  }
-
   var screenEl = document.getElementById(id);
-  if (screenEl) {
-    screenEl.classList.add('active');
-  } else {
+  if (!screenEl) {
     console.warn('showScreen: экран не найден →', id);
     return;
   }
+  screenEl.classList.add('active');
 
   state.screensVisited[id] = true;
   updateHud();
 
-  if (id === 'screen-final') {
-    localStorage.setItem('nc_mod1_status', 'complete');
-    localStorage.setItem('nc_mod1_progress', '100');
-    document.getElementById('final-score').textContent = state.score;
-  }
-
+  // Ленивая инициализация — каждый раз при открытии
   if (id === 'screen-12') {
     setTimeout(function() { renderBeadsStage(); }, 50);
   }
@@ -96,6 +56,78 @@ function showScreen(id) {
   }
   if (id === 'screen-15') {
     setTimeout(function() { renderWheel('resultWheelSvg', state.wheel.values, -1); }, 50);
+  }
+  if (id === 'screen-16-1' && !window._locationsInited) {
+    window._locationsInited = true;
+    setTimeout(function() { initLocations(); }, 50);
+  }
+  if (id === 'screen-17' && !window._smartInited) {
+    window._smartInited = true;
+    setTimeout(function() { initSmartGoal(); }, 50);
+  }
+  if (id === 'screen-17-1' && !window._zlataCard17Inited) {
+    window._zlataCard17Inited = true;
+    setTimeout(function() { initZlataCard17(); }, 50);
+  }
+  if (id === 'screen-19' && !window._bizcardInited) {
+    window._bizcardInited = true;
+    setTimeout(function() { initBizcard(); }, 50);
+  }
+  if (id === 'screen-19-1' && !window._zlataCard19Inited) {
+    window._zlataCard19Inited = true;
+    setTimeout(function() { initZlataCard19(); }, 50);
+  }
+  if (id === 'screen-20' && !window._photoInited) {
+    window._photoInited = true;
+    setTimeout(function() { initPhotoGame(); }, 50);
+  }
+  if (id === 'screen-21' && !window._stickyInited) {
+    window._stickyInited = true;
+    setTimeout(function() { initProfileAndSticky(); }, 50);
+  }
+  if (id === 'screen-21-0' && !window._zlataCard21Inited) {
+    window._zlataCard21Inited = true;
+    setTimeout(function() { initZlataCard21(); }, 50);
+  }
+  if (id === 'screen-21-1' && !window._bagInited) {
+    window._bagInited = true;
+    setTimeout(function() { initBag(); }, 50);
+  }
+  if (id === 'screen-21-1-1' && !window._zlataCard211Inited) {
+    window._zlataCard211Inited = true;
+    setTimeout(function() { initZlataCard211(); }, 50);
+  }
+  if (id === 'screen-21-2' && !window._venueInited) {
+    window._venueInited = true;
+    setTimeout(function() { initVenueMap(); }, 50);
+  }
+  if (id === 'screen-10') {
+    // Обновляем бейджи при каждом возврате
+    setTimeout(function() {
+      var scheduleDone = localStorage.getItem('laptopScheduleDone') === '1';
+      var goalDone     = localStorage.getItem('laptopGoalDone') === '1';
+      var mapDone      = localStorage.getItem('mapViewed') === '1';
+
+      var bs = document.getElementById('schedule-done-badge');
+      var bg = document.getElementById('goal-done-badge');
+      var bm = document.getElementById('map-done-badge');
+      var btn = document.getElementById('btn-laptop-next');
+      var hint = document.getElementById('laptop-next-hint');
+
+      if (bs && scheduleDone) bs.style.display = 'flex';
+      if (bg && goalDone)     bg.style.display = 'flex';
+      if (bm && mapDone)      bm.style.display = 'flex';
+
+      var allDone = scheduleDone && goalDone && mapDone;
+      if (btn)  btn.style.display  = allDone ? 'block' : 'none';
+      if (hint) hint.style.display = allDone ? 'none'  : 'block';
+    }, 50);
+  }
+
+  if (id === 'screen-final') {
+    localStorage.setItem('nc_mod1_status', 'complete');
+    localStorage.setItem('nc_mod1_progress', '100');
+    document.getElementById('final-score').textContent = state.score;
   }
 }
 
@@ -2448,23 +2480,22 @@ var btnVenueNext = document.getElementById('btn-venue-next');
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  // ===== Экран 1: кнопка "Начать" =====
-  const btnStart = document.getElementById('btn-screen1-start');
-  const cover    = document.getElementById('screen-1-cover');
-  const overlay  = document.getElementById('screen-1-overlay');
-
+  // Экран 1
+  var btnStart = document.getElementById('btn-screen1-start');
+  var cover    = document.getElementById('screen-1-cover');
+  var overlay  = document.getElementById('screen-1-overlay');
   if (btnStart && cover && overlay) {
-    btnStart.addEventListener('click', function () {
+    btnStart.addEventListener('click', function() {
       cover.style.transition = 'opacity 0.3s ease';
       cover.style.opacity = '0';
-
-      setTimeout(function () {
+      setTimeout(function() {
         cover.style.display = 'none';
         overlay.style.display = 'flex';
       }, 300);
     });
   }
 
+  // Только то, что нужно сразу
   initGlobalNav();
   initMainMenu();
   initQuiz();
@@ -2472,22 +2503,11 @@ document.addEventListener('DOMContentLoaded', function() {
   initLaptopHotspot();
   initPurposeScreen();
   initBeadsGame();
-  initFears();
-  initZlataCard2();
-  initZlataCard17();
-  initZlataCard19(); 
-  initZlataCard21();
-  initZlataCard211();
-  initWheel();
   initWheelSummary();
   initPeopleDrag();
-  initSmartGoal();
-  initPhotoGame();
-  initBizcard();
-  initProfileAndSticky();
   initStickyTooltip();
-  initBag();
-  initVenueMap();
   updateHud();
 
+  // Остальное — через showScreen()
 });
+
