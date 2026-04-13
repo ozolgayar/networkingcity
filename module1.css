@@ -4331,81 +4331,197 @@ color: #1e293b;
 
 } /* конец @media (max-width: 899px) */
 
-/* ===== ЯДЕРНОЕ УВЕЛИЧЕНИЕ ДЛЯ МОБИЛКИ ===== */
-@media (max-width: 899px) {
-
-  /* ВСЕ тексты на странице */
-  body, div, p, span, li, label, a {
-    font-size: 22px !important;
-    line-height: 1.7 !important;
+  /* ===== ЭКРАН 1 — ФОТО НА ВЕСЬ ЭКРАН ===== */
+  #screen-1 {
+    position: relative !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
   }
 
-  h1 { font-size: 38px !important; }
-  h2 { font-size: 34px !important; }
-  h3 { font-size: 28px !important; }
-  h4 { font-size: 24px !important; }
+  #screen-1 .screen-layout {
+    display: block !important;
+    position: relative !important;
+    height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 
-  /* ВСЕ кнопки без исключения */
-  button {
-    font-size: 26px !important;
-    padding: 24px 36px !important;
-    min-height: 80px !important;
+  /* Сцена = фон на весь экран */
+  #screen-1 .scene {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    z-index: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #screen-1 .scene-header {
+    display: none !important;
+  }
+
+  #screen-1 .scene-main {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #screen-1 .fake-illustration {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    border: none !important;
+    aspect-ratio: unset !important;
+    display: block !important;
+    overflow: hidden !important;
+  }
+
+  #screen-1 .fake-illustration img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
+    border-radius: 0 !important;
+  }
+
+  /* Панель = карточка поверх фото */
+  #screen-1 .panel {
+    position: absolute !important;
+    bottom: 20px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-height: 65vh !important;
+    overflow-y: auto !important;
     border-radius: 20px !important;
+    padding: 24px 20px 20px !important;
+    z-index: 10 !important;
+    background: rgba(255,255,255,0.97) !important;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25) !important;
+  }
+
+  #screen-1 .panel h2 {
+    font-size: 22px !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
-    box-sizing: border-box !important;
+    line-height: 1.3 !important;
+    margin-bottom: 10px !important;
+    color: #1e293b !important;
+  }
+
+  #screen-1 .panel p {
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    color: #334155 !important;
+    margin-bottom: 8px !important;
+  }
+
+  #screen-1 .panel ol {
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    padding-left: 20px !important;
+    color: #334155 !important;
+  }
+
+  #screen-1 .panel ol li {
+    margin-bottom: 6px !important;
+  }
+
+  #screen-1 .actions-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+
+  /* Кнопка Готов */
+  #screen-1 .panel button.btn {
+    width: 100% !important;
+    min-height: 56px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    border-radius: 999px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100% !important;
-    cursor: pointer !important;
+    box-sizing: border-box !important;
   }
 
-  /* Числовые кнопки — чуть меньше */
-  .seg-level-buttons button {
-    font-size: 20px !important;
-    padding: 12px 4px !important;
-    min-height: 56px !important;
-    width: auto !important;
-    min-width: unset !important;
+  /* Оверлей s1 если есть */
+  .s1-overlay {
+    padding: 12px !important;
+    align-items: flex-end !important;
   }
 
-  /* Кнопка назад */
-  .nav-back button,
-  button.nav-back {
-    width: auto !important;
-    min-width: 160px !important;
-    font-size: 22px !important;
-    padding: 18px 28px !important;
-    min-height: 68px !important;
-    border-radius: 999px !important;
-  }
-
-  /* Все поля ввода */
-  input, textarea, select {
-    font-size: 22px !important;
-    padding: 18px 20px !important;
-    min-height: 68px !important;
-    border-radius: 16px !important;
-    line-height: 1.5 !important;
-  }
-
-  textarea {
-    min-height: 140px !important;
-  }
-
-  /* Варианты теста */
-  .quiz-opt {
-    font-size: 22px !important;
-    padding: 20px 24px !important;
-    min-height: 72px !important;
-    border-radius: 16px !important;
-  }
-
-  /* Оверлей экрана 1 */
-  .s1-overlay-scroll,
   .s1-overlay-card {
+    max-width: 100% !important;
+    max-height: 80vh !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
+
+  .s1-overlay-scroll {
+    padding: 24px 20px 20px !important;
+    gap: 12px !important;
+    overflow-y: auto !important;
+    max-height: 75vh !important;
+  }
+
+  .s1-overlay-scroll h2 {
     font-size: 22px !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+    color: #1e293b !important;
+  }
+
+  .s1-overlay-scroll p,
+  .s1-overlay-scroll ol li {
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    color: #334155 !important;
+  }
+
+  .s1-overlay-scroll button.btn,
+  .s1-overlay-card button.btn {
+    width: 100% !important;
+    min-height: 56px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    border-radius: 999px !important;
+    margin-top: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Кнопка поверх фото */
+  .s1-cover-btn-wrap {
+    position: absolute !important;
+    bottom: 40px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 20 !important;
+    width: auto !important;
+  }
+
+  .s1-start-btn {
+    padding: 18px 52px !important;
+    font-size: 20px !important;
+    min-height: 60px !important;
+    min-width: 200px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
   }
 
 }
