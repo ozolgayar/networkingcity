@@ -1,26 +1,34 @@
 /* ===== СБРОС ===== */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0; padding: 0;
-}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
 
-/* ===== BODY ===== */
+/* ===== ФОН КАК В SIMS 4 ===== */
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  background: #e8edf2;
   min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   color: #1a1a1a;
+
+  /* Синий слева, зелёный справа, белое свечение в центре */
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 55%, rgba(255,255,255,0.82) 0%, transparent 65%),
+    linear-gradient(120deg,
+      #3a6fc4 0%,
+      #4a90c8 25%,
+      #5ab8b0 50%,
+      #4ab87a 75%,
+      #38a860 100%
+    );
+  background-attachment: fixed;
 }
 
 /* ===== СТРАНИЦА ===== */
 .map-page {
-  max-width: 720px;
+  max-width: 780px;
   margin: 0 auto;
   padding: 32px 20px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
+  gap: 28px;
 }
 
 /* ===== ШАПКА ===== */
@@ -31,344 +39,182 @@ body {
   align-items: center;
 }
 .map-back {
-  font-size: 14px;
-  color: #2a4a7f;
-  text-decoration: none;
-  font-weight: 600;
-  transition: opacity 0.2s;
+  font-size: 14px; font-weight: 700;
+  color: #1a3560; text-decoration: none;
+  transition: opacity .2s;
 }
-.map-back:hover { opacity: 0.7; }
-
+.map-back:hover { opacity: .6; }
 .map-title {
-  font-size: clamp(22px, 4vw, 32px);
-  font-weight: 800;
-  color: #1a2f5e;
+  font-size: clamp(24px,4vw,34px);
+  font-weight: 900; color: #0f2448;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.6);
   text-align: center;
 }
 .map-subtitle {
-  font-size: 15px;
-  color: #4a5e7a;
-  text-align: center;
-}
-
-/* ===== ОБЁРТКА КАК НА ФОТО ===== */
-.sims-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  position: relative;
+  font-size: 15px; color: #1e3a6a;
+  font-weight: 500; text-align: center;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.5);
 }
 
 /* ===== ПЛЮМБОБ ===== */
-.plumbob-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: -18px;
-  position: relative;
-  z-index: 2;
-}
-
-.plumbob-cell {
+.plumbob-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  animation: pbFloat 3s ease-in-out infinite;
+  margin-bottom: -10px;
 }
-
-.plumbob-shape {
-  width: 100px;
-  height: 120px;
-  background: linear-gradient(160deg, #6ee25a 0%, #3db52a 40%, #1e7a10 100%);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 0 28px rgba(60,180,40,0.45),
-    0 0 55px rgba(60,180,40,0.18);
-  animation: plumbobFloat 3s ease-in-out infinite;
-  position: relative;
-  overflow: hidden;
+.plumbob-svg {
+  width: 90px; height: 117px;
+  filter: drop-shadow(0 0 18px rgba(60,200,40,0.55))
+          drop-shadow(0 6px 12px rgba(0,0,0,0.2));
 }
-
-/* Внутренний ромб — как на оригинале */
-.plumbob-shape::before {
-  content: '';
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  background: linear-gradient(160deg, #90f060 0%, #4dc830 100%);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  opacity: 0.6;
+@keyframes pbFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-8px); }
 }
-
-/* Блик */
-.plumbob-shape::after {
-  content: '';
-  position: absolute;
-  top: 12%;
-  left: 22%;
-  width: 22%;
-  height: 30%;
-  background: rgba(255,255,255,0.35);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-@keyframes plumbobFloat {
-  0%, 100% { transform: translateY(0)    scale(1);    }
-  50%       { transform: translateY(-7px) scale(1.04); }
-}
-
-.placeholder-icon {
-  font-size: 32px;
-  position: relative;
-  z-index: 2;
-}
-
 .plumbob-label {
-  font-size: 13px;
-  font-weight: 800;
-  color: #1a2f5e;
-  text-align: center;
+  font-size: 13px; font-weight: 800;
+  color: #0f2448;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.7);
 }
 
-/* ===== РЯД СОТОВ ===== */
-.hex-row {
+/* ===== СОТЫ ===== */
+.hexmap {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: -8px; /* перекрытие */
 }
 
-/* ===== СОТА ===== */
-.hex-cell {
+.hx-wrap {
   position: relative;
-  width: 170px;
-  height: 190px;
+  width: 190px;
+  height: 215px;
   cursor: pointer;
-  transition: transform 0.28s ease, filter 0.28s ease;
-  margin: 0 -2px; /* плотное прилегание */
+  transition: transform .28s ease, filter .28s ease;
+  margin: 0 -6px; /* плотное прилегание как на фото */
 }
-.hex-cell:hover {
-  transform: translateY(-8px) scale(1.05);
-  z-index: 10;
-}
+.hx-wrap:hover { transform: translateY(-10px) scale(1.06); z-index: 5; }
 
-.hex-inner {
+.hx-bg {
   position: absolute;
   inset: 0;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.22));
+}
+
+.hx-content {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 18px 10px;
-  transition: filter 0.28s;
+  padding: 20px 12px;
 }
 
-/* ===== ЦВЕТА КАК НА ФОТО ===== */
+/* Заблокированная — тусклее */
+.hx-locked .hx-content { filter: brightness(0.75) saturate(0.6); }
 
-/* Тёмная рамка-обводка (тёмно-синий бордер) */
-.hex-cell::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  background: #2a3f6e;
-  z-index: 0;
-}
+/* ===== ИКОНКА ===== */
+.hx-icon { font-size: 40px; line-height: 1; transition: transform .3s; }
+.hx-wrap:hover .hx-icon { transform: scale(1.2) rotate(-5deg); }
 
-/* Активная */
-.hex-active .hex-inner {
-  background: linear-gradient(160deg, #c8daf5 0%, #a8c0e8 40%, #8aadd8 100%);
-  box-shadow: inset 0 0 18px rgba(255,255,255,0.22);
+/* ===== ТЕКСТ ===== */
+.hx-num {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: .12em;
+  color: rgba(15,36,72,0.45);
 }
+.hx-name {
+  font-size: 12px; font-weight: 800;
+  color: #0f2448; text-align: center;
+  line-height: 1.35;
+}
+.hx-badge {
+  font-size: 9px; font-weight: 700;
+  padding: 3px 10px; border-radius: 999px;
+  margin-top: 2px;
+}
+.hx-badge.done    { background:rgba(34,197,94,.2);  color:#166534; border:1px solid rgba(34,197,94,.4); }
+.hx-badge.current { background:rgba(59,130,246,.2); color:#1e40af; border:1px solid rgba(59,130,246,.4); }
+.hx-badge.locked  { background:rgba(148,163,184,.2);color:#475569; border:1px solid rgba(148,163,184,.35); }
 
-/* Текущая */
-.hex-current .hex-inner {
-  background: linear-gradient(160deg, #c8daf5 0%, #a8c0e8 40%, #8aadd8 100%);
-}
-
-/* Заблокированная */
-.hex-locked .hex-inner {
-  background: linear-gradient(160deg, #b8c8e0 0%, #9aafcc 100%);
-  filter: brightness(0.85) saturate(0.7);
-}
-
-/* ===== КАРТИНКА В СОТЕ ===== */
-.hex-img-wrap {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hex-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* ===== ЗАГЛУШКА ===== */
-.placeholder-mod {
-  font-size: 42px;
-  line-height: 1;
-  transition: transform 0.3s;
-}
-.hex-cell:hover .placeholder-mod {
-  transform: scale(1.18) rotate(-5deg);
-}
-
-/* ===== ТЕКСТ СОТЫ ===== */
-.hex-num {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  color: rgba(30,55,100,0.55);
-  line-height: 1;
-  position: relative;
-  z-index: 2;
-}
-.hex-name {
-  font-size: 12px;
-  font-weight: 800;
-  color: #1a2f5e;
-  text-align: center;
-  line-height: 1.3;
-  position: relative;
-  z-index: 2;
-}
-.hex-badge {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 999px;
-  position: relative;
-  z-index: 2;
-}
-.badge-done {
-  background: rgba(34,197,94,0.18);
-  color: #15803d;
-  border: 1px solid rgba(34,197,94,0.35);
-}
-.badge-current {
-  background: rgba(59,130,246,0.18);
-  color: #1d4ed8;
-  border: 1px solid rgba(59,130,246,0.35);
-}
-.badge-locked {
-  background: rgba(148,163,184,0.18);
-  color: #64748b;
-  border: 1px solid rgba(148,163,184,0.3);
-}
-
-/* ===== ВСТРЯСКА ===== */
-.hex-shake {
-  animation: hexShake 0.48s ease !important;
-  transform: none !important;
-}
+/* ===== АНИМАЦИЯ ВСТРЯСКИ ===== */
+.shake { animation: hexShake .48s ease; }
 @keyframes hexShake {
-  0%, 100% { transform: translateX(0); }
-  18%  { transform: translateX(-8px) rotate(-2deg); }
-  36%  { transform: translateX(8px)  rotate(2deg); }
-  54%  { transform: translateX(-5px) rotate(-1deg); }
-  72%  { transform: translateX(5px)  rotate(1deg); }
-  90%  { transform: translateX(-2px); }
+  0%,100% { transform:translateX(0); }
+  20%  { transform:translateX(-8px) rotate(-2deg); }
+  40%  { transform:translateX(8px)  rotate(2deg); }
+  60%  { transform:translateX(-5px); }
+  80%  { transform:translateX(4px); }
 }
 
 /* ===== ТУЛТИП ===== */
 .hc-tooltip {
   position: absolute;
-  background: rgba(15,23,42,0.92);
-  color: #f8fafc;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 10px;
+  background: rgba(10,20,40,.9);
+  color: #f0f8ff;
+  font-size: 12px; font-weight: 600;
+  padding: 8px 14px; border-radius: 10px;
   pointer-events: none;
   opacity: 0;
   transform: translateX(-50%) translateY(-4px);
-  transition: opacity 0.22s, transform 0.22s;
+  transition: opacity .22s, transform .22s;
   white-space: nowrap;
   z-index: 999;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+  box-shadow: 0 4px 18px rgba(0,0,0,.25);
 }
-.hc-tooltip.visible {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+.hc-tooltip.on { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* ===== ПРОГРЕСС ===== */
 .progress-section {
-  width: 100%;
-  max-width: 480px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  width: 100%; max-width: 500px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 16px;
+  padding: 18px 24px;
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.1);
 }
 .progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 600;
-  color: #2a3f6e;
+  display: flex; justify-content: space-between;
+  font-size: 13px; font-weight: 700; color: #0f2448;
 }
 .progress-track {
-  width: 100%;
-  height: 10px;
-  background: rgba(42,63,110,0.10);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(42,63,110,0.15);
+  width: 100%; height: 10px;
+  background: rgba(15,36,72,.12);
+  border-radius: 10px; overflow: hidden;
 }
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #6ee25a, #3db52a);
-  border-radius: 12px;
+  background: linear-gradient(90deg,#6ee25a,#3db52a);
+  border-radius: 10px;
   width: 0%;
-  transition: width 1.1s cubic-bezier(0.4,0,0.2,1);
-  box-shadow: 0 0 10px rgba(60,180,40,0.35);
+  transition: width 1.1s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 10px rgba(60,180,40,.4);
 }
-.progress-modules {
-  font-size: 12px;
-  color: #64748b;
-  text-align: center;
-}
-
-/* ===== ЦИТАТА ===== */
-.map-quote {
-  font-size: 14px;
-  color: #4a5e7a;
-  font-style: italic;
-  text-align: center;
-  max-width: 440px;
-  line-height: 1.65;
-}
-.map-quote span {
-  display: block;
-  font-style: normal;
-  font-weight: 600;
-  margin-top: 6px;
-  color: #2a3f6e;
+.progress-sub {
+  font-size: 12px; color: #2a4a7a; text-align: center;
 }
 
 /* ===== АДАПТИВ ===== */
-@media (max-width: 560px) {
-  .hex-cell       { width: 130px; height: 146px; }
-  .hex-img-wrap   { width: 48px; height: 48px; }
-  .placeholder-mod { font-size: 32px; }
-  .hex-name       { font-size: 10px; }
-  .plumbob-shape  { width: 78px; height: 94px; }
-  .placeholder-icon { font-size: 24px; }
+@media (max-width: 580px) {
+  .hx-wrap    { width:145px; height:164px; }
+  .hx-icon    { font-size:30px; }
+  .hx-name    { font-size:10px; }
+  .hx-badge   { font-size:8px; padding:2px 7px; }
+  .plumbob-svg{ width:70px; height:91px; }
+  .hexmap     { gap:0; }
+  .hx-wrap    { margin:0 -8px; }
 }
 
-@media (max-width: 400px) {
-  .hex-cell       { width: 108px; height: 122px; }
-  .hex-img-wrap   { width: 38px; height: 38px; }
-  .placeholder-mod { font-size: 26px; }
-  .hex-name       { font-size: 9px; }
-  .hex-badge      { font-size: 8px; padding: 2px 7px; }
-  .plumbob-shape  { width: 66px; height: 80px; }
+@media (max-width: 420px) {
+  .hx-wrap  { width:118px; height:133px; }
+  .hx-icon  { font-size:24px; }
+  .hx-name  { font-size:9px; }
 }
