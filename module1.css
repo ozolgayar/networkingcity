@@ -3718,13 +3718,13 @@ color: #1e293b;
 }
 
 .s1-start-btn {
-  padding: 16px 56px !important;
-  font-size: 18px !important;
-  font-weight: 700 !important;
+  padding: 22px 56px !important;
+  font-size: 24px !important;
+  min-height: 72px !important;
+  min-width: 240px !important;
   border-radius: 999px !important;
-  box-shadow: 0 16px 48px rgba(34, 197, 94, 0.55) !important;
-  min-width: 200px;
-  width: auto !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
 }
 
 .s1-overlay {
@@ -4270,14 +4270,14 @@ color: #1e293b;
     flex-direction: column !important;
     margin-top: 12px !important;
   }
-  #screen-1 .panel button.btn {
-    width: 100% !important;
-    min-height: 80px !important;
-    font-size: 26px !important;
-    font-weight: 700 !important;
-    border-radius: 20px !important;
-    justify-content: center !important;
-  }
+#screen-1 .panel button.btn {
+  width: 100% !important;
+  min-height: 80px !important;
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  padding: 24px 32px !important;
+}
 
   .s1-cover-btn-wrap { bottom: 28px; }
   .s1-start-btn {
