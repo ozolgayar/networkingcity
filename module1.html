@@ -139,6 +139,94 @@
       <div id="quiz-result" class="quiz-result" style="display:none;"></div>
     </div>
   </div>
+
+     <!-- ===== ЭКРАН 3-0: Знакомство со Златой ===== -->
+<div id="screen-3-0" class="screen">
+  <div class="screen-layout">
+
+    <!-- Сцена: фото Златы -->
+    <div class="scene">
+      <div class="scene-header">
+        <span>👋 Знакомство</span>
+        <span class="badge">Персонаж</span>
+      </div>
+      <div class="scene-main">
+        <div class="fake-illustration" style="border:none; background:none; padding:0;">
+          <img
+            src="СЮДА_ССЫЛКУ_НА_ФОТО_ЗЛАТЫ"
+            alt="Злата"
+            style="width:100%; height:100%; object-fit:cover; object-position:top center; border-radius:14px;"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Панель: текст знакомства -->
+    <div class="panel">
+      <span class="panel-tag">Знакомство</span>
+
+      <!-- Аватар + имя -->
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
+        <div style="
+          width:52px; height:52px; border-radius:50%; overflow:hidden;
+          border:2px solid #22c55e; flex-shrink:0;
+          box-shadow:0 0 12px rgba(34,197,94,0.3);
+        ">
+          <img
+            src="https://i.ibb.co/HpFzhcPX/77b2f034315f47f6e18f051ee4a97ccf-d7f2809a-ad0f-452e-b1ad-a48614b07d31.jpg"
+            alt="Злата"
+            style="width:100%; height:100%; object-fit:cover;"
+          >
+        </div>
+        <div>
+          <div style="font-size:16px; font-weight:700; color:var(--text);">Злата</div>
+          <div style="font-size:12px; color:var(--text-soft);">Специалист по маркетингу</div>
+        </div>
+        <span class="badge" style="margin-left:auto; background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.3); color:#166534;">Новичок</span>
+      </div>
+
+      <!-- Речевой пузырь -->
+      <div style="
+        position:relative;
+        background: rgba(34,197,94,0.06);
+        border: 1px solid rgba(34,197,94,0.2);
+        border-radius: 16px 16px 16px 4px;
+        padding: 14px 16px;
+        margin-top: 4px;
+      ">
+        <p style="font-size:14px; line-height:1.65; color:var(--text); margin:0;">
+          Привет, меня зовут <strong>Злата</strong>!
+        </p>
+        <p style="font-size:14px; line-height:1.65; color:var(--text); margin-top:10px;">
+          Я недавно в компании — работаю в отделе маркетинга, продвигаю наши препараты.
+          Через две недели — моя первая большая конференция. Руководитель поручил завести
+          как можно больше знакомств с партнёрами. Но о нетворкинге я знаю лишь понаслышке —
+          надо прокачивать!
+        </p>
+        <p style="font-size:14px; line-height:1.65; color:var(--text-soft); margin-top:10px; font-style:italic;">
+          Злата немного переживает, но у неё есть цель, энергия и решимость попробовать.
+          Узнаёшь себя? Тогда вам точно по пути. 🙌
+        </p>
+      </div>
+
+      <!-- Индикаторы -->
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+        <span class="indicator-chip">⚡ Энергия: высокая</span>
+        <span class="indicator-chip">🎯 Цель: есть</span>
+        <span class="indicator-chip">📚 Опыт нетворкинга: 0</span>
+      </div>
+
+      <!-- Кнопка -->
+      <div class="actions-row">
+        <button class="btn" data-next="screen-3">
+          Познакомиться →
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+     
 <!-- Экран 3. Знакомство со Златой -->
 <div class="screen" id="screen-3">
   <button class="btn secondary nav-back" data-prev>← Назад</button>
@@ -211,9 +299,7 @@
         <!-- ОБРАТНАЯ СТОРОНА -->
         <div class="zlata-back">
           <div class="zlata-back-scroll">
-            <h3>Привет, меня зовут Злата!</h3>
-            <p>Я недавно в компании — работаю в отделе маркетинга, продвигаю наши препараты. Через две недели — моя первая большая конференция. Руководитель поручил завести как можно больше знакомств с партнёрами. Но о нетворкинге я знаю лишь понаслышке — надо прокачивать!</p>
-            
+                       
             <!-- Суперсилы -->
             <div class="zlata-superpowers">
               <div class="zlata-sp-title">⚡ Суперсилы Златы</div>
@@ -240,10 +326,7 @@
                 </div>
               </div>
             </div>
-
-            <p style="margin-top:12px;">Злата немного переживает, но у неё есть цель, энергия и решимость попробовать. <strong>Узнаёшь себя?</strong> Тогда вам точно по пути.</p>
-
-            <div class="zlata-instruction">
+                      <div class="zlata-instruction">
               💻 Нажми на <strong>ноутбук</strong> Златы, чтобы ознакомиться с предстоящим мероприятием
             </div>
 
