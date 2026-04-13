@@ -59,7 +59,7 @@
         width: 100%;
   max-width: 1200px;
   min-height: 100vh;
-  padding: 0;           /* ← убрали отступы */
+  padding: 16px 20px;;          
   display: flex;
   flex-direction: column;
   gap: 16px;
