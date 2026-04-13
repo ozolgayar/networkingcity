@@ -2481,19 +2481,35 @@ var btnVenueNext = document.getElementById('btn-venue-next');
 document.addEventListener('DOMContentLoaded', function() {
 
   // Экран 1
-  var btnStart = document.getElementById('btn-screen1-start');
-  var cover    = document.getElementById('screen-1-cover');
-  var overlay  = document.getElementById('screen-1-overlay');
-  if (btnStart && cover && overlay) {
-    btnStart.addEventListener('click', function() {
-      cover.style.transition = 'opacity 0.3s ease';
-      cover.style.opacity = '0';
-      setTimeout(function() {
-        cover.style.display = 'none';
-        overlay.style.display = 'flex';
-      }, 300);
-    });
-  }
+(function() {
+  var btn  = document.getElementById('btn-screen1-start');
+  var wrap = document.getElementById('s1-round-wrap');
+  if (!btn) return;
+
+  btn.addEventListener('click', function() {
+    // Анимация кручения
+    btn.classList.remove('clicked');
+    void btn.offsetWidth;
+    btn.classList.add('clicked');
+
+    // 3 ripple волны
+    for (var i = 0; i < 3; i++) {
+      (function(delay) {
+        setTimeout(function() {
+          var r = document.createElement('div');
+          r.className = 's1-ripple';
+          wrap.appendChild(r);
+          setTimeout(function() { r.remove(); }, 950);
+        }, delay);
+      })(i * 160);
+    }
+
+    // Переход на следующий экран
+    setTimeout(function() {
+      showScreen('screen-2'); // ← поменяй на нужный ID
+    }, 400);
+  });
+})();
 
   // Только то, что нужно сразу
   initGlobalNav();
