@@ -3915,39 +3915,24 @@ color: #1e293b;
   .panel-tag { font-size: 10px; padding: 3px 8px; }
 
   /* ===== КНОПКИ — ЕДИНЫЙ СТАНДАРТ ДЛЯ ВСЕХ ЭКРАНОВ ===== */
-button.btn {
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: var(--btn-text);
-  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.45);
-  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
-}
-@media (max-width: 899px) {
   button.btn {
-    padding: 16px 24px !important;
+    padding: 18px 28px !important;
     font-size: 17px !important;
     font-weight: 700 !important;
-    min-height: 56px !important;
+    min-height: 58px !important;
     border-radius: 16px !important;
     width: 100% !important;
     justify-content: center !important;
     display: flex !important;
     align-items: center !important;
     box-sizing: border-box !important;
+    letter-spacing: 0.01em !important;
   }
 
   button.btn.secondary {
     width: auto !important;
     min-width: 130px !important;
-    padding: 14px 20px !important;
+    padding: 14px 22px !important;
     font-size: 15px !important;
     min-height: 52px !important;
     box-shadow: none !important;
@@ -3955,9 +3940,9 @@ button.btn {
 
   button.btn.danger {
     width: 100% !important;
-    min-height: 56px !important;
+    min-height: 58px !important;
   }
-}
+
 
   /* Secondary — компактная */
   button.btn.secondary {
