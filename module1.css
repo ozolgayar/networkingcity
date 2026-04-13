@@ -4329,9 +4329,7 @@ color: #1e293b;
   #screen-19 .scene,
   #screen-19 .panel { max-height: none !important; }
 
-} /* конец @media (max-width: 899px) */
-
-  /* ===== ЭКРАН 1 — ФОТО НА ВЕСЬ ЭКРАН ===== */
+      /* ===== ЭКРАН 1 — ФОТО НА ВЕСЬ ЭКРАН ===== */
   #screen-1 {
     position: relative !important;
     padding: 0 !important;
@@ -4525,3 +4523,6 @@ color: #1e293b;
   }
 
 }
+} /* конец @media (max-width: 899px) */
+
+
