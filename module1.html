@@ -263,7 +263,6 @@
 <span class="tagline">Рабочий стол ноутбука</span>
 </div>
 <div class="scene-main">
-<!-- Интерфейс «рабочего стола» -->
 <div style="width:100%; height:100%; border-radius:14px; background:linear-gradient(135deg,#0f172a,#1e293b); position:relative; display:flex; flex-direction:column; overflow:hidden;">
 <!-- Панель сверху -->
 <div style="background:#334155; padding:6px 12px; display:flex; align-items:center; gap:8px; border-radius:14px 14px 0 0;">
@@ -273,28 +272,40 @@
 <span style="color:#94a3b8;font-size:11px;margin-left:8px;">Рабочий стол Златы</span>
 </div>
 <!-- Папки -->
-<div style="flex:1; display:flex; align-items:center; justify-content:center; gap:40px; padding:20px;">
-<!-- Папка: Расписание -->
-<div id="folder-schedule" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;" title="Расписание конференции">
-<div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#facc15,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📋</div>
-<span style="color:#e2e8f0;font-size:11px;text-align:center;">Расписание<br>конференции</span>
-</div>
-<!-- Папка: Цель -->
-<div id="folder-goal" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;" title="Поставить цель">
-<div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🎯</div>
-<span style="color:#e2e8f0;font-size:11px;text-align:center;">Цель</span>
-</div>
+<div style="flex:1; display:flex; align-items:center; justify-content:center; gap:24px; padding:20px; flex-wrap:wrap;">
+
+  <!-- Папка: Расписание -->
+  <div id="folder-schedule" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;" title="Расписание конференции">
+    <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#facc15,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📋</div>
+    <span style="color:#e2e8f0;font-size:11px;text-align:center;">Расписание<br>конференции</span>
+  </div>
+
+  <!-- Папка: Цель -->
+  <div id="folder-goal" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;" title="Поставить цель">
+    <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🎯</div>
+    <span style="color:#e2e8f0;font-size:11px;text-align:center;">Цель</span>
+  </div>
+
+  <!-- Папка: Карта мероприятия -->
+  <div id="folder-map" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;" title="Карта мероприятия">
+    <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#38bdf8,#0284c7);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🗺️</div>
+    <!-- Бейдж "Просмотрена" — скрыт до завершения -->
+    <div id="map-done-badge" style="display:none; position:absolute; top:-6px; right:-6px; width:18px; height:18px; border-radius:50%; background:#22c55e; border:2px solid #1e293b; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
+    <span style="color:#e2e8f0;font-size:11px;text-align:center;">Карта<br>мероприятия</span>
+  </div>
+
 </div>
 <!-- Мысль Златы -->
 <div style="padding:8px 14px 10px; background:rgba(0,0,0,0.3); font-size:12px; color:#94a3b8; line-height:1.4;">
-💬 Надо подготовиться. Посмотрю расписание и поставлю себе цель.
+  💬 Надо подготовиться. Посмотрю расписание, поставлю цель и изучу карту мероприятия.
 </div>
 </div>
+
 <!-- Модалка расписания -->
 <div class="modal-overlay" id="schedule-modal">
 <div class="modal" style="max-width:460px;">
 <h3>📋 Расписание конференции</h3>
-<p>Когда собираешься на конференцию или выставку, которая длится несколько дней, прежде всего изучи расписание. Посмотрим, какие сесси тебе наиболее интересны.</p>
+<p>Когда собираешься на конференцию или выставку, которая длится несколько дней, прежде всего изучи расписание. Посмотрим, какие сессии тебе наиболее интересны.</p>
 <p style="margin-top:6px;">Особое внимание обрати на те события, проведение которых соответствует времени суток, когда ты наиболее комфортно чувствуешь себя в толпе.</p>
 <p style="margin-top:6px;">Оставь как минимум час для того, чтобы побыть среди людей. За это время оцени ситуацию, обменяйся контактами с парой человек.</p>
 <p style="margin-top:6px;">Можно знакомиться с людьми в перерывах между выступлениями или участвуя в пленарном заседании.</p>
@@ -303,16 +314,19 @@
 </div>
 </div>
 </div>
+
+</div>
 </div>
 </div>
 <div class="panel">
 <div class="panel-tag">Теория</div>
 <h2>Включаем режим подготовки</h2>
-<p>Злата открыла ноутбук, чтобв подготовиться к конференции.</p>
-<p>На рабочем столе две папки. Нажми на каждую:</p>
+<p>Злата открыла ноутбук, чтобы подготовиться к конференции.</p>
+<p>На рабочем столе три папки. Нажми на каждую:</p>
 <ul>
 <li><strong>Расписание конференции</strong> — узнаешь, как грамотно учесть его</li>
 <li><strong>Цель</strong> — перейдёшь к упражнению</li>
+<li><strong>Карта мероприятия</strong> — изучишь план площадки</li>
 </ul>
 </div>
 </div>
@@ -2099,7 +2113,7 @@
 
       <div class="actions-row" style="margin-top:auto;">
         <button class="btn secondary" data-prev>Назад</button>
-        <button class="btn" id="btn-venue-next" data-next="screen-zlata-ready" style="display:none;">Завершить модуль →</button>
+        <button class="btn" id="btn-venue-next" data-next="screen-10" style="display:none;">Далее →</button>
       </div>
     </div><!-- закрытие .panel -->
 
