@@ -27,14 +27,51 @@ const screenOrder = [
 
 // ===== Утилиты =====
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
-   // Ленивая инициализация экрана 16-1
+  document.querySelectorAll('.screen').forEach(function(s) { 
+    s.classList.remove('active'); 
+  });
+
+  // Ленивая инициализация экранов
   if (id === 'screen-16-1' && !window._locationsInited) {
     window._locationsInited = true;
     initLocations();
   }
+  if (id === 'screen-17' && !window._smartInited) {
+    window._smartInited = true;
+    initSmartGoal();
+  }
+  if (id === 'screen-17-1' && !window._zlataCard17Inited) {
+    window._zlataCard17Inited = true;
+    initZlataCard17();
+  }
+  if (id === 'screen-19' && !window._bizcardInited) {
+    window._bizcardInited = true;
+    initBizcard();
+  }
+  if (id === 'screen-20' && !window._photoInited) {
+    window._photoInited = true;
+    initPhotoGame();
+  }
+  if (id === 'screen-21' && !window._stickyInited) {
+    window._stickyInited = true;
+    initProfileAndSticky();
+  }
+  if (id === 'screen-21-1' && !window._bagInited) {
+    window._bagInited = true;
+    initBag();
+  }
+  if (id === 'screen-21-2' && !window._venueInited) {
+    window._venueInited = true;
+    initVenueMap();
+  }
+
   var screenEl = document.getElementById(id);
-  if (screenEl) screenEl.classList.add('active');
+  if (screenEl) {
+    screenEl.classList.add('active');
+  } else {
+    console.warn('showScreen: экран не найден →', id);
+    return;
+  }
 
   state.screensVisited[id] = true;
   updateHud();
