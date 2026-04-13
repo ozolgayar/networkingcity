@@ -267,6 +267,7 @@ function initLaptopHotspot() {
     var goalDone     = localStorage.getItem('laptopGoalDone') === '1';
     var mapDone      = localStorage.getItem('mapViewed') === '1';
 
+    // Бейджи
     var badgeSchedule = document.getElementById('schedule-done-badge');
     var badgeGoal     = document.getElementById('goal-done-badge');
     var badgeMap      = document.getElementById('map-done-badge');
@@ -275,13 +276,20 @@ function initLaptopHotspot() {
     if (badgeGoal && goalDone)         badgeGoal.style.display = 'flex';
     if (badgeMap && mapDone)           badgeMap.style.display = 'flex';
 
+    var allDone = scheduleDone && goalDone && mapDone;
+
+    // Кнопка
     var btnNext = document.getElementById('btn-laptop-next');
     if (btnNext) {
-      btnNext.style.display = (scheduleDone && goalDone && mapDone)
-        ? 'inline-flex'
-        : 'none';
+      btnNext.style.display = allDone ? 'block' : 'none';
     }
-  } // ← закрытие checkAllDone
+
+    // Подсказка
+    var hint = document.getElementById('laptop-next-hint');
+    if (hint) {
+      hint.style.display = allDone ? 'none' : 'block';
+    }
+  }
 
   // ===== Папка: Расписание =====
   document.getElementById('folder-schedule').addEventListener('click', function() {
@@ -315,7 +323,7 @@ function initLaptopHotspot() {
     });
   }
 
-  // ===== Кнопка "Далее" → screen-17-1 =====
+  // ===== Кнопка Далее =====
   var btnLaptopNext = document.getElementById('btn-laptop-next');
   if (btnLaptopNext) {
     btnLaptopNext.addEventListener('click', function() {
@@ -323,7 +331,7 @@ function initLaptopHotspot() {
     });
   }
 
-  // ===== Следим за активацией screen-10 =====
+  // ===== Следим за возвратом на screen-10 =====
   var screen10 = document.getElementById('screen-10');
   if (screen10) {
     var observer = new MutationObserver(function() {
@@ -334,6 +342,7 @@ function initLaptopHotspot() {
     observer.observe(screen10, { attributes: true, attributeFilter: ['class'] });
   }
 
+  // Первичная проверка при загрузке
   checkAllDone();
 
 } // ← закрытие initLaptopHotspot
