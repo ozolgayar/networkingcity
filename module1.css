@@ -4330,3 +4330,82 @@ color: #1e293b;
   #screen-19 .panel { max-height: none !important; }
 
 } /* конец @media (max-width: 899px) */
+
+/* ===== ЯДЕРНОЕ УВЕЛИЧЕНИЕ ДЛЯ МОБИЛКИ ===== */
+@media (max-width: 899px) {
+
+  /* ВСЕ тексты на странице */
+  body, div, p, span, li, label, a {
+    font-size: 22px !important;
+    line-height: 1.7 !important;
+  }
+
+  h1 { font-size: 38px !important; }
+  h2 { font-size: 34px !important; }
+  h3 { font-size: 28px !important; }
+  h4 { font-size: 24px !important; }
+
+  /* ВСЕ кнопки без исключения */
+  button {
+    font-size: 26px !important;
+    padding: 24px 36px !important;
+    min-height: 80px !important;
+    border-radius: 20px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    cursor: pointer !important;
+  }
+
+  /* Числовые кнопки — чуть меньше */
+  .seg-level-buttons button {
+    font-size: 20px !important;
+    padding: 12px 4px !important;
+    min-height: 56px !important;
+    width: auto !important;
+    min-width: unset !important;
+  }
+
+  /* Кнопка назад */
+  .nav-back button,
+  button.nav-back {
+    width: auto !important;
+    min-width: 160px !important;
+    font-size: 22px !important;
+    padding: 18px 28px !important;
+    min-height: 68px !important;
+    border-radius: 999px !important;
+  }
+
+  /* Все поля ввода */
+  input, textarea, select {
+    font-size: 22px !important;
+    padding: 18px 20px !important;
+    min-height: 68px !important;
+    border-radius: 16px !important;
+    line-height: 1.5 !important;
+  }
+
+  textarea {
+    min-height: 140px !important;
+  }
+
+  /* Варианты теста */
+  .quiz-opt {
+    font-size: 22px !important;
+    padding: 20px 24px !important;
+    min-height: 72px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Оверлей экрана 1 */
+  .s1-overlay-scroll,
+  .s1-overlay-card {
+    font-size: 22px !important;
+  }
+
+}
