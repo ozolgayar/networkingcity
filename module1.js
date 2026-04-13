@@ -262,13 +262,11 @@ function addScore(delta) {
    // ===== Экран 10: ноутбук =====
 function initLaptopHotspot() {
 
-  // ===== Проверка: показать кнопку "Далее" если все 3 пройдены =====
   function checkAllDone() {
     var scheduleDone = localStorage.getItem('laptopScheduleDone') === '1';
     var goalDone     = localStorage.getItem('laptopGoalDone') === '1';
     var mapDone      = localStorage.getItem('mapViewed') === '1';
 
-    // Бейджи
     var badgeSchedule = document.getElementById('schedule-done-badge');
     var badgeGoal     = document.getElementById('goal-done-badge');
     var badgeMap      = document.getElementById('map-done-badge');
@@ -277,18 +275,14 @@ function initLaptopHotspot() {
     if (badgeGoal && goalDone)         badgeGoal.style.display = 'flex';
     if (badgeMap && mapDone)           badgeMap.style.display = 'flex';
 
-    // Кнопка "Далее"
     var btnNext = document.getElementById('btn-laptop-next');
     if (btnNext) {
-      btnNext.style.display = (scheduleDone && goalDone && mapDone) ? 'inline-flex' : 'none';
+      btnNext.style.display = (scheduleDone && goalDone && mapDone)
+        ? 'inline-flex'
+        : 'none';
     }
-     var btnLaptopNext = document.getElementById('btn-laptop-next');
-  if (btnLaptopNext) {
-    btnLaptopNext.addEventListener('click', function() {
-      showScreen('screen-17-1'); 
-    });
-  }
-    }
+  } // ← закрытие checkAllDone
+
   // ===== Папка: Расписание =====
   document.getElementById('folder-schedule').addEventListener('click', function() {
     document.getElementById('schedule-modal').classList.add('active');
@@ -321,9 +315,28 @@ function initLaptopHotspot() {
     });
   }
 
-  // ===== Восстанавливаем статусы при возврате на экран =====
+  // ===== Кнопка "Далее" → screen-17-1 =====
+  var btnLaptopNext = document.getElementById('btn-laptop-next');
+  if (btnLaptopNext) {
+    btnLaptopNext.addEventListener('click', function() {
+      showScreen('screen-17-1');
+    });
+  }
+
+  // ===== Следим за активацией screen-10 =====
+  var screen10 = document.getElementById('screen-10');
+  if (screen10) {
+    var observer = new MutationObserver(function() {
+      if (screen10.classList.contains('active')) {
+        checkAllDone();
+      }
+    });
+    observer.observe(screen10, { attributes: true, attributeFilter: ['class'] });
+  }
+
   checkAllDone();
-}
+
+} // ← закрытие initLaptopHotspot
 
   // ===== Экран 11: цель нетворкинга =====
   function initPurposeScreen() {
