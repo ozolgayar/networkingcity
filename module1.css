@@ -4103,16 +4103,23 @@ color: #1e293b;
   }
   .s1-ready-box p { font-size: 15px !important; }
 
-  /* Кнопка "Готово" внутри оверлея экрана 1 */
-  .s1-overlay-scroll button.btn,
-  .s1-overlay-card button.btn {
-    width: 100% !important;
-    min-height: 56px !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
-    border-radius: 16px !important;
-    margin-top: 4px !important;
-  }
+/* Кнопка "Готово" внутри оверлея экрана 1 */
+.s1-overlay-scroll button.btn,
+.s1-overlay-card button.btn,
+.s1-overlay-card .actions-row button.btn,
+.s1-overlay button.btn {
+  width: 100% !important;
+  min-height: 56px !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  border-radius: 16px !important;
+  margin-top: 4px !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
 
   /* ===== ЭКРАН 2: ТЕСТ ===== */
   #screen-2 .scene { max-height: 35vh; min-height: 120px; }
