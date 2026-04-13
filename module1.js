@@ -2339,6 +2339,22 @@ function initVenueMap() {
   modal.addEventListener('click', function(e) {
     if (e.target === modal) modal.classList.remove('active');
   });
+
+  // Кнопка "Далее" — возврат на рабочий стол + бейдж
+  var btnVenueNext = document.getElementById('btn-venue-next');
+  if (btnVenueNext) {
+    // Убираем старый data-next чтобы глобальный nav не перехватил
+    btnVenueNext.removeAttribute('data-next');
+
+    btnVenueNext.addEventListener('click', function() {
+      // Ставим бейдж "просмотрена"
+      localStorage.setItem('mapViewed', '1');
+      var badge = document.getElementById('map-done-badge');
+      if (badge) badge.style.display = 'flex';
+      // Возвращаемся на рабочий стол
+      showScreen('screen-10');
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
