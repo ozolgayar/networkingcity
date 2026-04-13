@@ -2327,7 +2327,25 @@ function initVenueMap() {
   });
 }
 document.addEventListener('DOMContentLoaded', function() {
-   // Не запускаем на мобилках
+   const btnStart = document.getElementById('btn-screen1-start');
+  const cover    = document.getElementById('screen-1-cover');
+  const overlay  = document.getElementById('screen-1-overlay');
+
+  if (btnStart && cover && overlay) {
+    btnStart.addEventListener('click', function () {
+      // Плавно скрываем обложку
+      cover.style.transition = 'opacity 0.3s ease';
+      cover.style.opacity = '0';
+
+      setTimeout(function () {
+        cover.style.display = 'none';
+        overlay.style.display = 'flex';
+      }, 300);
+    });
+  }
+
+});
+  // Не запускаем на мобилках
   if (window.__mobileBlocked) return;
   initGlobalNav();
   initMainMenu();
