@@ -4318,3 +4318,51 @@ color: #1e293b;
   }
 
 } /* ===== конец @media (max-width: 899px) ===== */
+
+/* ===== ГЛОБАЛЬНЫЙ ФИКС КНОПОК НА МОБИЛКЕ ===== */
+@media (max-width: 899px) {
+
+  button.btn,
+  button[class*="btn"],
+  .s1-overlay button,
+  .s1-overlay-card button,
+  .s1-overlay-scroll button,
+  #screen-1 button,
+  .panel button,
+  .actions-row button,
+  .modal button {
+    padding: 18px 28px !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    min-height: 58px !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Исключения — маленькие кнопки */
+  button.btn.secondary,
+  .nav-back button.btn,
+  button.btn.nav-back,
+  .close-btn {
+    width: auto !important;
+    min-width: 130px !important;
+    padding: 14px 22px !important;
+    font-size: 15px !important;
+    min-height: 52px !important;
+  }
+
+  /* Кнопки в сетке (числа, уровни) */
+  .seg-level-buttons button,
+  .quiz-opt {
+    width: auto !important;
+    min-height: 44px !important;
+    padding: 10px 4px !important;
+    font-size: 14px !important;
+  }
+
+}
