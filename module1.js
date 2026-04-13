@@ -284,7 +284,7 @@ function initLaptopHotspot() {
      var btnLaptopNext = document.getElementById('btn-laptop-next');
   if (btnLaptopNext) {
     btnLaptopNext.addEventListener('click', function() {
-      showScreen('screen-zlata-bizcard'); // ← замени на ID твоего экрана
+      showScreen('screen-17-1'); 
     });
   }
     }
