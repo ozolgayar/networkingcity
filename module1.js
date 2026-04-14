@@ -308,43 +308,47 @@ function addScore(delta) {
     });
   });
 }
-    function showResult() {
-  var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
-  var max = questions.length * 5;
-  var pct = Math.round(total / max * 100);
+      function showResult() {
+      var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
+      var max = questions.length * 5;
+      var pct = Math.round(total / max * 100);
 
-  var level, desc;
-  if (pct <= 30) {
-    level = 'Новичок в нетворкинге';
-    desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
-  } else if (pct <= 55) {
-    level = 'Базовый уровень';
-    desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
-  } else if (pct <= 75) {
-    level = 'Средний уровень';
-    desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
-  } else {
-    level = 'Продвинутый уровень';
-    desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
+      var level, desc;
+      if (pct <= 30) {
+        level = 'Новичок в нетворкинге';
+        desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
+      } else if (pct <= 55) {
+        level = 'Базовый уровень';
+        desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
+      } else if (pct <= 75) {
+        level = 'Средний уровень';
+        desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
+      } else {
+        level = 'Продвинутый уровень';
+        desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
+      }
+
+      area.innerHTML =
+        '<div class="quiz-result-overlay">' +
+          '<div class="quiz-result-card">' +
+            '<div class="quiz-result-score">' + total + ' / ' + max + '</div>' +
+            '<div class="quiz-result-level">' + level + '</div>' +
+            '<div class="quiz-result-bar-wrap">' +
+              '<div class="quiz-result-bar" style="width:' + pct + '%"></div>' +
+            '</div>' +
+            '<div class="quiz-result-desc">' + desc + '</div>' +
+            '<button class="btn primary quiz-result-btn">Продолжить →</button>' +
+          '</div>' +
+        '</div>';
+
+      area.querySelector('.quiz-result-btn').addEventListener('click', function() {
+        showScreen('screen-3-0');
+      });
+    }
+
+  // ↓ ВОТ ЭТА СКОБКА — закрывает initQuiz
   }
 
-  area.innerHTML =
-    '<div class="quiz-result-overlay">' +
-      '<div class="quiz-result-card">' +
-        '<div class="quiz-result-score">' + total + ' / ' + max + '</div>' +
-        '<div class="quiz-result-level">' + level + '</div>' +
-        '<div class="quiz-result-bar-wrap">' +
-          '<div class="quiz-result-bar" style="width:' + pct + '%"></div>' +
-        '</div>' +
-        '<div class="quiz-result-desc">' + desc + '</div>' +
-        '<button class="btn primary quiz-result-btn">Продолжить →</button>' +
-      '</div>' +
-    '</div>';
-
-  area.querySelector('.quiz-result-btn').addEventListener('click', function() {
-    showScreen('screen-3'); // или нужный следующий экран
-  });
-}
     
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
