@@ -663,5 +663,7 @@ a.cover-btn {
     width: 70px;
     height: 70px;
     filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12));
+     .sticker-hide-mobile {
+    display: none !important;
   }
 }
