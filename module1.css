@@ -5211,3 +5211,76 @@ html, body {
     min-width: 0 !important;
   }
 }
+
+@media (max-width: 600px) {
+
+  .s1-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    z-index: 100 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .s1-overlay-card {
+    position: relative !important;
+    z-index: 10 !important;
+    width: calc(100% - 24px) !important;
+    max-width: 420px !important;
+
+    /* Фиксированная высота — занимает почти весь экран */
+    height: calc(100dvh - 80px) !important;
+    max-height: calc(100dvh - 80px) !important;
+
+    border-radius: 20px !important;
+    background: rgba(255,255,255,0.97) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+    
+    /* Скролл ВНУТРИ карточки */
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .s1-overlay-scroll {
+    /* Скролл только здесь */
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 20px 16px 24px !important;
+    flex: 1 !important;
+    
+    /* Красивый скроллбар */
+    scrollbar-width: thin !important;
+    scrollbar-color: #22c55e #f0fdf4 !important;
+  }
+
+  .s1-overlay-card h2 {
+    font-size: 20px !important;
+    margin-top: 0 !important;
+  }
+
+  .s1-overlay-card p,
+  .s1-overlay-card li {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Кнопка "Готов!" — прилипает к низу */
+  .s1-overlay-scroll .actions-row {
+    position: sticky !important;
+    bottom: 0 !important;
+    background: rgba(255,255,255,0.97) !important;
+    padding: 12px 0 4px !important;
+    margin-top: 12px !important;
+  }
+
+  .s1-overlay-scroll .btn {
+    width: 100% !important;
+    padding: 16px !important;
+    font-size: 16px !important;
+  }
+}
