@@ -5398,10 +5398,8 @@ html, body {
  max-width: 960px;;
   display: flex;
   flex-direction: column;
-  overflow: hidden;        /* ← контент не вылезает */
+  overflow: hidden;       
     margin: 0 auto; 
-  
-  /* десктоп — белый блок */
   background: rgba(255, 255, 255, 0.96);
   border-radius: var(--radius-lg);
   border: 1px solid #cbd5e1;
