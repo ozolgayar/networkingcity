@@ -4772,7 +4772,7 @@ color: #1e293b;
   /* ===== КОНТЕЙНЕР ===== */
   #screen-container {
     width: 100%;
-    max-width: 760px;
+    max-width: 960px;
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-lg);
     border: 1px solid #cbd5e1;
@@ -5399,6 +5399,7 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow: hidden;        /* ← контент не вылезает */
+    margin: 0 auto; 
   
   /* десктоп — белый блок */
   background: rgba(255, 255, 255, 0.96);
