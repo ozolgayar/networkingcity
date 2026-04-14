@@ -256,108 +256,82 @@ body {
   white-space: nowrap !important;
 }
 
-@media (max-width: 600px) {
-
-  /* ===== Уменьшаем сцену ===== */
-  .handshake-scene {
-    padding: 24px 10px 24px !important;
-    gap: 20px !important;
-    min-height: 360px !important;
+@media (max-width: 580px) {
+  .hexmap {
+    gap: 0 !important;
   }
 
-  /* ===== Руки — меньше ===== */
-  .handshake-wrap {
-    gap: 16px !important;
+  .hx-wrap {
+    width: 115px !important;
+    height: 135px !important;
+    margin: 0 -8px !important;
   }
 
-  .hand-svg {
-    width: 70px !important;
+  .hx-icon-img {
+    width: 44px !important;
+    height: 44px !important;
   }
 
-  /* ===== Бейдж модуля ===== */
-  .module-badge {
-    padding: 4px 8px !important;
-    gap: 4px !important;
-    border-radius: 16px !important;
+  .hx-icon {
+    font-size: 22px !important;
   }
 
-  .badge-num {
-    font-size: 12px !important;
+  .hx-num {
+    font-size: 8px !important;
   }
 
-  .badge-lock {
-    font-size: 11px !important;
-  }
-
-  /* ===== Лейбл под рукой ===== */
-  .hand-label {
-    padding: 5px 8px !important;
-    border-radius: 10px !important;
-  }
-
-  .hand-label strong {
-    font-size: 11px !important;
-  }
-
-  .hand-label span {
+  .hx-name {
     font-size: 9px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hx-badge {
+    font-size: 7px !important;
+    padding: 2px 5px !important;
     white-space: nowrap !important;
+    max-width: 90px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
-  /* ===== Модуль 3 — центральный кружок ===== */
-  .module3-circle {
-    width: 58px !important;
-    height: 58px !important;
+  .hx-content {
+    padding: 16px 6px 20px !important;
+    gap: 2px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .hx-wrap {
+    width: 100px !important;
+    height: 118px !important;
+    margin: 0 -10px !important;
   }
 
-  .module3-circle .badge-num {
+  .hx-icon-img {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .hx-icon {
     font-size: 18px !important;
   }
 
-  .module3-label {
-    padding: 5px 10px !important;
-    border-radius: 10px !important;
+  .hx-num {
+    font-size: 7px !important;
   }
 
-  .module3-label strong {
-    font-size: 11px !important;
+  .hx-name {
+    font-size: 8px !important;
   }
 
-  .module3-label span {
-    font-size: 9px !important;
-    white-space: nowrap !important;
+  .hx-badge {
+    font-size: 6px !important;
+    padding: 1px 4px !important;
+    max-width: 80px !important;
   }
 
-  /* ===== Коннектор ===== */
-  .module3-connector {
-    height: 28px !important;
-  }
-
-  /* ===== Прогресс ===== */
-  .progress-section {
-    max-width: 100% !important;
-    padding: 0 10px !important;
-  }
-
-  .progress-label {
-    font-size: 11px !important;
-  }
-
-  .progress-modules {
-    font-size: 10px !important;
-  }
-
-  /* ===== Заголовок ===== */
-  .map-title {
-    font-size: 20px !important;
-  }
-
-  .map-subtitle {
-    font-size: 13px !important;
-  }
-
-  .map-page {
-    padding: 20px 12px 40px !important;
-    gap: 20px !important;
+  .hx-content {
+    padding: 12px 4px 16px !important;
+    gap: 1px !important;
   }
 }
