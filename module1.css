@@ -3835,21 +3835,6 @@ color: #1e293b;
 }
 
 
-/* ========================================
-   ЭКРАН 1: ОБЛОЖКА — для ВСЕХ размеров
-   ======================================== */
-
-#screen-1 {
-  height: 100dvh !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-}
-
-.s1-cover {
-  position: relative !important;
-  height: 100dvh !important;
-  display: block !important;
-}
 
 /* Картинка на весь экран */
 .s1-cover-img {
@@ -4774,19 +4759,63 @@ color: #1e293b;
 } /* конец @media (max-width: 899px) */
 
 
-/* ДЕСКТОП — экран 1 */
+/* ===== СТАНДАРТ: все экраны одного размера ===== */
+
 @media (min-width: 900px) {
+
+  /* ===== КОНТЕЙНЕР — единый размер для всех экранов ===== */
+  #screen-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 16px auto;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: var(--radius-lg);
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 32px);   /* ← фиксированная высота = экран минус отступы */
+    overflow: hidden;              /* ← скролл внутри, не снаружи */
+  }
+
+  /* Все экраны занимают контейнер полностью */
+  .screen.active {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Layout — две колонки, занимают всё место */
+  .screen-layout {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Сцена и панель — скролл внутри */
+  .scene {
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .panel {
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* ===== ЭКРАН 1: ОБЛОЖКА — на весь контейнер ===== */
   #screen-1 {
-    position: relative !important;
-    height: 100vh !important;
+    height: 100% !important;
     overflow: hidden !important;
     padding: 0 !important;
   }
 
   .s1-cover {
-    position: relative !important;
     width: 100% !important;
     height: 100% !important;
+    position: relative !important;
   }
 
   .s1-cover-img {
@@ -4804,7 +4833,6 @@ color: #1e293b;
     display: block !important;
   }
 
-  /* Кнопка — правый нижний угол, не перекрывает бейдж */
   .s1-cover-btn-wrap {
     position: absolute !important;
     bottom: 60px !important;
@@ -4823,31 +4851,8 @@ color: #1e293b;
     padding: 0 40px !important;
     border-radius: 999px !important;
   }
-}
 
-/* ===== СТАНДАРТ: все экраны одного размера ===== */
-
-@media (min-width: 900px) {
-
-  #screen-container {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: var(--radius-lg);
-    border: 1px solid #cbd5e1;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-    padding: 18px 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: auto;        /* ← по содержимому! */
-    min-height: 300px;
-    max-height: none;
-    overflow: visible;
-  }
-
-  /* Кнопки — нормальный десктопный размер */
+  /* ===== КНОПКИ — десктопный размер ===== */
   button.btn {
     padding: 12px 28px;
     font-size: 15px;
@@ -4856,7 +4861,7 @@ color: #1e293b;
     border-radius: 999px;
   }
 
-}  /* ← одна закрывающая скобка */
+}
 
 /* ===== Экран 12: бусины ===== */
 #screen-12 {
