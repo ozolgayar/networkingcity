@@ -4753,10 +4753,11 @@ color: #1e293b;
 /* ===== СТАНДАРТ: все экраны одного размера ===== */
 
 @media (min-width: 900px) {
+ @media (min-width: 900px) {
   #screen-container {
     width: 100%;
     max-width: 960px;
-   height: calc(100vh - 32px); 
+    height: calc(100vh - 32px);
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-lg);
     border: 1px solid #cbd5e1;
@@ -4765,12 +4766,10 @@ color: #1e293b;
     position: relative;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 32px);
     overflow: hidden;
-    margin: 0 auto;   
+    margin: 0 auto;
   }
 
-  /* ===== ЭКРАНЫ ===== */
   .screen.active {
     flex: 1;
     min-height: 0;
@@ -4780,7 +4779,6 @@ color: #1e293b;
     gap: 16px;
   }
 
-  /* ===== LAYOUT — две колонки ===== */
   .screen-layout {
     flex: 1;
     min-height: 0;
@@ -4790,20 +4788,16 @@ color: #1e293b;
     gap: 16px;
   }
 
-  /* ===== СЦЕНА ===== */
   .scene {
     overflow-y: auto;
     min-height: 0;
   }
 
-  /* ===== ПАНЕЛЬ ===== */
   .panel {
     overflow-y: auto;
     min-height: 0;
   }
 
-  /* ===== ЭКРАН 1: ОБЛОЖКА ===== */
-  /* Убираем padding контейнера когда экран 1 активен */
   #screen-container:has(#screen-1.active) {
     padding: 0;
   }
@@ -4868,7 +4862,6 @@ color: #1e293b;
     border-radius: 999px;
   }
 
-  /* ===== КНОПКИ — десктопный размер ===== */
   button.btn {
     padding: 12px 28px;
     font-size: 15px;
@@ -4878,14 +4871,8 @@ color: #1e293b;
     width: auto;
   }
 
-  button.btn.secondary {
-    width: auto;
-  }
-
-  button.btn.danger {
-    width: auto;
-  }
-
+  button.btn.secondary { width: auto; }
+  button.btn.danger { width: auto; }
 }
 
 /* ===== Экран 12: бусины ===== */
