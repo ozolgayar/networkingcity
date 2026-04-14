@@ -599,11 +599,72 @@
         <p style="color: var(--text-soft); margin-top: 6px;">Выбери те, которые про тебя. Нажми на маску — она снимется.</p>
       </div>
 
-      <div class="fear-masks-grid" id="fear-masks-grid">
-        <!-- маски остаются без изменений -->
-        <div class="fear-mask" data-fear="say">...</div>
-        <!-- все маски как были -->
-      </div>
+ <div class="fear-masks-grid" id="fear-masks-grid">
+  <div class="fear-mask" data-fear="say">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye"></span><span class="fm-eye"></span></div>
+      <div class="fm-mouth fm-mouth-zip"></div>
+    </div>
+    <div class="fear-mask-text">Не знаю, что сказать</div>
+  </div>
+
+  <div class="fear-mask" data-fear="reject">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye fm-eye-sad"></span><span class="fm-eye fm-eye-sad"></span></div>
+      <div class="fm-mouth fm-mouth-sad"></div>
+    </div>
+    <div class="fear-mask-text">Меня отвергнут</div>
+  </div>
+
+  <div class="fear-mask" data-fear="worth">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye fm-eye-small"></span><span class="fm-eye fm-eye-small"></span></div>
+      <div class="fm-mouth fm-mouth-flat"></div>
+    </div>
+    <div class="fear-mask-text">Я недостаточно важен(на)</div>
+  </div>
+
+  <div class="fear-mask" data-fear="incompetent">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye fm-eye-wide"></span><span class="fm-eye fm-eye-wide"></span></div>
+      <div class="fm-mouth fm-mouth-o"></div>
+    </div>
+    <div class="fear-mask-text">Покажусь некомпетентным</div>
+  </div>
+
+  <div class="fear-mask" data-fear="pushy">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye"></span><span class="fm-eye"></span></div>
+      <div class="fm-mouth fm-mouth-grimace"></div>
+    </div>
+    <div class="fear-mask-text">Буду навязчивым</div>
+  </div>
+
+  <div class="fear-mask" data-fear="everyone">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye fm-eye-look"></span><span class="fm-eye fm-eye-look"></span></div>
+      <div class="fm-mouth fm-mouth-flat"></div>
+    </div>
+    <div class="fear-mask-text">Все уже знают друг друга</div>
+  </div>
+
+  <div class="fear-mask" data-fear="awkward">
+    <div class="fear-mask-face">
+      <div class="fm-eyes"><span class="fm-eye fm-eye-squint"></span><span class="fm-eye fm-eye-squint"></span></div>
+      <div class="fm-mouth fm-mouth-wavy"></div>
+    </div>
+    <div class="fear-mask-text">Потом будет неловко</div>
+  </div>
+
+  <div class="fear-mask fear-mask-custom" data-fear="custom">
+    <div class="fear-mask-face fm-face-custom">
+      <div class="fm-eyes"><span class="fm-eye fm-eye-dot"></span><span class="fm-eye fm-eye-dot"></span></div>
+      <div class="fm-mouth fm-mouth-plus">+</div>
+    </div>
+    <div class="fear-mask-text">Свой вариант</div>
+    <input type="text" class="fear-custom-input" placeholder="Напиши свой страх..." style="display:none;">
+  </div>
+</div>
 
       <!-- Валидации -->
       <div id="fears-validations" style="display:none; margin-top: 20px;">
