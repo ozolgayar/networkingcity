@@ -731,52 +731,7 @@ function initFears() {
     });
   });
 
-  // ===== Экран 13-S: стратегии страхов =====
-var fears13SInitialized = false;
-
-function initFears13S() {
-  if (fears13SInitialized) return;
-  fears13SInitialized = true;
-
-  var strategyList = document.getElementById('fears-strategy-list');
-  var btnSave = document.getElementById('btn-fears-save');
-  var btnDone = document.getElementById('btn-fears-done');
-  var modal = document.getElementById('fears-modal');
-
-  if (!btnSave || !btnDone || !modal) return;
-
-  btnSave.addEventListener('click', function() {
-    var data = {};
-    if (strategyList) {
-      strategyList.querySelectorAll('.fear-strategy-textarea').forEach(function(ta) {
-        data[ta.dataset.fear] = ta.value;
-      });
-    }
-    localStorage.setItem('nc_fears', JSON.stringify({ strategies: data }));
-
-    var msg = document.getElementById('fears-saved-msg-s');
-    if (!msg) {
-      msg = document.createElement('div');
-      msg.id = 'fears-saved-msg-s';
-      msg.className = 'fear-saved-msg';
-      msg.textContent = '💾 Сохранено!';
-      btnSave.parentElement.appendChild(msg);
-    }
-    msg.classList.remove('show');
-    void msg.offsetWidth;
-    msg.classList.add('show');
-  });
-
-  btnDone.addEventListener('click', function() {
-    addScore(3);
-    modal.classList.add('active');
-  });
-
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) modal.classList.remove('active');
-  });
-}
-  
+ 
   function showValidations() {
     validationsList.innerHTML = '';
     selected.forEach(function(fear) {
@@ -826,16 +781,49 @@ function initFears13S() {
     showScreen('screen-13-1');
   });
 
-  btnSave.addEventListener('click', function() {
-    var data = {};
-    strategyList.querySelectorAll('.fear-strategy-textarea').forEach(function(ta) {
-      data[ta.dataset.fear] = ta.value;
-    });
+ 
     localStorage.setItem('nc_fears', JSON.stringify({ selected: selected, strategies: data }));
     var msg = document.getElementById('fears-saved-msg');
     if (!msg) {
       msg = document.createElement('div');
       msg.id = 'fears-saved-msg';
+      msg.className = 'fear-saved-msg';
+      msg.textContent = '💾 Сохранено!';
+      btnSave.parentElement.appendChild(msg);
+    }
+    msg.classList.remove('show');
+    void msg.offsetWidth;
+    msg.classList.add('show');
+  });
+}
+
+  // ===== Экран 13-S: стратегии страхов =====
+var fears13SInitialized = false;
+
+function initFears13S() {
+  if (fears13SInitialized) return;
+  fears13SInitialized = true;
+
+  var strategyList = document.getElementById('fears-strategy-list');
+  var btnSave = document.getElementById('btn-fears-save');
+  var btnDone = document.getElementById('btn-fears-done');
+  var modal = document.getElementById('fears-modal');
+
+  if (!btnSave || !btnDone || !modal) return;
+
+  btnSave.addEventListener('click', function() {
+    var data = {};
+    if (strategyList) {
+      strategyList.querySelectorAll('.fear-strategy-textarea').forEach(function(ta) {
+        data[ta.dataset.fear] = ta.value;
+      });
+    }
+    localStorage.setItem('nc_fears', JSON.stringify({ strategies: data }));
+
+    var msg = document.getElementById('fears-saved-msg-s');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.id = 'fears-saved-msg-s';
       msg.className = 'fear-saved-msg';
       msg.textContent = '💾 Сохранено!';
       btnSave.parentElement.appendChild(msg);
@@ -854,7 +842,7 @@ function initFears13S() {
     if (e.target === modal) modal.classList.remove('active');
   });
 }
-  
+
 // ===== Экран 13-1: карточка Златы с целью =====
 var zlataCard2Initialized = false;
 
