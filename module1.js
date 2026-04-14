@@ -309,45 +309,43 @@ function addScore(delta) {
   });
 }
     function showResult() {
-      area.style.display = 'none';
-      progress.style.display = 'none';
+  var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
+  var max = questions.length * 5;
+  var pct = Math.round(total / max * 100);
 
-      var total = answers.reduce(function(a, b) { return a + b; }, 0);
-      var msg;
-      if (total <= 20) {
-        msg = 'Зарядись на эффективный нетворкинг и настройся на полное погружение в курс! Рекомендуем пройти его от А до Я.';
-      } else if (total <= 35) {
-        msg = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
-      } else {
-        msg = 'Твоих знаний достаточно, чтобы добиться блестящих результатов. Но перед тобой стоит ответственная задача — сделать свой навык нетворкинга ещё более совершенным. Дерзай!';
-      }
-
-      result.style.display = 'block';
-    result.innerHTML =
-  '<h3>Твой результат: ' + total + ' из 50</h3>' +
-  '<p style="font-size:13px; line-height:1.5;">' + msg + '</p>' +
-  '<div class="actions-row" style="margin-top:12px;">' +
-    '<button class="btn" onclick="showScreen(\'screen-3-0\')">Продолжить →</button>' +
-  '</div>';
-
-      localStorage.setItem('nc_quiz_score', total);
-    }
-
-    // Наблюдатель — запускает тест когда экран 2 становится активным
-    var observer = new MutationObserver(function() {
-      if (document.getElementById('screen-2').classList.contains('active') && !quizStarted) {
-        startQuiz();
-      }
-    });
-    observer.observe(document.getElementById('screen-2'), {
-      attributes: true, attributeFilter: ['class']
-    });
-
-    // Если экран 2 уже активен при загрузке
-    if (document.getElementById('screen-2').classList.contains('active')) {
-      startQuiz();
-    }
+  var level, desc;
+  if (pct <= 30) {
+    level = 'Новичок в нетворкинге';
+    desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
+  } else if (pct <= 55) {
+    level = 'Базовый уровень';
+    desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
+  } else if (pct <= 75) {
+    level = 'Средний уровень';
+    desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
+  } else {
+    level = 'Продвинутый уровень';
+    desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
   }
+
+  area.innerHTML =
+    '<div class="quiz-result-overlay">' +
+      '<div class="quiz-result-card">' +
+        '<div class="quiz-result-score">' + total + ' / ' + max + '</div>' +
+        '<div class="quiz-result-level">' + level + '</div>' +
+        '<div class="quiz-result-bar-wrap">' +
+          '<div class="quiz-result-bar" style="width:' + pct + '%"></div>' +
+        '</div>' +
+        '<div class="quiz-result-desc">' + desc + '</div>' +
+        '<button class="btn primary quiz-result-btn">Продолжить →</button>' +
+      '</div>' +
+    '</div>';
+
+  area.querySelector('.quiz-result-btn').addEventListener('click', function() {
+    showScreen('screen-3'); // или нужный следующий экран
+  });
+}
+    
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
     var card = document.getElementById('zlata-card');
