@@ -346,7 +346,7 @@ function addScore(delta) {
       });
     }
 
-  // ↓ ВОТ ЭТА СКОБКА — закрывает initQuiz
+  startQuiz();
   }
 
     
