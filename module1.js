@@ -15,7 +15,7 @@ const state = {
 // Порядок экранов
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3-0', 'screen-3', 'screen-10',
-  'screen-11', 'screen-12', 'screen-13', 'screen-13-1', 'screen-14', 'screen-15',
+  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-13-1', 'screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
   'screen-19', 'screen-19-1',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0',
@@ -47,7 +47,10 @@ function showScreen(id) {
   }
   if (id === 'screen-13') {
     setTimeout(function() { initFears(); }, 50);
-  }
+     }
+    if (id === 'screen-13-s') {
+    setTimeout(function() { initFears13S(); }, 50);
+   }
   if (id === 'screen-13-1') {
     setTimeout(function() { initZlataCard2(); }, 50);
   }
@@ -728,6 +731,52 @@ function initFears() {
     });
   });
 
+  // ===== Экран 13-S: стратегии страхов =====
+var fears13SInitialized = false;
+
+function initFears13S() {
+  if (fears13SInitialized) return;
+  fears13SInitialized = true;
+
+  var strategyList = document.getElementById('fears-strategy-list');
+  var btnSave = document.getElementById('btn-fears-save');
+  var btnDone = document.getElementById('btn-fears-done');
+  var modal = document.getElementById('fears-modal');
+
+  if (!btnSave || !btnDone || !modal) return;
+
+  btnSave.addEventListener('click', function() {
+    var data = {};
+    if (strategyList) {
+      strategyList.querySelectorAll('.fear-strategy-textarea').forEach(function(ta) {
+        data[ta.dataset.fear] = ta.value;
+      });
+    }
+    localStorage.setItem('nc_fears', JSON.stringify({ strategies: data }));
+
+    var msg = document.getElementById('fears-saved-msg-s');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.id = 'fears-saved-msg-s';
+      msg.className = 'fear-saved-msg';
+      msg.textContent = '💾 Сохранено!';
+      btnSave.parentElement.appendChild(msg);
+    }
+    msg.classList.remove('show');
+    void msg.offsetWidth;
+    msg.classList.add('show');
+  });
+
+  btnDone.addEventListener('click', function() {
+    addScore(3);
+    modal.classList.add('active');
+  });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+}
+  
   function showValidations() {
     validationsList.innerHTML = '';
     selected.forEach(function(fear) {
@@ -745,8 +794,12 @@ function initFears() {
     validationsBox.style.display = 'block';
   }
 
-  btnUnmask.addEventListener('click', function() {
-    strategyList.innerHTML = '';
+ btnUnmask.addEventListener('click', function() {
+    // Строим список стратегий в новом экране
+    var strategyList2 = document.getElementById('fears-strategy-list');
+    if (!strategyList2) return;
+    
+    strategyList2.innerHTML = '';
     selected.forEach(function(fear) {
       var d = fearsData[fear];
       if (!d) return;
@@ -761,10 +814,11 @@ function initFears() {
         '</div>' +
         '<div class="fear-strategy-validation">💚 ' + d.validation + '</div>' +
         '<textarea class="fear-strategy-textarea" data-fear="' + fear + '" placeholder="' + d.placeholder + '"></textarea>';
-      strategyList.appendChild(card);
+      strategyList2.appendChild(card);
     });
-    step2.style.display = 'block';
-    step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Переходим на отдельный экран
+    showScreen('screen-13-s');
   });
 
   btnNoFear.addEventListener('click', function() {
