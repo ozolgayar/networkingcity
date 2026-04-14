@@ -4771,7 +4771,7 @@ color: #1e293b;
   /* ===== КОНТЕЙНЕР ===== */
   #screen-container {
     width: 100%;
-    max-width: 1100px;
+    max-width: 760px;
     margin: 0 auto;           /* ← центрирование */
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-lg);
