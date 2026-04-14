@@ -4008,6 +4008,7 @@ color: #1e293b;
    МОБИЛЬНАЯ ВЕРТИКАЛЬНАЯ ВЕРСИЯ (portrait)
    ======================================== */
 @media (max-width: 899px) {
+ #mobile-warning { display: none !important; } 
   /* Все модалки внутри сцены — фиксированные */
   .scene .modal-overlay,
   .scene-main .modal-overlay {
@@ -4017,22 +4018,6 @@ color: #1e293b;
     padding: 20px !important;
   }
 }
-  #mobile-warning { display: none !important; }
-
-#app {
-  width: 100%;
-  max-width: 1200px;
-  min-height: 100vh;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: relative;
-  background: transparent;
-  margin: 0 auto;  
-     height: 100vh;  
-}
-
   /* ===== ХЕДЕР ===== */
   header {
     padding: 16px 20px;
