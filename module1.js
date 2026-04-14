@@ -202,8 +202,6 @@ function addScore(delta) {
       }
     });
   }
-
-   // ===== Экран 2: тест =====
  // ===== Экран 2: тест =====
   function initQuiz() {
     var questions = [
@@ -659,7 +657,7 @@ function initBeadsGame() {
     });
   }
 }
-  // ===== Экран 13: страхи =====
+ // ===== Экран 13: страхи =====
 var fearsInitialized = false;
 
 function initFears() {
@@ -670,11 +668,6 @@ function initFears() {
   var btnNoFear = document.getElementById('btn-no-fear');
   var validationsBox = document.getElementById('fears-validations');
   var validationsList = document.getElementById('fears-validation-list');
-  var step2 = document.getElementById('fears-step2');
-  var strategyList = document.getElementById('fears-strategy-list');
-  var btnSave = document.getElementById('btn-fears-save');
-  var btnDone = document.getElementById('btn-fears-done');
-  var modal = document.getElementById('fears-modal');
 
   if (!masks.length || !btnUnmask || !btnNoFear) {
     console.warn('initFears: elements not found');
@@ -682,7 +675,6 @@ function initFears() {
   }
 
   fearsInitialized = true;
-  console.log('initFears: initialized with', masks.length, 'masks');
 
   var fearsData = {
     say:         { label: 'Не знаю, что сказать',      icon: '😶', validation: 'Этот страх — у 90% людей. Серьёзно. Ты не одинок.', placeholder: 'Пример: «Выучу 3 фразы-открывашки из курса и буду держать их в голове»' },
@@ -731,7 +723,6 @@ function initFears() {
     });
   });
 
- 
   function showValidations() {
     validationsList.innerHTML = '';
     selected.forEach(function(fear) {
@@ -749,11 +740,10 @@ function initFears() {
     validationsBox.style.display = 'block';
   }
 
- btnUnmask.addEventListener('click', function() {
-    // Строим список стратегий в новом экране
+  btnUnmask.addEventListener('click', function() {
     var strategyList2 = document.getElementById('fears-strategy-list');
     if (!strategyList2) return;
-    
+
     strategyList2.innerHTML = '';
     selected.forEach(function(fear) {
       var d = fearsData[fear];
@@ -772,7 +762,6 @@ function initFears() {
       strategyList2.appendChild(card);
     });
 
-    // Переходим на отдельный экран
     showScreen('screen-13-s');
   });
 
@@ -781,21 +770,8 @@ function initFears() {
     showScreen('screen-13-1');
   });
 
- 
-    localStorage.setItem('nc_fears', JSON.stringify({ selected: selected, strategies: data }));
-    var msg = document.getElementById('fears-saved-msg');
-    if (!msg) {
-      msg = document.createElement('div');
-      msg.id = 'fears-saved-msg';
-      msg.className = 'fear-saved-msg';
-      msg.textContent = '💾 Сохранено!';
-      btnSave.parentElement.appendChild(msg);
-    }
-    msg.classList.remove('show');
-    void msg.offsetWidth;
-    msg.classList.add('show');
-  });
 }
+// ← КОНЕЦ initFears
 
   // ===== Экран 13-S: стратегии страхов =====
 var fears13SInitialized = false;
