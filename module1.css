@@ -65,6 +65,7 @@
   gap: 16px;
   position: relative;
   background: transparent;
+         margin: 0 auto
 }
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
@@ -4829,8 +4830,11 @@ color: #1e293b;
 /* Только для десктопа — мобильные стили выше перебивают */
 @media (min-width: 900px) {
 
+ @media (min-width: 900px) {
   #screen-container {
     width: 100%;
+    max-width: 1100px;       /* ← максимальная ширина */
+    margin: 0 auto;           /* ← по центру */
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-lg);
     border: 1px solid #cbd5e1;
@@ -4842,18 +4846,8 @@ color: #1e293b;
     height: calc(100vh - 32px);
     overflow: hidden;
   }
+     
 
-  /* Экран 1 — особый: на весь вьюпорт, без контейнера */
-  #screen-container:has(#screen-1.active) {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    height: 100vh !important;
-    overflow: hidden !important;
-  }
-
-  
   /* Кнопки — нормальный десктопный размер */
   button.btn {
     padding: 12px 28px;
