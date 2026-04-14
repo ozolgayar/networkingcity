@@ -528,7 +528,8 @@ cont.addEventListener('click', function() {
     showScreen('screen-12');
     // ✅ НЕ засчитываем цель — убрали laptopGoalDone
   });
-    
+    }
+
   // ===== Экран 12: Нити нетворкинга — мини-игра с бусинами =====
   const beadsStages = [
     { word: 'УСТАНОВКА', feedbackOk: 'Установка связей — это первый шаг, смелость начать. Супер! Двигаемся дальше.' },
