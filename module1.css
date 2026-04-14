@@ -26,8 +26,8 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-   body {
-  background: /* твой градиент */
+    body {
+    background:
     radial-gradient(ellipse 55% 70% at 50% 46%,
       rgba(255,255,255,0.96) 0%,
       rgba(255,255,255,0.55) 25%,
@@ -49,27 +49,22 @@
     );
   background-attachment: fixed;
   color: var(--text);
+  min-height: 100vh;
   display: flex;
   align-items: stretch;
   justify-content: center;
-  /* убираем min-height, добавляем height */
-  height: 100vh;
-  overflow: hidden;
 }
 
-#app {
-  width: 100%;
+    #app {
+      width: 100%;
   max-width: 1200px;
-  height: 100vh;           /* ← фиксированная высота */
-  padding: 16px 20px;
+  min-height: 100vh;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   position: relative;
-  background: transparent;
-  margin: 0 auto;
-  overflow: hidden;        /* ← не вылезает */
-  box-sizing: border-box;
+         background: transparent;
 }
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
@@ -165,8 +160,16 @@
     }
 
     header {
-  display: none;           /* у тебя скрыт */
-  flex-shrink: 0;          /* не сжимается */
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(34, 197, 94, 0.08), rgba(56, 189, 248, 0.08));
+  border: 1px solid #cbd5e1;
+  backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 10;
 }
 
     header .logo {
@@ -204,16 +207,16 @@
   background: rgba(255, 255, 255, 0.8);
 }
 
-main {
-  flex: 1;
-  min-height: 0;           /* ← КЛЮЧЕВОЕ для flex */
+    main {
+     flex: 1;
   display: flex;
+  gap: 16px;
+  align-items: stretch;
   position: relative;
   z-index: 5;
-  overflow: hidden;
-  justify-content: center;
 }
 
+   
 .badge {
   font-size: 11px;
   padding: 3px 7px;
@@ -358,33 +361,43 @@ main {
   background: #e2e8f0;
 }
     /* Основная сцена */
-
+#screen-container {
+  flex: 1;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: var(--radius-lg);
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px 18px 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+}
  .screen {
   display: none;
   flex: 1;
   min-height: 0;
-  min-width: 0;
-  overflow: hidden;
 }
 
 .screen.active {
   display: flex;
   flex-direction: column;
+  gap: 16px;
   flex: 1;
   min-height: 0;
-  overflow: hidden;        /* ← не вылезает за контейнер */
   animation: fadeIn .35s ease-out;
 }
 
-/* Layout двух колонок — тоже фиксирован */
-.screen-layout {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: 16px;
-  overflow: hidden;
-}
+    .screen-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 16px;
+      min-height: 0;
+    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -403,17 +416,15 @@ main {
     }
 
     .scene {
-  min-height: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  /* остальные твои стили */
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-  padding: 14px;
-}
-
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      position: relative;
+      overflow: hidden;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+    }
 
     .scene-header {
       font-size: 12px;
@@ -433,18 +444,16 @@ main {
     }
 
 .panel {
-  min-height: 0;
-  overflow-y: auto;        /* ← скролл только в панели */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+ background: linear-gradient(135deg, #ffffff, #f8fafc);
+  padding: 24px 24px 16px; /* увеличили верхний паддинг с 12 до 24 */
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* остальные твои стили */
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: linear-gradient(135deg, #ffffff, #f8fafc);
-  padding: 24px 24px 16px;
   font-size: 14px;
   color: var(--text-soft);
+  position: relative;
 }
 
     /* Тэг "Теория" */
@@ -3847,6 +3856,21 @@ color: #1e293b;
 }
 
 
+/* ========================================
+   ЭКРАН 1: ОБЛОЖКА — для ВСЕХ размеров
+   ======================================== */
+
+#screen-1 {
+  height: 100dvh !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.s1-cover {
+  position: relative !important;
+  height: 100dvh !important;
+  display: block !important;
+}
 
 /* Картинка на весь экран */
 .s1-cover-img {
@@ -4008,16 +4032,16 @@ color: #1e293b;
    МОБИЛЬНАЯ ВЕРТИКАЛЬНАЯ ВЕРСИЯ (portrait)
    ======================================== */
 @media (max-width: 899px) {
- #mobile-warning { display: none !important; } 
-  /* Все модалки внутри сцены — фиксированные */
-  .scene .modal-overlay,
-  .scene-main .modal-overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 999 !important;
-    padding: 20px !important;
+
+  #mobile-warning { display: none !important; }
+
+  #app {
+    pointer-events: auto !important;
+    filter: none !important;
+    padding: 10px;
+    gap: 8px;
   }
-}
+
   /* ===== ХЕДЕР ===== */
   header {
     padding: 16px 20px;
@@ -4078,12 +4102,7 @@ color: #1e293b;
     background: rgba(148,163,184,0.4);
     border-radius: 999px;
   }
-  .panel h2 { 
-  font-size: 32px !important; 
-  line-height: 1.3; 
-  margin-bottom: 8px;
-  padding-right: 90px !important;   /* ← отступ от тега "Теория" */
-}
+  .panel h2 { font-size: 32px !important; line-height: 1.3; margin-bottom: 8px; }
   .panel h3 { font-size: 26px !important; line-height: 1.3; }
   .panel p  { font-size: 22px !important; line-height: 1.7; }
   .panel ul,
@@ -4194,12 +4213,7 @@ color: #1e293b;
     align-items: flex-start;
     padding: 4px;
   }
-  /* ===== ТЕСТ (экран 2) ===== */
-#screen-2 .panel { 
-  max-height: none; 
-  overflow-y: auto;
-  scroll-behavior: smooth;
-}
+  #screen-2 .panel { max-height: none; overflow: visible; }
   .quiz-container { padding: 6px 0; }
   .quiz-q {
     padding: 20px 18px;
@@ -4706,6 +4720,19 @@ color: #1e293b;
     display: block !important;
     margin: 0 auto 10px auto !important;
   } 
+     /* Экран 1 — фит в экран */
+#screen-1 {
+  height: 100dvh !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.s1-cover {
+  position: relative !important;
+  height: 100dvh !important;
+  display: block !important;
+  overflow: hidden !important;
+}
 
  /* Картинка занимает всё свободное место */
 .s1-cover-img {
@@ -4750,632 +4777,53 @@ color: #1e293b;
 } /* конец @media (max-width: 899px) */
 
 
-/* ===== СТАНДАРТ: все экраны одного размера ===== */
-
+/* ДЕСКТОП — экран 1 */
 @media (min-width: 900px) {
- @media (min-width: 900px) {
-  #screen-container {
-    width: 100%;
-    max-width: 960px;
-    height: calc(100vh - 32px);
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: var(--radius-lg);
-    border: 1px solid #cbd5e1;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-    padding: 18px 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    margin: 0 auto;
-  }
-
-  .screen.active {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .screen-layout {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 16px;
-  }
-
-  .scene {
-    overflow-y: auto;
-    min-height: 0;
-  }
-
-  .panel {
-    overflow-y: auto;
-    min-height: 0;
-  }
-
-  #screen-container:has(#screen-1.active) {
-    padding: 0;
-  }
-
-  #screen-1.active {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-    gap: 0;
-  }
-
-  #screen-1 .screen-layout {
-    display: block !important;
-    height: 100%;
-  }
-
-  #screen-1 .scene {
-    position: absolute;
-    inset: 0;
-    max-height: none;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+  #screen-1 {
+    position: relative !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    padding: 0 !important;
   }
 
   .s1-cover {
-    width: 100%;
-    height: 100%;
-    position: relative;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .s1-cover-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .s1-cover-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
   }
 
+  /* Кнопка — правый нижний угол, не перекрывает бейдж */
   .s1-cover-btn-wrap {
-    position: absolute;
-    bottom: 60px;
-    right: 80px;
-    left: auto;
-    background: none;
-    padding: 0;
-    z-index: 10;
+    position: absolute !important;
+    bottom: 60px !important;
+    right: 80px !important;
+    left: auto !important;
+    background: none !important;
+    padding: 0 !important;
+    z-index: 10 !important;
   }
 
   .s1-start-btn {
-    width: auto;
-    min-width: 220px;
-    font-size: 24px;
-    min-height: 64px;
-    padding: 0 40px;
-    border-radius: 999px;
-  }
-
-  button.btn {
-    padding: 12px 28px;
-    font-size: 15px;
-    font-weight: 600;
-    min-height: 44px;
-    border-radius: 999px;
-    width: auto;
-  }
-
-  button.btn.secondary { width: auto; }
-  button.btn.danger { width: auto; }
-}
-
-/* ===== Экран 12: бусины ===== */
-#screen-12 {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* ===== Экран 13: маски страхов ===== */
-#screen-13 {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
-
-#screen-13 .fear-fullscreen,
-#screen-12 .fear-fullscreen {
-  flex: 1;
-  min-height: 0;
-  height: 100%;
-  overflow-y: auto;
-  padding: 20px 24px;
-}
-
-/* Сетка масок компактнее */
-#screen-13 .fear-masks-grid {
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  max-width: 100%;
-}
-
-/* ===== Карточки Златы ===== */
-#screen-3,
-#screen-13-1,
-#screen-17-1,
-#screen-19-1,
-#screen-21-0,
-#screen-21-1-1 {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-#screen-3::-webkit-scrollbar,
-#screen-13-1::-webkit-scrollbar { width: 5px; }
-#screen-3::-webkit-scrollbar-thumb,
-#screen-13-1::-webkit-scrollbar-thumb {
-  background: rgba(148,163,184,0.4);
-  border-radius: 999px;
-}
-
-/* Карточка — не растягивается */
-.zlata-card-wrapper {
-  max-width: 560px;
-  width: 100%;
-  flex-shrink: 0;
-}
-
-.zlata-front {
-  min-height: unset;
-}
-
-/* ===== Экраны-карточки: прозрачный фон ===== */
-
-/* Когда активен screen-card — убираем фон контейнера */
-#screen-container:has(.screen-card.active) {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* Сам экран — прозрачный, центрирует карточку */
-.screen-card.active {
-  background: transparent !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 20px 0 !important;
-  overflow-y: auto !important;
-}
-
-/* Кнопка назад — белая, чтобы была видна на градиенте */
-.screen-card .nav-back {
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
-  align-self: flex-start !important;
-  margin-left: 16px !important;
-}
-
-/* Карточка Златы — тень акцентируется на фоне */
-.screen-card .zlata-card-wrapper {
-  filter: drop-shadow(0 16px 48px rgba(0, 0, 0, 0.2));
-}
-
-/* ===== Результат теста по центру ===== */
-
-.quiz-result-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  background: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(4px);
-}
-
-.quiz-result-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 40px 36px;
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
-  text-align: center;
-  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes popIn {
-  from { transform: scale(0.7); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
-}
-
-.quiz-result-score {
-  font-size: 48px;
-  font-weight: 800;
-  color: #1e293b;
-  line-height: 1;
-}
-
-.quiz-result-level {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f766e;
-}
-
-.quiz-result-bar-wrap {
-  width: 100%;
-  height: 8px;
-  background: #e2e8f0;
-  border-radius: 99px;
-  overflow: hidden;
-}
-
-.quiz-result-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #34d399, #059669);
-  border-radius: 99px;
-  transition: width 1s ease;
-}
-
-.quiz-result-desc {
-  font-size: 14px;
-  color: #64748b;
-  line-height: 1.5;
-}
-
-.quiz-result-btn {
-  margin-top: 8px;
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #34d399, #059669);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.quiz-result-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
-}
-
-/* ===== ИНВЕНТАРЬ ЗЛАТЫ — статусы в сотах ===== */
-  .zlata-inventory {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 6px !important;
-    margin-top: 10px !important;
-  }
-
-  .zlata-inv-item {
-    padding: 8px 4px !important;
-    border-radius: 10px !important;
-    font-size: 26px !important;  /* эмодзи */
-    gap: 2px !important;
-  }
-
-  .zlata-inv-item small {
-    font-size: 11px !important;
-    line-height: 1.2 !important;
-    text-align: center !important;
-    word-break: break-word !important;
-    white-space: normal !important;
-    max-width: 100% !important;
-    overflow: visible !important;
-  }
-
-  /* Прогресс-бар Златы */
-  .zlata-nw-bar {
-    margin-top: 10px !important;
-  }
-
-  .zlata-nw-label {
-    font-size: 11px !important;
-    line-height: 1.3 !important;
-  }
-
-  .zlata-nw-value {
-    font-size: 12px !important;
-    white-space: nowrap !important;
-  }
-
-  .zlata-nw-track {
-    height: 10px !important;
-  }
-
-  /* Подсказка переворота */
-  .zlata-flip-hint {
-    font-size: 13px !important;
-    line-height: 1.4 !important;
-  }
-
-  /* Цитата */
-  .zlata-quote {
-    font-size: 14px !important;
-    padding: 8px 10px !important;
-    margin-top: 10px !important;
-  }
-
-  /* Имя и роль */
-  .zlata-name {
-    font-size: 22px !important;
-  }
-
-  .zlata-role {
-    font-size: 14px !important;
-  }
-
-  .zlata-badge-new {
-    font-size: 12px !important;
-    padding: 3px 10px !important;
-  }
-
-/* ===== МОБИЛЬНЫЙ ФИКС — предотвращение горизонтального скролла ===== */
-
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
-
-
-#app {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-  box-sizing: border-box !important;
-}
-
-@media (max-width: 899px) {
-
-  /* Запрет горизонтального скролла везде */
-  html, body, #app, #screen-container {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Заголовок страницы (не .panel h2, а общий) */
-  h1, h2, h3, h4 {
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
-    hyphens: auto !important;
-    max-width: 100% !important;
-  }
-
-  /* Картинки не выходят за экран */
-  img {
-    max-width: 100% !important;
-    height: auto !important;
-  }
-
-  /* Фиксированные элементы */
-  #main-menu-toggle {
-    left: 10px !important;
-    top: 10px !important;
-  }
-
-  #main-menu {
-    left: 10px !important;
-    max-width: calc(100vw - 20px) !important;
-  }
-
-  /* Screen container */
-  #screen-container {
-    padding: 10px 12px !important;
-    height: auto !important;
-    min-height: calc(100vh - 80px) !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-    border-radius: 16px !important;
-  }
-
-  /* Все flex-дети не выходят за экран */
-  .screen.active {
-    overflow-x: hidden !important;
-    max-width: 100% !important;
-  }
-
-  /* Layout — одна колонка */
-  .screen-layout {
-    grid-template-columns: 1fr !important;
-    overflow-x: hidden !important;
-    max-width: 100% !important;
-  }
-
-  /* Сцена и панель */
-  .scene, .panel {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    overflow-x: hidden !important;
-    min-width: 0 !important;
-  }
-}
-
-@media (max-width: 600px) {
-
-  .s1-overlay {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    z-index: 100 !important;
-    display: flex !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    padding: 0 12px 16px !important;
-  }
-
-  .s1-overlay-card {
-    position: relative !important;
-    z-index: 10 !important;
-    width: 100% !important;
-    max-width: 480px !important;
-
-    /* Высота — от низа до верха с отступом */
-    height: calc(100dvh - 80px) !important;
-    max-height: calc(100dvh - 80px) !important;
-
-    border-radius: 24px !important;
-    background: rgba(255,255,255,0.98) !important;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.35) !important;
-    
-    /* flex-колонка: текст + кнопка */
-    overflow: hidden !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  /* Скролл только для текста */
-  .s1-overlay-scroll {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 24px 20px 16px !important;
-    
-    /* Убираем gap чтобы не было лишних отступов */
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-
-    scrollbar-width: thin !important;
-    scrollbar-color: #22c55e #f0fdf4 !important;
-  }
-
-  .s1-overlay-scroll::-webkit-scrollbar {
-    width: 4px !important;
-  }
-  .s1-overlay-scroll::-webkit-scrollbar-thumb {
-    background: rgba(34,197,94,0.3) !important;
+    width: auto !important;
+    min-width: 220px !important;
+    font-size: 24px !important;
+    min-height: 64px !important;
+    padding: 0 40px !important;
     border-radius: 999px !important;
   }
-
-  /* Кнопка — ВЫНЕСЕНА ИЗ СКРОЛЛА, прибита к низу карточки */
-  .s1-overlay-card .actions-row {
-    flex-shrink: 0 !important;
-    padding: 12px 20px 16px !important;
-    margin: 0 !important;
-    background: #fff !important;
-    border-top: 1px solid #f1f5f9 !important;
-  }
-
-  .s1-overlay-card .actions-row .btn {
-    width: 100% !important;
-    min-height: 60px !important;
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    border-radius: 16px !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  /* Тексты внутри карточки */
-  .s1-overlay-scroll h2 {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #1e293b !important;
-    margin: 0 !important;
-  }
-
-  .s1-overlay-scroll p,
-  .s1-overlay-scroll li {
-    font-size: 15px !important;
-    line-height: 1.65 !important;
-    color: #334155 !important;
-  }
-
-  .s1-overlay-scroll ol {
-    padding-left: 20px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-
-  .s1-ready-box {
-    padding: 12px 14px !important;
-    border-radius: 12px !important;
-  }
-
-  .s1-ready-box p {
-    font-size: 16px !important;
-  }
-}
-
-/* ===== Модалка расписания — по центру экрана на мобильном ===== */
-#schedule-modal {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 999 !important;
-  background: rgba(0, 0, 0, 0.4) !important;
-  display: none;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 20px !important;
-}
-
-#schedule-modal.active {
-  display: flex !important;
-}
-
-#schedule-modal .modal {
-  max-height: 80vh !important;
-  overflow-y: auto !important;
-  width: 100% !important;
-  max-width: 420px !important;
-  border-radius: 20px !important;
-  padding: 24px 20px !important;
-}
-
-#schedule-modal .modal h3 {
-  font-size: 24px !important;
-  margin-bottom: 12px !important;
-}
-
-#schedule-modal .modal p {
-  font-size: 18px !important;
-  line-height: 1.6 !important;
-  margin-bottom: 10px !important;
-}
-
-#schedule-modal .modal .btn {
-  width: 100% !important;
-  min-height: 60px !important;
-  font-size: 20px !important;
-  margin-top: 8px !important;
-}
-
-#screen-container {
-  width: 100%;
-  max-width: 960px;
-  height: calc(100vh - 32px);   /* ← ключевое! */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: var(--radius-lg);
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  padding: 18px 20px;
-  box-sizing: border-box;
-  position: relative;
 }
