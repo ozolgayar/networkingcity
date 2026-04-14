@@ -276,9 +276,6 @@ function addScore(delta) {
 
   area.innerHTML = html;
 
-  // Отслеживаем ответы на оба вопроса
- area.innerHTML = html;
-
 // ← НОВОЕ: скроллим к началу новых вопросов
 setTimeout(function() {
   var firstQ = area.querySelector('.quiz-q');
