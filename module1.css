@@ -4941,3 +4941,37 @@ color: #1e293b;
 .zlata-front {
   min-height: unset;
 }
+
+/* ===== Экраны-карточки: прозрачный фон ===== */
+
+/* Когда активен screen-card — убираем фон контейнера */
+#screen-container:has(.screen-card.active) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Сам экран — прозрачный, центрирует карточку */
+.screen-card.active {
+  background: transparent !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px 0 !important;
+  overflow-y: auto !important;
+}
+
+/* Кнопка назад — белая, чтобы была видна на градиенте */
+.screen-card .nav-back {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  align-self: flex-start !important;
+  margin-left: 16px !important;
+}
+
+/* Карточка Златы — тень акцентируется на фоне */
+.screen-card .zlata-card-wrapper {
+  filter: drop-shadow(0 16px 48px rgba(0, 0, 0, 0.2));
+}
