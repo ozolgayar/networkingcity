@@ -521,18 +521,17 @@ function initLaptopHotspot() {
     floatMsg.classList.add('show');
   });
 
- cont.addEventListener('click', function() {
+cont.addEventListener('click', function() {
     var text = textarea.value.trim();
     if (text) {
       localStorage.setItem('nc_purpose_text', text);
     }
     modal.classList.remove('active');
-    // Ставим галочку "Цель пройдена" и возвращаемся на рабочий стол
-    localStorage.setItem('laptopGoalDone', '1');
-    showScreen('screen-10');
+    // ✅ Ведём на "Нити нетворкинга"
+    showScreen('screen-12');
+    // ✅ НЕ засчитываем цель — убрали laptopGoalDone
   });
-}
-
+    
   // ===== Экран 12: Нити нетворкинга — мини-игра с бусинами =====
   const beadsStages = [
     { word: 'УСТАНОВКА', feedbackOk: 'Установка связей — это первый шаг, смелость начать. Супер! Двигаемся дальше.' },
