@@ -26,8 +26,8 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    body {
-    background:
+   body {
+  background: /* твой градиент */
     radial-gradient(ellipse 55% 70% at 50% 46%,
       rgba(255,255,255,0.96) 0%,
       rgba(255,255,255,0.55) 25%,
@@ -49,23 +49,27 @@
     );
   background-attachment: fixed;
   color: var(--text);
-  min-height: 100vh;
   display: flex;
   align-items: stretch;
   justify-content: center;
+  /* убираем min-height, добавляем height */
+  height: 100vh;
+  overflow: hidden;
 }
 
-    #app {
-        width: 100%;
+#app {
+  width: 100%;
   max-width: 1200px;
-  min-height: 100vh;
-  padding: 16px 20px;;          
+  height: 100vh;           /* ← фиксированная высота */
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   position: relative;
   background: transparent;
-         margin: 0 auto
+  margin: 0 auto;
+  overflow: hidden;        /* ← не вылезает */
+  box-sizing: border-box;
 }
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
@@ -161,7 +165,8 @@
     }
 
     header {
-  display: none;
+  display: none;           /* у тебя скрыт */
+  flex-shrink: 0;          /* не сжимается */
 }
 
     header .logo {
@@ -201,16 +206,13 @@
 
 main {
   flex: 1;
+  min-height: 0;           /* ← КЛЮЧЕВОЕ для flex */
   display: flex;
-  gap: 16px;
-  align-items: stretch;
   position: relative;
   z-index: 5;
-     min-height: 0;     
-  justify-content: center;  /* ← добавь это */
-  width: 100%;              /* ← добавь это */
+  overflow: hidden;
 }
-   
+
 .badge {
   font-size: 11px;
   padding: 3px 7px;
@@ -360,25 +362,28 @@ main {
   display: none;
   flex: 1;
   min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .screen.active {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   flex: 1;
   min-height: 0;
+  overflow: hidden;        /* ← не вылезает за контейнер */
   animation: fadeIn .35s ease-out;
 }
 
-    .screen-layout {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 16px;
-      min-height: 0;
-    }
-
+/* Layout двух колонок — тоже фиксирован */
+.screen-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 16px;
+  overflow: hidden;
+}
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -397,15 +402,17 @@ main {
     }
 
     .scene {
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      position: relative;
-      overflow: hidden;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-    }
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* остальные твои стили */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  padding: 14px;
+}
+
 
     .scene-header {
       font-size: 12px;
@@ -425,16 +432,18 @@ main {
     }
 
 .panel {
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
- background: linear-gradient(135deg, #ffffff, #f8fafc);
-  padding: 24px 24px 16px; /* увеличили верхний паддинг с 12 до 24 */
+  min-height: 0;
+  overflow-y: auto;        /* ← скролл только в панели */
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* остальные твои стили */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  padding: 24px 24px 16px;
   font-size: 14px;
   color: var(--text-soft);
-  position: relative;
 }
 
     /* Тэг "Теория" */
@@ -5151,9 +5160,10 @@ color: #1e293b;
 /* ===== МОБИЛЬНЫЙ ФИКС — предотвращение горизонтального скролла ===== */
 
 html, body {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
+  height: 100%;
+  overflow: hidden;
 }
+
 
 #app {
   overflow-x: hidden !important;
@@ -5384,8 +5394,18 @@ html, body {
 }
 
 #screen-container {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  position: relative;
+  overflow: hidden;        /* ← контент не вылезает */
+  
+  /* десктоп — белый блок */
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: var(--radius-lg);
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px;
+  box-sizing: border-box;
 }
