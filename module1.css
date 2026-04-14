@@ -5377,17 +5377,18 @@ html, body {
 }
 
 #screen-container {
-  flex: 1;
-  min-height: 0;
- max-width: 960px;;
+  width: 100%;
+  max-width: 960px;
+  height: calc(100vh - 32px);   /* ← ключевое! */
   display: flex;
   flex-direction: column;
-  overflow: hidden;       
-    margin: 0 auto; 
+  overflow: hidden;
+  margin: 0 auto;
   background: rgba(255, 255, 255, 0.96);
   border-radius: var(--radius-lg);
   border: 1px solid #cbd5e1;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   padding: 18px 20px;
   box-sizing: border-box;
+  position: relative;
 }
