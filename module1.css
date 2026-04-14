@@ -5396,7 +5396,7 @@ html, body {
 #screen-container {
   flex: 1;
   min-height: 0;
- max-width: 760px;;
+ max-width: 960px;;
   display: flex;
   flex-direction: column;
   overflow: hidden;        /* ← контент не вылезает */
