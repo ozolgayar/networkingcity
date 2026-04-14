@@ -4818,3 +4818,31 @@ color: #1e293b;
     border-radius: 999px !important;
   }
 }
+
+/* ===== СТАНДАРТ: все экраны одного размера ===== */
+#screen-container {
+  height: calc(100vh - 32px); /* 32px = padding #app сверху+снизу */
+  min-height: unset;           /* убираем старое min-height:600px */
+  overflow: hidden;
+}
+
+.screen.active {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Экраны с двумя колонками */
+.screen-layout {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Сцена и панель — занимают всю высоту */
+.scene {
+  overflow: hidden;
+}
+
+.panel {
+  overflow-y: auto;
+  max-height: 100%;
+}
