@@ -199,15 +199,16 @@
   background: rgba(255, 255, 255, 0.8);
 }
 
-    main {
-     flex: 1;
+main {
+  flex: 1;
   display: flex;
   gap: 16px;
   align-items: stretch;
   position: relative;
   z-index: 5;
+  justify-content: center;  /* ← добавь это */
+  width: 100%;              /* ← добавь это */
 }
-
    
 .badge {
   font-size: 11px;
@@ -4007,12 +4008,18 @@ color: #1e293b;
 }
   #mobile-warning { display: none !important; }
 
-  #app {
-    pointer-events: auto !important;
-    filter: none !important;
-    padding: 10px;
-    gap: 8px;
-  }
+#app {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  background: transparent;
+  margin: 0 auto;  /* ← убедись что это есть */
+}
 
   /* ===== ХЕДЕР ===== */
   header {
@@ -4754,7 +4761,7 @@ color: #1e293b;
   #screen-container {
     width: 100%;
     max-width: 1100px;
-    margin: 16px auto;
+    margin: 0 auto;           /* ← центрирование */
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-lg);
     border: 1px solid #cbd5e1;
@@ -4765,6 +4772,8 @@ color: #1e293b;
     flex-direction: column;
     height: calc(100vh - 32px);
     overflow: hidden;
+    align-self: flex-start;   /* ← не растягивается по высоте */
+    flex: 1;                  /* ← занимает доступную ширину */
   }
 
   /* ===== ЭКРАНЫ ===== */
