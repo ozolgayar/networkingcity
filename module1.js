@@ -238,32 +238,76 @@ function addScore(delta) {
     }
 
     function showQuestion(idx) {
-      if (idx >= questions.length) { showResult(); return; }
-      var q = questions[idx];
-      progress.textContent = 'Вопрос ' + (idx + 1) + ' из ' + questions.length;
+  if (idx >= questions.length) { showResult(); return; }
+  
+  // Показываем 2 вопроса за раз
+  var q1 = questions[idx];
+  var q2 = questions[idx + 1];
+  var isLast = !q2;
+  
+  // Счётчик
+  if (isLast) {
+    progress.textContent = 'Вопрос ' + (idx + 1) + ' из ' + questions.length;
+  } else {
+    progress.textContent = 'Вопросы ' + (idx + 1) + '–' + (idx + 2) + ' из ' + questions.length;
+  }
 
-      var html = '<div class="quiz-q">';
-      html += '<h3>' + (idx + 1) + '. ' + q.q + '</h3>';
-      html += '<div class="quiz-options">';
-      q.opts.forEach(function(label, oi) {
-        html += '<div class="quiz-opt" data-pts="' + (oi + 1) + '">' + label + '</div>';
+  var html = '';
+  
+  // Первый вопрос
+  html += '<div class="quiz-q" data-qidx="' + idx + '">';
+  html += '<h3>' + (idx + 1) + '. ' + q1.q + '</h3>';
+  html += '<div class="quiz-options">';
+  q1.opts.forEach(function(label, oi) {
+    html += '<div class="quiz-opt" data-pts="' + (oi + 1) + '" data-qidx="' + idx + '">' + label + '</div>';
+  });
+  html += '</div></div>';
+  
+  // Второй вопрос (если есть)
+  if (q2) {
+    html += '<div class="quiz-q" data-qidx="' + (idx + 1) + '" style="margin-top:12px;">';
+    html += '<h3>' + (idx + 2) + '. ' + q2.q + '</h3>';
+    html += '<div class="quiz-options">';
+    q2.opts.forEach(function(label, oi) {
+      html += '<div class="quiz-opt" data-pts="' + (oi + 1) + '" data-qidx="' + (idx + 1) + '">' + label + '</div>';
+    });
+    html += '</div></div>';
+  }
+
+  area.innerHTML = html;
+
+  // Отслеживаем ответы на оба вопроса
+  var answered = {}; // { qIdx: pts }
+
+  area.querySelectorAll('.quiz-opt').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      var qIdx = parseInt(opt.dataset.qidx);
+      var pts  = parseInt(opt.dataset.pts);
+
+      // Снимаем выделение с других вариантов этого вопроса
+      area.querySelectorAll('.quiz-opt[data-qidx="' + qIdx + '"]').forEach(function(o) {
+        o.classList.remove('selected');
       });
-      html += '</div></div>';
+      opt.classList.add('selected');
+      
+      answered[qIdx] = pts;
+      answers[qIdx] = pts;
 
-      area.innerHTML = html;
+      // Проверяем — оба отвечены?
+      var q1done = answered[idx] !== undefined;
+      var q2done = !q2 || answered[idx + 1] !== undefined;
 
-      var opts = area.querySelectorAll('.quiz-opt');
-      opts.forEach(function(opt) {
-        opt.addEventListener('click', function() {
-          opts.forEach(function(o) { o.style.pointerEvents = 'none'; });
-          opt.classList.add('selected');
-          answers[idx] = parseInt(opt.getAttribute('data-pts'));
-          currentQ = idx + 1;
-          setTimeout(function() { showQuestion(currentQ); }, 500);
+      if (q1done && q2done) {
+        // Блокируем все варианты
+        area.querySelectorAll('.quiz-opt').forEach(function(o) {
+          o.style.pointerEvents = 'none';
         });
-      });
-    }
-
+        currentQ = idx + 2;
+        setTimeout(function() { showQuestion(currentQ); }, 500);
+      }
+    });
+  });
+}
     function showResult() {
       area.style.display = 'none';
       progress.style.display = 'none';
