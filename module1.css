@@ -4010,7 +4010,15 @@ color: #1e293b;
    МОБИЛЬНАЯ ВЕРТИКАЛЬНАЯ ВЕРСИЯ (portrait)
    ======================================== */
 @media (max-width: 899px) {
-
+  /* Все модалки внутри сцены — фиксированные */
+  .scene .modal-overlay,
+  .scene-main .modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999 !important;
+    padding: 20px !important;
+  }
+}
   #mobile-warning { display: none !important; }
 
   #app {
@@ -5332,4 +5340,47 @@ html, body {
   .s1-ready-box p {
     font-size: 16px !important;
   }
+}
+
+/* ===== Модалка расписания — по центру экрана на мобильном ===== */
+#schedule-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 999 !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+}
+
+#schedule-modal.active {
+  display: flex !important;
+}
+
+#schedule-modal .modal {
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  width: 100% !important;
+  max-width: 420px !important;
+  border-radius: 20px !important;
+  padding: 24px 20px !important;
+}
+
+#schedule-modal .modal h3 {
+  font-size: 24px !important;
+  margin-bottom: 12px !important;
+}
+
+#schedule-modal .modal p {
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+  margin-bottom: 10px !important;
+}
+
+#schedule-modal .modal .btn {
+  width: 100% !important;
+  min-height: 60px !important;
+  font-size: 20px !important;
+  margin-top: 8px !important;
 }
