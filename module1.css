@@ -4885,30 +4885,6 @@ color: #1e293b;
 
 }
 
-  /* ===== ЭКРАН 1: ОБЛОЖКА — на весь контейнер ===== */
-  #screen-1 {
-    height: 100% !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-  }
-
-  .s1-cover {
-    width: 100% !important;
-    height: 100% !important;
-    position: relative !important;
-  }
- 
-  /* ===== КНОПКИ — десктопный размер ===== */
-  button.btn {
-    padding: 12px 28px;
-    font-size: 15px;
-    font-weight: 600;
-    min-height: 44px;
-    border-radius: 999px;
-  }
-
-}
-
 /* ===== Экран 12: бусины ===== */
 #screen-12 {
   flex: 1;
