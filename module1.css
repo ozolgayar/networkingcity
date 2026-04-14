@@ -5060,3 +5060,74 @@ color: #1e293b;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
 }
+
+/* ===== ИНВЕНТАРЬ ЗЛАТЫ — статусы в сотах ===== */
+  .zlata-inventory {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+  }
+
+  .zlata-inv-item {
+    padding: 8px 4px !important;
+    border-radius: 10px !important;
+    font-size: 26px !important;  /* эмодзи */
+    gap: 2px !important;
+  }
+
+  .zlata-inv-item small {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Прогресс-бар Златы */
+  .zlata-nw-bar {
+    margin-top: 10px !important;
+  }
+
+  .zlata-nw-label {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+
+  .zlata-nw-value {
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  .zlata-nw-track {
+    height: 10px !important;
+  }
+
+  /* Подсказка переворота */
+  .zlata-flip-hint {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Цитата */
+  .zlata-quote {
+    font-size: 14px !important;
+    padding: 8px 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Имя и роль */
+  .zlata-name {
+    font-size: 22px !important;
+  }
+
+  .zlata-role {
+    font-size: 14px !important;
+  }
+
+  .zlata-badge-new {
+    font-size: 12px !important;
+    padding: 3px 10px !important;
+  }
+}
