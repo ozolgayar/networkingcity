@@ -314,7 +314,15 @@ var answered = {}; // { qIdx: pts }
           o.style.pointerEvents = 'none';
         });
         currentQ = idx + 2;
-        setTimeout(function() { showQuestion(currentQ); }, 500);
+setTimeout(function() {
+  showQuestion(currentQ);
+  
+  // Скроллим панель к началу новых вопросов
+  var panel = document.querySelector('#screen-2 .panel');
+  if (panel) {
+    panel.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}, 500);
       }
     });
   });
