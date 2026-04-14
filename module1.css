@@ -5132,124 +5132,82 @@ color: #1e293b;
   }
 }
 
-/* ===== МОБИЛЬНЫЙ ФИКС — Экран 1: Обложка ===== */
-@media (max-width: 600px) {
+/* ===== МОБИЛЬНЫЙ ФИКС — предотвращение горизонтального скролла ===== */
 
-  /* Обёртка обложки */
-  .s1-cover {
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+#app {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 899px) {
+
+  /* Запрет горизонтального скролла везде */
+  html, body, #app, #screen-container {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
     width: 100% !important;
-    overflow: hidden !important;
-    position: relative !important;
-  }
-
-  /* Картинка обложки */
-  .s1-cover-img {
-    width: 100% !important;
-    overflow: hidden !important;
-  }
-
-  .s1-cover-img img {
-    width: 100% !important;
-    height: 100svh !important;
-    max-height: 100svh !important;
-    object-fit: cover !important;
-    object-position: center top !important;
-    display: block !important;
-  }
-
-  /* Кнопка START по центру */
-  .s1-round-btn-wrap {
-    position: absolute !important;
-    bottom: 80px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 8px !important;
-    z-index: 10 !important;
-  }
-
-  /* Кнопка */
-  .s1-round-btn {
-    width: 100px !important;
-    height: 100px !important;
-  }
-
-  /* Текст под кнопкой */
-  .s1-round-btn-hint {
-    font-size: 13px !important;
-    color: rgba(255,255,255,0.85) !important;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4) !important;
-    white-space: nowrap !important;
-  }
-
-  /* ===== Оверлей (экран теории) ===== */
-  .s1-overlay {
-    width: 100% !important;
-    overflow: hidden !important;
-  }
-
-  .s1-overlay-bg img {
-    width: 100% !important;
-    height: 100svh !important;
-    object-fit: cover !important;
-    object-position: center top !important;
-  }
-
-  /* Карточка с текстом */
-  .s1-overlay-card {
-    width: calc(100% - 24px) !important;
-    max-width: 100% !important;
-    margin: 0 12px !important;
     box-sizing: border-box !important;
-    max-height: 75svh !important;
-    overflow-y: auto !important;
   }
 
-  .s1-overlay-scroll {
-    padding: 16px !important;
+  /* Заголовок страницы (не .panel h2, а общий) */
+  h1, h2, h3, h4 {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    max-width: 100% !important;
   }
 
-  /* Заголовок */
-  .s1-overlay-card h2 {
-    font-size: 20px !important;
-    line-height: 1.3 !important;
-  }
-
-  /* Текст */
-  .s1-overlay-card p,
-  .s1-overlay-card li {
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-  }
-
-  /* ===== ШАПКА ===== */
-  header {
-    padding: 8px 12px !important;
-  }
-
-  .logo {
-    font-size: 13px !important;
-  }
-
-  /* ===== Скрин-лейаут (все экраны) ===== */
-  .screen-layout {
-    flex-direction: column !important;
+  /* Картинки не выходят за экран */
+  img {
+    max-width: 100% !important;
     height: auto !important;
-    min-height: 100svh !important;
   }
 
-  .scene {
-    height: 280px !important;
-    min-height: 280px !important;
-    max-height: 280px !important;
+  /* Фиксированные элементы */
+  #main-menu-toggle {
+    left: 10px !important;
+    top: 10px !important;
   }
 
-  .panel {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    padding: 16px !important;
-    max-height: none !important;
+  #main-menu {
+    left: 10px !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+
+  /* Screen container */
+  #screen-container {
+    padding: 10px 12px !important;
+    height: auto !important;
+    min-height: calc(100vh - 80px) !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    border-radius: 16px !important;
+  }
+
+  /* Все flex-дети не выходят за экран */
+  .screen.active {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+
+  /* Layout — одна колонка */
+  .screen-layout {
+    grid-template-columns: 1fr !important;
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+
+  /* Сцена и панель */
+  .scene, .panel {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    min-width: 0 !important;
   }
 }
