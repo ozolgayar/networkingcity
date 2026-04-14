@@ -4827,7 +4827,7 @@ color: #1e293b;
 
 /* ===== СТАНДАРТ: все экраны одного размера ===== */
 
-/* Только для десктопа — мобильные стили выше перебивают */
+@media (min-width: 900px) {
 
   #screen-container {
     width: 100%;
@@ -4841,12 +4841,11 @@ color: #1e293b;
     position: relative;
     display: flex;
     flex-direction: column;
-    height: auto;           /* ← не на весь экран! */
-    min-height: 300px;      /* ← минимум чтобы не схлопнулся */
-    max-height: none;       /* ← без ограничения */
-    overflow: visible;      /* ← не обрезаем */
+    height: auto;        /* ← по содержимому! */
+    min-height: 300px;
+    max-height: none;
+    overflow: visible;
   }
-}
 
   /* Кнопки — нормальный десктопный размер */
   button.btn {
@@ -4857,8 +4856,7 @@ color: #1e293b;
     border-radius: 999px;
   }
 
-}
-
+}  /* ← одна закрывающая скобка */
 
 /* ===== Экран 12: бусины ===== */
 #screen-12 {
