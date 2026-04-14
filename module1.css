@@ -4846,3 +4846,60 @@ color: #1e293b;
   overflow-y: auto;
   max-height: 100%;
 }
+
+/* Экран 13 вписывается в контейнер */
+#screen-13 .fear-fullscreen {
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+#screen-13 .fear-fullscreen::-webkit-scrollbar {
+  width: 6px;
+}
+#screen-13 .fear-fullscreen::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.4);
+  border-radius: 999px;
+}
+
+/* Сетка масок — компактнее */
+#screen-13 .fear-masks-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 100%;
+}
+
+#screen-13 .fear-mask-face {
+  width: 72px;
+  height: 82px;
+}
+
+#screen-13 .fear-mask-text {
+  font-size: 11px;
+}
+
+/* Карточки Златы вписываются в высоту */
+#screen-3,
+#screen-13-1,
+#screen-17-1,
+#screen-19-1,
+#screen-21-0,
+#screen-21-1-1 {
+  height: 100%;
+  overflow-y: auto;
+}
+
+#screen-3::-webkit-scrollbar,
+#screen-13-1::-webkit-scrollbar {
+  width: 5px;
+}
+#screen-3::-webkit-scrollbar-thumb,
+#screen-13-1::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.4);
+  border-radius: 999px;
+}
+
+/* Карточка не выходит за экран */
+.zlata-front {
+  min-height: unset; /* убираем 680px */
+}
