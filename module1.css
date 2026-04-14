@@ -4783,8 +4783,8 @@ color: #1e293b;
     flex-direction: column;
     height: calc(100vh - 32px);
     overflow: hidden;
-    align-self: flex-start;   /* ← не растягивается по высоте */
-    flex: 1;                  /* ← занимает доступную ширину */
+    margin: 0 auto;   
+    flex: 1;     
   }
 
   /* ===== ЭКРАНЫ ===== */
