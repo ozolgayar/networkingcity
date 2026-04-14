@@ -211,6 +211,7 @@ main {
   position: relative;
   z-index: 5;
   overflow: hidden;
+  justify-content: center;
 }
 
 .badge {
@@ -4772,7 +4773,6 @@ color: #1e293b;
   #screen-container {
     width: 100%;
     max-width: 760px;
-    margin: 0 auto;           /* ← центрирование */
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-lg);
     border: 1px solid #cbd5e1;
@@ -4784,7 +4784,6 @@ color: #1e293b;
     height: calc(100vh - 32px);
     overflow: hidden;
     margin: 0 auto;   
-    flex: 1;     
   }
 
   /* ===== ЭКРАНЫ ===== */
