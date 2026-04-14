@@ -659,4 +659,9 @@ a.cover-btn {
   .net-branches-1   { width: 90px; }
   .net-branches-2   { width: 220px; }
   .net-branch       { height: 22px; }
+  .cover-sticker {
+    width: 70px;
+    height: 70px;
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12));
+  }
 }
