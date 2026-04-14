@@ -73,11 +73,22 @@
      <!-- Экран 1. Обложка курса -->
 <div class="screen active" id="screen-1">
 
-  <!-- СОСТОЯНИЕ 1: Обложка -->
-  <div id="screen-1-cover" class="s1-cover">
-    <div class="s1-cover-img">
-      <img src="https://i.ibb.co/9knthjNr/image.png" alt="НетворкингСити">
-    </div>
+ <!-- СОСТОЯНИЕ 1: Обложка -->
+<div id="screen-1-cover" class="s1-cover">
+  <div class="s1-cover-img">
+    <picture>
+      <!-- Мобильная вертикальная (до 600px) -->
+      <source 
+        media="(max-width: 600px)" 
+        srcset="https://i.ibb.co/q3V6Gxs7/4bd0a50a6d3da6822748d860fd4bf89c-226f843b-c089-42d5-8ff5-0c7c4a436a20.jpg"
+      >
+      <!-- Десктоп горизонтальная -->
+      <img 
+        src="https://i.ibb.co/9knthjNr/image.png" 
+        alt="Есть контакт!"
+      >
+    </picture>
+  </div>
  <div class="s1-round-btn-wrap" id="s1-round-wrap">
   <button class="s1-round-btn" id="btn-screen1-start">
     <div class="s1-round-btn-inner">
@@ -93,9 +104,16 @@
   <div id="screen-1-overlay" class="s1-overlay" style="display:none;">
 
     <!-- Затемнённая картинка на фоне -->
-    <div class="s1-overlay-bg">
-      <img src="https://i.ibb.co/9knthjNr/image.png" alt="">
-    </div>
+  <!-- Затемнённая картинка на фоне -->
+<div class="s1-overlay-bg">
+  <picture>
+    <source 
+      media="(max-width: 600px)" 
+      srcset="images/cover-mobile.jpg"
+    >
+    <img src="https://i.ibb.co/q3V6Gxs7/4bd0a50a6d3da6822748d860fd4bf89c-226f843b-c089-42d5-8ff5-0c7c4a436a20.jpg" alt="">
+  </picture>
+</div>
 
     <!-- Карточка с текстом -->
     <div class="s1-overlay-card">
