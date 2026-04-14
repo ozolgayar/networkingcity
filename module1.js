@@ -277,7 +277,18 @@ function addScore(delta) {
   area.innerHTML = html;
 
   // Отслеживаем ответы на оба вопроса
-  var answered = {}; // { qIdx: pts }
+ area.innerHTML = html;
+
+// ← НОВОЕ: скроллим к началу новых вопросов
+setTimeout(function() {
+  var firstQ = area.querySelector('.quiz-q');
+  if (firstQ) {
+    firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}, 50);
+
+// Отслеживаем ответы на оба вопроса
+var answered = {}; // { qIdx: pts }
 
   area.querySelectorAll('.quiz-opt').forEach(function(opt) {
     opt.addEventListener('click', function() {
