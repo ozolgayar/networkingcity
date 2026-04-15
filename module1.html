@@ -393,50 +393,36 @@
 <div style="flex:1; display:flex; align-items:center; justify-content:center; gap:24px; padding:20px; flex-wrap:wrap;">
 
   <!-- Папка: Расписание -->
- <div id="folder-schedule" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;" title="Расписание конференции">
-  <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#facc15,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📋</div>
-  <div id="schedule-done-badge" style="display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#22c55e;border:2px solid #1e293b;align-items:center;justify-content:center;font-size:10px;color:#fff;">✓</div>
-  <span style="color:#e2e8f0;font-size:11px;text-align:center;">Расписание<br>конференции</span>
-</div>
+  <div id="folder-schedule" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;" title="Расписание конференции">
+    <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#facc15,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">📋</div>
+    <div id="schedule-done-badge" style="display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#22c55e;border:2px solid #1e293b;align-items:center;justify-content:center;font-size:10px;color:#fff;">✓</div>
+    <span style="color:#e2e8f0;font-size:11px;text-align:center;">Расписание<br>конференции</span>
+  </div>
 
   <!-- Папка: Цель -->
- <div id="folder-goal" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;" title="Поставить цель">
-  <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🎯</div>
-  <div id="goal-done-badge" style="display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#22c55e;border:2px solid #1e293b;align-items:center;justify-content:center;font-size:10px;color:#fff;">✓</div>
-  <span style="color:#e2e8f0;font-size:11px;text-align:center;">Цель</span>
-</div>
+  <div id="folder-goal" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;" title="Поставить цель">
+    <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🎯</div>
+    <div id="goal-done-badge" style="display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#22c55e;border:2px solid #1e293b;align-items:center;justify-content:center;font-size:10px;color:#fff;">✓</div>
+    <span style="color:#e2e8f0;font-size:11px;text-align:center;">Цель</span>
+  </div>
 
-  <!-- Папка: Карта мероприятия — НОВАЯ -->
+  <!-- Папка: Карта мероприятия -->
   <div id="folder-map" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;" title="Карта мероприятия">
     <div style="width:64px;height:52px;border-radius:4px 4px 8px 8px;background:linear-gradient(135deg,#38bdf8,#0284c7);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">🗺️</div>
     <div id="map-done-badge" style="display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#22c55e;border:2px solid #1e293b;align-items:center;justify-content:center;font-size:10px;color:#fff;">✓</div>
     <span style="color:#e2e8f0;font-size:11px;text-align:center;">Карта<br>мероприятия</span>
   </div>
 
- 
 </div>
 <!-- Мысль Златы -->
 <div style="padding:8px 14px 10px; background:rgba(0,0,0,0.3); font-size:12px; color:#94a3b8; line-height:1.4;">
   💬 Надо подготовиться. Посмотрю расписание, поставлю цель и изучу карту мероприятия.
 </div>
 
-<!-- Модалка расписания -->
-<div class="modal-overlay" id="schedule-modal">
-  <div class="modal" style="max-width:460px; max-height:85vh; overflow-y:auto;">
-<h3>📋 Расписание конференции</h3>
-<p>Когда собираешься на конференцию или выставку, которая длится несколько дней, прежде всего изучи расписание. Посмотрим, какие сессии тебе наиболее интересны.</p>
-<p style="margin-top:6px;">Особое внимание обрати на те события, проведение которых соответствует времени суток, когда ты наиболее комфортно чувствуешь себя в толпе.</p>
-<p style="margin-top:6px;">Оставь как минимум час для того, чтобы побыть среди людей. За это время оцени ситуацию, обменяйся контактами с парой человек.</p>
-<p style="margin-top:6px;">Можно знакомиться с людьми в перерывах между выступлениями или участвуя в пленарном заседании.</p>
-<div class="actions-row" style="margin-top:12px; justify-content:flex-end;">
-<button class="btn" id="schedule-modal-ok">ОК</button>
-</div>
-</div>
-</div>
+</div><!-- закрытие div рабочего стола (overflow:hidden) -->
+</div><!-- закрытие .scene-main -->
+</div><!-- закрытие .scene -->
 
-</div>
-</div>
-</div>
 <div class="panel">
   <div class="panel-tag">Теория</div>
   <h2>Включаем режим подготовки</h2>
@@ -448,10 +434,7 @@
     <li><strong>Карта мероприятия</strong> — изучишь план площадки</li>
   </ul>
 
-  <!-- Кнопка появляется когда все 3 папки открыты -->
   <div style="margin-top:24px; border-top:1px solid #f1f5f9; padding-top:16px;">
-    
-    <!-- Подсказка пока не всё открыто -->
     <p id="laptop-next-hint" style="
       font-size:12px;
       color:#94a3b8;
@@ -460,7 +443,6 @@
       line-height:1.5;
     ">🔒 Открой все три папки, чтобы продолжить</p>
 
-    <!-- Кнопка — скрыта по умолчанию -->
     <button id="btn-laptop-next" style="
       display:none;
       width:100%;
@@ -480,10 +462,26 @@
     >
       ✅ Всё готово — Далее →
     </button>
-         </div><!-- закрытие div с кнопкой -->
- </div><!-- закрытие .panel -->
-    </div><!-- закрытие .screen-layout -->
-  </div><!-- ← ЗАКРЫТИЕ #screen-10 -->
+  </div>
+</div><!-- закрытие .panel -->
+
+</div><!-- закрытие .screen-layout -->
+</div><!-- закрытие #screen-10 -->
+
+
+<!-- ↓ МОДАЛКА РАСПИСАНИЯ — ВНЕ экрана, на верхнем уровне ↓ -->
+<div class="modal-overlay" id="schedule-modal">
+  <div class="modal" style="max-width:460px;">
+    <h3>📋 Расписание конференции</h3>
+    <p>Когда собираешься на конференцию или выставку, которая длится несколько дней, прежде всего изучи расписание. Посмотрим, какие сессии тебе наиболее интересны.</p>
+    <p style="margin-top:6px;">Особое внимание обрати на те события, проведение которых соответствует времени суток, когда ты наиболее комфортно чувствуешь себя в толпе.</p>
+    <p style="margin-top:6px;">Оставь как минимум час для того, чтобы побыть среди людей. За это время оцени ситуацию, обменяйся контактами с парой человек.</p>
+    <p style="margin-top:6px;">Можно знакомиться с людьми в перерывах между выступлениями или участвуя в пленарном заседании.</p>
+    <div class="actions-row" style="margin-top:12px; justify-content:flex-end;">
+      <button class="btn" id="schedule-modal-ok">ОК</button>
+    </div>
+  </div>
+</div>
 
 
  <!-- Экран 11. Для чего нетворкинг тебе? -->
