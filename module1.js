@@ -2795,7 +2795,5 @@ document.addEventListener('DOMContentLoaded', function() {
   initPeopleDrag();
   initStickyTooltip();
   updateHud();
-
   // Остальное — через showScreen()
 });
-
