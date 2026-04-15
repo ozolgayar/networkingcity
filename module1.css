@@ -978,6 +978,8 @@ color: #1e293b;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;           /* ← ДОБАВИТЬ */
+  box-sizing: border-box; /* ← ДОБАВИТЬ */
 }
 
 .beads-pool,
@@ -987,10 +989,14 @@ color: #1e293b;
   border: 2px dashed rgba(148, 163, 184, 0.5);
   padding: 8px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap;       /* уже есть — хорошо */
   gap: 6px;
   align-items: center;
   justify-content: center;
+  width: 100%;           /* ← ДОБАВИТЬ */
+  box-sizing: border-box; /* ← ДОБАВИТЬ */
+  overflow: visible;     /* ← ДОБАВИТЬ */
+  position: relative;
   background:
     repeating-linear-gradient(
       90deg,
@@ -1000,8 +1006,8 @@ color: #1e293b;
       rgba(148,163,184,0.08) 21px
     ),
     linear-gradient(180deg, rgba(241,245,249,0.6), rgba(226,232,240,0.4));
-  position: relative;
 }
+
 
 .beads-target {
   border-color: rgba(34, 197, 94, 0.5);
@@ -2198,12 +2204,15 @@ color: #1e293b;
   padding: 12px 16px;
   gap: 8px;
   border-radius: 16px;
+  width: 100%;           /* ← ДОБАВИТЬ */
+  box-sizing: border-box; /* ← ДОБАВИТЬ */
 }
 
 #screen-12 .bead {
   width: 50px;
   height: 50px;
   font-size: 18px;
+  flex-shrink: 0;        /* ← ДОБАВИТЬ — бусины не сжимаются */
 }
 
 #screen-12 .bead::before {
@@ -4034,61 +4043,44 @@ color: #1e293b;
    ======================================== */
 @media (max-width: 899px) {
 /* ===== БУСИНЫ — экран 12 ===== */
-#screen-12 .beads-pool,
+  #screen-12 .beads-pool,
   #screen-12 .beads-target {
+    width: 100% !important;
+    box-sizing: border-box !important;
     min-height: 80px !important;
     height: auto !important;
-    align-items: center !important;
     flex-wrap: wrap !important;
+    align-items: center !important;
     justify-content: center !important;
-    padding: 12px 10px !important;
-    gap: 6px !important;
+    padding: 10px 8px !important;
+    gap: 5px !important;
     overflow: visible !important;
   }
 
   #screen-12 .bead {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
+    width: 38px !important;   /* ← уменьшили с 44 до 38 */
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
     flex-shrink: 0 !important;
     border-radius: 50% !important;
-    font-size: 17px !important;
+    font-size: 14px !important;
   }
 
-  #screen-12 .bead::before {
-    top: 5px !important;
-    left: 8px !important;
-    width: 11px !important;
-    height: 7px !important;
+  #screen-12 .beads-wrapper {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
-  #screen-12 .scene {
-    overflow: visible !important;
-    max-height: none !important;
-  }
-
+  #screen-12 .panel,
+  #screen-12 .scene,
   #screen-12 .scene-main {
     overflow: visible !important;
-    flex-wrap: wrap !important;
-    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 }
-#screen-container {
-    overflow: visible !important;
-  }
- #beads-pool,
-  #beads-target {
-    overflow: visible !important;
-  }
-  #mobile-warning { display: none !important; }
-
-  #app {
-    pointer-events: auto !important;
-    filter: none !important;
-    padding: 10px;
-    gap: 8px;
-  }
 
   /* ===== ХЕДЕР ===== */
   header {
