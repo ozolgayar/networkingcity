@@ -351,16 +351,23 @@ setTimeout(function() {
     if (el) el.style.display = 'none';
   });
 
- var panel = document.querySelector('#screen-2 .panel');
+// Убираем фон панели
+  var panel = document.querySelector('#screen-2 .panel');
   if (panel) {
-    panel.style.background = 'transparent';
-    panel.style.border = 'none';
-    panel.style.boxShadow = 'none';
-    panel.style.padding = '0';
-    panel.style.display = 'flex';
-    panel.style.alignItems = 'center';
-    panel.style.justifyContent = 'center';
+    panel.style.cssText = [
+      'background: transparent',
+      'border: none',
+      'box-shadow: none',
+      'padding: 0',
+      'max-width: 100%',
+      'overflow: visible',
+      'display: flex',
+      'align-items: center',
+      'justify-content: center',
+      'flex: 1'
+    ].join(';');
   }
+       
  var screen2 = document.getElementById('screen-2');
   if (screen2) {
     screen2.style.background = 'transparent';
