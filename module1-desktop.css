@@ -770,4 +770,50 @@
     border-radius: 18px !important;
   }
 
- /* ===== ЭКРАН 2: ТЕСТ десктоп ===== */
+@media (min-width: 1024px) {
+    /* ===== ЭКРАН 2: ТЕСТ десктоп ===== */
+
+  #screen-2 .panel {
+    padding: 24px 32px !important;
+  }
+
+  #screen-2 h2 {
+    font-size: 20px !important;
+  }
+
+  #screen-2 .quiz-q {
+    padding: 14px 18px !important;
+    border-radius: 14px !important;
+    margin-bottom: 10px !important;
+  }
+
+  #screen-2 .quiz-q h3 {
+    font-size: 14px !important;
+    margin-bottom: 10px !important;
+  }
+
+  #screen-2 .quiz-opt {
+    padding: 9px 14px !important;
+    font-size: 13px !important;
+  }
+
+  #screen-2 .quiz-options {
+    gap: 6px !important;
+  }
+
+/* Плашка прогресса — компактная */
+#screen-2 #quiz-progress,
+#screen-2 .quiz-progress {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: fit-content !important;
+  padding: 4px 14px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--text-soft) !important;
+  background: rgba(99,102,241,0.07) !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+  border-radius: 999px !important;
+  margin: 8px 0 !important;
+  white-space: nowrap !important;
+}
