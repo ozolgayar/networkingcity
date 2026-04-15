@@ -365,6 +365,10 @@ setTimeout(function() {
 
   // Скрываем прогресс
   if (progress) progress.style.display = 'none';
+       var introText = document.getElementById('quiz-intro-text');
+var introHint = document.getElementById('quiz-intro-hint');
+if (introText) introText.style.display = 'none';
+if (introHint) introHint.style.display = 'none';
 
   area.innerHTML =
     '<div class="qr-result-wrap">' +
