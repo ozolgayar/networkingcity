@@ -344,10 +344,16 @@ setTimeout(function() {
   });
 }
      function showResult() {
-       var h2 = document.querySelector('#screen-2 h2');
-if (h2) h2.style.display = 'none';
-var tag = document.querySelector('#screen-2 .panel-tag');
-if (tag) tag.style.display = 'none';
+ var progressEl = document.getElementById('quiz-progress');
+  if (progressEl) progressEl.style.display = 'none';
+
+  // Скрываем h2 и тег
+  var h2 = document.querySelector('#screen-2 h2');
+  if (h2) h2.style.display = 'none';
+
+  var tag = document.querySelector('#screen-2 .panel-tag');
+  if (tag) tag.style.display = 'none';
+
        var progress = document.getElementById('quiz-progress');
   var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
   var max = questions.length * 5;
