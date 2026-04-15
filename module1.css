@@ -876,24 +876,49 @@ color: #1e293b;
   .s1-round-btn-hint { font-size: 16px; }
 }
 /* ===== БУСИНЫ — экран 12 ===== */
-  #screen-12 .beads-pool,
+#screen-12 .beads-pool,
   #screen-12 .beads-target {
-    min-height: 90px !important;
+    min-height: 80px !important;
     height: auto !important;
     align-items: center !important;
-    flex-wrap: wrap !important;
+    flex-wrap: wrap !important;        
+    justify-content: center !important;
+    padding: 12px 10px !important;
+    gap: 6px !important;
   }
 
   #screen-12 .bead {
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    min-height: 52px !important;
+    width: 44px !important;            
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     flex-shrink: 0 !important;
     border-radius: 50% !important;
-    font-size: 20px !important;
+    font-size: 17px !important;
+  }
+
+  #screen-12 .bead::before {
+    top: 5px !important;
+    left: 8px !important;
+    width: 11px !important;
+    height: 7px !important;
+  }
+#beads-pool,
+  #beads-target {
+    overflow: visible !important;
+  }
+
+  /* Сцена не должна обрезать пул */
+  #screen-12 .scene {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  #screen-12 .scene-main {
+    overflow: visible !important;
   }
 }
+
     /* Мини-анимация "неловкости/статы" */
 .indicator-chip {
   display: inline-flex;
