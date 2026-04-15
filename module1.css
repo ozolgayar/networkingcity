@@ -875,6 +875,25 @@ color: #1e293b;
   .s1-round-btn-text { font-size: 11px; }
   .s1-round-btn-hint { font-size: 16px; }
 }
+/* ===== БУСИНЫ — экран 12 ===== */
+  #screen-12 .beads-pool,
+  #screen-12 .beads-target {
+    min-height: 90px !important;
+    height: auto !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  #screen-12 .bead {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    flex-shrink: 0 !important;
+    border-radius: 50% !important;
+    font-size: 20px !important;
+  }
+}
     /* Мини-анимация "неловкости/статы" */
 .indicator-chip {
   display: inline-flex;
