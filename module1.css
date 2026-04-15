@@ -3866,3 +3866,165 @@ textarea {
 .pointer { cursor: pointer; }
 .relative { position: relative; }
 .overflow-hidden { overflow: hidden; }
+
+/* ===== ЭКРАН 1: ОВЕРЛЕЙ ===== */
+
+/* Обёртка экрана 1 должна быть relative */
+#screen-1 {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Оверлей перекрывает всё */
+.s1-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Фоновая картинка оверлея */
+.s1-overlay-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.s1-overlay-bg picture,
+.s1-overlay-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: brightness(0.45);
+}
+
+/* Карточка поверх фона */
+.s1-overlay-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  width: 90%;
+  max-width: 520px;
+  max-height: 80%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Скролл внутри карточки */
+.s1-overlay-scroll {
+  overflow-y: auto;
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.s1-overlay-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.s1-overlay-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.4);
+  border-radius: 999px;
+}
+
+/* Заголовок внутри карточки */
+.s1-overlay-scroll h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+/* Параграфы */
+.s1-overlay-scroll p {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Список */
+.s1-overlay-scroll ol {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.s1-overlay-scroll ol li {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Маркер-хайлайт */
+.marker-highlight {
+  display: inline-block;
+  background: rgba(251, 191, 36, 0.2);
+  border-left: 3px solid #f59e0b;
+  border-radius: 0 8px 8px 0;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #92400e;
+  font-style: italic;
+  width: 100%;
+}
+
+/* Бокс готовности */
+.s1-ready-box {
+  background: linear-gradient(135deg,
+    rgba(34,197,94,0.1),
+    rgba(59,130,246,0.1)
+  );
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.s1-ready-box p {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #166534 !important;
+  margin: 0;
+}
+
+/* Кнопка внутри оверлея */
+.s1-overlay-scroll .actions-row {
+  display: flex;
+  justify-content: center;
+}
+
+.s1-overlay-scroll .btn {
+  padding: 14px 48px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(34,197,94,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.s1-overlay-scroll .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(34,197,94,0.5);
+}
+
+.s1-overlay-scroll .btn:active {
+  transform: scale(0.97);
+}
