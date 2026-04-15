@@ -422,6 +422,14 @@ if (screenContainer) {
       '</div>' +
     '</div>';
 
+       var backBtn = document.querySelector('#screen-2 [data-prev]');
+var resultCard = area.querySelector('.qr-result-card');
+if (backBtn && resultCard) {
+  backBtn.style.marginTop = '12px';
+  backBtn.style.width = '100%';
+  resultCard.appendChild(backBtn);
+}
+       
  area.querySelector('.qr-result-btn').addEventListener('click', function() {
   // Возвращаем фон
   var screenContainer = document.getElementById('screen-container');
