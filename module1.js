@@ -391,7 +391,7 @@ setTimeout(function() {
     showScreen('screen-3-0');
   });
 }
-
+}
     
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
