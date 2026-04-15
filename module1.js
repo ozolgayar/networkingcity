@@ -15,7 +15,7 @@ const state = {
 // Порядок экранов
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3-0', 'screen-3', 'screen-10',
-  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-13-1', 'screen-14', 'screen-15',
+  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-13-1', 'screen-14', 'screen-15',  'screen-wheel-rec',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
   'screen-19', 'screen-19-1',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0',
@@ -1338,26 +1338,32 @@ const lp = polar(cx, cy, labelRadius, start + 30);
   svg.appendChild(center);
 }
 
-btnGoWheel.addEventListener('click', () => {
-  // Рисуем мини-колесо на экране рекомендаций
-  renderWheel('recWheelSvg', state.wheel.values, -1);
-  // Генерируем карточки
-  buildWheelRecCards();
-  // Переходим
-  goToScreen('screen-wheel-rec');
-});
+function initWheelRec() {
+  var btnGoWheel = document.getElementById('btn-wheel-rec');  // ← твой id кнопки
+  var btnBack    = document.getElementById('btnWheelRecBack');
+  var btnNext    = document.getElementById('btnWheelRecNext');
 
-// Кнопка «назад» на экране рекомендаций
-document.getElementById('btnWheelRecBack')
-  .addEventListener('click', () => {
-    goToScreen('screen-15'); // ← экран результатов колеса
-  });
+  if (btnGoWheel) {
+    btnGoWheel.addEventListener('click', function() {
+      renderWheel('recWheelSvg', state.wheel.values, -1);
+      buildWheelRecCards();
+      showScreen('screen-wheel-rec');
+    });
+  }
 
-// Кнопка «Продолжить»
-document.getElementById('btnWheelRecNext')
-  .addEventListener('click', () => {
-    goToScreen('screen-16'); // ← следующий экран твоего приложения
-  });
+  if (btnBack) {
+    btnBack.addEventListener('click', function() {
+      showScreen('screen-15');
+    });
+  }
+
+  if (btnNext) {
+    btnNext.addEventListener('click', function() {
+      showScreen('screen-16');
+    });
+  }
+}
+
 
 // ===== Экран 14: колесо баланса (новое) =====
 var wheelInitialized = false;
@@ -2905,6 +2911,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initWheelSummary();
   initPeopleDrag();
   initStickyTooltip();
+   initWheelRec(); 
   updateHud();
 
   // Остальное — через showScreen()
