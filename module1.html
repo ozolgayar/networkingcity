@@ -888,7 +888,34 @@
 </div>
 </div>
 </div>
-      
+      <!-- ========== ЭКРАН 15b: РЕКОМЕНДАЦИИ КОЛЕСА БАЛАНСА ========== -->
+<section class="screen" id="screen-wheel-rec">
+  <div class="screen-inner">
+
+    <div class="screen-header">
+      <button class="back-btn" id="btnWheelRecBack">←</button>
+      <p class="screen-tag">АНАЛИЗ</p>
+    </div>
+
+    <h2 class="screen-title">Рекомендации</h2>
+    <p class="screen-sub">На основе твоего колеса баланса</p>
+
+    <!-- Мини-колесо вверху -->
+    <div class="wheel-rec-preview">
+      <svg id="recWheelSvg" viewBox="0 0 560 560"
+           style="width:100%;max-width:260px;height:auto;display:block;margin:0 auto;"></svg>
+    </div>
+
+    <!-- Карточки рекомендаций -->
+    <div id="wheelRecCards" class="wheel-rec-cards"></div>
+
+    <!-- Кнопка далее -->
+    <button class="btn-primary" id="btnWheelRecNext">
+      Продолжить →
+    </button>
+
+  </div>
+</section>
 <!-- Экран 16. Сколько знакомств ты заведёшь -->
 <div class="screen" id="screen-16">
   <div class="screen-layout">
