@@ -324,46 +324,73 @@ setTimeout(function() {
     });
   });
 }
-      function showResult() {
-      var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
-      var max = questions.length * 5;
-      var pct = Math.round(total / max * 100);
+     function showResult() {
+  var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
+  var max = questions.length * 5;
+  var pct = Math.round(total / max * 100);
 
-      var level, desc;
-      if (pct <= 30) {
-        level = 'Новичок в нетворкинге';
-        desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
-      } else if (pct <= 55) {
-        level = 'Базовый уровень';
-        desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
-      } else if (pct <= 75) {
-        level = 'Средний уровень';
-        desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
-      } else {
-        level = 'Продвинутый уровень';
-        desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
-      }
-
-      area.innerHTML =
-        '<div class="quiz-result-overlay">' +
-          '<div class="quiz-result-card">' +
-            '<div class="quiz-result-score">' + total + ' / ' + max + '</div>' +
-            '<div class="quiz-result-level">' + level + '</div>' +
-            '<div class="quiz-result-bar-wrap">' +
-              '<div class="quiz-result-bar" style="width:' + pct + '%"></div>' +
-            '</div>' +
-            '<div class="quiz-result-desc">' + desc + '</div>' +
-            '<button class="btn primary quiz-result-btn">Продолжить →</button>' +
-          '</div>' +
-        '</div>';
-
-      area.querySelector('.quiz-result-btn').addEventListener('click', function() {
-        showScreen('screen-3-0');
-      });
-    }
-
-  startQuiz();
+  var level, desc, emoji, color;
+  if (pct <= 30) {
+    level = 'Новичок в нетворкинге';
+    desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
+    emoji = '🌱';
+    color = '#f59e0b';
+  } else if (pct <= 55) {
+    level = 'Базовый уровень';
+    desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
+    emoji = '📈';
+    color = '#38bdf8';
+  } else if (pct <= 75) {
+    level = 'Средний уровень';
+    desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
+    emoji = '💪';
+    color = '#22c55e';
+  } else {
+    level = 'Продвинутый уровень';
+    desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
+    emoji = '🏆';
+    color = '#a855f7';
   }
+
+  area.innerHTML =
+    '<div class="qr-result-wrap">' +
+      '<div class="qr-result-card">' +
+
+        // Эмодзи уровня
+        '<div class="qr-result-emoji">' + emoji + '</div>' +
+
+        // Заголовок
+        '<div class="qr-result-title">Твой результат</div>' +
+
+        // Счёт
+        '<div class="qr-result-score" style="color:' + color + '">' +
+          total + ' <span style="font-size:20px; font-weight:500; color:#94a3b8;">/ ' + max + '</span>' +
+        '</div>' +
+
+        // Уровень
+        '<div class="qr-result-badge" style="background:' + color + '20; color:' + color + '; border-color:' + color + '50;">' +
+          level +
+        '</div>' +
+
+        // Прогресс-бар
+        '<div class="qr-result-bar-wrap">' +
+          '<div class="qr-result-bar" style="width:' + pct + '%; background:' + color + ';"></div>' +
+        '</div>' +
+        '<div class="qr-result-pct">' + pct + '%</div>' +
+
+        // Описание
+        '<div class="qr-result-desc">' + desc + '</div>' +
+
+        // Кнопка
+        '<button class="btn qr-result-btn">Продолжить →</button>' +
+
+      '</div>' +
+    '</div>';
+
+  area.querySelector('.qr-result-btn').addEventListener('click', function() {
+    showScreen('screen-3-0');
+  });
+}
 
     
   // ===== Экран 3: Знакомство со Златой =====
