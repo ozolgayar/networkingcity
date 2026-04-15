@@ -344,61 +344,51 @@ setTimeout(function() {
   });
 }
      function showResult() {
- var progressEl = document.getElementById('quiz-progress');
-  if (progressEl) progressEl.style.display = 'none';
+ var toHide = [
+    document.getElementById('quiz-progress'),
+    document.querySelector('#screen-2 h2'),
+    document.querySelector('#screen-2 .panel-tag'),
+    document.getElementById('quiz-intro-text'),
+    document.getElementById('quiz-intro-hint')
+  ];
+  toHide.forEach(function(el) {
+    if (el) el.style.display = 'none';
+  });
 
-  // Скрываем h2 и тег
-  var h2 = document.querySelector('#screen-2 h2');
-  if (h2) h2.style.display = 'none';
+  var panel = document.querySelector('#screen-2 .panel');
+  if (panel) {
+    panel.style.border = 'none';
+    panel.style.boxShadow = 'none';
+    panel.style.background = 'transparent';
+  }
 
-  var tag = document.querySelector('#screen-2 .panel-tag');
-  if (tag) tag.style.display = 'none';
-
-       var progress = document.getElementById('quiz-progress');
   var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
   var max = questions.length * 5;
   var pct = Math.round(total / max * 100);
 
-  var level, desc, emoji, color;
+  var level, desc, color;
   if (pct <= 30) {
     level = 'Новичок в нетворкинге';
     desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
-    emoji = '🌱';
     color = '#f59e0b';
   } else if (pct <= 55) {
     level = 'Базовый уровень';
     desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
-    emoji = '📈';
     color = '#38bdf8';
   } else if (pct <= 75) {
     level = 'Средний уровень';
     desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
-    emoji = '💪';
     color = '#22c55e';
   } else {
     level = 'Продвинутый уровень';
     desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
-    emoji = '🏆';
     color = '#a855f7';
   }
-       
-var panel = document.querySelector('#screen-2 .panel');
-if (panel) {
-  panel.style.border = 'none';
-  panel.style.boxShadow = 'none';
-  panel.style.background = 'transparent';
-}
-  // Скрываем прогресс
-  if (progress) progress.style.display = 'none';
-       var introText = document.getElementById('quiz-intro-text');
-var introHint = document.getElementById('quiz-intro-hint');
-if (introText) introText.style.display = 'none';
-if (introHint) introHint.style.display = 'none';
 
   area.innerHTML =
     '<div class="qr-result-wrap">' +
       '<div class="qr-result-card">' +
-               '<div class="qr-result-title">Твой результат</div>' +
+        '<div class="qr-result-title">Твой результат</div>' +
         '<div class="qr-result-score" style="color:' + color + '">' +
           total +
           '<span style="font-size:20px;font-weight:500;color:#94a3b8;"> / ' + max + '</span>' +
@@ -418,8 +408,6 @@ if (introHint) introHint.style.display = 'none';
   area.querySelector('.qr-result-btn').addEventListener('click', function() {
     showScreen('screen-3-0');
   });
-}
-      startQuiz(); 
 }
     
   // ===== Экран 3: Знакомство со Златой =====
