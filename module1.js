@@ -1370,6 +1370,8 @@ var wheelInitialized = false;
 
 function initWheel() {
   if (wheelInitialized) {
+    var svgEl = document.getElementById('wheelSvg');
+    if (svgEl) {
     renderWheel('wheelSvg', state.wheel.values, state.wheel.currentIndex);
     return;
   }
@@ -1447,7 +1449,7 @@ function initWheel() {
   // Готово — начисляем очки и переходим на экран 15
   btnFinish.addEventListener('click', () => {
     addScore(2);
-    showScreen('screen-15');
+    showScreen('screen-wheel-rec');
   });
 
   // Оценить заново — сбрасываем все оценки
