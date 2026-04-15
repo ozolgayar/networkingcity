@@ -413,6 +413,7 @@ setTimeout(function() {
     showScreen('screen-3-0');
   });
 }
+     startQuiz(); // ← ДОБАВЬ ЭТУ СТРОКУ
 }    
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
