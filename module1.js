@@ -1376,20 +1376,36 @@ function initWheelSummary() {
     if (slidersBuilt) return;
     slidersBuilt = true;
     slidersContainer.innerHTML = '';
+
     wheelCategories.forEach((cat, i) => {
       const row = document.createElement('div');
       row.className = 'importance-row';
+
       row.innerHTML = `
         <span class="imp-label">${cat.emoji} ${cat.name}</span>
-        <input type="range" min="1" max="10" value="${state.wheel.importance[i]}" data-idx="${i}">
-        <span class="imp-value">${state.wheel.importance[i]}</span>
+        <div class="imp-stepper">
+          <button class="imp-btn imp-minus" data-idx="${i}" aria-label="Уменьшить">−</button>
+          <span class="imp-value" id="imp-val-${i}">${state.wheel.importance[i]}</span>
+          <button class="imp-btn imp-plus"  data-idx="${i}" aria-label="Увеличить">+</button>
+        </div>
       `;
-      const slider = row.querySelector('input[type="range"]');
-      const valSpan = row.querySelector('.imp-value');
-      slider.addEventListener('input', () => {
-        state.wheel.importance[i] = parseInt(slider.value, 10);
-        valSpan.textContent = slider.value;
+
+      // Кнопка «минус»
+      row.querySelector('.imp-minus').addEventListener('click', () => {
+        if (state.wheel.importance[i] > 1) {
+          state.wheel.importance[i]--;
+          document.getElementById('imp-val-' + i).textContent = state.wheel.importance[i];
+        }
       });
+
+      // Кнопка «плюс»
+      row.querySelector('.imp-plus').addEventListener('click', () => {
+        if (state.wheel.importance[i] < 10) {
+          state.wheel.importance[i]++;
+          document.getElementById('imp-val-' + i).textContent = state.wheel.importance[i];
+        }
+      });
+
       slidersContainer.appendChild(row);
     });
   }
