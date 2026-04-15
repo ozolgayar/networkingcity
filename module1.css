@@ -66,6 +66,117 @@
   position: relative;
          background: transparent;
 }
+/* ===== Экран рекомендаций колеса ===== */
+#screen-wheel-rec .screen-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 16px 32px;
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-btn:active {
+  background: #e2e8f0;
+}
+
+.wheel-rec-preview {
+  background: #f8fafc;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Карточки рекомендаций */
+.wheel-rec-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wheel-rec-card {
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.wheel-rec-card.card-low {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+}
+
+.wheel-rec-card.card-mid {
+  background: #fefce8;
+  border: 1px solid #fde68a;
+}
+
+.wheel-rec-card.card-high {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.wheel-rec-icon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.wheel-rec-body h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px;
+}
+
+.wheel-rec-body p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.wheel-rec-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.card-low  .wheel-rec-badge { background:#fed7aa; color:#9a3412; }
+.card-mid  .wheel-rec-badge { background:#fde68a; color:#854d0e; }
+.card-high .wheel-rec-badge { background:#bbf7d0; color:#166534; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
   position: fixed;
