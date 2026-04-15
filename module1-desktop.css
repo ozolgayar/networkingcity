@@ -637,3 +637,29 @@
   }
 
 }
+
+@media (min-width: 1024px) {
+
+  #screen-1 {
+    aspect-ratio: 16 / 9 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    border-radius: 24px !important;
+  }
+
+  #screen-1 .s1-cover {
+    position: absolute !important;
+    inset: 0 !important;
+    height: 100% !important;
+    border-radius: 24px !important;
+  }
+
+  #screen-1 .s1-cover-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+}
