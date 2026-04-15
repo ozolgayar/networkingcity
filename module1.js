@@ -362,7 +362,13 @@ setTimeout(function() {
     emoji = '🏆';
     color = '#a855f7';
   }
-
+       
+var panel = document.querySelector('#screen-2 .panel');
+if (panel) {
+  panel.style.border = 'none';
+  panel.style.boxShadow = 'none';
+  panel.style.background = 'transparent';
+}
   // Скрываем прогресс
   if (progress) progress.style.display = 'none';
        var introText = document.getElementById('quiz-intro-text');
