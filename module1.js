@@ -479,15 +479,13 @@ function initLaptopHotspot() {
 
  // ===== Папка: Расписание =====
   folderSchedule.addEventListener('click', function() {
-    scheduleModal.style.display = 'none'; // сбрасываем на всякий случай
     scheduleModal.classList.add('active');
     console.log('schedule-modal открыта, классы:', scheduleModal.className);
   });
 
   document.getElementById('schedule-modal-ok').addEventListener('click', function() {
     scheduleModal.classList.remove('active');
-    scheduleModal.style.display = ''; // ← убираем inline style
-    localStorage.setItem('laptopScheduleDone', '1');
+       localStorage.setItem('laptopScheduleDone', '1');
     checkAllDone();
   });
   
@@ -2611,8 +2609,7 @@ document.addEventListener('DOMContentLoaded', function() {
  // ===== СБРОС ВСЕХ МОДАЛОК при старте =====
   document.querySelectorAll('.modal-overlay').forEach(function(modal) {
     modal.classList.remove('active');
-    modal.style.display = 'none'; // ← двойная защита
-  });
+   });
 
 // Экран 1
 (function() {
