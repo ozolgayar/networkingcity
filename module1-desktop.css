@@ -769,3 +769,25 @@
     font-size: 16px !important;
     border-radius: 18px !important;
   }
+
+@media (min-width: 1024px) {
+  #screen-2 .panel {
+    padding: 36px 40px !important;
+  }
+
+  #screen-2 .quiz-q {
+    padding: 20px 24px !important;
+  }
+
+  #screen-2 .quiz-q h3 {
+    font-size: 16px !important;
+  }
+
+  #screen-2 .quiz-opt {
+    padding: 12px 18px !important;
+    font-size: 14px !important;
+  }
+
+  #screen-2 h2 {
+    font-size: 22px !important;
+  }
