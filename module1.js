@@ -335,8 +335,11 @@ setTimeout(function() {
   });
 }
      function showResult() {
-       var prog = document.getElementById('quiz-progress');
-  if (prog) prog.style.display = 'none';
+      var prog = document.getElementById('quiz-progress');
+  if (prog) {
+    prog.style.display = 'none';
+    prog.style.visibility = 'hidden';
+  }
  var toHide = [
     document.getElementById('quiz-progress'),
     document.querySelector('#screen-2 h2'),
