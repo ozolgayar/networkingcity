@@ -355,13 +355,17 @@ setTimeout(function() {
     if (el) el.style.display = 'none';
   });
 
-  var panel = document.querySelector('#screen-2 .panel');
+ var panel = document.querySelector('#screen-2 .panel');
   if (panel) {
+    panel.style.background = 'transparent';
     panel.style.border = 'none';
     panel.style.boxShadow = 'none';
-    panel.style.background = 'transparent';
+    panel.style.padding = '0';
   }
-
+ var screen2 = document.getElementById('screen-2');
+  if (screen2) {
+    screen2.style.background = 'transparent';
+  }
   var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
   var max = questions.length * 5;
   var pct = Math.round(total / max * 100);
