@@ -15,7 +15,7 @@ const state = {
 // Порядок экранов
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3-0', 'screen-3', 'screen-10',
-  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-13-1', 'screen-14', 'screen-15',  'screen-wheel-rec',
+  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-13-1', 'screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
   'screen-19', 'screen-19-1',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0',
@@ -1156,84 +1156,14 @@ function initZlataCard211() {
 
   // ===== Экран 14: колесо баланса =====
   // ===== SVG-колесо: вспомогательные функции =====
-const wheelRecommendations = {
-  'Карьера':          {
-    low:  'Возможно, карьера сейчас не приоритет — и это нормально. Определи, чего ты хочешь от работы.',
-    mid:  'Есть потенциал роста. Поставь одну конкретную карьерную цель на ближайшие 3 месяца.',
-    high: 'Карьера развивается хорошо! Не забывай поддерживать баланс с другими сферами.'
-  },
-  'Образование':      {
-    low:  'Попробуй выделить 15 минут в день на обучение — книга, подкаст, курс.',
-    mid:  'Хороший уровень! Выбери один навык, который прокачаешь в этом квартале.',
-    high: 'Отлично! Поделись знаниями с другими — это закрепляет результат.'
-  },
-  'Хобби':            {
-    low:  'Хобби восстанавливает энергию. Вспомни, что приносило радость раньше.',
-    mid:  'Есть занятие для души — это важно. Попробуй уделять ему время регулярно.',
-    high: 'Здорово, что есть любимое дело! Можно ли развить его глубже?'
-  },
-  'Личные проекты':   {
-    low:  'Есть идея, которая давно ждёт? Начни с малого — 30 минут в неделю.',
-    mid:  'Проекты идут. Определи следующий конкретный шаг для каждого.',
-    high: 'Личные проекты на высоком уровне — это источник смысла и энергии!'
-  },
-  'Финансы':          {
-    low:  'Разберись с базовым бюджетом: доходы, расходы, подушка безопасности.',
-    mid:  'Финансы в порядке. Подумай о долгосрочных целях — накопления, инвестиции.',
-    high: 'Финансовая стабильность — отличная база для остальных сфер жизни!'
-  },
-  'Здоровье':         {
-    low:  'Здоровье — фундамент всего. Начни с простого: сон, вода, 10 минут движения.',
-    mid:  'Неплохо! Добавь одну полезную привычку — зарядка, прогулка или медитация.',
-    high: 'Здоровье на высоте — это даёт энергию для всех остальных сфер!'
-  }
-};
-
-function buildWheelRecCards() {
-  const cards = document.getElementById('wheelRecCards');
-  if (!cards) return;
-  cards.innerHTML = '';
-
-  // Сортируем сферы: сначала низкие оценки
-  const sorted = wheelCategories
-    .map((cat, i) => ({
-      cat,
-      value: state.wheel.values[i],
-      importance: state.wheel.importance ? state.wheel.importance[i] : 5
-    }))
-    .sort((a, b) => a.value - b.value);
-
-  sorted.forEach((item, idx) => {
-    const v = item.value;
-    const rec = wheelRecommendations[item.cat.name];
-    if (!rec) return;
-
-    let level, text, cardClass, badge;
-    if (v <= 3) {
-      level = 'low'; cardClass = 'card-low'; badge = '⚠️ Требует внимания';
-      text = rec.low;
-    } else if (v <= 6) {
-      level = 'mid'; cardClass = 'card-mid'; badge = '📈 Есть потенциал';
-      text = rec.mid;
-    } else {
-      level = 'high'; cardClass = 'card-high'; badge = '✅ Всё хорошо';
-      text = rec.high;
-    }
-
-    const card = document.createElement('div');
-    card.className = `wheel-rec-card ${cardClass}`;
-    card.style.animationDelay = `${idx * 0.07}s`;
-    card.innerHTML = `
-      <div class="wheel-rec-icon">${item.cat.emoji}</div>
-      <div class="wheel-rec-body">
-        <span class="wheel-rec-badge">${badge}</span>
-        <h4>${item.cat.name} — ${v}/10</h4>
-        <p>${text}</p>
-      </div>
-    `;
-    cards.appendChild(card);
-  });
-}
+const wheelCategories = [
+  { name:'Карьера',        color:'#22c55e', emoji:'💼' },
+  { name:'Образование',    color:'#38bdf8', emoji:'🏫' },
+  { name:'Хобби',          color:'#f97316', emoji:'🎨' },
+  { name:'Личные проекты', color:'#a855f7', emoji:'📁' },
+  { name:'Финансы',        color:'#facc15', emoji:'💸' },
+  { name:'Здоровье',       color:'#e11d48', emoji:'🩺' }
+];
 
 function polar(cx, cy, r, angle) {
   const rad = (angle - 90) * Math.PI / 180;
@@ -1258,12 +1188,7 @@ function sectorPath(cx, cy, r1, r2, startAngle, endAngle) {
 function renderWheel(svgId, values, activeIndex) {
   var svg = document.getElementById(svgId);
   if (!svg) return;
-
-  // На мобилке уменьшаем колесо
-  var isMobile = window.innerWidth <= 899;
-  var cx = 280, cy = 280;
-  var maxR = isMobile ? 160 : 190;   // ← уменьшили радиус
-  var innerR = isMobile ? 24 : 28;
+  var cx = 280, cy = 280, maxR = 190, innerR = 28;
   var step = (maxR - innerR) / 10;
   svg.innerHTML = '';
 
@@ -1308,12 +1233,10 @@ function renderWheel(svgId, values, activeIndex) {
       svg.appendChild(ring);
     }
 
-    var labelRadius = isMobile ? maxR + 36 : maxR + 50;
-const lp = polar(cx, cy, labelRadius, start + 30);
+    const lp = polar(cx, cy, maxR + 50, start + 30);
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     text.setAttribute('x', lp.x); text.setAttribute('y', lp.y);
     text.setAttribute('font-size', '13');
-    text.setAttribute('font-size', isMobile ? '11' : '13');
     text.setAttribute('font-weight', activeIndex === i ? '800' : '700');
     text.setAttribute('fill', activeIndex === i ? cat.color : '#64748b');
     text.setAttribute('text-anchor', 'middle');
@@ -1338,66 +1261,20 @@ const lp = polar(cx, cy, labelRadius, start + 30);
   svg.appendChild(center);
 }
 
-const wheelCategories = [
-  { name: 'Карьера',         emoji: '💼', color: '#3b82f6' },
-  { name: 'Образование',     emoji: '📚', color: '#8b5cf6' },
-  { name: 'Хобби',           emoji: '🎨', color: '#ec4899' },
-  { name: 'Личные проекты',  emoji: '🚀', color: '#f59e0b' },
-  { name: 'Финансы',         emoji: '💰', color: '#22c55e' },
-  { name: 'Здоровье',        emoji: '❤️', color: '#ef4444' }
-];
-
-function initWheelRec() {
-  var btnGoWheel = document.getElementById('btn-wheel-rec');  // ← твой id кнопки
-  var btnBack    = document.getElementById('btnWheelRecBack');
-  var btnNext    = document.getElementById('btnWheelRecNext');
-
-  if (btnGoWheel) {
-    btnGoWheel.addEventListener('click', function() {
-      renderWheel('recWheelSvg', state.wheel.values, -1);
-      buildWheelRecCards();
-      showScreen('screen-wheel-rec');
-    });
-  }
-
-  if (btnBack) {
-    btnBack.addEventListener('click', function() {
-      showScreen('screen-15');
-    });
-  }
-
-  if (btnNext) {
-    btnNext.addEventListener('click', function() {
-      showScreen('screen-16');
-    });
-  }
-}
-
-
 // ===== Экран 14: колесо баланса (новое) =====
 var wheelInitialized = false;
 
 function initWheel() {
-  // Если уже инициализировано — просто перерисовываем
   if (wheelInitialized) {
-    var svgEl = document.getElementById('wheelSvg');
-    if (svgEl) {
-      renderWheel('wheelSvg', state.wheel.values, state.wheel.currentIndex);
-    }
+    renderWheel('wheelSvg', state.wheel.values, state.wheel.currentIndex);
     return;
   }
-
   wheelInitialized = true;
 
   const segBtnContainer = document.getElementById('seg-level-buttons');
-  const currentSegName  = document.getElementById('current-seg-name');
-  const btnFinish       = document.getElementById('btn-wheel-finish');
-  const btnReset        = document.getElementById('btn-wheel-reset');
-
-  if (!segBtnContainer || !currentSegName || !btnFinish || !btnReset) {
-    console.warn('initWheel: элементы не найдены');
-    return;
-  }
+  const currentSegName = document.getElementById('current-seg-name');
+  const btnFinish = document.getElementById('btn-wheel-finish');
+  const btnReset = document.getElementById('btn-wheel-reset');
 
   function findNextUnfilled() {
     return state.wheel.values.findIndex(v => v === 0);
@@ -1412,42 +1289,18 @@ function initWheel() {
   }
 
   function updateUI() {
-    const idx   = state.wheel.currentIndex;
-    const name  = wheelCategories[idx].name;
+    const idx = state.wheel.currentIndex;
+    const name = wheelCategories[idx].name;
     const value = state.wheel.values[idx];
-
     currentSegName.textContent = name;
-
     segBtnContainer.querySelectorAll('button').forEach(btn => {
       btn.classList.toggle('active', parseInt(btn.dataset.level, 10) === value);
     });
-
     renderWheel('wheelSvg', state.wheel.values, idx);
-
     const allFilled = state.wheel.values.every(v => v > 0);
     btnFinish.style.display = allFilled ? 'inline-flex' : 'none';
-    btnReset.style.display  = allFilled ? 'inline-flex' : 'none';
-
-    var hint = document.getElementById('wheel-finish-hint');
-    if (allFilled) {
-      if (!hint) {
-        hint = document.createElement('p');
-        hint.id = 'wheel-finish-hint';
-        hint.style.cssText = [
-          'font-size:13px', 'color:#16a34a', 'font-weight:600',
-          'text-align:center', 'margin:8px 0 0', 'padding:8px 12px',
-          'background:rgba(34,197,94,0.08)',
-          'border:1px solid rgba(34,197,94,0.25)',
-          'border-radius:10px', 'animation:fadeIn 0.4s ease'
-        ].join(';');
-        hint.textContent = '✅ Все сферы оценены! Нажми кнопку «Готово» →';
-        btnFinish.parentElement.insertBefore(hint, btnFinish);
-      }
-      hint.style.display = 'block';
-    } else {
-      if (hint) hint.style.display = 'none';
-    }
-  }
+    btnReset.style.display = allFilled ? 'inline-flex' : 'none';
+     }
 
   segBtnContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
@@ -1457,20 +1310,22 @@ function initWheel() {
     updateUI();
   });
 
+  // Готово — начисляем очки и переходим на экран 15
   btnFinish.addEventListener('click', () => {
     addScore(2);
-    showScreen('screen-wheel-rec');
+    showScreen('screen-15');
   });
 
+  // Оценить заново — сбрасываем все оценки
   btnReset.addEventListener('click', () => {
-    state.wheel.values   = [0, 0, 0, 0, 0, 0];
+    state.wheel.values = [0, 0, 0, 0, 0, 0];
     state.wheel.currentIndex = 0;
     updateUI();
   });
 
   state.wheel.currentIndex = 0;
   updateUI();
-}  // ← закрытие initWheel
+}
 
 // ===== Экран 15: результат колеса (новое) =====
 function initWheelSummary() {
@@ -1484,36 +1339,20 @@ function initWheelSummary() {
     if (slidersBuilt) return;
     slidersBuilt = true;
     slidersContainer.innerHTML = '';
-
     wheelCategories.forEach((cat, i) => {
       const row = document.createElement('div');
       row.className = 'importance-row';
-
       row.innerHTML = `
         <span class="imp-label">${cat.emoji} ${cat.name}</span>
-        <div class="imp-stepper">
-          <button class="imp-btn imp-minus" data-idx="${i}" aria-label="Уменьшить">−</button>
-          <span class="imp-value" id="imp-val-${i}">${state.wheel.importance[i]}</span>
-          <button class="imp-btn imp-plus"  data-idx="${i}" aria-label="Увеличить">+</button>
-        </div>
+        <input type="range" min="1" max="10" value="${state.wheel.importance[i]}" data-idx="${i}">
+        <span class="imp-value">${state.wheel.importance[i]}</span>
       `;
-
-      // Кнопка «минус»
-      row.querySelector('.imp-minus').addEventListener('click', () => {
-        if (state.wheel.importance[i] > 1) {
-          state.wheel.importance[i]--;
-          document.getElementById('imp-val-' + i).textContent = state.wheel.importance[i];
-        }
+      const slider = row.querySelector('input[type="range"]');
+      const valSpan = row.querySelector('.imp-value');
+      slider.addEventListener('input', () => {
+        state.wheel.importance[i] = parseInt(slider.value, 10);
+        valSpan.textContent = slider.value;
       });
-
-      // Кнопка «плюс»
-      row.querySelector('.imp-plus').addEventListener('click', () => {
-        if (state.wheel.importance[i] < 10) {
-          state.wheel.importance[i]++;
-          document.getElementById('imp-val-' + i).textContent = state.wheel.importance[i];
-        }
-      });
-
       slidersContainer.appendChild(row);
     });
   }
@@ -2922,7 +2761,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initWheelSummary();
   initPeopleDrag();
   initStickyTooltip();
-   initWheelRec(); 
   updateHud();
 
   // Остальное — через showScreen()
