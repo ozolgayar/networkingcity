@@ -1402,7 +1402,7 @@ function initWheelSummary() {
       contacts: state.wheel.values[i],
      score: state.wheel.importance[i] * (11 - state.wheel.values[i])
     }));
-    document.getElementById('btn-screen15-continue').style.display = 'inline-flex';
+   
 
     // Сортируем по убыванию score
     scores.sort((a, b) => b.score - a.score);
