@@ -41,7 +41,18 @@ function showScreen(id) {
   state.screensVisited[id] = true;
   updateHud();
 
+  
   // Ленивая инициализация — каждый раз при открытии
+  if (id === 'screen-2') {
+  setTimeout(function() {
+    var area = document.getElementById('quiz-area');
+    if (area && area.innerHTML.trim() === '') {
+      // Запускаем квиз если он ещё не стартовал
+      var startBtn = document.getElementById('_quiz_start_trigger');
+      if (startBtn) startBtn.click();
+    }
+  }, 50);
+}
   if (id === 'screen-12') {
     setTimeout(function() { renderBeadsStage(); }, 50);
   }
@@ -380,6 +391,7 @@ setTimeout(function() {
     showScreen('screen-3-0');
   });
 }
+      startQuiz(); 
 }
     
   // ===== Экран 3: Знакомство со Златой =====
