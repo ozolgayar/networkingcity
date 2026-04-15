@@ -649,55 +649,125 @@ cont.addEventListener('click', function() {
 
   initBeadsDnD();
 }
-  function initBeadsDnD() {
-    const pool = document.getElementById('beads-pool');
-    const target = document.getElementById('beads-target');
+ function initBeadsDnD() {
+  var pool   = document.getElementById('beads-pool');
+  var target = document.getElementById('beads-target');
 
-    function handleDragStart(e) {
-      if (!e.target.classList.contains('bead')) return;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', e.target.dataset.letter);
-      e.dataTransfer.setDragImage(e.target, 12, 12);
-      e.target.classList.add('dragging');
-    }
-
-    function handleDragEnd(e) {
-      if (e.target.classList.contains('bead')) {
-        e.target.classList.remove('dragging');
-      }
-    }
-
-    function allowDrop(e) {
-      e.preventDefault();
-    }
-
-    function handleDropToTarget(e) {
-      e.preventDefault();
-      const dragging = document.querySelector('.bead.dragging');
-      if (dragging && dragging.parentElement !== target) {
-        target.appendChild(dragging);
-      }
-    }
-
-    function handleDropToPool(e) {
-      e.preventDefault();
-      const dragging = document.querySelector('.bead.dragging');
-      if (dragging && dragging.parentElement !== pool) {
-        pool.appendChild(dragging);
-      }
-    }
-
-    [pool, target].forEach((el) => {
-      el.addEventListener('dragover', allowDrop);
-    });
-    pool.addEventListener('drop', handleDropToPool);
-    target.addEventListener('drop', handleDropToTarget);
-
-    document.querySelectorAll('.bead').forEach((b) => {
-      b.addEventListener('dragstart', handleDragStart);
-      b.addEventListener('dragend', handleDragEnd);
-    });
+  // ===== Обычный Drag & Drop (десктоп) =====
+  function handleDragStart(e) {
+    if (!e.target.classList.contains('bead')) return;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', e.target.dataset.letter);
+    e.dataTransfer.setDragImage(e.target, 12, 12);
+    e.target.classList.add('dragging');
   }
+
+  function handleDragEnd(e) {
+    if (e.target.classList.contains('bead')) {
+      e.target.classList.remove('dragging');
+    }
+  }
+
+  function allowDrop(e) { e.preventDefault(); }
+
+  function handleDropToTarget(e) {
+    e.preventDefault();
+    var dragging = document.querySelector('.bead.dragging');
+    if (dragging && dragging.parentElement !== target) {
+      target.appendChild(dragging);
+    }
+  }
+
+  function handleDropToPool(e) {
+    e.preventDefault();
+    var dragging = document.querySelector('.bead.dragging');
+    if (dragging && dragging.parentElement !== pool) {
+      pool.appendChild(dragging);
+    }
+  }
+
+  [pool, target].forEach(function(el) {
+    el.addEventListener('dragover', allowDrop);
+  });
+  pool.addEventListener('drop', handleDropToPool);
+  target.addEventListener('drop', handleDropToTarget);
+
+  document.querySelectorAll('.bead').forEach(function(b) {
+    b.addEventListener('dragstart', handleDragStart);
+    b.addEventListener('dragend', handleDragEnd);
+  });
+
+  // ===== Touch (мобилка) =====
+  var touchDragging = null;    // элемент-бусина
+  var touchClone    = null;    // визуальный клон
+
+  document.querySelectorAll('.bead').forEach(function(bead) {
+
+    bead.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      touchDragging = bead;
+      bead.classList.add('dragging');
+
+      // Создаём клон который летит за пальцем
+      touchClone = bead.cloneNode(true);
+      touchClone.style.cssText = [
+        'position:fixed',
+        'z-index:9999',
+        'pointer-events:none',
+        'width:54px',
+        'height:54px',
+        'border-radius:50%',
+        'opacity:0.85',
+        'transform:scale(1.1)',
+        'transition:none'
+      ].join(';');
+      document.body.appendChild(touchClone);
+
+      var touch = e.touches[0];
+      touchClone.style.left = (touch.clientX - 27) + 'px';
+      touchClone.style.top  = (touch.clientY - 27) + 'px';
+
+    }, { passive: false });
+
+    bead.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+      if (!touchClone) return;
+      var touch = e.touches[0];
+      touchClone.style.left = (touch.clientX - 27) + 'px';
+      touchClone.style.top  = (touch.clientY - 27) + 'px';
+    }, { passive: false });
+
+    bead.addEventListener('touchend', function(e) {
+      e.preventDefault();
+
+      // Убираем клон
+      if (touchClone) {
+        touchClone.remove();
+        touchClone = null;
+      }
+
+      if (!touchDragging) return;
+      touchDragging.classList.remove('dragging');
+
+      var touch = e.changedTouches[0];
+
+      // Временно прячем бусину чтобы elementFromPoint нашёл зону под ней
+      touchDragging.style.visibility = 'hidden';
+      var el = document.elementFromPoint(touch.clientX, touch.clientY);
+      touchDragging.style.visibility = '';
+
+      // Ищем ближайшую зону
+      var dropZone = el ? el.closest('#beads-target, #beads-pool') : null;
+
+      if (dropZone) {
+        dropZone.appendChild(touchDragging);
+      }
+
+      touchDragging = null;
+    }, { passive: false });
+
+  });
+}
 
 function initBeadsGame() {
   var resetBtn = document.getElementById('beads-reset');
