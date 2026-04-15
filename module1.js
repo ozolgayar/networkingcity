@@ -357,6 +357,9 @@ setTimeout(function() {
     panel.style.border = 'none';
     panel.style.boxShadow = 'none';
     panel.style.padding = '0';
+    panel.style.display = 'flex';
+    panel.style.alignItems = 'center';
+    panel.style.justifyContent = 'center';
   }
  var screen2 = document.getElementById('screen-2');
   if (screen2) {
