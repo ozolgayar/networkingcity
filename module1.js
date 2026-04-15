@@ -1338,6 +1338,15 @@ const lp = polar(cx, cy, labelRadius, start + 30);
   svg.appendChild(center);
 }
 
+const wheelCategories = [
+  { name: 'Карьера',         emoji: '💼', color: '#3b82f6' },
+  { name: 'Образование',     emoji: '📚', color: '#8b5cf6' },
+  { name: 'Хобби',           emoji: '🎨', color: '#ec4899' },
+  { name: 'Личные проекты',  emoji: '🚀', color: '#f59e0b' },
+  { name: 'Финансы',         emoji: '💰', color: '#22c55e' },
+  { name: 'Здоровье',        emoji: '❤️', color: '#ef4444' }
+];
+
 function initWheelRec() {
   var btnGoWheel = document.getElementById('btn-wheel-rec');  // ← твой id кнопки
   var btnBack    = document.getElementById('btnWheelRecBack');
