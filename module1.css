@@ -4175,3 +4175,18 @@ textarea {
 .qr-result-btn:active {
   transform: scale(0.98) !important;
 }
+
+/* ===== УБИРАЕМ ЛИШНИЕ РАМКИ В ТЕСТЕ ===== */
+
+#screen-2 .panel {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+#screen-2 > .panel {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
