@@ -43,16 +43,7 @@ function showScreen(id) {
 
   
   // Ленивая инициализация — каждый раз при открытии
-  if (id === 'screen-2') {
-  setTimeout(function() {
-    var area = document.getElementById('quiz-area');
-    if (area && area.innerHTML.trim() === '') {
-      // Запускаем квиз если он ещё не стартовал
-      var startBtn = document.getElementById('_quiz_start_trigger');
-      if (startBtn) startBtn.click();
-    }
-  }, 50);
-}
+
   if (id === 'screen-12') {
     setTimeout(function() { renderBeadsStage(); }, 50);
   }
