@@ -59,9 +59,17 @@ function showScreen(id) {
   if (id === 'screen-13') {
     setTimeout(function() { initFears(); }, 50);
      }
-    if (id === 'screen-13-s') {
-    setTimeout(function() { initFears13S(); }, 50);
-   }
+   if (id === 'screen-13-s') {
+      // Скролл к началу перед инициализацией
+      setTimeout(function() {
+        var el = document.querySelector('#screen-13-s .fear-fullscreen');
+        if (el) el.scrollTop = 0;
+        var sc = document.getElementById('screen-container');
+        if (sc) sc.scrollTop = 0;
+        window.scrollTo(0, 0);
+        initFears13S();
+      }, 50);
+    }
   if (id === 'screen-13-1') {
     setTimeout(function() { initZlataCard2(); }, 50);
   }
@@ -941,6 +949,24 @@ function initFears() {
     });
 
     showScreen('screen-13-s');
+
+    // Скролл к началу экрана 13-S
+    setTimeout(function() {
+      // Вариант 1: скроллим сам контейнер fear-fullscreen
+      var fearFullscreen = document.querySelector('#screen-13-s .fear-fullscreen');
+      if (fearFullscreen) {
+        fearFullscreen.scrollTop = 0;
+      }
+
+      // Вариант 2: скроллим весь screen-container
+      var screenContainer = document.getElementById('screen-container');
+      if (screenContainer) {
+        screenContainer.scrollTop = 0;
+      }
+
+      // Вариант 3: скроллим window (страницу целиком)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
   });
 
   btnNoFear.addEventListener('click', function() {
