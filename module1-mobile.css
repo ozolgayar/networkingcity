@@ -1,1 +1,987 @@
+/* ================================================
+   MODULE 1 — MOBILE OVERRIDES
+   Применяется при ширине <= 767px
+   ================================================ */
 
+@media (max-width: 767px) {
+
+  /* ===== БАЗОВЫЙ LAYOUT ===== */
+  body {
+    background: #f8fafc;
+    padding: 0;
+    margin: 0;
+    min-height: 100dvh;
+    display: block;
+  }
+
+  .screen {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* ===== ХЕДЕР ===== */
+  .header {
+    padding: 10px 16px;
+    border-radius: 0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .header-title {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .header-chip {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  /* ===== ПРОГРЕСС-БАР ===== */
+  .progress-wrap {
+    padding: 0 16px 8px;
+  }
+
+  .progress-bar {
+    height: 5px;
+  }
+
+  .progress-label {
+    font-size: 11px;
+  }
+
+  /* ===== LAYOUT ЭКРАНОВ ===== */
+  .screen-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100dvh - 120px);
+  }
+
+  .screen-layout.single,
+  .screen-layout.wide-left,
+  .screen-layout.wide-right,
+  .screen-layout.triple {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== СЦЕНА ===== */
+  .scene {
+    padding: 16px 16px 8px;
+    border-right: none;
+    border-bottom: 1px solid rgba(226,232,240,0.6);
+    overflow-y: visible;
+    height: auto;
+    min-height: 0;
+  }
+
+  .scene-header {
+    margin-bottom: 12px;
+  }
+
+  .scene-header h2 {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .scene-header p {
+    font-size: 13px;
+  }
+
+  .scene-main {
+    gap: 10px;
+  }
+
+  /* ===== ПАНЕЛЬ ===== */
+  .panel {
+    padding: 14px 16px;
+    overflow-y: visible;
+    height: auto;
+    min-height: 0;
+  }
+
+  .panel-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  /* ===== НАВИГАЦИЯ ===== */
+  .nav-row {
+    padding: 12px 16px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-back {
+    font-size: 12px;
+    padding: 8px 14px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ===== КНОПКИ ===== */
+  .btn {
+    padding: 11px 22px;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+    width: auto;
+  }
+
+  .btn-lg {
+    padding: 14px 32px;
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-row .btn,
+  .btn-row .btn-sm {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ===== ИНПУТЫ ===== */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important; /* предотвращает зум на iOS */
+  }
+
+  textarea {
+    min-height: 80px;
+  }
+
+  /* ===== КАРТОЧКИ ===== */
+  .card {
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  /* ===== ЧИПЫ ===== */
+  .chip {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  .chips-wrap {
+    gap: 6px;
+  }
+
+  /* ===== ШКАЛА ===== */
+  .scale-wrap {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .scale-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .scale-label {
+    font-size: 11px;
+  }
+
+  /* ===== БУСИНЫ ===== */
+  .bead {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .beads-pool,
+  .beads-target {
+    min-height: 64px;
+    padding: 10px 12px;
+    gap: 6px;
+    border-radius: 14px;
+  }
+
+  #screen-12 .bead {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+
+  #screen-12 .beads-pool,
+  #screen-12 .beads-target {
+    min-height: 68px;
+    padding: 10px 12px;
+  }
+
+  /* ===== ЗЛАТА КАРТОЧКА ===== */
+  .zlata-card-wrapper {
+    max-width: 100%;
+    margin: 0;
+    height: auto;
+    min-height: 480px;
+  }
+
+  .zlata-front,
+  .zlata-back {
+    padding: 18px 14px;
+    min-height: 480px;
+    border-radius: 16px;
+  }
+
+  .zlata-avatar-circle {
+    width: 110px;
+    height: 110px;
+  }
+
+  .zlata-name {
+    font-size: 17px;
+  }
+
+  .zlata-role {
+    font-size: 12px;
+  }
+
+  .zlata-quote {
+    font-size: 12px;
+    padding: 8px 10px;
+    margin-top: 10px;
+  }
+
+  .zlata-inventory {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .zlata-inv-item {
+    padding: 8px 4px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .zlata-inv-item small {
+    font-size: 9px;
+  }
+
+  .zlata-superpowers {
+    padding: 10px 10px;
+    gap: 6px;
+  }
+
+  .zlata-sp-title {
+    font-size: 13px;
+  }
+
+  .zlata-sp-item {
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .zlata-sp-icon {
+    font-size: 16px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .zlata-nw-bar {
+    margin-top: 10px;
+  }
+
+  .zlata-nw-label,
+  .zlata-nw-value {
+    font-size: 11px;
+  }
+
+  .zlata-flip-hint {
+    font-size: 10px;
+  }
+
+  /* ===== МАСКИ СТРАХОВ ===== */
+  .fear-fullscreen {
+    padding: 16px 16px 24px;
+  }
+
+  .fear-masks-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .fear-mask {
+    padding: 12px 8px 10px;
+    border-radius: 14px;
+  }
+
+  .fear-mask-face {
+    width: 72px;
+    height: 82px;
+  }
+
+  .fm-eye {
+    width: 11px;
+    height: 11px;
+  }
+
+  .fm-eye::after {
+    width: 6px;
+    height: 6px;
+  }
+
+  .fear-mask-text {
+    font-size: 11px;
+  }
+
+  .fear-custom-input {
+    font-size: 12px;
+    padding: 5px 6px;
+  }
+
+  .fears-validation-list,
+  .fears-strategy-list {
+    max-width: 100%;
+  }
+
+  .fear-validation-item {
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
+  .fear-validation-icon {
+    font-size: 18px;
+  }
+
+  .fear-strategy-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  .fear-strategy-title {
+    font-size: 14px;
+  }
+
+  .fear-strategy-validation {
+    font-size: 12px;
+  }
+
+  .fear-strategy-textarea {
+    font-size: 16px !important;
+    min-height: 72px;
+  }
+
+  /* ===== СМАРТ МАЙНД-КАРТА ===== */
+  .smart-fullscreen {
+    padding: 16px 14px 32px;
+  }
+
+  .smart-header h2 {
+    font-size: 18px;
+  }
+
+  .smart-mind-map {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .smart-center {
+    width: 110px;
+    height: 110px;
+    align-self: center;
+    order: -1;
+  }
+
+  .smart-center-icon {
+    font-size: 28px;
+  }
+
+  .smart-center-label {
+    font-size: 10px;
+  }
+
+  .smart-branch {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .smart-branch-s,
+  .smart-branch-m,
+  .smart-branch-a,
+  .smart-branch-r,
+  .smart-branch-t {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .smart-letter {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .smart-branch-title {
+    font-size: 12px;
+  }
+
+  .smart-branch-title small {
+    font-size: 10px;
+  }
+
+  .smart-textarea {
+    min-height: 70px;
+    font-size: 16px !important;
+    padding: 10px 12px;
+  }
+
+  .smart-example {
+    max-width: 100%;
+  }
+
+  .smart-example-header {
+    font-size: 13px;
+  }
+
+  .smart-example-row {
+    font-size: 12px;
+  }
+
+  .smart-actions {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .smart-saved-toast {
+    font-size: 13px;
+    padding: 10px 20px;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    text-align: center;
+    border-radius: 16px;
+  }
+
+  /* ===== ВИЗИТКА ===== */
+  .bizcard-template {
+    max-width: 100%;
+    padding: 14px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+
+  .bizcard-template input.bc-field {
+    font-size: 16px !important;
+    padding: 8px 10px;
+  }
+
+  .bizcard-template input.bc-field:first-of-type {
+    font-size: 16px !important;
+  }
+
+  .bizcard-template textarea.bc-field {
+    font-size: 16px !important;
+  }
+
+  .bizcard-drop-zone {
+    width: 52px;
+    height: 52px;
+    font-size: 8px;
+  }
+
+  .drag-elements-panel {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .drag-el {
+    font-size: 12px;
+    padding: 7px 10px;
+    border-radius: 8px;
+  }
+
+  .bizcard-feedback {
+    font-size: 12px;
+  }
+
+  .bizcard-example .bc-name {
+    font-size: 13px;
+  }
+
+  .bizcard-example .bc-hint {
+    font-size: 11px;
+  }
+
+  .bizcard-example .bc-contacts {
+    font-size: 11px;
+  }
+
+  /* ===== СТИКЕРЫ ===== */
+  .board {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 12px;
+    min-height: 280px;
+  }
+
+  .sticky {
+    border-radius: 4px;
+  }
+
+  .sticky > div:first-of-type {
+    font-size: 11px;
+    -webkit-line-clamp: 3;
+  }
+
+  .sticky-footer {
+    font-size: 9px;
+  }
+
+  .sticky-delete {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    opacity: 1;
+  }
+
+  /* ===== ЧЕЛОВЕЧКИ ===== */
+  .person-avatar {
+    width: 44px;
+    height: 60px;
+  }
+
+  /* ===== СУМКА НЕТВОРКЕРА ===== */
+  .bag-shelf-visual {
+    gap: 8px;
+    padding: 10px 12px;
+    min-height: 76px;
+    flex-wrap: wrap;
+  }
+
+  .bag-item-visual {
+    width: 56px;
+  }
+
+  .bag-item-visual img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .bag-item-visual span {
+    font-size: 8px;
+  }
+
+  .bag-item-inside {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* ===== КАРТА МЕРОПРИЯТИЯ ===== */
+  #venue-map {
+    padding: 6px 0;
+    gap: 6px;
+  }
+
+  .venue-obj {
+    padding: 8px 4px;
+    border-radius: 10px;
+  }
+
+  .venue-emoji {
+    font-size: 20px;
+  }
+
+  .venue-label,
+  .venue-label-sm {
+    font-size: 9px;
+  }
+
+  /* ===== ОБЛОЖКА ЭКРАН 1 ===== */
+  #screen-1 {
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .s1-cover {
+    height: 100dvh !important;
+    border-radius: 0 !important;
+  }
+
+  .s1-cover-img img {
+    object-position: top center !important;
+  }
+
+  .s1-cover-title {
+    font-size: 18px;
+  }
+
+  .s1-cover-subtitle {
+    font-size: 13px;
+  }
+
+  .s1-cover-btn {
+    font-size: 16px;
+    padding: 14px 36px;
+  }
+
+  /* ===== МОБИЛЬНОЕ ПРЕДУПРЕЖДЕНИЕ ===== */
+  #mobile-warning {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(135deg, #f0fdf4, #eff6ff);
+    padding: 24px;
+  }
+
+  /* ===== ПОПАП ПОВОРОТА ===== */
+  .rotate-overlay {
+    display: none;
+  }
+
+  /* ===== ТУЛТИП СТИКЕРОВ ===== */
+  #sticky-tooltip {
+    display: none !important;
+  }
+
+  /* ===== КАРТОЧКИ СУДЕБ ===== */
+  .fate-card {
+    padding: 10px 12px;
+    min-width: 130px;
+    max-width: 160px;
+    border-radius: 12px;
+  }
+
+  .fate-title {
+    font-size: 12px;
+  }
+
+  .fate-metric {
+    font-size: 11px;
+  }
+
+  /* ===== ДОСКА ВАЖНОСТИ ===== */
+  .importance-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .importance-row .imp-label {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .importance-row .imp-value {
+    font-size: 13px;
+    width: 28px;
+  }
+
+  /* ===== ФОТО СЕТКА ===== */
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .photo-placeholder .ph-emoji {
+    font-size: 28px;
+  }
+
+  .photo-placeholder {
+    font-size: 11px;
+    padding: 10px 8px;
+  }
+
+  .photo-label {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  /* ===== ЭКРАН 16-1: СКРОЛЛ ===== */
+  #screen-16-1 .panel {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* ===== ЭКРАН 19: ВИЗИТКА ===== */
+  #screen-19.active {
+    overflow-y: auto !important;
+  }
+
+  #screen-19 .screen-layout {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  #screen-19 .scene,
+  #screen-19 .panel {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+
+  /* ===== ЭКРАН 21-2: КАРТА МЕРОПРИЯТИЯ ===== */
+  #screen-21-2 .scene {
+    padding: 12px 12px 8px;
+  }
+
+  #screen-21-2 .panel {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* ===== FLOAT SAVED ===== */
+  .float-saved {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  /* ===== БУСИНЫ ЭТАПЫ ===== */
+  .beads-stage-dot {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  .beads-formula-chip {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  /* ===== ЛОКАЦИИ ===== */
+  .location-chip {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  /* ===== КАРТОЧКИ НЕТВОРКИНГА ===== */
+  .nw-card {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  .nw-card-title {
+    font-size: 13px;
+  }
+
+  .nw-card-desc {
+    font-size: 11px;
+  }
+
+  /* ===== ПОЛОСКА НЕТВОРКИНГА ===== */
+  .zlata-nw-track {
+    height: 10px;
+  }
+
+  /* ===== ХЕДЕР СТАТИСТИКА ===== */
+  .header-stat-label {
+    font-size: 10px;
+  }
+
+  .header-stat-value {
+    font-size: 11px;
+  }
+
+  /* ===== ОБЩИЕ ОТСТУПЫ ===== */
+  .section-gap {
+    gap: 10px;
+  }
+
+  .inner-gap {
+    gap: 6px;
+  }
+
+  /* ===== ТЕКСТ ===== */
+  .text-sm { font-size: 12px; }
+  .text-xs { font-size: 10px; }
+
+  /* ===== ИКОНКИ ===== */
+  .icon-lg { font-size: 28px; }
+  .icon-md { font-size: 22px; }
+  .icon-sm { font-size: 16px; }
+
+} /* конец @media (max-width: 767px) */
+
+
+/* ================================================
+   ПЛАНШЕТЫ — 768px до 1023px
+   ================================================ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  body {
+    background: #f1f5f9;
+    padding: 16px;
+  }
+
+  .screen {
+    border-radius: 20px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  .header {
+    padding: 12px 24px;
+  }
+
+  .header-title {
+    font-size: 14px;
+  }
+
+  .progress-wrap {
+    padding: 0 24px 8px;
+  }
+
+  .screen-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - 180px);
+    max-height: 640px;
+  }
+
+  .screen-layout.single {
+    grid-template-columns: 1fr;
+  }
+
+  .scene {
+    padding: 20px 24px;
+  }
+
+  .panel {
+    padding: 18px 22px;
+  }
+
+  .scene-header h2 {
+    font-size: 18px;
+  }
+
+  .nav-row {
+    padding: 12px 24px;
+  }
+
+  .nav-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .fear-masks-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .smart-mind-map {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .smart-center {
+    align-self: center;
+  }
+
+  .board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .bizcard-template {
+    max-width: 440px;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+} /* конец @media планшеты */
+
+
+/* ================================================
+   ЛАНДШАФТНЫЙ РЕЖИМ НА МОБИЛКАХ
+   ================================================ */
+
+@media (max-width: 767px) and (orientation: landscape) {
+
+  .screen {
+    min-height: 100dvh;
+  }
+
+  .screen-layout {
+    flex-direction: row;
+    min-height: calc(100dvh - 100px);
+  }
+
+  .scene {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100dvh - 100px);
+    border-right: 1px solid rgba(226,232,240,0.6);
+    border-bottom: none;
+  }
+
+  .panel {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100dvh - 100px);
+  }
+
+  .s1-cover {
+    height: 100dvh !important;
+  }
+
+  .s1-cover-btn-wrap {
+    bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .s1-cover-title {
+    font-size: 16px;
+  }
+
+  .s1-cover-subtitle {
+    font-size: 12px;
+  }
+
+  .s1-cover-btn {
+    font-size: 14px;
+    padding: 10px 28px;
+  }
+
+  .fear-masks-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .nav-btn {
+    width: auto;
+  }
+
+  .btn {
+    width: auto;
+  }
+
+} /* конец landscape */
