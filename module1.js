@@ -387,8 +387,7 @@ if (introHint) introHint.style.display = 'none';
   area.innerHTML =
     '<div class="qr-result-wrap">' +
       '<div class="qr-result-card">' +
-        '<div class="qr-result-emoji">' + emoji + '</div>' +
-        '<div class="qr-result-title">Твой результат</div>' +
+               '<div class="qr-result-title">Твой результат</div>' +
         '<div class="qr-result-score" style="color:' + color + '">' +
           total +
           '<span style="font-size:20px;font-weight:500;color:#94a3b8;"> / ' + max + '</span>' +
