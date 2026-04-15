@@ -949,6 +949,11 @@ function initFears() {
     });
 
     showScreen('screen-13-s');
+    // Сброс скролла — с задержкой 80мс, чтобы экран уже стал active
+    setTimeout(function() {
+      var ff = document.querySelector('#screen-13-s .fear-fullscreen');
+      if (ff) ff.scrollTop = 0;
+    }, 80);
 
     // Скролл к началу экрана 13-S
     setTimeout(function() {
