@@ -1391,33 +1391,30 @@ function initWheelSummary() {
     });
   }
 
-  btnCalc.addEventListener('click', () => {
-    // Формула: score = importance * (11 - wheelValue)
-    // Чем выше важность И чем ниже текущий балл контактов — тем выше score
-    const scores = wheelCategories.map((cat, i) => ({
-      idx: i,
-      name: cat.name,
-      emoji: cat.emoji,
-      importance: state.wheel.importance[i],
-      contacts: state.wheel.values[i],
-     score: state.wheel.importance[i] * (11 - state.wheel.values[i])
-    }));
-   
+btnCalc.addEventListener('click', () => {
+  const scores = wheelCategories.map((cat, i) => ({
+    idx: i,
+    name: cat.name,
+    emoji: cat.emoji,
+    importance: state.wheel.importance[i],
+    contacts: state.wheel.values[i],
+    score: state.wheel.importance[i] * (11 - state.wheel.values[i])
+  }));
 
-    // Сортируем по убыванию score
-    scores.sort((a, b) => b.score - a.score);
+  // строку про btn-screen15-continue — убрали
 
-    // Берём топ — все с максимальным score, или топ-2
-    const topScore = scores[0].score;
-    const top = scores.filter(s => s.score >= topScore * 0.85); // в пределах 85% от макс.
+  scores.sort((a, b) => b.score - a.score);
 
-    topSectorsEl.innerHTML = top.map(s =>
-      `<span style="display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:999px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.4); margin:2px;">${s.emoji} ${s.name} <span style="font-size:11px; color:var(--text-soft);">(важность ${s.importance}, контакты ${s.contacts})</span></span>`
-    ).join(' ');
+  const topScore = scores[0].score;
+  const top = scores.filter(s => s.score >= topScore * 0.85);
 
-    resultBlock.style.display = 'block';
-    addScore(2);
-  });
+  topSectorsEl.innerHTML = top.map(s =>
+    `<span style="display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:999px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.4); margin:2px;">${s.emoji} ${s.name} <span style="font-size:11px; color:var(--text-soft);">(важность ${s.importance}, контакты ${s.contacts})</span></span>`
+  ).join(' ');
+
+  resultBlock.style.display = 'block';
+  addScore(2);
+});
 
   // Отрисовка при открытии экрана
   const observer = new MutationObserver(() => {
