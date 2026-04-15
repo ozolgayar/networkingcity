@@ -4163,6 +4163,29 @@ color: #1e293b;
     border-radius: 18px 18px 0 0;
     border-bottom: none;
   }
+/* ===== Колесо баланса — мобилка ===== */
+#screen-14 .scene,
+#screen-15 .scene {
+  max-height: 50vw !important;   /* квадратная зона под колесо */
+  min-height: 200px !important;
+  overflow: hidden !important;
+}
+
+#screen-14 .scene-main,
+#screen-15 .scene-main {
+  min-height: 0 !important;
+  padding: 4px !important;
+  overflow: hidden !important;
+}
+
+#screen-14 .scene-main svg,
+#screen-15 .scene-main svg {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  display: block !important;
+}
   .scene-main { min-height: 120px; }
   .scene-header { font-size: 18px !important; }
 
