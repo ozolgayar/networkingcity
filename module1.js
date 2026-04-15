@@ -352,38 +352,27 @@ setTimeout(function() {
     color = '#a855f7';
   }
 
+  // Скрываем прогресс
+  if (progress) progress.style.display = 'none';
+
   area.innerHTML =
     '<div class="qr-result-wrap">' +
       '<div class="qr-result-card">' +
-
-        // Эмодзи уровня
         '<div class="qr-result-emoji">' + emoji + '</div>' +
-
-        // Заголовок
         '<div class="qr-result-title">Твой результат</div>' +
-
-        // Счёт
         '<div class="qr-result-score" style="color:' + color + '">' +
-          total + ' <span style="font-size:20px; font-weight:500; color:#94a3b8;">/ ' + max + '</span>' +
+          total +
+          '<span style="font-size:20px;font-weight:500;color:#94a3b8;"> / ' + max + '</span>' +
         '</div>' +
-
-        // Уровень
-        '<div class="qr-result-badge" style="background:' + color + '20; color:' + color + '; border-color:' + color + '50;">' +
+        '<div class="qr-result-badge" style="background:' + color + '20;color:' + color + ';border-color:' + color + '50;">' +
           level +
         '</div>' +
-
-        // Прогресс-бар
         '<div class="qr-result-bar-wrap">' +
-          '<div class="qr-result-bar" style="width:' + pct + '%; background:' + color + ';"></div>' +
+          '<div class="qr-result-bar" style="width:' + pct + '%;background:' + color + ';"></div>' +
         '</div>' +
         '<div class="qr-result-pct">' + pct + '%</div>' +
-
-        // Описание
         '<div class="qr-result-desc">' + desc + '</div>' +
-
-        // Кнопка
-        '<button class="btn qr-result-btn">Продолжить →</button>' +
-
+        '<button class="btn qr-result-btn" style="width:100%;margin-top:8px;">Продолжить \u2192</button>' +
       '</div>' +
     '</div>';
 
