@@ -1347,6 +1347,18 @@ btnGoWheel.addEventListener('click', () => {
   goToScreen('screen-wheel-rec');
 });
 
+// Кнопка «назад» на экране рекомендаций
+document.getElementById('btnWheelRecBack')
+  .addEventListener('click', () => {
+    goToScreen('screen-15'); // ← экран результатов колеса
+  });
+
+// Кнопка «Продолжить»
+document.getElementById('btnWheelRecNext')
+  .addEventListener('click', () => {
+    goToScreen('screen-16'); // ← следующий экран твоего приложения
+  });
+
 // ===== Экран 14: колесо баланса (новое) =====
 var wheelInitialized = false;
 
