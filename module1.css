@@ -4285,3 +4285,8 @@ textarea {
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
+
+#screen-2 .quiz-result-screen .quiz-progress,
+#screen-2 .result-active .quiz-progress {
+  display: none !important;
+}
