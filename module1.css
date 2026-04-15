@@ -509,7 +509,17 @@
   animation: fadeIn .35s ease-out;
 }
 
+/* Универсальное правило для всех панелей */
+.screen.active .panel {
+  overflow-y: auto;
+  min-height: 0;
+}
 
+.screen.active .panel::-webkit-scrollbar { width: 5px; }
+.screen.active .panel::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.4);
+  border-radius: 999px;
+}
     .screen-layout {
       flex: 1;
       display: grid;
