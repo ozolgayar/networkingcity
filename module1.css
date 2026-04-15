@@ -4043,6 +4043,19 @@ color: #1e293b;
    ======================================== */
 @media (max-width: 899px) {
 /* ===== БУСИНЫ — экран 12 ===== */
+    #beads-reset,
+#beads-check {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 48%;
+}
+    #screen-12 .beads-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
   #screen-12 .beads-pool,
   #screen-12 .beads-target {
     width: 100% !important;
