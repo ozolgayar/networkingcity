@@ -4305,3 +4305,7 @@ textarea {
   align-items: center !important;
   justify-content: center !important;
 }
+
+#screen-2 [data-prev] {
+  margin-top: 16px;
+}
