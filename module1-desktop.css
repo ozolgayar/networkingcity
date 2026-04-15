@@ -609,31 +609,80 @@
 @media (min-width: 1024px) {
 
   .s1-overlay-card {
-    max-width: 560px;
-    max-height: 75%;
+    max-width: 780px !important;
+    width: 85% !important;
+    max-height: 90% !important;
   }
 
   .s1-overlay-scroll {
-    padding: 32px 32px 28px;
-    gap: 14px;
+    padding: 28px 36px 24px !important;
+    gap: 10px !important;
+    overflow-y: visible !important; /* убираем скролл */
   }
 
   .s1-overlay-scroll h2 {
-    font-size: 26px;
+    font-size: 24px !important;
+    margin-bottom: 2px !important;
   }
 
-  .s1-overlay-scroll p,
+  /* Текст компактнее */
+  .s1-overlay-scroll p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+  /* Список в 2 колонки */
+  .s1-overlay-scroll ol {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px 20px !important;
+    padding-left: 0 !important;
+    list-style: none !important;
+    counter-reset: ol-counter !important;
+  }
+
   .s1-overlay-scroll ol li {
-    font-size: 15px;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    padding: 10px 12px !important;
+    background: rgba(241, 245, 249, 0.8) !important;
+    border-radius: 10px !important;
+    border-left: 3px solid #22c55e !important;
+    counter-increment: ol-counter !important;
+    position: relative !important;
+    padding-left: 32px !important;
+  }
+
+  .s1-overlay-scroll ol li::before {
+    content: counter(ol-counter) !important;
+    position: absolute !important;
+    left: 10px !important;
+    top: 10px !important;
+    font-weight: 800 !important;
+    color: #22c55e !important;
+    font-size: 13px !important;
+  }
+
+  /* Маркер-хайлайт компактнее */
+  .marker-highlight {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Бокс готовности компактнее */
+  .s1-ready-box {
+    padding: 10px 16px !important;
   }
 
   .s1-ready-box p {
-    font-size: 17px !important;
+    font-size: 15px !important;
   }
 
+  /* Кнопка */
   .s1-overlay-scroll .btn {
-    padding: 16px 60px;
-    font-size: 17px;
+    padding: 13px 48px !important;
+    font-size: 16px !important;
   }
 
 }
