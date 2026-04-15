@@ -1156,14 +1156,84 @@ function initZlataCard211() {
 
   // ===== Экран 14: колесо баланса =====
   // ===== SVG-колесо: вспомогательные функции =====
-const wheelCategories = [
-  { name:'Карьера',        color:'#22c55e', emoji:'💼' },
-  { name:'Образование',    color:'#38bdf8', emoji:'🏫' },
-  { name:'Хобби',          color:'#f97316', emoji:'🎨' },
-  { name:'Личные проекты', color:'#a855f7', emoji:'📁' },
-  { name:'Финансы',        color:'#facc15', emoji:'💸' },
-  { name:'Здоровье',       color:'#e11d48', emoji:'🩺' }
-];
+const wheelRecommendations = {
+  'Карьера':          {
+    low:  'Возможно, карьера сейчас не приоритет — и это нормально. Определи, чего ты хочешь от работы.',
+    mid:  'Есть потенциал роста. Поставь одну конкретную карьерную цель на ближайшие 3 месяца.',
+    high: 'Карьера развивается хорошо! Не забывай поддерживать баланс с другими сферами.'
+  },
+  'Образование':      {
+    low:  'Попробуй выделить 15 минут в день на обучение — книга, подкаст, курс.',
+    mid:  'Хороший уровень! Выбери один навык, который прокачаешь в этом квартале.',
+    high: 'Отлично! Поделись знаниями с другими — это закрепляет результат.'
+  },
+  'Хобби':            {
+    low:  'Хобби восстанавливает энергию. Вспомни, что приносило радость раньше.',
+    mid:  'Есть занятие для души — это важно. Попробуй уделять ему время регулярно.',
+    high: 'Здорово, что есть любимое дело! Можно ли развить его глубже?'
+  },
+  'Личные проекты':   {
+    low:  'Есть идея, которая давно ждёт? Начни с малого — 30 минут в неделю.',
+    mid:  'Проекты идут. Определи следующий конкретный шаг для каждого.',
+    high: 'Личные проекты на высоком уровне — это источник смысла и энергии!'
+  },
+  'Финансы':          {
+    low:  'Разберись с базовым бюджетом: доходы, расходы, подушка безопасности.',
+    mid:  'Финансы в порядке. Подумай о долгосрочных целях — накопления, инвестиции.',
+    high: 'Финансовая стабильность — отличная база для остальных сфер жизни!'
+  },
+  'Здоровье':         {
+    low:  'Здоровье — фундамент всего. Начни с простого: сон, вода, 10 минут движения.',
+    mid:  'Неплохо! Добавь одну полезную привычку — зарядка, прогулка или медитация.',
+    high: 'Здоровье на высоте — это даёт энергию для всех остальных сфер!'
+  }
+};
+
+function buildWheelRecCards() {
+  const cards = document.getElementById('wheelRecCards');
+  if (!cards) return;
+  cards.innerHTML = '';
+
+  // Сортируем сферы: сначала низкие оценки
+  const sorted = wheelCategories
+    .map((cat, i) => ({
+      cat,
+      value: state.wheel.values[i],
+      importance: state.wheel.importance ? state.wheel.importance[i] : 5
+    }))
+    .sort((a, b) => a.value - b.value);
+
+  sorted.forEach((item, idx) => {
+    const v = item.value;
+    const rec = wheelRecommendations[item.cat.name];
+    if (!rec) return;
+
+    let level, text, cardClass, badge;
+    if (v <= 3) {
+      level = 'low'; cardClass = 'card-low'; badge = '⚠️ Требует внимания';
+      text = rec.low;
+    } else if (v <= 6) {
+      level = 'mid'; cardClass = 'card-mid'; badge = '📈 Есть потенциал';
+      text = rec.mid;
+    } else {
+      level = 'high'; cardClass = 'card-high'; badge = '✅ Всё хорошо';
+      text = rec.high;
+    }
+
+    const card = document.createElement('div');
+    card.className = `wheel-rec-card ${cardClass}`;
+    card.style.animationDelay = `${idx * 0.07}s`;
+    card.innerHTML = `
+      <div class="wheel-rec-icon">${item.cat.emoji}</div>
+      <div class="wheel-rec-body">
+        <span class="wheel-rec-badge">${badge}</span>
+        <h4>${item.cat.name} — ${v}/10</h4>
+        <p>${text}</p>
+      </div>
+    `;
+    cards.appendChild(card);
+  });
+}
 
 function polar(cx, cy, r, angle) {
   const rad = (angle - 90) * Math.PI / 180;
@@ -1267,6 +1337,15 @@ const lp = polar(cx, cy, labelRadius, start + 30);
   center.setAttribute('stroke-width', '2');
   svg.appendChild(center);
 }
+
+btnGoWheel.addEventListener('click', () => {
+  // Рисуем мини-колесо на экране рекомендаций
+  renderWheel('recWheelSvg', state.wheel.values, -1);
+  // Генерируем карточки
+  buildWheelRecCards();
+  // Переходим
+  goToScreen('screen-wheel-rec');
+});
 
 // ===== Экран 14: колесо баланса (новое) =====
 var wheelInitialized = false;
