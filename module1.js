@@ -1188,7 +1188,12 @@ function sectorPath(cx, cy, r1, r2, startAngle, endAngle) {
 function renderWheel(svgId, values, activeIndex) {
   var svg = document.getElementById(svgId);
   if (!svg) return;
-  var cx = 280, cy = 280, maxR = 190, innerR = 28;
+
+  // На мобилке уменьшаем колесо
+  var isMobile = window.innerWidth <= 899;
+  var cx = 280, cy = 280;
+  var maxR = isMobile ? 160 : 190;   // ← уменьшили радиус
+  var innerR = isMobile ? 24 : 28;
   var step = (maxR - innerR) / 10;
   svg.innerHTML = '';
 
@@ -1233,10 +1238,12 @@ function renderWheel(svgId, values, activeIndex) {
       svg.appendChild(ring);
     }
 
-    const lp = polar(cx, cy, maxR + 50, start + 30);
+    var labelRadius = isMobile ? maxR + 36 : maxR + 50;
+const lp = polar(cx, cy, labelRadius, start + 30);
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     text.setAttribute('x', lp.x); text.setAttribute('y', lp.y);
     text.setAttribute('font-size', '13');
+    text.setAttribute('font-size', isMobile ? '11' : '13');
     text.setAttribute('font-weight', activeIndex === i ? '800' : '700');
     text.setAttribute('fill', activeIndex === i ? cat.color : '#64748b');
     text.setAttribute('text-anchor', 'middle');
