@@ -435,6 +435,11 @@ function initLaptopHotspot() {
   var folderSchedule = document.getElementById('folder-schedule');
   var scheduleModal  = document.getElementById('schedule-modal');
 
+   var portal = document.getElementById('modals-portal');
+  if (portal && scheduleModal) {
+    portal.appendChild(scheduleModal);
+  }
+
   console.log('folder-schedule:', folderSchedule);
   console.log('schedule-modal:', scheduleModal);
 
