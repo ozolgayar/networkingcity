@@ -817,3 +817,10 @@
   margin: 8px 0 !important;
   white-space: nowrap !important;
 }
+
+@media (min-width: 1024px) {
+  #screen-2 .panel {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+}
