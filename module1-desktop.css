@@ -605,3 +605,35 @@
   }
 
 } /* конец @media (min-width: 1024px) */
+
+@media (min-width: 1024px) {
+
+  .s1-overlay-card {
+    max-width: 560px;
+    max-height: 75%;
+  }
+
+  .s1-overlay-scroll {
+    padding: 32px 32px 28px;
+    gap: 14px;
+  }
+
+  .s1-overlay-scroll h2 {
+    font-size: 26px;
+  }
+
+  .s1-overlay-scroll p,
+  .s1-overlay-scroll ol li {
+    font-size: 15px;
+  }
+
+  .s1-ready-box p {
+    font-size: 17px !important;
+  }
+
+  .s1-overlay-scroll .btn {
+    padding: 16px 60px;
+    font-size: 17px;
+  }
+
+}
