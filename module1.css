@@ -459,7 +459,7 @@ main {
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: linear-gradient(135deg, #ffffff, #f8fafc);
-  padding: 24px 24px 16px;
+   padding: 16px 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
