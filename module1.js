@@ -335,6 +335,13 @@ setTimeout(function() {
   });
 }
      function showResult() {
+       // Убираем белый фон контейнера
+var screenContainer = document.getElementById('screen-container');
+if (screenContainer) {
+  screenContainer.style.background = 'transparent';
+  screenContainer.style.boxShadow = 'none';
+  screenContainer.style.border = 'none';
+}
       var prog = document.getElementById('quiz-progress');
   if (prog) {
     prog.style.display = 'none';
@@ -415,9 +422,16 @@ setTimeout(function() {
       '</div>' +
     '</div>';
 
-  area.querySelector('.qr-result-btn').addEventListener('click', function() {
-    showScreen('screen-3-0');
-  });
+ area.querySelector('.qr-result-btn').addEventListener('click', function() {
+  // Возвращаем фон
+  var screenContainer = document.getElementById('screen-container');
+  if (screenContainer) {
+    screenContainer.style.background = '';
+    screenContainer.style.boxShadow = '';
+    screenContainer.style.border = '';
+  }
+  showScreen('screen-3-0');
+});
 }
      startQuiz(); // ← ДОБАВЬ ЭТУ СТРОКУ
 }    
