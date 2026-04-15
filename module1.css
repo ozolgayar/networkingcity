@@ -520,13 +520,15 @@
   background: rgba(148,163,184,0.4);
   border-radius: 999px;
 }
-    .screen-layout {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 16px;
-      min-height: 0;
-    }
+    screen-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 16px;
+  min-height: 0;
+  overflow: hidden;  /* ← добавить */
+  height: 100%;      /* ← добавить */
+}
 
     @keyframes fadeIn {
       from {
