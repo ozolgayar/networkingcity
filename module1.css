@@ -888,6 +888,81 @@ color: #1e293b;
   color: var(--text-soft);
   margin-top: 4px;
 }
+.importance-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 0;              /* ← было ~4px, теперь 14px сверху и снизу */
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .importance-row:last-child {
+    border-bottom: none;
+  }
+
+  .imp-label {
+    min-width: 130px;             /* ← фиксируем ширину метки */
+    font-size: 14px;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+
+  .importance-row input[type="range"] {
+    flex: 1;
+    height: 36px;                 /* ← увеличиваем зону касания */
+    cursor: pointer;
+    accent-color: #22c55e;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+  }
+
+  /* Трек ползунка */
+  .importance-row input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+  }
+
+  /* Бегунок — большой палец */
+  .importance-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;                  /* ← увеличиваем для удобства */
+    height: 28px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    margin-top: -11px;            /* центрируем по треку */
+    cursor: pointer;
+  }
+
+  /* Firefox */
+  .importance-row input[type="range"]::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+
+  .importance-row input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+  }
+
+  .imp-value {
+    min-width: 24px;
+    text-align: right;
+    font-weight: 700;
+    font-size: 15px;
+    color: #22c55e;
+  }
+}
 
     /* Wheel of life — более светлое и крупное колесо */
 .wheel-wrapper {
