@@ -4292,5 +4292,6 @@ textarea {
 }
 
 #quiz-progress {
-  display: none !important;
+ display: none !important;
+  visibility: hidden !important;
 }
