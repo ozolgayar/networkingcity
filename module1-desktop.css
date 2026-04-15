@@ -712,3 +712,60 @@
   }
 
 }
+
+  /* ===== РЕЗУЛЬТАТ ТЕСТА — десктоп ===== */
+  #screen-2 .qr-result-wrap {
+    padding: 24px 0 32px;
+  }
+
+  #screen-2 .qr-result-card {
+    max-width: 560px !important;
+    padding: 40px 48px 36px !important;
+    gap: 18px !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Эмодзи и счёт — рядом */
+  #screen-2 .qr-result-emoji {
+    font-size: 80px !important;
+    width: 100% !important;
+  }
+
+  #screen-2 .qr-result-score {
+    font-size: 80px !important;
+  }
+
+  /* Всё остальное — на всю ширину */
+  #screen-2 .qr-result-title,
+  #screen-2 .qr-result-badge,
+  #screen-2 .qr-result-bar-wrap,
+  #screen-2 .qr-result-pct,
+  #screen-2 .qr-result-desc,
+  #screen-2 .qr-result-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #screen-2 .qr-result-bar-wrap {
+    height: 12px !important;
+  }
+
+  #screen-2 .qr-result-pct {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+  }
+
+  #screen-2 .qr-result-desc {
+    font-size: 14px !important;
+    max-width: 460px !important;
+  }
+
+  #screen-2 .qr-result-btn {
+    max-width: 320px !important;
+    padding: 16px 40px !important;
+    font-size: 16px !important;
+    border-radius: 18px !important;
+  }
