@@ -1018,3 +1018,73 @@
   }
 
 }
+
+@media (max-width: 767px) {
+
+  /* ===== РЕЗУЛЬТАТ ТЕСТА — мобилка ===== */
+
+  .qr-result-wrap {
+    padding: 8px 0 16px;
+  }
+
+  .qr-result-card {
+    max-width: 100% !important;
+    padding: 24px 20px 22px !important;
+    border-radius: 20px !important;
+    gap: 12px !important;
+    margin: 0 !important;
+  }
+
+  /* Эмодзи чуть меньше */
+  .qr-result-emoji {
+    font-size: 48px !important;
+  }
+
+  /* Заголовок */
+  .qr-result-title {
+    font-size: 10px !important;
+    padding: 3px 12px !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Счёт */
+  .qr-result-score {
+    font-size: 52px !important;
+  }
+
+  /* Бейдж уровня */
+  .qr-result-badge {
+    font-size: 13px !important;
+    padding: 6px 18px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    display: flex !important;
+  }
+
+  /* Прогресс-бар */
+  .qr-result-bar-wrap {
+    height: 8px !important;
+  }
+
+  /* Процент */
+  .qr-result-pct {
+    font-size: 12px !important;
+    margin-top: -6px !important;
+  }
+
+  /* Описание */
+  .qr-result-desc {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    max-width: 100% !important;
+  }
+
+  /* Кнопка */
+  .qr-result-btn {
+    max-width: 100% !important;
+    padding: 14px 20px !important;
+    font-size: 15px !important;
+    border-radius: 14px !important;
+  }
+
+}
