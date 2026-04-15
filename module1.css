@@ -4191,6 +4191,7 @@ textarea {
   padding: 20px 24px !important;
 }
 
+
 /* Заголовок */
 #screen-2 h2 {
   font-size: 18px !important;
@@ -4208,17 +4209,21 @@ textarea {
   color: var(--text-soft) !important;
 }
 
-/* Прогресс */
-#screen-2 #quiz-progress {
+/* Плашка прогресса — компактная */
+#screen-2 #quiz-progress,
+#screen-2 .quiz-progress {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: fit-content !important;
+  padding: 4px 14px !important;
   font-size: 11px !important;
   font-weight: 600 !important;
   color: var(--text-soft) !important;
-  padding: 3px 10px !important;
   background: rgba(99,102,241,0.07) !important;
-  border-radius: 999px !important;
   border: 1px solid rgba(99,102,241,0.15) !important;
-  display: inline-block !important;
-  margin: 6px 0 8px !important;
+  border-radius: 999px !important;
+  margin: 8px 0 !important;
+  white-space: nowrap !important;
 }
 
 /* Блок вопроса */
