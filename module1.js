@@ -422,13 +422,22 @@ if (screenContainer) {
       '</div>' +
     '</div>';
 
-       var backBtn = document.querySelector('#screen-2 [data-prev]');
-var resultCard = area.querySelector('.qr-result-card');
-if (backBtn && resultCard) {
-  backBtn.style.marginTop = '12px';
-  backBtn.style.width = '100%';
-  resultCard.appendChild(backBtn);
-}
+     // В showResult() — скрываем оригинальную data-prev кнопку
+var origBack = document.querySelector('#screen-2 [data-prev]');
+if (origBack) origBack.style.display = 'none';
+
+// Вешаем обработчик на новую кнопку Назад
+area.querySelector('.btn-back-result').addEventListener('click', function() {
+  var screenContainer = document.getElementById('screen-container');
+  if (screenContainer) {
+    screenContainer.style.background = '';
+    screenContainer.style.boxShadow = '';
+    screenContainer.style.border = '';
+  }
+  // Возвращаем оригинальную кнопку
+  if (origBack) origBack.style.display = '';
+  showScreen('screen-1');
+});
        
  area.querySelector('.qr-result-btn').addEventListener('click', function() {
   // Возвращаем фон
