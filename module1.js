@@ -432,7 +432,17 @@ if (introHint) introHint.style.display = 'none';
   
    // ===== Экран 10: ноутбук =====
 function initLaptopHotspot() {
+  var folderSchedule = document.getElementById('folder-schedule');
+  var scheduleModal  = document.getElementById('schedule-modal');
 
+  console.log('folder-schedule:', folderSchedule);
+  console.log('schedule-modal:', scheduleModal);
+
+  if (!folderSchedule || !scheduleModal) {
+    console.warn('initLaptopHotspot: элементы не найдены!');
+    return;
+  }
+  
   function checkAllDone() {
     var scheduleDone = localStorage.getItem('laptopScheduleDone') === '1';
     var goalDone     = localStorage.getItem('laptopGoalDone') === '1';
@@ -462,25 +472,20 @@ function initLaptopHotspot() {
     }
   }
 
-  // ===== Папка: Расписание =====
-  document.getElementById('folder-schedule').addEventListener('click', function() {
-    document.getElementById('schedule-modal').classList.add('active');
+ // ===== Папка: Расписание =====
+  folderSchedule.addEventListener('click', function() {
+    scheduleModal.style.display = 'none'; // сбрасываем на всякий случай
+    scheduleModal.classList.add('active');
+    console.log('schedule-modal открыта, классы:', scheduleModal.className);
   });
 
   document.getElementById('schedule-modal-ok').addEventListener('click', function() {
-    document.getElementById('schedule-modal').classList.remove('active');
+    scheduleModal.classList.remove('active');
+    scheduleModal.style.display = ''; // ← убираем inline style
     localStorage.setItem('laptopScheduleDone', '1');
     checkAllDone();
   });
-
-  document.getElementById('schedule-modal').addEventListener('click', function(e) {
-    if (e.target === document.getElementById('schedule-modal')) {
-      document.getElementById('schedule-modal').classList.remove('active');
-      localStorage.setItem('laptopScheduleDone', '1');
-      checkAllDone();
-    }
-  });
-
+  
   // ===== Папка: Цель =====
   document.getElementById('folder-goal').addEventListener('click', function() {
     showScreen('screen-11');
