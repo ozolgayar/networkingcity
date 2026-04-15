@@ -4306,3 +4306,31 @@ textarea {
   justify-content: center !important;
 }
 
+.qr-result-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.qr-result-btns .btn {
+  width: 160px;
+  min-width: 0;
+  padding: 12px 16px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.qr-result-btns .btn-back-result {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.qr-result-btns .btn-back-result:hover {
+  background: #e2e8f0;
+}
