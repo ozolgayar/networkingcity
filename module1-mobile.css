@@ -985,3 +985,36 @@
   }
 
 } /* конец landscape */
+
+@media (max-width: 767px) {
+
+  .s1-overlay-card {
+    width: 94%;
+    max-height: 85%;
+    border-radius: 16px;
+  }
+
+  .s1-overlay-scroll {
+    padding: 20px 18px 20px;
+    gap: 10px;
+  }
+
+  .s1-overlay-scroll h2 {
+    font-size: 18px;
+  }
+
+  .s1-overlay-scroll p,
+  .s1-overlay-scroll ol li {
+    font-size: 13px;
+  }
+
+  .s1-ready-box p {
+    font-size: 14px !important;
+  }
+
+  .s1-overlay-scroll .btn {
+    padding: 13px 36px;
+    font-size: 15px;
+  }
+
+}
