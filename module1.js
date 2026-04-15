@@ -1378,18 +1378,26 @@ function initWheelRec() {
 var wheelInitialized = false;
 
 function initWheel() {
+  // Если уже инициализировано — просто перерисовываем
   if (wheelInitialized) {
     var svgEl = document.getElementById('wheelSvg');
     if (svgEl) {
-    renderWheel('wheelSvg', state.wheel.values, state.wheel.currentIndex);
+      renderWheel('wheelSvg', state.wheel.values, state.wheel.currentIndex);
+    }
     return;
   }
+
   wheelInitialized = true;
 
   const segBtnContainer = document.getElementById('seg-level-buttons');
-  const currentSegName = document.getElementById('current-seg-name');
-  const btnFinish = document.getElementById('btn-wheel-finish');
-  const btnReset = document.getElementById('btn-wheel-reset');
+  const currentSegName  = document.getElementById('current-seg-name');
+  const btnFinish       = document.getElementById('btn-wheel-finish');
+  const btnReset        = document.getElementById('btn-wheel-reset');
+
+  if (!segBtnContainer || !currentSegName || !btnFinish || !btnReset) {
+    console.warn('initWheel: элементы не найдены');
+    return;
+  }
 
   function findNextUnfilled() {
     return state.wheel.values.findIndex(v => v === 0);
@@ -1404,45 +1412,39 @@ function initWheel() {
   }
 
   function updateUI() {
-    const idx = state.wheel.currentIndex;
-    const name = wheelCategories[idx].name;
+    const idx   = state.wheel.currentIndex;
+    const name  = wheelCategories[idx].name;
     const value = state.wheel.values[idx];
+
     currentSegName.textContent = name;
+
     segBtnContainer.querySelectorAll('button').forEach(btn => {
       btn.classList.toggle('active', parseInt(btn.dataset.level, 10) === value);
     });
+
     renderWheel('wheelSvg', state.wheel.values, idx);
+
     const allFilled = state.wheel.values.every(v => v > 0);
     btnFinish.style.display = allFilled ? 'inline-flex' : 'none';
     btnReset.style.display  = allFilled ? 'inline-flex' : 'none';
 
-    // ── Подсказка «Нажми Готово» ──────────────────────────────────
     var hint = document.getElementById('wheel-finish-hint');
-
     if (allFilled) {
-      // Все сферы оценены — показываем подсказку
       if (!hint) {
         hint = document.createElement('p');
         hint.id = 'wheel-finish-hint';
         hint.style.cssText = [
-          'font-size:13px',
-          'color:#16a34a',
-          'font-weight:600',
-          'text-align:center',
-          'margin:8px 0 0',
-          'padding:8px 12px',
+          'font-size:13px', 'color:#16a34a', 'font-weight:600',
+          'text-align:center', 'margin:8px 0 0', 'padding:8px 12px',
           'background:rgba(34,197,94,0.08)',
           'border:1px solid rgba(34,197,94,0.25)',
-          'border-radius:10px',
-          'animation:fadeIn 0.4s ease'
+          'border-radius:10px', 'animation:fadeIn 0.4s ease'
         ].join(';');
         hint.textContent = '✅ Все сферы оценены! Нажми кнопку «Готово» →';
-        // Вставляем перед кнопками
         btnFinish.parentElement.insertBefore(hint, btnFinish);
       }
       hint.style.display = 'block';
     } else {
-      // Ещё не все оценены — скрываем подсказку
       if (hint) hint.style.display = 'none';
     }
   }
@@ -1455,22 +1457,20 @@ function initWheel() {
     updateUI();
   });
 
-  // Готово — начисляем очки и переходим на экран 15
   btnFinish.addEventListener('click', () => {
     addScore(2);
     showScreen('screen-wheel-rec');
   });
 
-  // Оценить заново — сбрасываем все оценки
   btnReset.addEventListener('click', () => {
-    state.wheel.values = [0, 0, 0, 0, 0, 0];
+    state.wheel.values   = [0, 0, 0, 0, 0, 0];
     state.wheel.currentIndex = 0;
     updateUI();
   });
 
   state.wheel.currentIndex = 0;
   updateUI();
-}
+}  // ← закрытие initWheel
 
 // ===== Экран 15: результат колеса (новое) =====
 function initWheelSummary() {
