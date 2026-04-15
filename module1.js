@@ -1271,58 +1271,92 @@ function initWheel() {
   }
   wheelInitialized = true;
 
-  const segBtnContainer = document.getElementById('seg-level-buttons');
-  const currentSegName = document.getElementById('current-seg-name');
-  const btnFinish = document.getElementById('btn-wheel-finish');
-  const btnReset = document.getElementById('btn-wheel-reset');
+  var segBtnContainer = document.getElementById('seg-level-buttons');
+  var currentSegName  = document.getElementById('current-seg-name');
+  var btnFinish       = document.getElementById('btn-wheel-finish');
+  var btnReset        = document.getElementById('btn-wheel-reset');
 
-  function findNextUnfilled() {
-    return state.wheel.values.findIndex(v => v === 0);
+  if (!segBtnContainer || !currentSegName || !btnFinish || !btnReset) {
+    console.warn('initWheel: элементы не найдены');
+    return;
   }
 
+  function findNextUnfilled() {
+    return state.wheel.values.findIndex(function(v) { return v === 0; });
+  }
+
+  // Генерируем кнопки 1–10
   segBtnContainer.innerHTML = '';
-  for (let i = 1; i <= 10; i++) {
-    const b = document.createElement('button');
+  for (var i = 1; i <= 10; i++) {
+    var b = document.createElement('button');
     b.textContent = i;
     b.dataset.level = i;
     segBtnContainer.appendChild(b);
   }
 
   function updateUI() {
-    const idx = state.wheel.currentIndex;
-    const name = wheelCategories[idx].name;
-    const value = state.wheel.values[idx];
-    currentSegName.textContent = name;
-    segBtnContainer.querySelectorAll('button').forEach(btn => {
-      btn.classList.toggle('active', parseInt(btn.dataset.level, 10) === value);
-    });
-    renderWheel('wheelSvg', state.wheel.values, idx);
-    const allFilled = state.wheel.values.every(v => v > 0);
-    btnFinish.style.display = allFilled ? 'inline-flex' : 'none';
-    btnReset.style.display = allFilled ? 'inline-flex' : 'none';
-     }
+    var idx      = state.wheel.currentIndex;
+    var value    = state.wheel.values[idx];
+    var allFilled = state.wheel.values.every(function(v) { return v > 0; });
 
-  segBtnContainer.addEventListener('click', e => {
+    // Название текущей сферы
+    currentSegName.textContent = allFilled
+      ? '✅ Все сферы оценены!'
+      : wheelCategories[idx].name;
+
+    // Подсветка кнопки
+    segBtnContainer.querySelectorAll('button').forEach(function(btn) {
+      btn.classList.toggle(
+        'active',
+        parseInt(btn.dataset.level, 10) === value
+      );
+    });
+
+    // Колесо: если все заполнены — не выделяем сектор
+    renderWheel('wheelSvg', state.wheel.values, allFilled ? -1 : idx);
+
+    // Кнопки управления
+    btnFinish.style.display = allFilled ? 'inline-flex' : 'none';
+    btnReset.style.display  = allFilled ? 'inline-flex' : 'none';
+  }
+
+  // Клик по кнопке-оценке
+  segBtnContainer.addEventListener('click', function(e) {
     if (e.target.tagName !== 'BUTTON') return;
-    state.wheel.values[state.wheel.currentIndex] = parseInt(e.target.dataset.level, 10);
-    const next = findNextUnfilled();
-    if (next !== -1) state.wheel.currentIndex = next;
+
+    var allAlreadyFilled = state.wheel.values.every(function(v) { return v > 0; });
+    if (allAlreadyFilled) {
+      // Все уже заполнены — игнорируем дополнительные клики
+      return;
+    }
+
+    // Записываем оценку
+    state.wheel.values[state.wheel.currentIndex] =
+      parseInt(e.target.dataset.level, 10);
+
+    // Переходим к следующей незаполненной
+    var next = findNextUnfilled();
+    if (next !== -1) {
+      state.wheel.currentIndex = next;
+    }
+
     updateUI();
   });
 
-  // Готово — начисляем очки и переходим на экран 15
-  btnFinish.addEventListener('click', () => {
+  // Готово → экран 15
+  btnFinish.addEventListener('click', function() {
     addScore(2);
     showScreen('screen-15');
   });
 
-  // Оценить заново — сбрасываем все оценки
-  btnReset.addEventListener('click', () => {
-    state.wheel.values = [0, 0, 0, 0, 0, 0];
+  // Сброс
+  btnReset.addEventListener('click', function() {
+    state.wheel.values      = [0, 0, 0, 0, 0, 0];
     state.wheel.currentIndex = 0;
     updateUI();
   });
 
+  // Начальное состояние
   state.wheel.currentIndex = 0;
   updateUI();
 }
