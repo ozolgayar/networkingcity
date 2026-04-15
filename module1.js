@@ -2598,8 +2598,12 @@ var btnVenueNext = document.getElementById('btn-venue-next');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+ // ===== СБРОС ВСЕХ МОДАЛОК при старте =====
+  document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none'; // ← двойная защита
+  });
 
-  // Экран 1
 // Экран 1
 (function() {
   var btn    = document.getElementById('btn-screen1-start');
