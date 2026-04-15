@@ -1306,8 +1306,38 @@ function initWheel() {
     renderWheel('wheelSvg', state.wheel.values, idx);
     const allFilled = state.wheel.values.every(v => v > 0);
     btnFinish.style.display = allFilled ? 'inline-flex' : 'none';
-    btnReset.style.display = allFilled ? 'inline-flex' : 'none';
-     }
+    btnReset.style.display  = allFilled ? 'inline-flex' : 'none';
+
+    // ── Подсказка «Нажми Готово» ──────────────────────────────────
+    var hint = document.getElementById('wheel-finish-hint');
+
+    if (allFilled) {
+      // Все сферы оценены — показываем подсказку
+      if (!hint) {
+        hint = document.createElement('p');
+        hint.id = 'wheel-finish-hint';
+        hint.style.cssText = [
+          'font-size:13px',
+          'color:#16a34a',
+          'font-weight:600',
+          'text-align:center',
+          'margin:8px 0 0',
+          'padding:8px 12px',
+          'background:rgba(34,197,94,0.08)',
+          'border:1px solid rgba(34,197,94,0.25)',
+          'border-radius:10px',
+          'animation:fadeIn 0.4s ease'
+        ].join(';');
+        hint.textContent = '✅ Все сферы оценены! Нажми кнопку «Готово» →';
+        // Вставляем перед кнопками
+        btnFinish.parentElement.insertBefore(hint, btnFinish);
+      }
+      hint.style.display = 'block';
+    } else {
+      // Ещё не все оценены — скрываем подсказку
+      if (hint) hint.style.display = 'none';
+    }
+  }
 
   segBtnContainer.addEventListener('click', e => {
     if (e.target.tagName !== 'BUTTON') return;
