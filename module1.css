@@ -479,27 +479,36 @@
   border-radius: var(--radius-lg);
   border: 1px solid #cbd5e1;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  padding: 18px 20px 18px 20px;
+  padding: 18px 20px;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 600px;
+
+  /* ← ВОТ ЭТО ГЛАВНОЕ */
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  min-height: unset;
 }
- .screen {
+
+.screen {
   display: none;
-  flex: 1;
-  min-height: 0;
+  position: absolute;   /* ← все экраны накладываются */
+  inset: 0;
+  padding: 18px 20px;
 }
 
 .screen.active {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex: 1;
-  min-height: 0;
+  position: absolute;   /* ← фиксированный размер = размер контейнера */
+  inset: 0;
+  padding: 18px 20px;
+  overflow: hidden;
   animation: fadeIn .35s ease-out;
 }
+
 
     .screen-layout {
       flex: 1;
