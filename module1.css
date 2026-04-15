@@ -4185,89 +4185,90 @@ textarea {
   transform: scale(0.98) !important;
 }
 
-/* ===== ТЕСТ: отступы внутри панели ===== */
+/* ===== ЭКРАН 2: ТЕСТ ===== */
 
 #screen-2 .panel {
-  padding: 28px 32px !important;
+  padding: 20px 24px !important;
+}
+
+/* Заголовок */
+#screen-2 h2 {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.3 !important;
+}
+
+/* Вводные тексты */
+#screen-2 #quiz-intro-text,
+#screen-2 #quiz-intro-hint {
+  font-size: 12px !important;
+  margin: 0 0 2px 0 !important;
+  line-height: 1.4 !important;
+  color: var(--text-soft) !important;
+}
+
+/* Прогресс */
+#screen-2 #quiz-progress {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--text-soft) !important;
+  padding: 3px 10px !important;
+  background: rgba(99,102,241,0.07) !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+  display: inline-block !important;
+  margin: 6px 0 8px !important;
 }
 
 /* Блок вопроса */
 #screen-2 .quiz-q {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 18px 20px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  margin-bottom: 8px !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04) !important;
 }
 
+/* Текст вопроса */
 #screen-2 .quiz-q h3 {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 12px 0;
-  line-height: 1.5;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  margin: 0 0 8px 0 !important;
+  line-height: 1.4 !important;
 }
 
 /* Варианты ответов */
 #screen-2 .quiz-options {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
 }
 
 #screen-2 .quiz-opt {
-  padding: 11px 16px;
-  border-radius: 10px;
-  border: 1.5px solid #e2e8f0;
-  background: #f8fafc;
-  font-size: 14px;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.18s ease;
-  line-height: 1.4;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  font-size: 13px !important;
+  color: var(--text) !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  line-height: 1.3 !important;
 }
 
 #screen-2 .quiz-opt:hover {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.06);
-  color: #15803d;
-  transform: translateX(3px);
+  border-color: #22c55e !important;
+  background: rgba(34,197,94,0.06) !important;
+  color: #15803d !important;
+  transform: translateX(2px) !important;
 }
 
 #screen-2 .quiz-opt.selected {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.10);
-  color: #15803d;
-  font-weight: 600;
-}
-
-/* Прогресс */
-#screen-2 .quiz-progress {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-soft);
-  margin-bottom: 14px;
-  padding: 4px 12px;
-  background: rgba(99,102,241,0.07);
-  border-radius: 999px;
-  display: inline-block;
-  border: 1px solid rgba(99,102,241,0.15);
-}
-
-/* Заголовок теста */
-#screen-2 h2 {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text);
-  margin: 0 0 6px 0;
-}
-
-/* Подзаголовок */
-#screen-2 #quiz-intro-text,
-#screen-2 #quiz-intro-hint {
-  font-size: 13px;
-  color: var(--text-soft);
-  margin: 0 0 4px 0;
-  line-height: 1.5;
+  border-color: #22c55e !important;
+  background: rgba(34,197,94,0.10) !important;
+  color: #15803d !important;
+  font-weight: 600 !important;
 }
