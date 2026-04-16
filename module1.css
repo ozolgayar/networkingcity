@@ -26,7 +26,8 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-body {
+html {
+  min-height: 100%;
   background: linear-gradient(135deg,
     #5b9fd6 0%,
     #62b8d4 25%,
@@ -34,6 +35,18 @@ body {
     #4abf7a 78%,
     #3db868 100%
   );
+  background-attachment: fixed;
+}
+
+body {
+  background: transparent;
+  color: var(--text);
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
   background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;
