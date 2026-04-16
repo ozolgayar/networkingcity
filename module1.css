@@ -375,8 +375,8 @@ main {
   width: 100%;
   max-width: 1200px;
   margin: 20px auto;
-  background: transparent;       /* ← прозрачный фон */
-  border-radius: 0;                     /* ← было var(--radius-lg) */
+  background: rgba(255,255,255,0.96);       /* ← прозрачный фон */
+  border-radius: 20px;                 /* ← было var(--radius-lg) */
   border: none;                           /* ← было 1px solid #cbd5e1 */
   box-shadow: none;                       /* ← было 0 8px 30px ... */
   padding: 0;
