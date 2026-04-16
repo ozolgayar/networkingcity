@@ -444,6 +444,8 @@ screen-layout > .panel {
   padding: 14px;
   display: flex;
   flex-direction: column;
+   height: auto;
+  flex-shrink: 0;
 }
 
 .scene-header {
@@ -474,6 +476,8 @@ screen-layout > .panel {
   font-size: 14px;
   color: var(--text-soft);
   position: relative;
+  height: auto;
+  flex-shrink: 0;
 }
 
 .panel-tag {
