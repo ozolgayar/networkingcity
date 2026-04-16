@@ -392,13 +392,13 @@ main {
 
 
 .screen {
-  display: none;
+  display: none; !important;
   flex: 1;
   min-height: 0;
 }
 
 .screen.active {
-  display: flex;
+  display: flex; !important;
   flex-direction: column;
   gap: 16px;
   flex: 1;
