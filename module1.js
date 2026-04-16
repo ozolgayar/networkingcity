@@ -1,3 +1,4 @@
+var _quizNeedsStart = false;
 // Глобальное состояние
 const state = {
   score: 0,
@@ -30,7 +31,9 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(function(s) {
     s.classList.remove('active');
   });
-
+if (id === 'screen-2') {
+  _quizNeedsStart = true;
+}
   var screenEl = document.getElementById(id);
   if (!screenEl) {
     console.warn('showScreen: экран не найден →', id);
@@ -43,10 +46,19 @@ function showScreen(id) {
 
   
   // Ленивая инициализация — каждый раз при открытии
-
+  if (id === 'screen-2') {
+  setTimeout(function() {
+    var area = document.getElementById('quiz-area');
+    if (area && area.innerHTML.trim() === '') {
+      // Тест ещё не запущен — перезапускаем initQuiz
+      initQuiz();
+    }
+  }, 50);
+}
   if (id === 'screen-12') {
     setTimeout(function() { renderBeadsStage(); }, 50);
   }
+  
   if (id === 'screen-13') {
     setTimeout(function() { initFears(); }, 50);
      }
@@ -213,42 +225,50 @@ function addScore(delta) {
     });
   }
  // ===== Экран 2: тест =====
-  function initQuiz() {
-    var questions = [
-      { q: 'Я знаю, как найти общий язык с незнакомыми мне людьми:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-      { q: 'Я смогу познакомиться с несколькими новыми людьми за одно мероприятие:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
-      { q: 'Я знаю, как правильно и оригинально представиться незнакомому человеку:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-      { q: 'Я смогу делать каждую неделю рассылку новостей и/или полезной информации списку своих знакомых:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
-      { q: 'Я знаю, насколько важно запоминать имя и ценности человека, с которым познакомился:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-      { q: 'Я буду просить о помощи своих знакомых, когда в этом действительно нуждаюсь:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
-      { q: 'Я буду делиться своими контактами и знаниями со знакомыми и малознакомыми людьми, чтобы им помочь:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
-      { q: 'Я буду публиковать свои статьи / писать экспертное мнение в специализированные издания:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
-      { q: 'Я знаю, как публично выступать перед целевой аудиторией на бизнес-ланчах, конференциях и прочих мероприятиях:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-      { q: 'Ко мне будут обращаться незнакомые люди за помощью:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] }
-    ];
+function initQuiz() {
+  var questions = [
+    { q: 'Я знаю, как найти общий язык с незнакомыми мне людьми:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
+    { q: 'Я смогу познакомиться с несколькими новыми людьми за одно мероприятие:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
+    { q: 'Я знаю, как правильно и оригинально представиться незнакомому человеку:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
+    { q: 'Я смогу делать каждую неделю рассылку новостей и/или полезной информации списку своих знакомых:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
+    { q: 'Я знаю, насколько важно запоминать имя и ценности человека, с которым познакомился:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
+    { q: 'Я буду просить о помощи своих знакомых, когда в этом действительно нуждаюсь:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
+    { q: 'Я буду делиться своими контактами и знаниями со знакомыми и малознакомыми людьми, чтобы им помочь:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
+    { q: 'Я буду публиковать свои статьи / писать экспертное мнение в специализированные издания:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
+    { q: 'Я знаю, как публично выступать перед целевой аудиторией на бизнес-ланчах, конференциях и прочих мероприятиях:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
+    { q: 'Ко мне будут обращаться незнакомые люди за помощью:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] }
+  ];
 
-    var area = document.getElementById('quiz-area');
-    var result = document.getElementById('quiz-result');
-    var progress = document.getElementById('quiz-progress');
-    if (!area || !result || !progress) return;
+  var area = document.getElementById('quiz-area');
+  var result = document.getElementById('quiz-result');
+  var progress = document.getElementById('quiz-progress');
+  if (!area || !result || !progress) return;
 
-    var answers = [];
-    var currentQ = 0;
-    var quizStarted = false;
+  var answers = [];
+  var currentQ = 0;
+  var quizStarted = false;
 
-    function startQuiz() {
-      if (quizStarted) return;
-      quizStarted = true;
-      currentQ = 0;
-      answers = [];
-      area.style.display = 'block';
-      progress.style.display = 'block';
-      result.style.display = 'none';
-      showQuestion(0);
-    }
+  function startQuiz() {
+    if (quizStarted) return;
+    quizStarted = true;
+    currentQ = 0;
+    answers = [];
+    area.style.display = 'block';
+    progress.style.display = 'block';
+    result.style.display = 'none';
+    showQuestion(0); // ← вместо startQuiz() вызываем showQuestion!
+  }
 
-    function showQuestion(idx) {
-  if (idx >= questions.length) { showResult(); return; }
+  function showQuestion(idx) {
+    // твой код показа вопроса
+  }
+
+  function showResult() {
+    // твой код показа результата
+  }
+
+  startQuiz(); // запуск
+}
   
   // Показываем 2 вопроса за раз
   var q1 = questions[idx];
@@ -479,15 +499,20 @@ setTimeout(function() {
 
 }  // ← закрытие showResult
 
-// ===== Запуск теста при переходе на screen-2 =====
-var screen2 = document.getElementById('screen-2');
-if (screen2) {
-  var observer = new MutationObserver(function() {
-    if (screen2.classList.contains('active') && !quizStarted) {
-      startQuiz();
+/// ===== Запуск теста при переходе на screen-2 =====
+var screen2el = document.getElementById('screen-2');
+if (screen2el) {
+  // Если уже активен при загрузке
+  if (screen2el.classList.contains('active')) {
+    setTimeout(startQuiz, 100);
+  }
+  // Следим за изменением класса
+  var quizObserver = new MutationObserver(function() {
+    if (screen2el.classList.contains('active') && !quizStarted) {
+      setTimeout(startQuiz, 100);
     }
   });
-  observer.observe(screen2, { attributes: true, attributeFilter: ['class'] });
+  quizObserver.observe(screen2el, { attributes: true, attributeFilter: ['class'] });
 }
 
 }  // ← закрытие initQuiz
