@@ -2808,7 +2808,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })(i * 160);
     }
 
-    /setTimeout(function() {
+    setTimeout(function() {
       if (cover)   cover.style.display   = 'none';
       if (overlay) overlay.style.display = 'flex';
       if (wrap) wrap.style.display = 'none';
