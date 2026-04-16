@@ -60,8 +60,8 @@ body {
   gap: 1px;
   position: relative;
   background: transparent;
-  overflow: hidden;            /* ← добавлено */
-  /* УБРАЛИ align-items: center и justify-content: center */
+    
+  
 }
 
 /* ===== ГЛАВНОЕ МЕНЮ ===== */
