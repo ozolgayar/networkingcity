@@ -479,17 +479,19 @@ setTimeout(function() {
 
 }  // ← закрытие showResult
 
-// ===== Запуск теста =====
-var startBtn = document.getElementById('btn-quiz-start');
-if (startBtn) {
-  startBtn.addEventListener('click', function() {
-    startQuiz();
+// ===== Запуск теста при переходе на screen-2 =====
+var screen2 = document.getElementById('screen-2');
+if (screen2) {
+  var observer = new MutationObserver(function() {
+    if (screen2.classList.contains('active') && !quizStarted) {
+      startQuiz();
+    }
   });
-} else {
-  startQuiz();
+  observer.observe(screen2, { attributes: true, attributeFilter: ['class'] });
 }
 
 }  // ← закрытие initQuiz
+
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
     var card = document.getElementById('zlata-card');
