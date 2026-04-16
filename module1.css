@@ -54,7 +54,7 @@ body {
   width: 100%;
   max-width: 1400px;
   height: 100vh;              /* ← было min-height */
-  padding: 18px;
+  padding: 0px;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -216,7 +216,7 @@ header .meta {
 }
 
 main {
-  flex: none;
+  flex: 1;
   display: flex;
   flex-direction: column;     /* ← было без direction */
   min-height: 0;              /* ← добавлено */
@@ -371,11 +371,12 @@ main {
 
 /* Основная сцена */
 #screen-container {
+   flex: 1;
   width: 100%;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 0px auto;
   background: rgba(255,255,255,0.96);                /* ← было rgba(255,255,255,0.96) */
-  border-radius: 20px;                       /* ← было var(--radius-lg) */
+  border-radius: 0px;                       /* ← было var(--radius-lg) */
   border: none;                           /* ← было 1px solid #cbd5e1 */
   box-shadow: none;                       /* ← было 0 8px 30px ... */
   padding: 0;
@@ -383,8 +384,6 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
- height: auto;
-min-height: auto;
 }
 
 .screen {
