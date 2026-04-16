@@ -218,7 +218,8 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;     /* ← было без direction */
-  min-height: 0;              /* ← добавлено */
+  min-height: 0;    
+   height: 0;  
   position: relative;
   z-index: 5;
   overflow: hidden;            /* ← добавлено */
@@ -382,6 +383,7 @@ main {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  height: 100%; 
 }
 
 .screen {
@@ -395,6 +397,7 @@ main {
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
   animation: fadeIn .35s ease-out;
 }
@@ -4356,8 +4359,9 @@ textarea {
   position: relative !important;
   overflow: hidden !important;
   padding: 0 !important;
-  flex: 1 !important;              /* ← было flex: none */
-  min-height: 0 !important;
+  flex: 1 1 0% !important;
+  min-height: 100% !important;   /* ← ключевое изменение */
+  height: 100% !important;        /* ← принудительная высота */
 }
 
 .screen.screen-card.active {
@@ -4409,4 +4413,20 @@ screen.active > .fear-fullscreen,
 #app:has(#screen-1.active) main {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+#screen-1 .s1-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#screen-1 .s1-overlay {
+  z-index: 10;
+}
+
+#screen-1 .s1-cover-btn-wrap {
+  z-index: 5;
 }
