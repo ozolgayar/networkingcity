@@ -690,11 +690,11 @@
 @media (min-width: 1024px) {
 
   #screen-1 {
-    aspect-ratio: 16 / 9 !important;
-    min-height: 0 !important;
-    height: auto !important;
+    min-height: 620px !important;
+    height: 100% !important;
     overflow: hidden !important;
     border-radius: 24px !important;
+    padding: 0 !important;
   }
 
   #screen-1 .s1-cover {
