@@ -1,10 +1,13 @@
 // ===== Supabase =====
-var supabase = null;
+var supabase = window.supabase.createClient(
+  'https://ТВОЙ_URL.supabase.co',
+  'ТВОЙ_ANON_KEY'
+);
 try {
   if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
     supabase = window.supabase.createClient(
-      'https://ТВОЙ_URL.supabase.co',
-      'ТВОЙ_ANON_KEY'
+      'https://hdzelembnsoejijvlhzj.supabase.co',
+      'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4'
     );
   }
 } catch(e) {
