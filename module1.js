@@ -1279,14 +1279,13 @@ function initZlataReady() {
   });
 }
 
-// ===== INIT =====
 document.addEventListener('DOMContentLoaded', function() {
-  initGlobalNav();
-  initMainMenu();
-  initKeysGame();
-  initLaptopHotspot();
-  initPurposeScreen();
-  initZlataReady();
+  try { initGlobalNav(); } catch(e) { console.warn('initGlobalNav error:', e); }
+  try { initMainMenu(); } catch(e) { console.warn('initMainMenu error:', e); }
+  try { initKeysGame(); } catch(e) { console.warn('initKeysGame error:', e); }
+  try { initLaptopHotspot(); } catch(e) { console.warn('initLaptopHotspot error:', e); }
+  try { initPurposeScreen(); } catch(e) { console.warn('initPurposeScreen error:', e); }
+  try { initZlataReady(); } catch(e) { console.warn('initZlataReady error:', e); }
 
   var btnStart = document.getElementById('btn-screen1-start');
   if (btnStart) {
@@ -1295,5 +1294,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Кнопка на обложке (s1-cover-btn)
+  var coverBtn = document.querySelector('.s1-cover-btn');
+  if (coverBtn) {
+    coverBtn.addEventListener('click', function() {
+      var cover = document.getElementById('screen-1-cover');
+      var overlay = document.getElementById('screen-1-overlay');
+      if (cover) cover.style.display = 'none';
+      if (overlay) overlay.style.display = 'flex';
+    });
+  }
+
+  console.log('✅ INIT завершён, показываем screen-1');
   showScreen('screen-1');
 });
