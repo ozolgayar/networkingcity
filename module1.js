@@ -333,7 +333,6 @@ setTimeout(function() {
   });
 }
    function showResult() {
-  // Убираем белый фон контейнера
   var screenContainer = document.getElementById('screen-container');
   if (screenContainer) {
     screenContainer.style.background = 'transparent';
@@ -381,7 +380,7 @@ setTimeout(function() {
   var max = questions.length * 5;
   var pct = Math.round(total / max * 100);
 
- var level, desc, color;
+  var level, desc, color;
   if (pct <= 30) {
     level = 'Новичок';
     desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
@@ -400,14 +399,12 @@ setTimeout(function() {
     color = '#a855f7';
   }
 
-  // Сохраняем результат в Supabase
   if (supabase) {
     supabase.from('quiz_results').insert({ level: level }).then(function(r) {
-      if (r.error) console.error('Ошибка сохранения результата:', r.error);
+      if (r.error) console.error('Ошибка сохранения:', r.error);
     });
   }
 
-  // Скрываем оригинальную кнопку Назад
   var origBack = document.querySelector('#screen-2 [data-prev]');
   if (origBack) origBack.style.display = 'none';
 
@@ -435,7 +432,6 @@ setTimeout(function() {
       '</div>' +
     '</div>';
 
-  // Загружаем реальную статистику
   if (supabase) {
     supabase
       .from('quiz_results')
@@ -460,7 +456,6 @@ setTimeout(function() {
       });
   }
 
-  // Обработчик — Назад
   area.querySelector('.btn-back-result').addEventListener('click', function() {
     var sc = document.getElementById('screen-container');
     if (sc) {
@@ -472,7 +467,6 @@ setTimeout(function() {
     showScreen('screen-1');
   });
 
-  // Обработчик — Продолжить
   area.querySelector('.qr-result-btn').addEventListener('click', function() {
     var sc = document.getElementById('screen-container');
     if (sc) {
