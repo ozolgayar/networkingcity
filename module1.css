@@ -3750,16 +3750,6 @@ textarea {
 }
 
 /* ===== ЭКРАН 1: ОБЛОЖКА ===== */
-#screen-1.active {
-  position: relative;
-  overflow: hidden;
-  height: 100% !important;
-  min-height: calc(100vh - 32px) !important;
-  padding: 0 !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: var(--radius-lg);
-}
 
 #screen-1 .s1-cover {
   width: 100%;
@@ -3894,11 +3884,7 @@ textarea {
 
 /* ===== ЭКРАН 1: ОВЕРЛЕЙ ===== */
 
-/* Обёртка экрана 1 должна быть relative */
-#screen-1.active {
-  position: relative;
-  overflow: hidden;
-}
+
 /* Оверлей перекрывает всё */
 .s1-overlay {
   position: absolute;
@@ -4465,4 +4451,125 @@ main {
 /* ---- Header фиксированный ---- */
 header {
   flex-shrink: 0;
+}
+
+* ===== ОДИНАКОВЫЙ РАЗМЕР ВСЕХ ЭКРАНОВ ===== */
+
+/* Цепочка flex от body до экрана */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#screen-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  /* Фиксированная максимальная ширина для всех экранов */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Каждый активный экран — ровно на всё доступное --- */
+.screen.active {
+  flex: 1 !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* --- ТИП: Двухколоночный (.screen-layout) --- */
+.screen.active > .screen-layout {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.screen-layout > .scene {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.screen-layout > .panel {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* --- ТИП: Карточка Златы (.screen-card) --- */
+.screen.screen-card.active {
+  justify-content: center !important;
+  align-items: center !important;
+  overflow-y: auto !important;
+  padding: 16px !important;
+}
+
+/* --- ТИП: Полноэкранные (.fear-fullscreen, .smart-fullscreen) --- */
+.screen.active > .fear-fullscreen,
+.screen.active > .smart-fullscreen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* --- ТИП: Тест (screen-2) --- */
+#screen-2.active {
+  overflow-y: auto !important;
+}
+
+#screen-2.active > .panel {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+/* --- ТИП: Обложка (screen-1) --- */
+#screen-1.active {
+  position: relative;
+  overflow: hidden !important;
+  padding: 0 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  border-radius: var(--radius-lg);
+}
+
+/* --- ТИП: Финальный экран --- */
+#screen-final.active {
+  justify-content: center !important;
+  align-items: center !important;
+  overflow-y: auto !important;
+}
+
+/* --- Кнопка «Назад» внутри screen-card не растягивается --- */
+.screen.active > .btn.nav-back,
+.screen.active > button.nav-back {
+  flex-shrink: 0;
+  align-self: flex-start;
 }
