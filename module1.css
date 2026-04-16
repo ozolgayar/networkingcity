@@ -54,10 +54,10 @@ body {
   width: 100%;
   max-width: 1400px;
   height: 100vh;              /* ← было min-height */
-  padding: 6px;
+  padding: 1px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 1px;
   position: relative;
   background: transparent;
   overflow: hidden;            /* ← добавлено */
