@@ -284,8 +284,6 @@ function addScore(delta) {
     html += '</div></div>';
   }
 
-  area.innerHTML = html;
-
 // ← НОВОЕ: скроллим к началу новых вопросов
 setTimeout(function() {
   var firstQ = area.querySelector('.quiz-q');
@@ -383,33 +381,98 @@ setTimeout(function() {
   var max = questions.length * 5;
   var pct = Math.round(total / max * 100);
 
-  var level, desc, color;
+ var level, desc, color;
   if (pct <= 30) {
     level = 'Новичок';
-  
+    desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
+    color = '#f59e0b';
+  } else if (pct <= 55) {
+    level = 'Базовый';
+    desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
+    color = '#38bdf8';
+  } else if (pct <= 75) {
+    level = 'Средний';
+    desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
+    color = '#22c55e';
+  } else {
+    level = 'Продвинутый';
+    desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
+    color = '#a855f7';
+  }
 
-// Сохраняем результат в Supabase
-if (supabase) {
-  supabase.from('quiz_results').insert({ level: level }).then(function(r) {
-    if (r.error) console.error('Ошибка сохранения результата:', r.error);
-  });
-}
+  // Сохраняем результат в Supabase
+  if (supabase) {
+    supabase.from('quiz_results').insert({ level: level }).then(function(r) {
+      if (r.error) console.error('Ошибка сохранения результата:', r.error);
+    });
+  }
 
   // Скрываем оригинальную кнопку Назад
   var origBack = document.querySelector('#screen-2 [data-prev]');
   if (origBack) origBack.style.display = 'none';
 
-  area.innerHTML = '...'; // (не трогаем)
+  area.innerHTML =
+    '<div class="qr-result-wrap">' +
+      '<div class="qr-result-card">' +
+        '<div class="qr-result-title">Твой результат</div>' +
+        '<div class="qr-result-score" style="color:' + color + '">' +
+          total +
+          '<span style="font-size:20px;font-weight:500;color:#94a3b8;"> / ' + max + '</span>' +
+        '</div>' +
+        '<div class="qr-result-badge" style="background:' + color + '20;color:' + color + ';border-color:' + color + '50;">' +
+          level +
+        '</div>' +
+        '<div class="qr-result-bar-wrap">' +
+          '<div class="qr-result-bar" style="width:' + pct + '%;background:' + color + ';"></div>' +
+        '</div>' +
+        '<div class="qr-result-pct">' + pct + '%</div>' +
+        '<div class="qr-result-desc">' + desc + '</div>' +
+        '<div class="qr-result-social" style="display:none;"></div>' +
+        '<div class="qr-result-btns">' +
+          '<button class="btn btn-back-result">← Назад</button>' +
+          '<button class="btn qr-result-btn">Продолжить →</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
 
   // Загружаем реальную статистику
-  if (supabase) { ... } // (не трогаем)
+  if (supabase) {
+    supabase
+      .from('quiz_results')
+      .select('level')
+      .then(function(r) {
+        if (r.error || !r.data) return;
+        var totalRows = r.data.length;
+        if (totalRows < 3) return;
+        var counts = { 'Новичок': 0, 'Базовый': 0, 'Средний': 0, 'Продвинутый': 0 };
+        r.data.forEach(function(row) {
+          if (counts[row.level] !== undefined) counts[row.level]++;
+        });
+        var myCount = counts[level] || 0;
+        var myPct = Math.round(myCount / totalRows * 100);
+        var socialEl = area.querySelector('.qr-result-social');
+        if (socialEl) {
+          socialEl.innerHTML =
+            '👥 <strong>' + myPct + '% участников</strong> курса получили такой же результат' +
+            '<span style="color:#cbd5e1;font-size:11px;display:block;margin-top:2px;">из ' + totalRows + ' прошедших тест</span>';
+          socialEl.style.display = 'block';
+        }
+      });
+  }
 
   // Обработчик — Назад
   area.querySelector('.btn-back-result').addEventListener('click', function() {
-    ...
+    var sc = document.getElementById('screen-container');
+    if (sc) {
+      sc.style.background = '';
+      sc.style.boxShadow = '';
+      sc.style.border = '';
+    }
+    if (origBack) origBack.style.display = '';
+    showScreen('screen-1');
   });
 
-  // Обработчик — Продолжить (ТОЛЬКО ОДИН!)
+  // Обработчик — Продолжить
   area.querySelector('.qr-result-btn').addEventListener('click', function() {
     var sc = document.getElementById('screen-container');
     if (sc) {
