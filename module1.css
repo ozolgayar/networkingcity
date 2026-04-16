@@ -54,7 +54,7 @@ body {
   width: 100%;
   max-width: 1400px;
   height: 100vh;              /* ← было min-height */
-  padding: 1px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -4412,5 +4412,5 @@ screen.active > .fear-fullscreen,
 #screen-container:has(#screen-1.active) {
   border: none !important;
   box-shadow: none !important;
-  border-radius: 0 !important;
+  border-radius: 18px !important;
 }
