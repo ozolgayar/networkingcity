@@ -386,40 +386,28 @@ setTimeout(function() {
   var level, desc, color;
   if (pct <= 30) {
     level = 'Новичок';
-    desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
-    color = '#f59e0b';
-  } else if (pct <= 55) {
-    level = 'Базовый';
-    desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
-    color = '#38bdf8';
-  } else if (pct <= 75) {
-    level = 'Средний';
-    desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
-    color = '#22c55e';
-  } else {
-    level = 'Продвинутый';
-    desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
-    color = '#a855f7';
-  }
+  
 
-  // Сохраняем результат в Supabase
-  if (supabase) {
-    supabase.from('quiz_results').insert({ level: level }).then(function(r) {
-      if (r.error) console.error('Ошибка сохранения результата:', r.error);
-    });
-  }
+// Сохраняем результат в Supabase
+if (supabase) {
+  supabase.from('quiz_results').insert({ level: level }).then(function(r) {
+    if (r.error) console.error('Ошибка сохранения результата:', r.error);
+  });
+}
 
   // Скрываем оригинальную кнопку Назад
   var origBack = document.querySelector('#screen-2 [data-prev]');
   if (origBack) origBack.style.display = 'none';
 
-  area.innerHTML = '...'; // весь HTML карточки результата
+  area.innerHTML = '...'; // (не трогаем)
 
   // Загружаем реальную статистику
-  if (supabase) { ... }
+  if (supabase) { ... } // (не трогаем)
 
   // Обработчик — Назад
-  area.querySelector('.btn-back-result').addEventListener('click', function() { ... });
+  area.querySelector('.btn-back-result').addEventListener('click', function() {
+    ...
+  });
 
   // Обработчик — Продолжить (ТОЛЬКО ОДИН!)
   area.querySelector('.qr-result-btn').addEventListener('click', function() {
