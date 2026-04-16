@@ -46,6 +46,17 @@ const screenOrder = [
 
 // ===== Утилиты =====
 function showScreen(id) {
+   var sc = document.getElementById('screen-container');
+  if (sc) {
+    sc.style.background = '';
+    sc.style.boxShadow = '';
+    sc.style.border = '';
+    sc.style.padding = '';
+  }
+
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+  });
   document.querySelectorAll('.screen').forEach(function(s) {
     s.classList.remove('active');
   });
@@ -1276,5 +1287,16 @@ document.addEventListener('DOMContentLoaded', function() {
   initLaptopHotspot();
   initPurposeScreen();
   initZlataReady();
+var btnStart = document.getElementById('btn-screen1-start');
+  if (btnStart) {
+    btnStart.addEventListener('click', function() {
+      var cover = document.getElementById('screen-1-cover');
+      var overlay = document.getElementById('screen-1-overlay');
+      if (cover) cover.style.display = 'none';
+      if (overlay) overlay.style.display = 'flex';
+    });
+  }
+
   showScreen('screen-1');
+});
 });
