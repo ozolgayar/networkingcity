@@ -376,17 +376,18 @@ main {
 #screen-container {
   flex: 1;
   width: 100%;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  background: rgba(255, 255, 255, 0.96);
   border-radius: var(--radius-lg);
-  padding: 0;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px 18px 20px;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   min-height: 600px;
 }
+
 
 .screen {
   display: none;
