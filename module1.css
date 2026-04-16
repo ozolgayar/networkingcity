@@ -4434,3 +4434,12 @@ screen.active > .fear-fullscreen,
   z-index: 5;
 }
 
+#screen-1 {
+  background-image: url('https://i.ibb.co/9knthjNr/image.png');
+  background-size: contain !important;    /* вписать целиком */
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+  box-sizing: border-box !important;
+}
