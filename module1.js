@@ -46,6 +46,17 @@ const screenOrder = [
 
 // ===== Утилиты =====
 function showScreen(id) {
+    // Сброс инлайн-стилей от showResult()
+  var sc = document.getElementById('screen-container');
+  if (sc) {
+    sc.style.background = '';
+    sc.style.boxShadow = '';
+    sc.style.border = '';
+  }
+
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+  });
    var sc = document.getElementById('screen-container');
   if (sc) {
     sc.style.background = '';
