@@ -4416,29 +4416,62 @@ screen.active > .fear-fullscreen,
   height: 100% !important;         /* ← ДОБАВЬ */
 }
 
+/* ===== ФИКС ОТСТУПОВ ДЛЯ ЭКРАНА 1 ===== */
 #app:has(#screen-1.active) {
-  padding: 0 !important;
+  padding: 18px !important;
   gap: 0 !important;
 }
+
+#app:has(#screen-1.active) main {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 #app:has(#screen-1.active) #screen-container {
   background: transparent !important;
   padding: 0 !important;
   margin: 0 !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
 }
-#app:has(#screen-1.active) main {
-  padding: 18 0 !important;
+
+#screen-1.active {
+  position: relative !important;
+  inset: auto !important;
+  padding: 0 !important;
   margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 #screen-1 .s1-cover {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-   top: 0 !important;
+  position: relative !important;
+  top: 0 !important;
   bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   border-radius: 20px !important;
+  overflow: hidden !important;
+}
+
+#screen-1 .s1-cover-img,
+#screen-1 .s1-cover-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Убираем дублирующие правила */
+#screen-1.active {
+  padding: 0 !important; /* перебиваем старый padding: 18px */
+}
+
+#screen-1 .s1-cover {
+  top: 0 !important; /* перебиваем top: 18px */
+  bottom: 0 !important;
 }
 
 #screen-1 .s1-overlay {
