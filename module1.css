@@ -27,26 +27,13 @@
 }
 
 body {
-  background:
-    radial-gradient(ellipse 55% 70% at 50% 46%,
-      rgba(255,255,255,0.96) 0%,
-      rgba(255,255,255,0.55) 25%,
-      rgba(255,255,255,0.15) 50%,
-      transparent 70%
-    ),
-    radial-gradient(ellipse 90% 28% at 50% 75%,
-      rgba(210,230,255,0.55) 0%,
-      transparent 70%
-    ),
-    linear-gradient(115deg,
-      #2d6abf 0%,
-      #3a82cc 18%,
-      #4aafc8 36%,
-      #3ec8a8 52%,
-      #2ec48a 68%,
-      #1db86a 84%,
-      #18a858 100%
-    );
+  background: linear-gradient(135deg,
+    #5b9fd6 0%,
+    #4aafc8 35%,
+    #3ec8a8 60%,
+    #4ab87a 80%,
+    #3db868 100%
+  );
   background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;
