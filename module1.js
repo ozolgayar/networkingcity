@@ -2808,16 +2808,12 @@ document.addEventListener('DOMContentLoaded', function() {
       })(i * 160);
     }
 
-    // Показываем оверлей «Добро пожаловать» вместо перехода на screen-2
- setTimeout(function() {
+    /setTimeout(function() {
       if (cover)   cover.style.display   = 'none';
       if (overlay) overlay.style.display = 'flex';
-
-      // Скрываем кнопку «Начать» и подпись
       if (wrap) wrap.style.display = 'none';
     }, 400);
   });
-})();
 
   // Только то, что нужно сразу
   initGlobalNav();
@@ -2831,5 +2827,5 @@ document.addEventListener('DOMContentLoaded', function() {
   initPeopleDrag();
   initStickyTooltip();
   updateHud();
-  // Остальное — через showScreen()
+
 });
