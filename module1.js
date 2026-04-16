@@ -226,18 +226,7 @@ function addScore(delta) {
   }
  // ===== Экран 2: тест =====
 function initQuiz() {
-  var questions = [
-    { q: 'Я знаю, как найти общий язык с незнакомыми мне людьми:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-    { q: 'Я смогу познакомиться с несколькими новыми людьми за одно мероприятие:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
-    { q: 'Я знаю, как правильно и оригинально представиться незнакомому человеку:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-    { q: 'Я смогу делать каждую неделю рассылку новостей и/или полезной информации списку своих знакомых:', opts: ['Не смогу','Не уверен','Возможно','Смогу','Смогу и начну это делать'] },
-    { q: 'Я знаю, насколько важно запоминать имя и ценности человека, с которым познакомился:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-    { q: 'Я буду просить о помощи своих знакомых, когда в этом действительно нуждаюсь:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
-    { q: 'Я буду делиться своими контактами и знаниями со знакомыми и малознакомыми людьми, чтобы им помочь:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
-    { q: 'Я буду публиковать свои статьи / писать экспертное мнение в специализированные издания:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] },
-    { q: 'Я знаю, как публично выступать перед целевой аудиторией на бизнес-ланчах, конференциях и прочих мероприятиях:', opts: ['Не знаю','Не уверен','Примерно','Знаю','Знаю и буду применять на практике'] },
-    { q: 'Ко мне будут обращаться незнакомые люди за помощью:', opts: ['Никогда','Редко','Иногда','Часто','Всегда'] }
-  ];
+  var questions = [ /* ... */ ];
 
   var area = document.getElementById('quiz-area');
   var result = document.getElementById('quiz-result');
@@ -256,20 +245,92 @@ function initQuiz() {
     area.style.display = 'block';
     progress.style.display = 'block';
     result.style.display = 'none';
-    showQuestion(0); // ← вместо startQuiz() вызываем showQuestion!
+    showQuestion(0); // ← НЕ startQuiz()!
   }
 
   function showQuestion(idx) {
-    // твой код показа вопроса
-  }
+    if (idx >= questions.length) {
+      showResult();
+      return;
+    }
+
+    var q1 = questions[idx];
+    var q2 = questions[idx + 1];
+
+    if (q2) {
+      progress.textContent = 'Вопросы ' + (idx + 1) + '–' + (idx + 2) + ' из ' + questions.length;
+    } else {
+      progress.textContent = 'Вопрос ' + (idx + 1) + ' из ' + questions.length;
+    }
+
+    var html = '';
+
+    html += '<div class="quiz-q" data-qidx="' + idx + '">';
+    html += '<h3>' + (idx + 1) + '. ' + q1.q + '</h3>';
+    html += '<div class="quiz-options">';
+    q1.opts.forEach(function(label, oi) {
+      html += '<div class="quiz-opt" data-pts="' + (oi + 1) + '" data-qidx="' + idx + '">' + label + '</div>';
+    });
+    html += '</div></div>';
+
+    if (q2) {
+      html += '<div class="quiz-q" data-qidx="' + (idx + 1) + '" style="margin-top:12px;">';
+      html += '<h3>' + (idx + 2) + '. ' + q2.q + '</h3>';
+      html += '<div class="quiz-options">';
+      q2.opts.forEach(function(label, oi) {
+        html += '<div class="quiz-opt" data-pts="' + (oi + 1) + '" data-qidx="' + (idx + 1) + '">' + label + '</div>';
+      });
+      html += '</div></div>';
+    }
+
+    area.innerHTML = html;
+
+    setTimeout(function() {
+      var firstQ = area.querySelector('.quiz-q');
+      if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+
+    var answered = {};
+
+    area.querySelectorAll('.quiz-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        var qIdx = parseInt(opt.dataset.qidx);
+        var pts = parseInt(opt.dataset.pts);
+
+        area.querySelectorAll('.quiz-opt[data-qidx="' + qIdx + '"]').forEach(function(o) {
+          o.classList.remove('selected');
+        });
+        opt.classList.add('selected');
+
+        answered[qIdx] = pts;
+        answers[qIdx] = pts;
+
+        var q1done = answered[idx] !== undefined;
+        var q2done = !q2 || answered[idx + 1] !== undefined;
+
+        if (q1done && q2done) {
+          area.querySelectorAll('.quiz-opt').forEach(function(o) {
+            o.style.pointerEvents = 'none';
+          });
+          currentQ = idx + 2;
+          setTimeout(function() {
+            showQuestion(currentQ);
+            var panel = document.querySelector('#screen-2 .panel');
+            if (panel) panel.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 500);
+        }
+      });
+    });
+  } // ← закрытие showQuestion
 
   function showResult() {
-    // твой код показа результата
-  }
+    /* твой код showResult */
+  } // ← закрытие showResult
 
-  startQuiz(); // запуск
-}
-  
+  startQuiz();
+
+} // ← закрытие initQuiz
+
   // Показываем 2 вопроса за раз
   var q1 = questions[idx];
   var q2 = questions[idx + 1];
