@@ -2335,12 +2335,12 @@ function initStickyTooltip() {
         addScore(2);
       }, 500);
     }
-  }
+  } // ← закрытие if (shelfEl && !shelfEl.classList.contains('taken'))
 
- modal.classList.remove('active');
+  modal.classList.remove('active');
   currentIdx = -1;
 });
-
+   
   // Закрыть без добавления
   mSkip.addEventListener('click', function() {
     modal.classList.remove('active');
