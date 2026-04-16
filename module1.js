@@ -6,11 +6,14 @@ try {
       'https://hdzelembnsoejijvlhzj.supabase.co',
       'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4'
     );
-    console.log('Supabase подключён ✅');
+    console.log('✅ Supabase подключён');
+  } else {
+    console.warn('❌ window.supabase не найден');
   }
 } catch(e) {
-  console.warn('Supabase не подключён:', e);
+  console.warn('Supabase ошибка:', e);
 }
+
 
 var _quizNeedsStart = false;
 
