@@ -387,11 +387,6 @@ main {
   min-height: 0;              /* ← было calc(100vh - 32px) */
 }
 
-#screen-container:has(#screen-1.active) {
-  padding: 0 !important;
-}
-
-
 .screen {
   display: none !important;
   flex: 1;
@@ -4410,6 +4405,7 @@ screen.active > .fear-fullscreen,
 }
 
 #screen-container:has(#screen-1.active) {
+  padding: 0 !important;
   border: none !important;
   box-shadow: none !important;
   border-radius: 18px !important;
