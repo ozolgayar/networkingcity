@@ -4364,3 +4364,105 @@ textarea {
 .qr-result-social strong {
   color: #64748b;
 }
+
+/* ===== ОДИНАКОВАЯ ВЫСОТА ВСЕХ ЭКРАНОВ ===== */
+
+/* Контейнер экранов — занимает всё пространство main */
+#screen-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Каждый активный экран — растягивается на всё доступное */
+.screen.active {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* ---- ТИП 1: Двухколоночный (.screen-layout) ---- */
+.screen.active > .screen-layout {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.screen-layout > .scene {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.screen-layout > .panel {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* ---- ТИП 2: Карточка Златы (.screen-card) ---- */
+.screen.screen-card.active {
+  justify-content: center !important;
+  align-items: center !important;
+  overflow-y: auto !important;
+}
+
+/* ---- ТИП 3: Полноэкранные упражнения ---- */
+.screen.active > .fear-fullscreen,
+.screen.active > .smart-fullscreen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ---- ТИП 4: Тест (screen-2) ---- */
+#screen-2.active {
+  overflow-y: auto !important;
+}
+
+#screen-2.active > .panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ---- ТИП 5: Финальный экран ---- */
+#screen-final.active {
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* ---- Кнопка «Назад» внутри экрана — не растягивается ---- */
+.screen.active > .btn.nav-back,
+.screen.active > button.nav-back {
+  flex-shrink: 0;
+}
+
+/* ---- Main заполняет viewport ---- */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ---- #app заполняет viewport ---- */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ---- Header фиксированный ---- */
+header {
+  flex-shrink: 0;
+}
