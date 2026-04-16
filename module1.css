@@ -4356,12 +4356,11 @@ textarea {
 }
 
 #screen-1.active {
-  position: relative !important;
+  position: absolute !important;
+  inset: 0 !important;
   overflow: hidden !important;
   padding: 0 !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  flex: none !important;
+  z-index: 5 !important;
 }
 
 .screen.screen-card.active {
