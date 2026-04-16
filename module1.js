@@ -2287,59 +2287,56 @@ function initStickyTooltip() {
   });
 
   // Положить в сумку
- mTake.addEventListener('click', function() {
-  if (currentIdx < 0) return;
-  var item = items[currentIdx];
-  var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
+  mTake.addEventListener('click', function() {
+    if (currentIdx < 0) return;
+    var item = items[currentIdx];
+    var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
 
-  if (shelfEl && !shelfEl.classList.contains('taken')) {
-    shelfEl.classList.add('taken');
+    if (shelfEl && !shelfEl.classList.contains('taken')) {
+      shelfEl.classList.add('taken');
 
-    var bagEl = document.createElement('div');
-    bagEl.className = 'bag-item-inside';
-    bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
+      var bagEl = document.createElement('div');
+      bagEl.className = 'bag-item-inside';
+      bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
 
-    // Фиксированные позиции для каждого из 10 предметов
-    // left/top в процентах от размера .bag-inside
-    // Настрой под свою картинку сумки!
-    var positions = [
-  { left: '22%', top: '8%'  },  // 0 визитница
-  { left: '38%', top: '5%'  },  // 1 ручка
-  { left: '52%', top: '8%'  },  // 2 книжка
-  { left: '10%', top: '30%' },  // 3 салфетки
-  { left: '28%', top: '30%' },  // 4 пятновыв.
-  { left: '44%', top: '30%' },  // 5 аптечка
-  { left: '62%', top: '30%' },  // 6 конфеты
-  { left: '18%', top: '53%' },  // 7 книга        ← подняли top и сдвинули right
-  { left: '40%', top: '65%' },  // 8 зарядка      ← подняли top
-  { left: '60%', top: '58%' }   // 9 парфюм       ← подняли top и сдвинули left
-];
-    var pos = positions[currentIdx] || { left: '45%', top: '45%' };
-    bagEl.style.left = pos.left;
-    bagEl.style.top  = pos.top;
+      var positions = [
+        { left: '22%', top: '8%'  },
+        { left: '38%', top: '5%'  },
+        { left: '52%', top: '8%'  },
+        { left: '10%', top: '30%' },
+        { left: '28%', top: '30%' },
+        { left: '44%', top: '30%' },
+        { left: '62%', top: '30%' },
+        { left: '18%', top: '53%' },
+        { left: '40%', top: '65%' },
+        { left: '60%', top: '58%' }
+      ];
 
-    bagInside.appendChild(bagEl);
-    taken++;
+      var pos = positions[currentIdx] || { left: '45%', top: '45%' };
+      bagEl.style.left = pos.left;
+      bagEl.style.top  = pos.top;
 
-    // Анимация появления
-    requestAnimationFrame(function() {
+      bagInside.appendChild(bagEl);
+      taken++;
+
       requestAnimationFrame(function() {
-        bagEl.classList.add('dropped');
+        requestAnimationFrame(function() {
+          bagEl.classList.add('dropped');
+        });
       });
-    });
 
-    if (taken >= items.length) {
-      setTimeout(function() {
-        doneMsg.style.display = 'block';
-        btnGo.style.display   = 'inline-flex';
-        addScore(2);
-      }, 500);
-    }
-  } // ← закрытие if (shelfEl && !shelfEl.classList.contains('taken'))
+      if (taken >= items.length) {
+        setTimeout(function() {
+          doneMsg.style.display = 'block';
+          btnGo.style.display   = 'inline-flex';
+          addScore(2);
+        }, 500);
+      }
+    } // ← закрытие if (shelfEl...)
 
-  modal.classList.remove('active');
-  currentIdx = -1;
-});
+    modal.classList.remove('active'); // ← СНАРУЖИ if, но ВНУТРИ addEventListener
+    currentIdx = -1;
+  });
    
   // Закрыть без добавления
   mSkip.addEventListener('click', function() {
