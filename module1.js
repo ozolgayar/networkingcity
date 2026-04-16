@@ -236,14 +236,9 @@ function initQuiz() {
     }
 
     var q1 = questions[idx];
-    var q2 = questions[idx + 1];
+    var q2 = (idx + 1 < questions.length) ? questions[idx + 1] : null;
 
     area.innerHTML = '';
-
-    if (idx >= questions.length) {
-      showResult();
-      return;
-    }
 
     if (idx === questions.length - 1) {
       progress.textContent = 'Вопрос ' + (idx + 1) + ' из ' + questions.length;
@@ -282,6 +277,7 @@ function initQuiz() {
       }
     }, 50);
 
+    // ← ВАЖНО: answered локальный для этой пары вопросов
     var answered = {};
 
     area.querySelectorAll('.quiz-opt').forEach(function(opt) {
@@ -298,7 +294,8 @@ function initQuiz() {
         answers[qIdx] = pts;
 
         var q1done = answered[idx] !== undefined;
-        var q2done = !q2 || answered[idx + 1] !== undefined;
+        // ← ИСПРАВЛЕНИЕ: если q2 нет — считаем q2done = true
+        var q2done = !q2 || (answered[idx + 1] !== undefined);
 
         if (q1done && q2done) {
           area.querySelectorAll('.quiz-opt').forEach(function(o) {
