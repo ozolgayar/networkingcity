@@ -443,7 +443,6 @@ screen-layout > .panel {
   display: flex;
   flex-direction: column;
    height: auto;
-  flex-shrink: column;
 }
 
 .scene-header {
@@ -475,7 +474,6 @@ screen-layout > .panel {
   color: var(--text-soft);
   position: relative;
   height: auto;
-  flex-shrink: column;
 }
 
 .panel-tag {
