@@ -2387,9 +2387,11 @@
      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="module1.js"></script>
 
-     <style id="screen-fix">
+<style id="screen-visibility-fix">
   .screen {
     display: none !important;
+    flex: 1;
+    min-height: 0;
   }
   .screen.active {
     display: flex !important;
