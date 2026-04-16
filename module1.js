@@ -1299,4 +1299,4 @@ var btnStart = document.getElementById('btn-screen1-start');
 
   showScreen('screen-1');
 });
-});
+
