@@ -216,7 +216,7 @@ header .meta {
 }
 
 main {
-  flex: 1;
+  flex: none;
   display: flex;
   flex-direction: column;     /* ← было без direction */
   min-height: 0;              /* ← добавлено */
@@ -371,7 +371,6 @@ main {
 
 /* Основная сцена */
 #screen-container {
-  flex: 1;
   width: 100%;
   max-width: 1200px;
   margin: 20px auto;
