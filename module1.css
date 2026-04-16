@@ -47,13 +47,6 @@ body {
   align-items: stretch;
   justify-content: center;
 }
-  background-attachment: fixed;
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-}
 
 #app {
   width: 100%;
@@ -386,6 +379,12 @@ main {
   display: flex;
   flex-direction: column;
   min-height: 600px;
+}
+#screen-container:has(#screen-1.active) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 
