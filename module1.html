@@ -2386,5 +2386,19 @@
 
      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="module1.js"></script>
+
+     <style id="screen-fix">
+  .screen {
+    display: none !important;
+  }
+  .screen.active {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+    animation: fadeIn .35s ease-out;
+  }
+          
 </body>
 </html>
