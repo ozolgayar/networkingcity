@@ -381,11 +381,11 @@ function initQuiz() {
       color = '#a855f7';
     }
 
-    if (supabase) {
-      supabase.from('quiz_results').insert({ level: level }).then(function(r) {
-        if (r.error) console.error('Ошибка сохранения:', r.error);
-      });
-    }
+   if (supabase && typeof supabase.from === 'function') {
+  supabase.from('quiz_results').insert({ level: level }).then(function(r) {
+    if (r.error) console.error('Ошибка сохранения:', r.error);
+  });
+}
 
     var origBack = document.querySelector('#screen-2 [data-prev]');
     if (origBack) origBack.style.display = 'none';
@@ -414,11 +414,11 @@ function initQuiz() {
         '</div>' +
       '</div>';
 
-    if (supabase) {
-      supabase
-        .from('quiz_results')
-        .select('level')
-        .then(function(r) {
+    if (supabase && typeof supabase.from === 'function') {
+  supabase
+    .from('quiz_results')
+    .select('level')
+    .then(function(r) {
           if (r.error || !r.data) return;
           var totalRows = r.data.length;
           if (totalRows < 3) return;
