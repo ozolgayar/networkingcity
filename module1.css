@@ -3750,13 +3750,12 @@ textarea {
 }
 
 /* ===== ЭКРАН 1: ОБЛОЖКА ===== */
-#screen-1 {
+#screen-1.active {
   position: relative;
   overflow: hidden;
   height: 100% !important;
   min-height: calc(100vh - 32px) !important;
   padding: 0 !important;
-  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   border-radius: var(--radius-lg);
@@ -3896,11 +3895,10 @@ textarea {
 /* ===== ЭКРАН 1: ОВЕРЛЕЙ ===== */
 
 /* Обёртка экрана 1 должна быть relative */
-#screen-1 {
+#screen-1.active {
   position: relative;
   overflow: hidden;
 }
-
 /* Оверлей перекрывает всё */
 .s1-overlay {
   position: absolute;
