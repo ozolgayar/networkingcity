@@ -44,7 +44,7 @@ body {
   min-height: 100vh;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: stretch;       /* ← было center */
   justify-content: center;
   padding: 0;
   margin: 0;
@@ -53,17 +53,16 @@ body {
 #app {
   width: 100%;
   max-width: 1400px;
-  min-height: 100vh;
+  height: 100vh;              /* ← было min-height */
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   position: relative;
   background: transparent;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;            /* ← добавлено */
+  /* УБРАЛИ align-items: center и justify-content: center */
 }
-
 
 /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
@@ -219,12 +218,12 @@ header .meta {
 main {
   flex: 1;
   display: flex;
-  gap: 16px;
-  align-items: stretch;
+  flex-direction: column;     /* ← было без direction */
+  min-height: 0;              /* ← добавлено */
   position: relative;
   z-index: 5;
+  overflow: hidden;            /* ← добавлено */
 }
-
 .badge {
   font-size: 11px;
   padding: 3px 7px;
@@ -375,6 +374,7 @@ main {
   flex: 1;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
   background: rgba(255, 255, 255, 0.96);
   border-radius: var(--radius-lg);
   border: 1px solid #cbd5e1;
@@ -384,8 +384,9 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 32px);
+  min-height: 0;              /* ← было calc(100vh - 32px) */
 }
+
 #screen-container:has(#screen-1.active) {
   padding: 0 !important;
 }
@@ -400,9 +401,9 @@ main {
 .screen.active {
   display: flex !important;
   flex-direction: column;
-  gap: 16px;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
   animation: fadeIn .35s ease-out;
 }
 
@@ -412,6 +413,16 @@ main {
   grid-template-columns: 3fr 2fr;
   gap: 16px;
   min-height: 0;
+  overflow: hidden;
+}
+screen-layout > .panel {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.screen-layout > .scene {
+  min-height: 0;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -4351,225 +4362,22 @@ textarea {
   color: #64748b;
 }
 
-/* ===== ОДИНАКОВАЯ ВЫСОТА ВСЕХ ЭКРАНОВ ===== */
-
-/* Контейнер экранов — занимает всё пространство main */
-#screen-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Каждый активный экран — растягивается на всё доступное */
-.screen.active {
-  flex: 1 !important;
-  min-height: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-}
-
-/* ---- ТИП 1: Двухколоночный (.screen-layout) ---- */
-.screen.active > .screen-layout {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  overflow: hidden;
-}
-
-.screen-layout > .scene {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.screen-layout > .panel {
-  overflow-y: auto;
-  min-height: 0;
-}
-
-/* ---- ТИП 2: Карточка Златы (.screen-card) ---- */
-.screen.screen-card.active {
-  justify-content: center !important;
-  align-items: center !important;
-  overflow-y: auto !important;
-}
-
-/* ---- ТИП 3: Полноэкранные упражнения ---- */
-.screen.active > .fear-fullscreen,
-.screen.active > .smart-fullscreen {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-}
-
-/* ---- ТИП 4: Тест (screen-2) ---- */
-#screen-2.active {
-  overflow-y: auto !important;
-}
-
-#screen-2.active > .panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* ---- ТИП 5: Финальный экран ---- */
-#screen-final.active {
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-/* ---- Кнопка «Назад» внутри экрана — не растягивается ---- */
-.screen.active > .btn.nav-back,
-.screen.active > button.nav-back {
-  flex-shrink: 0;
-}
-
-/* ---- Main заполняет viewport ---- */
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* ---- #app заполняет viewport ---- */
-#app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* ---- Header фиксированный ---- */
-header {
-  flex-shrink: 0;
-}
-
-* ===== ОДИНАКОВЫЙ РАЗМЕР ВСЕХ ЭКРАНОВ ===== */
-
-/* Цепочка flex от body до экрана */
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-header {
-  flex-shrink: 0;
-}
-
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-#screen-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-  /* Фиксированная максимальная ширина для всех экранов */
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* --- Каждый активный экран — ровно на всё доступное --- */
-.screen.active {
-  flex: 1 !important;
-  min-height: 0 !important;
-  max-height: 100% !important;
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-}
-
-/* --- ТИП: Двухколоночный (.screen-layout) --- */
-.screen.active > .screen-layout {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  overflow: hidden;
-  width: 100%;
-}
-
-.screen-layout > .scene {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.screen-layout > .panel {
-  min-height: 0;
-  overflow-y: auto;
-}
-
-/* --- ТИП: Карточка Златы (.screen-card) --- */
-.screen.screen-card.active {
-  justify-content: center !important;
-  align-items: center !important;
-  overflow-y: auto !important;
-  padding: 16px !important;
-}
-
-/* --- ТИП: Полноэкранные (.fear-fullscreen, .smart-fullscreen) --- */
-.screen.active > .fear-fullscreen,
-.screen.active > .smart-fullscreen {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  width: 100%;
-}
-
-/* --- ТИП: Тест (screen-2) --- */
-#screen-2.active {
-  overflow-y: auto !important;
-}
-
-#screen-2.active > .panel {
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-}
-
-/* --- ТИП: Обложка (screen-1) --- */
 #screen-1.active {
   position: relative;
   overflow: hidden !important;
   padding: 0 !important;
-  justify-content: center !important;
-  align-items: center !important;
-  border-radius: var(--radius-lg);
 }
 
-/* --- ТИП: Финальный экран --- */
-#screen-final.active {
-  justify-content: center !important;
-  align-items: center !important;
-  overflow-y: auto !important;
+.screen.screen-card.active {
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding: 16px;
 }
 
-/* --- Кнопка «Назад» внутри screen-card не растягивается --- */
-.screen.active > .btn.nav-back,
-.screen.active > button.nav-back {
-  flex-shrink: 0;
-  align-self: flex-start;
+screen.active > .fear-fullscreen,
+.screen.active > .smart-fullscreen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
