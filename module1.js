@@ -46,31 +46,33 @@ const screenOrder = [
 
 // ===== Утилиты =====
 function showScreen(id) {
-    // Сброс инлайн-стилей от showResult()
-  var sc = document.getElementById('screen-container');
+ var sc = document.getElementById('screen-container');
   if (sc) {
-    sc.style.background = '';
-    sc.style.boxShadow = '';
-    sc.style.border = '';
+    sc.style.cssText = '';
   }
+
+  // Сброс inline-стилей панели экрана 2
+  var panel2 = document.querySelector('#screen-2 .panel');
+  if (panel2) panel2.style.cssText = '';
+  var screen2 = document.getElementById('screen-2');
+  if (screen2) screen2.style.background = '';
+
+  // Восстановить скрытые элементы экрана 2
+  ['quiz-progress', 'quiz-intro-text', 'quiz-intro-hint'].forEach(function(elId) {
+    var el = document.getElementById(elId);
+    if (el) el.style.display = '';
+  });
+  var h2 = document.querySelector('#screen-2 h2');
+  if (h2) h2.style.display = '';
+  var tag = document.querySelector('#screen-2 .panel-tag');
+  if (tag) tag.style.display = '';
+  var origBack = document.querySelector('#screen-2 [data-prev]');
+  if (origBack) origBack.style.display = '';
 
   document.querySelectorAll('.screen').forEach(function(s) {
     s.classList.remove('active');
   });
-   var sc = document.getElementById('screen-container');
-  if (sc) {
-    sc.style.background = '';
-    sc.style.boxShadow = '';
-    sc.style.border = '';
-    sc.style.padding = '';
-  }
 
-  document.querySelectorAll('.screen').forEach(function(s) {
-    s.classList.remove('active');
-  });
-  document.querySelectorAll('.screen').forEach(function(s) {
-    s.classList.remove('active');
-  });
   if (id === 'screen-2') {
     _quizNeedsStart = true;
   }
