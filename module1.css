@@ -441,6 +441,7 @@ screen-layout > .panel {
   overflow: hidden;
   padding: 14px;
   display: flex;
+  height: auto
 }
 
 .scene-header {
@@ -471,6 +472,7 @@ screen-layout > .panel {
   font-size: 14px;
   color: var(--text-soft);
   position: relative;
+  height: auto
 }
 
 .panel-tag {
