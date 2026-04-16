@@ -450,7 +450,7 @@ if (_sb && typeof _sb.from === 'function') {
           var socialEl = area.querySelector('.qr-result-social');
           if (socialEl) {
             socialEl.innerHTML =
-              '👥 <strong>' + myPct + '% участников</strong> курса получили такой же результат' +
+              '<strong>' + myPct + '% участников</strong> курса получили такой же результат' +
               '<span style="color:#cbd5e1;font-size:11px;display:block;margin-top:2px;">из ' + totalRows + ' прошедших тест</span>';
             socialEl.style.display = 'block';
           }
