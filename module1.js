@@ -1,19 +1,19 @@
 // ===== Supabase =====
-var supabase = null;
+var _sb = null;
 try {
-  if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
-    supabase = window.supabase.createClient(
+  var _supaLib = window.supabase || window.Supabase;
+  if (_supaLib && _supaLib.createClient) {
+    _sb = _supaLib.createClient(
       'https://hdzelembnsoejijvlhzj.supabase.co',
       'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4'
     );
     console.log('✅ Supabase подключён');
   } else {
-    console.warn('❌ window.supabase не найден');
+    console.warn('❌ Supabase библиотека не найдена');
   }
 } catch(e) {
   console.warn('Supabase ошибка:', e);
 }
-
 
 var _quizNeedsStart = false;
 
@@ -399,9 +399,10 @@ function initQuiz() {
       color = '#a855f7';
     }
 
-   if (supabase && typeof supabase.from === 'function') {
-  supabase.from('quiz_results').insert({ level: level }).then(function(r) {
+if (_sb && typeof _sb.from === 'function') {
+  _sb.from('quiz_results').insert({ level: level }).then(function(r) {
     if (r.error) console.error('Ошибка сохранения:', r.error);
+    else console.log('✅ Результат сохранён!');
   });
 }
 
@@ -432,8 +433,8 @@ function initQuiz() {
         '</div>' +
       '</div>';
 
-    if (supabase && typeof supabase.from === 'function') {
-  supabase
+if (_sb && typeof _sb.from === 'function') {
+  _sb
     .from('quiz_results')
     .select('level')
     .then(function(r) {
