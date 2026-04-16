@@ -2776,44 +2776,42 @@ var btnVenueNext = document.getElementById('btn-venue-next');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
- // ===== СБРОС ВСЕХ МОДАЛОК при старте =====
+
+  // ===== СБРОС ВСЕХ МОДАЛОК при старте =====
   document.querySelectorAll('.modal-overlay').forEach(function(modal) {
     modal.classList.remove('active');
-   });
+  });
 
-// Экран 1
-(function() {
+  // Экран 1
   var btn    = document.getElementById('btn-screen1-start');
   var wrap   = document.getElementById('s1-round-wrap');
   var cover  = document.getElementById('screen-1-cover');
   var overlay = document.getElementById('screen-1-overlay');
 
-  if (!btn) return;
+  if (btn) {
+    btn.addEventListener('click', function() {
+      btn.classList.remove('clicked');
+      void btn.offsetWidth;
+      btn.classList.add('clicked');
 
-  btn.addEventListener('click', function() {
-    // Анимация кручения
-    btn.classList.remove('clicked');
-    void btn.offsetWidth;
-    btn.classList.add('clicked');
+      for (var i = 0; i < 3; i++) {
+        (function(delay) {
+          setTimeout(function() {
+            var r = document.createElement('div');
+            r.className = 's1-ripple';
+            if (wrap) wrap.appendChild(r);
+            setTimeout(function() { r.remove(); }, 950);
+          }, delay);
+        })(i * 160);
+      }
 
-    // 3 ripple волны
-    for (var i = 0; i < 3; i++) {
-      (function(delay) {
-        setTimeout(function() {
-          var r = document.createElement('div');
-          r.className = 's1-ripple';
-          if (wrap) wrap.appendChild(r);
-          setTimeout(function() { r.remove(); }, 950);
-        }, delay);
-      })(i * 160);
-    }
-
-    setTimeout(function() {
-      if (cover)   cover.style.display   = 'none';
-      if (overlay) overlay.style.display = 'flex';
-      if (wrap) wrap.style.display = 'none';
-    }, 400);
-  });
+      setTimeout(function() {
+        if (cover)   cover.style.display   = 'none';
+        if (overlay) overlay.style.display = 'flex';
+        if (wrap)    wrap.style.display    = 'none';
+      }, 400);
+    });
+  }
 
   // Только то, что нужно сразу
   initGlobalNav();
