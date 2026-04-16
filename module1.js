@@ -334,20 +334,22 @@ setTimeout(function() {
     });
   });
 }
-     function showResult() {
-       // Убираем белый фон контейнера
-var screenContainer = document.getElementById('screen-container');
-if (screenContainer) {
-  screenContainer.style.background = 'transparent';
-  screenContainer.style.boxShadow = 'none';
-  screenContainer.style.border = 'none';
-}
-      var prog = document.getElementById('quiz-progress');
+   function showResult() {
+  // Убираем белый фон контейнера
+  var screenContainer = document.getElementById('screen-container');
+  if (screenContainer) {
+    screenContainer.style.background = 'transparent';
+    screenContainer.style.boxShadow = 'none';
+    screenContainer.style.border = 'none';
+  }
+
+  var prog = document.getElementById('quiz-progress');
   if (prog) {
     prog.style.display = 'none';
     prog.style.visibility = 'hidden';
   }
- var toHide = [
+
+  var toHide = [
     document.getElementById('quiz-progress'),
     document.querySelector('#screen-2 h2'),
     document.querySelector('#screen-2 .panel-tag'),
@@ -358,7 +360,6 @@ if (screenContainer) {
     if (el) el.style.display = 'none';
   });
 
-// Убираем фон панели
   var panel = document.querySelector('#screen-2 .panel');
   if (panel) {
     panel.style.cssText = [
@@ -374,11 +375,10 @@ if (screenContainer) {
       'flex: 1'
     ].join(';');
   }
-       
- var screen2 = document.getElementById('screen-2');
-  if (screen2) {
-    screen2.style.background = 'transparent';
-  }
+
+  var screen2 = document.getElementById('screen-2');
+  if (screen2) screen2.style.background = 'transparent';
+
   var total = answers.reduce(function(s, v) { return s + (v || 0); }, 0);
   var max = questions.length * 5;
   var pct = Math.round(total / max * 100);
@@ -402,6 +402,11 @@ if (screenContainer) {
     color = '#a855f7';
   }
 
+  // Скрываем оригинальную кнопку Назад
+  var origBack = document.querySelector('#screen-2 [data-prev]');
+  if (origBack) origBack.style.display = 'none';
+
+  // ⬇️ ВАЖНО: обе кнопки добавлены в HTML
   area.innerHTML =
     '<div class="qr-result-wrap">' +
       '<div class="qr-result-card">' +
@@ -418,40 +423,36 @@ if (screenContainer) {
         '</div>' +
         '<div class="qr-result-pct">' + pct + '%</div>' +
         '<div class="qr-result-desc">' + desc + '</div>' +
-        '<button class="btn qr-result-btn" style="width:100%;margin-top:8px;">Продолжить \u2192</button>' +
+        '<div class="qr-result-btns">' +
+          '<button class="btn btn-back-result">← Назад</button>' +
+          '<button class="btn qr-result-btn">Продолжить →</button>' +
+        '</div>' +
       '</div>' +
     '</div>';
 
-     // В showResult() — скрываем оригинальную data-prev кнопку
-var origBack = document.querySelector('#screen-2 [data-prev]');
-if (origBack) origBack.style.display = 'none';
+  // Обработчик — Назад
+  area.querySelector('.btn-back-result').addEventListener('click', function() {
+    var sc = document.getElementById('screen-container');
+    if (sc) {
+      sc.style.background = '';
+      sc.style.boxShadow = '';
+      sc.style.border = '';
+    }
+    if (origBack) origBack.style.display = '';
+    showScreen('screen-1');
+  });
 
-// Вешаем обработчик на новую кнопку Назад
-area.querySelector('.btn-back-result').addEventListener('click', function() {
-  var screenContainer = document.getElementById('screen-container');
-  if (screenContainer) {
-    screenContainer.style.background = '';
-    screenContainer.style.boxShadow = '';
-    screenContainer.style.border = '';
-  }
-  // Возвращаем оригинальную кнопку
-  if (origBack) origBack.style.display = '';
-  showScreen('screen-1');
-});
-       
- area.querySelector('.qr-result-btn').addEventListener('click', function() {
-  // Возвращаем фон
-  var screenContainer = document.getElementById('screen-container');
-  if (screenContainer) {
-    screenContainer.style.background = '';
-    screenContainer.style.boxShadow = '';
-    screenContainer.style.border = '';
-  }
-  showScreen('screen-3-0');
-});
-}
-     startQuiz(); // ← ДОБАВЬ ЭТУ СТРОКУ
-}    
+  // Обработчик — Продолжить
+  area.querySelector('.qr-result-btn').addEventListener('click', function() {
+    var sc = document.getElementById('screen-container');
+    if (sc) {
+      sc.style.background = '';
+      sc.style.boxShadow = '';
+      sc.style.border = '';
+    }
+    showScreen('screen-3-0');
+  });
+}  
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
     var card = document.getElementById('zlata-card');
