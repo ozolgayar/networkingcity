@@ -371,20 +371,20 @@ main {
 
 /* Основная сцена */
 #screen-container {
-  flex: 1;
+ flex: 1;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.96);
   border-radius: var(--radius-lg);
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  border: none;                              /* ← было: 1px solid #cbd5e1 */
+  box-shadow: none;                          /* ← было: 0 8px 30px ... */
   padding: 0;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 0;              /* ← было calc(100vh - 32px) */
+  min-height: 0;
 }
 
 .screen {
@@ -4393,15 +4393,6 @@ screen.active > .fear-fullscreen,
   width: 100% !important;
   max-width: 500px !important;
   margin: auto !important;
-}
-
-/* Скрыть заголовок/прогресс когда показан результат */
-#screen-2 .panel:has(#quiz-result[style*="display: block"]) #quiz-intro-text,
-#screen-2 .panel:has(#quiz-result[style*="display: block"]) #quiz-intro-hint,
-#screen-2 .panel:has(#quiz-result[style*="display: block"]) .quiz-progress,
-#screen-2 .panel:has(#quiz-result[style*="display: block"]) .panel-tag,
-#screen-2 .panel:has(#quiz-result[style*="display: block"]) h2 {
-  display: none !important;
 }
 
 #screen-container:has(#screen-1.active) {
