@@ -376,8 +376,6 @@ main {
   margin: 0 auto;
   background: rgba(255,255,255,0.96);
   border-radius: 20px;
-  border: none;
-  box-shadow: none;
   padding: 0;
   position: relative;
   overflow: hidden;
@@ -3758,9 +3756,6 @@ textarea {
 #screen-1 .s1-cover {
   width: 100%;
   height: 100%;
-  max-width: none;
-  max-height: none;
-  margin: 0;
   position: absolute;
   inset: 0;
   border-radius: 0;
@@ -3774,13 +3769,15 @@ textarea {
   height: 100% !important;
 }
 
+
 .s1-cover-img img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain !important;
-  object-position: center center !important;
+  object-fit: cover !important;        /* ← было contain */
+  object-position: top center !important;
   display: block !important;
 }
+
 
 .s1-cover::after {
   content: '';
@@ -4356,11 +4353,11 @@ textarea {
 }
 
 #screen-1.active {
-  position: absolute !important;
-  inset: 0 !important;
+  position: relative !important;
   overflow: hidden !important;
   padding: 0 !important;
-  z-index: 5 !important;
+  flex: 1 !important;              /* ← было flex: none */
+  min-height: 0 !important;
 }
 
 .screen.screen-card.active {
@@ -4401,7 +4398,7 @@ screen.active > .fear-fullscreen,
   box-shadow: none !important;
   border-radius: 18px !important;
   overflow: hidden !important;
-  max-width: none !important;  /* ← убираем ограничение 1200px */
+  background: transparent !important;  /* ← ДОБАВЛЕНО */
 }
 
 #app:has(#screen-1.active) {
