@@ -54,7 +54,7 @@ body {
   width: 100%;
   max-width: 1400px;
   height: 100vh;              /* ← было min-height */
-  padding: 0px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -374,9 +374,9 @@ main {
    flex: 1;
   width: 100%;
   max-width: 1200px;
-  margin: 0px auto;
+  margin: 20px auto;
   background: rgba(255,255,255,0.96);                /* ← было rgba(255,255,255,0.96) */
-  border-radius: 0px;                       /* ← было var(--radius-lg) */
+  border-radius: 20px;                       /* ← было var(--radius-lg) */
   border: none;                           /* ← было 1px solid #cbd5e1 */
   box-shadow: none;                       /* ← было 0 8px 30px ... */
   padding: 0;
