@@ -1,19 +1,19 @@
 // ===== Supabase =====
-var supabase = window.supabase.createClient(
-  'https://ТВОЙ_URL.supabase.co',
-  'ТВОЙ_ANON_KEY'
-);
+var supabase = null;
 try {
   if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
     supabase = window.supabase.createClient(
       'https://hdzelembnsoejijvlhzj.supabase.co',
       'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4'
     );
+    console.log('Supabase подключён ✅');
   }
 } catch(e) {
   console.warn('Supabase не подключён:', e);
 }
+
 var _quizNeedsStart = false;
+
 // Глобальное состояние
 const state = {
   score: 0,
