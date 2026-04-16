@@ -53,12 +53,11 @@ body {
 #app {
 width: 100%;
   max-width: 1400px;
-  min-height: 100vh;       /* ← было height: 100vh */
+  height: 100vh;
   padding: 18px;
   display: flex;
   flex-direction: column;
-  align-items: center;      /* ← центрируем по горизонтали */
-  justify-content: center;  /* ← центрируем по вертикали */
+  align-items: center;
   gap: 1px;
   position: relative;
   background: transparent;
@@ -371,19 +370,20 @@ main {
 
 /* Основная сцена */
 #screen-container {
-   flex: 1;
+  flex: 1;
   width: 100%;
   max-width: 1200px;
-  margin: 20px auto;
-  background: rgba(255,255,255,0.96);       /* ← прозрачный фон */
-  border-radius: 20px;                 /* ← было var(--radius-lg) */
-  border: none;                           /* ← было 1px solid #cbd5e1 */
-  box-shadow: none;                       /* ← было 0 8px 30px ... */
+  margin: 0 auto;
+  background: rgba(255,255,255,0.96);
+  border-radius: 20px;
+  border: none;
+  box-shadow: none;
   padding: 0;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .screen {
