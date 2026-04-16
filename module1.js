@@ -384,8 +384,30 @@ setTimeout(function() {
   var pct = Math.round(total / max * 100);
 
   var level, desc, color;
-  if (pct <= 30) {
-    level = 'Новичок в нетворкинге';
+if (pct <= 30) {
+  level = 'Новичок';
+  desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
+  color = '#f59e0b';
+} else if (pct <= 55) {
+  level = 'Базовый';
+  desc  = 'Кажется, у тебя есть базовые знания. Повысь их до максимума!';
+  color = '#38bdf8';
+} else if (pct <= 75) {
+  level = 'Средний';
+  desc  = 'Ты уже умеешь знакомиться. Курс поможет выйти на новый уровень.';
+  color = '#22c55e';
+} else {
+  level = 'Продвинутый';
+  desc  = 'Отличный результат! Курс поможет закрепить и систематизировать навыки.';
+  color = '#a855f7';
+}
+
+// Сохраняем результат в Supabase
+if (supabase) {
+  supabase.from('quiz_results').insert({ level: level }).then(function(r) {
+    if (r.error) console.error('Ошибка сохранения результата:', r.error);
+  });
+}
     desc  = 'Самое время начать — и курс поможет тебе с нуля выстроить навык знакомств.';
     color = '#f59e0b';
   } else if (pct <= 55) {
@@ -423,13 +445,45 @@ setTimeout(function() {
         '</div>' +
         '<div class="qr-result-pct">' + pct + '%</div>' +
         '<div class="qr-result-desc">' + desc + '</div>' +
-        '<div class="qr-result-btns">' +
+'<div class="qr-result-social" style="display:none;"></div>' +
+'<div class="qr-result-btns">' +
           '<button class="btn btn-back-result">← Назад</button>' +
           '<button class="btn qr-result-btn">Продолжить →</button>' +
         '</div>' +
       '</div>' +
     '</div>';
 
+    // Загружаем реальную статистику
+if (supabase) {
+  supabase
+    .from('quiz_results')
+    .select('level')
+    .then(function(result) {
+      if (result.error || !result.data) return;
+
+      var total = result.data.length;
+      if (total === 0) return;
+
+      // Считаем каждый уровень
+      var counts = { 'Новичок': 0, 'Базовый': 0, 'Средний': 0, 'Продвинутый': 0 };
+      result.data.forEach(function(row) {
+        if (counts[row.level] !== undefined) counts[row.level]++;
+      });
+
+      // Процент текущего уровня
+      var myCount = counts[level] || 0;
+      var myPct   = Math.round(myCount / total * 100);
+
+      // Показываем блок статистики
+      var socialEl = area.querySelector('.qr-result-social');
+      if (socialEl && total >= 3) {
+        socialEl.innerHTML =
+          '👥 <strong>' + myPct + '% участников</strong> курса получили такой же результат' +
+          '<span style="color:#cbd5e1; font-size:11px; display:block; margin-top:2px;">из ' + total + ' прошедших тест</span>';
+        socialEl.style.display = 'block';
+      }
+    });
+}
   // Обработчик — Назад
   area.querySelector('.btn-back-result').addEventListener('click', function() {
     var sc = document.getElementById('screen-container');
