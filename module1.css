@@ -385,6 +385,7 @@ main {
   flex-direction: column;
   min-height: 0;
   height: 100%; 
+   transition: all 0.2s ease;
 }
 
 .screen {
@@ -3764,6 +3765,11 @@ textarea {
   inset: 0;
   border-radius: 0;
   overflow: hidden;
+  top: 18px !important;
+  bottom: 18px !important;
+  height: auto !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
 }
 
 .s1-cover-img {
@@ -4360,9 +4366,11 @@ textarea {
   position: absolute !important;
   inset: 0 !important;
   overflow: hidden !important;
-  padding: 0 !important;
+  padding: 18px !important;
+  padding-bottom: 18px !important;
   z-index: 5 !important;
   display: flex !important;
+   margin: 0 !important;
 }
 
 .screen.screen-card.active {
@@ -4412,9 +4420,13 @@ screen.active > .fear-fullscreen,
   padding: 0 !important;
   gap: 0 !important;
 }
-
-#app:has(#screen-1.active) main {
+#app:has(#screen-1.active) #screen-container {
+  background: transparent !important;
   padding: 0 !important;
+  margin: 0 !important;
+}
+#app:has(#screen-1.active) main {
+  padding: 18 0 !important;
   margin: 0 !important;
 }
 
@@ -4424,6 +4436,9 @@ screen.active > .fear-fullscreen,
   width: 100%;
   height: 100%;
   z-index: 1;
+   top: 0 !important;
+  bottom: 0 !important;
+  border-radius: 20px !important;
 }
 
 #screen-1 .s1-overlay {
