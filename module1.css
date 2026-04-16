@@ -4381,3 +4381,30 @@ screen.active > .fear-fullscreen,
   min-height: 0;
   overflow-y: auto;
 }
+
+#screen-2.active {
+  overflow-y: auto !important;
+}
+
+/* ===== ЭКРАН 2: РЕЗУЛЬТАТ ТЕСТА — заполняет весь экран ===== */
+#screen-2.active {
+  overflow-y: auto !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+#screen-2.active > .panel {
+  flex: none !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: auto !important;
+}
+
+/* Скрыть заголовок/прогресс когда показан результат */
+#screen-2 .panel:has(#quiz-result[style*="display: block"]) #quiz-intro-text,
+#screen-2 .panel:has(#quiz-result[style*="display: block"]) #quiz-intro-hint,
+#screen-2 .panel:has(#quiz-result[style*="display: block"]) .quiz-progress,
+#screen-2 .panel:has(#quiz-result[style*="display: block"]) .panel-tag,
+#screen-2 .panel:has(#quiz-result[style*="display: block"]) h2 {
+  display: none !important;
+}
