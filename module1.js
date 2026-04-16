@@ -1,3 +1,15 @@
+// ===== Supabase =====
+var supabase = null;
+try {
+  if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+    supabase = window.supabase.createClient(
+      'https://ТВОЙ_URL.supabase.co',
+      'ТВОЙ_ANON_KEY'
+    );
+  }
+} catch(e) {
+  console.warn('Supabase не подключён:', e);
+}
 var _quizNeedsStart = false;
 // Глобальное состояние
 const state = {
