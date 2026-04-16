@@ -3751,6 +3751,16 @@ textarea {
   height: 100dvh !important;
   overflow: hidden !important;
   padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+}
+#screen-1 .s1-cover {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  position: relative;
 }
 
 .s1-cover {
