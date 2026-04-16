@@ -3748,24 +3748,29 @@ textarea {
 
 /* ===== ЭКРАН 1: ОБЛОЖКА ===== */
 #screen-1 {
+  position: relative;
+  overflow: hidden;
   height: 100dvh !important;
-  overflow: hidden !important;
+  min-height: 100vh !important;
   padding: 0 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  min-height: 100vh !important;
 }
+
 #screen-1 .s1-cover {
   width: 100%;
   max-width: 900px;
+  height: 100%;
+  max-height: 600px;
   margin: auto;
   position: relative;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .s1-cover {
   position: relative !important;
-  height: 100dvh !important;
   display: block !important;
 }
 
