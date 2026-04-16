@@ -4359,9 +4359,9 @@ textarea {
   position: relative !important;
   overflow: hidden !important;
   padding: 0 !important;
-  flex: 1 1 0 !important;
-  min-height: 0 !important;
-  height: 0 !important;       /* ← КЛЮЧ: заставляет flex: 1 работать */
+  height: 100% !important;
+  min-height: 100% !important;
+  flex: none !important;
 }
 
 .screen.screen-card.active {
