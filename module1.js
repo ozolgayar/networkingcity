@@ -452,8 +452,29 @@ setTimeout(function() {
     }
     showScreen('screen-3-0');
   });
-} 
-    } 
+// Обработчик — Продолжить
+  area.querySelector('.qr-result-btn').addEventListener('click', function() {
+    var sc = document.getElementById('screen-container');
+    if (sc) {
+      sc.style.background = '';
+      sc.style.boxShadow = '';
+      sc.style.border = '';
+    }
+    showScreen('screen-3-0');
+  });
+}  // ← закрытие showResult
+
+// ===== Запуск теста =====
+var startBtn = document.getElementById('btn-quiz-start');
+if (startBtn) {
+  startBtn.addEventListener('click', function() {
+    startQuiz();
+  });
+} else {
+  startQuiz();
+}
+
+}  // ← закрытие initQuiz
   // ===== Экран 3: Знакомство со Златой =====
    function initKeysGame() {
     var card = document.getElementById('zlata-card');
