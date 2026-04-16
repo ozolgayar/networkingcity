@@ -384,7 +384,8 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+ height: auto;
+min-height: auto;
 }
 
 .screen {
