@@ -4402,7 +4402,9 @@ screen.active > .fear-fullscreen,
   box-shadow: none !important;
   border-radius: 18px !important;
   overflow: hidden !important;
-  background: transparent !important;  /* ← ДОБАВЛЕНО */
+  background: transparent !important;
+  width: 100% !important;          /* ← ДОБАВЬ */
+  height: 100% !important;         /* ← ДОБАВЬ */
 }
 
 #app:has(#screen-1.active) {
