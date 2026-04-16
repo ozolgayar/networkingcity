@@ -378,7 +378,7 @@ main {
   margin: 0 auto;
   background: rgba(255,255,255,0.96);
   border-radius: 20px;
-  padding: 0;
+  padding: 20  0 !important;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -4433,3 +4433,4 @@ screen.active > .fear-fullscreen,
 #screen-1 .s1-cover-btn-wrap {
   z-index: 5;
 }
+
