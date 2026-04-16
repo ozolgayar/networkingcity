@@ -1287,16 +1287,13 @@ document.addEventListener('DOMContentLoaded', function() {
   initLaptopHotspot();
   initPurposeScreen();
   initZlataReady();
-var btnStart = document.getElementById('btn-screen1-start');
+
+  var btnStart = document.getElementById('btn-screen1-start');
   if (btnStart) {
     btnStart.addEventListener('click', function() {
-      var cover = document.getElementById('screen-1-cover');
-      var overlay = document.getElementById('screen-1-overlay');
-      if (cover) cover.style.display = 'none';
-      if (overlay) overlay.style.display = 'flex';
+      showScreen('screen-2');
     });
   }
 
   showScreen('screen-1');
 });
-
