@@ -4413,3 +4413,12 @@ screen.active > .fear-fullscreen,
   padding: 0 !important;
   margin: 0 !important;
 }
+/* ===== ЭКРАН 1: ГАРАНТИРОВАННАЯ ВЫСОТА ===== */
+#screen-1.active {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
