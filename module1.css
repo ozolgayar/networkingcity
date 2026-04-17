@@ -4472,3 +4472,19 @@ background: transparent !important;
 .screen.screen-card .nav-back {
   display: none !important;
 }
+
+/* Убираем декоративные уголки и логотип на экранах с карточкой Златы */
+body:has(.screen-card.active) main::before,
+body:has(.screen-card.active) main::after,
+body:has(.screen-card.active) #app::before,
+body:has(.screen-card.active) #app::after,
+body:has(.screen-card.active)::before,
+body:has(.screen-card.active)::after {
+  display: none !important;
+}
+
+/* Скрываем логотип V в левом верхнем углу на карточках */
+body:has(.screen-card.active) header .logo::before,
+body:has(.screen-card.active) header::before {
+  display: none !important;
+}
