@@ -4473,18 +4473,22 @@ background: transparent !important;
   display: none !important;
 }
 
-/* Убираем декоративные уголки и логотип на экранах с карточкой Златы */
+/* Убираем ВСЕ декоративные уголки на экранах с карточкой Златы */
+#app:has(.screen-card.active) main::before,
+#app:has(.screen-card.active) main::after,
+#app:has(.screen-card.active)::before,
+#app:has(.screen-card.active)::after,
 body:has(.screen-card.active) main::before,
-body:has(.screen-card.active) main::after,
-body:has(.screen-card.active) #app::before,
-body:has(.screen-card.active) #app::after,
-body:has(.screen-card.active)::before,
-body:has(.screen-card.active)::after {
+body:has(.screen-card.active) main::after {
   display: none !important;
+  content: none !important;
+  border: none !important;
+  background: none !important;
 }
 
-/* Скрываем логотип V в левом верхнем углу на карточках */
-body:has(.screen-card.active) header .logo::before,
-body:has(.screen-card.active) header::before {
-  display: none !important;
+/* На всякий случай — убираем рамку у main и #screen-container */
+body:has(.screen-card.active) main,
+body:has(.screen-card.active) #screen-container {
+  border: none !important;
+  box-shadow: none !important;
 }
