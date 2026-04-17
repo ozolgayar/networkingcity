@@ -1469,6 +1469,18 @@ textarea {
   max-height: calc(100vh - 180px);
   overflow-y: auto;
   min-height: 0;
+  position: relative;
+  padding-top: 20px !important;
+}
+#screen-16 .panel .panel-tag {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+}
+
+#screen-16 .panel h2 {
+  margin-top: 0 !important;
+  padding-right: 80px; /* чтобы текст не лез под тег */
 }
 
 #screen-16 .panel::-webkit-scrollbar { width: 6px; }
