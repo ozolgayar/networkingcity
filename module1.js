@@ -113,8 +113,12 @@ function showScreen(id) {
   if (id === 'screen-14') {
     setTimeout(function() { initWheel(); }, 50);
   }
-  if (id === 'screen-15') {
-    setTimeout(function() { renderWheel('resultWheelSvg', state.wheel.values, -1); }, 50);
+ if (id === 'screen-15') {
+  setTimeout(function() {
+    renderWheel('resultWheelSvg', state.wheel.values, -1);
+    initImportanceSliders();  // ← добавь это
+  }, 100);
+}
   }
   if (id === 'screen-16-1' && !window._locationsInited) {
     window._locationsInited = true;
@@ -1645,10 +1649,19 @@ function initImportanceSliders() {
       newBtn.style.display = 'none';
 
       // Показываем кнопку "Продолжить"
-      var btnNext = document.getElementById('btn-wheel-next');
-      if (btnNext) btnNext.style.display = 'inline-flex';
-
-      addScore(3);
+      var btnNext = document.getElementById('btn-wheel-next') 
+           || document.getElementById('btn-priorities-next');
+if (btnNext) {
+  btnNext.style.display = 'inline-flex';
+  // Вешаем обработчик только один раз
+  if (!btnNext.dataset.listenerAdded) {
+    btnNext.dataset.listenerAdded = '1';
+    btnNext.addEventListener('click', function() {
+      showScreen('screen-16');
+    });
+  }
+}
+     addScore(3);
     });
   }
 } // ← ЗАКРЫВАЮЩАЯ СКОБКА — она была потеряна!
