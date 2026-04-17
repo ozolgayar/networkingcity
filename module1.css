@@ -4965,6 +4965,7 @@ body:has(.screen-card.active) #app {
   flex-wrap: nowrap !important;
 }
 
+/* Обе кнопки — одинаковый размер */
 #screen-16-actions .btn {
   padding: 11px 20px !important;
   font-size: 14px !important;
@@ -4975,6 +4976,7 @@ body:has(.screen-card.active) #app {
   align-items: center !important;
   justify-content: center !important;
   white-space: nowrap !important;
+  box-sizing: border-box !important;
 }
 
 #screen-16-actions .btn.secondary {
@@ -4983,12 +4985,24 @@ body:has(.screen-card.active) #app {
   box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
 }
 
-/* Кнопка "Продолжить" скрыта по умолчанию */
+/* Кнопка "Продолжить" — скрыта через класс */
 #btn-people-continue {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: none !important;
+  margin: 0 !important;
 }
 
-/* Показывается только когда JS добавляет inline style */
-#btn-people-continue[style*="inline-flex"] {
+/* Показывается только через класс .visible */
+#btn-people-continue.visible {
   display: inline-flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  width: auto !important;
+  overflow: visible !important;
+  padding: 11px 20px !important;
 }
