@@ -4454,8 +4454,16 @@ background: transparent !important;
 }
 
 
-#screen-container:not(:has(#screen-1.active)) {
+#screen-container:not(:has(#screen-1.active)):not(:has(.screen-card.active)) {
   background: rgba(255,255,255,0.96) !important;
   padding: 0px 0 !important;
   border-radius: 20px !important;
+}
+
+/* Прозрачный фон контейнера для всех карточек Златы */
+#screen-container:has(.screen-card.active) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
