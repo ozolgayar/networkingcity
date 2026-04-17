@@ -1791,7 +1791,7 @@ function initPeopleGame() {
   var counter = document.getElementById('people-counter');
   var feedback = document.getElementById('people-feedback');
   var btnPlan = document.getElementById('btn-people-plan');
-  var btnNext = document.querySelector('#screen-16 [data-next="screen-16-1"]');
+ 
 
   if (!pool || !target) return;
 
@@ -1899,9 +1899,10 @@ var people = [
       localStorage.setItem('nc_people_count', String(count));
 
       // Показываем кнопку "Продолжить"
-      if (btnNext) {
-        btnNext.style.display = 'inline-flex';
-      }
+      var btnContinue = document.getElementById('btn-people-continue');
+if (btnContinue) {
+  btnContinue.style.display = 'inline-flex';
+}
 
       btnPlan.style.display = 'none';
     });
