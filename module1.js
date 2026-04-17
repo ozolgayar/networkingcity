@@ -1653,8 +1653,7 @@ function initImportanceSliders() {
   }
 } // ← ЗАКРЫВАЮЩАЯ СКОБКА — она была потеряна!
 
-// ===== Экран 16: Локации =====
-function initLocations() {
+
 // ===== Экран 16: Локации =====
 function initLocations() {
   var btns = document.querySelectorAll('.location-btn');
