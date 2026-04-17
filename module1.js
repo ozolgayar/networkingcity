@@ -109,9 +109,7 @@ function showScreen(id) {
       initFears13S();
     }, 50);
   }
-  if (id === 'screen-13-1') {
-    setTimeout(function() { initZlataCard2(); }, 50);
-  }
+
   if (id === 'screen-14') {
     setTimeout(function() { initWheel(); }, 50);
   }
@@ -1230,15 +1228,6 @@ function initFears13S() {
       if (modal) modal.classList.add('active');
     });
   }
-}
-
-// ===== Экран 13-1: Карточка Златы 2 =====
-function initZlataCard2() {
-  var btn = document.getElementById('btn-zlata2-next');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    showScreen('screen-14');
-  });
 }
 
 // ===== Экран 14: Колесо =====
