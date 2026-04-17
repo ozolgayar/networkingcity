@@ -1231,107 +1231,175 @@ function initFears13S() {
 }
 
 // ===== Экран 14: Колесо баланса =====
-function renderWheel(svgId, values, activeIdx) {
-  var svg = document.getElementById(svgId);
-  if (!svg) return;
-
+function initWheel() {
   var segments = state.wheel.segments;
   var N = segments.length;
-  var cx = 280, cy = 280, R = 220;
-  var angleStep = (2 * Math.PI) / N;
-  var colors = ['#a855f7','#38bdf8','#22c55e','#f59e0b','#ef4444','#ec4899'];
+  var currentIndex = 0;
 
-  svg.setAttribute('viewBox', '0 0 560 560');
-  svg.innerHTML = '';
+  function renderButtons() {
+    var container = document.getElementById('seg-level-buttons');
+    var nameEl = document.getElementById('current-seg-name');
+    if (!container || !nameEl) return;
 
-  // Фоновые секторы
-  for (var i = 0; i < N; i++) {
-    var startAngle = i * angleStep - Math.PI / 2;
-    var endAngle = startAngle + angleStep;
-    var x1 = cx + R * Math.cos(startAngle);
-    var y1 = cy + R * Math.sin(startAngle);
-    var x2 = cx + R * Math.cos(endAngle);
-    var y2 = cy + R * Math.sin(endAngle);
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', 'M ' + cx + ' ' + cy + ' L ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 0 1 ' + x2 + ' ' + y2 + ' Z');
-    path.setAttribute('fill', colors[i % colors.length]);
-    path.setAttribute('opacity', activeIdx === i ? '0.3' : '0.15');
-    svg.appendChild(path);
-  }
+    nameEl.textContent = segments[currentIndex];
 
-  // Концентрические круги
-  for (var r = 1; r <= 10; r++) {
-    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', cx);
-    circle.setAttribute('cy', cy);
-    circle.setAttribute('r', R * r / 10);
-    circle.setAttribute('fill', 'none');
-    circle.setAttribute('stroke', '#e2e8f0');
-    circle.setAttribute('stroke-width', '1');
-    svg.appendChild(circle);
-  }
+    container.innerHTML = '';
+    for (var i = 1; i <= 10; i++) {
+      (function(val) {
+        var btn = document.createElement('button');
+        btn.className = 'seg-btn';
+        btn.textContent = val;
+        if (state.wheel.values[currentIndex] === val) {
+          btn.classList.add('active');
+        }
+        btn.style.cssText = [
+          'width:32px',
+          'height:32px',
+          'border-radius:8px',
+          'border:1.5px solid #e2e8f0',
+          'background:#f8fafc',
+          'font-size:13px',
+          'font-weight:600',
+          'cursor:pointer',
+          'transition:all 0.15s',
+          'color:#475569'
+        ].join(';');
+        if (state.wheel.values[currentIndex] === val) {
+          btn.style.background = '#a855f7';
+          btn.style.color = '#fff';
+          btn.style.borderColor = '#a855f7';
+        }
+        btn.addEventListener('click', function() {
+          state.wheel.values[currentIndex] = val;
+          renderWheel('wheelSvg', state.wheel.values, currentIndex);
 
-  // Линии-разделители
-  for (var i = 0; i < N; i++) {
-    var angle = i * angleStep - Math.PI / 2;
-    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', cx);
-    line.setAttribute('y1', cy);
-    line.setAttribute('x2', cx + R * Math.cos(angle));
-    line.setAttribute('y2', cy + R * Math.sin(angle));
-    line.setAttribute('stroke', '#cbd5e1');
-    line.setAttribute('stroke-width', '1.5');
-    svg.appendChild(line);
-  }
-
-  // Полигон значений
-  var hasValues = values.some(function(v) { return v > 0; });
-  if (hasValues) {
-    var points = [];
-    for (var i = 0; i < N; i++) {
-      var angle = i * angleStep - Math.PI / 2;
-      var val = clamp(values[i] || 0, 0, 10);
-      var r2 = R * val / 10;
-      points.push((cx + r2 * Math.cos(angle)) + ',' + (cy + r2 * Math.sin(angle)));
+          // Следующая сфера
+          setTimeout(function() {
+            if (currentIndex < N - 1) {
+              currentIndex++;
+              state.wheel.currentIndex = currentIndex;
+              renderButtons();
+              renderWheel('wheelSvg', state.wheel.values, currentIndex);
+            } else {
+              // Все сферы оценены
+              var btnFinish = document.getElementById('btn-wheel-finish');
+              var btnReset = document.getElementById('btn-wheel-reset');
+              if (btnFinish) btnFinish.style.display = 'inline-block';
+              if (btnReset) btnReset.style.display = 'inline-block';
+              container.innerHTML = '<span style="font-size:13px;color:#22c55e;font-weight:600;">✅ Все сферы оценены!</span>';
+              var nameEl2 = document.getElementById('current-seg-name');
+              if (nameEl2) nameEl2.textContent = 'Готово';
+            }
+          }, 400);
+        });
+        container.appendChild(btn);
+      })(i);
     }
-    var polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    polygon.setAttribute('points', points.join(' '));
-    polygon.setAttribute('fill', 'rgba(168,85,247,0.25)');
-    polygon.setAttribute('stroke', '#a855f7');
-    polygon.setAttribute('stroke-width', '3');
-    svg.appendChild(polygon);
   }
 
-  // Точки и подписи
-  for (var i = 0; i < N; i++) {
-    var angle = i * angleStep - Math.PI / 2;
-    var val = clamp(values[i] || 0, 0, 10);
+  // Кнопка "Оценить заново"
+  var btnReset = document.getElementById('btn-wheel-reset');
+  if (btnReset) {
+    btnReset.addEventListener('click', function() {
+      state.wheel.values = [0, 0, 0, 0, 0, 0];
+      currentIndex = 0;
+      state.wheel.currentIndex = 0;
+      renderWheel('wheelSvg', state.wheel.values, currentIndex);
+      renderButtons();
+      btnReset.style.display = 'none';
+      var btnFinish = document.getElementById('btn-wheel-finish');
+      if (btnFinish) btnFinish.style.display = 'none';
+    });
+  }
 
-    if (val > 0) {
-      var r2 = R * val / 10;
-      var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      dot.setAttribute('cx', cx + r2 * Math.cos(angle));
-      dot.setAttribute('cy', cy + r2 * Math.sin(angle));
-      dot.setAttribute('r', activeIdx === i ? 10 : 7);
-      dot.setAttribute('fill', colors[i % colors.length]);
-      dot.setAttribute('stroke', '#fff');
-      dot.setAttribute('stroke-width', '3');
-      svg.appendChild(dot);
-    }
+  // Кнопка "Готово"
+  var btnFinish = document.getElementById('btn-wheel-finish');
+  if (btnFinish) {
+    btnFinish.addEventListener('click', function() {
+      addScore(3);
+      // Инициализируем ползунки для экрана 15
+      initImportanceSliders();
+      showScreen('screen-15');
+    });
+  }
 
-    var labelR = R + 32;
-    var lx = cx + labelR * Math.cos(angle);
-    var ly = cy + labelR * Math.sin(angle);
-    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', lx);
-    text.setAttribute('y', ly);
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('dominant-baseline', 'middle');
-    text.setAttribute('font-size', '16');
-    text.setAttribute('font-weight', activeIdx === i ? '700' : '600');
-    text.setAttribute('fill', activeIdx === i ? '#a855f7' : '#475569');
-    text.textContent = segments[i];
-    svg.appendChild(text);
+  // Первый рендер
+  renderWheel('wheelSvg', state.wheel.values, currentIndex);
+  renderButtons();
+}
+
+// ===== Экран 15: Ползунки важности =====
+function initImportanceSliders() {
+  var container = document.getElementById('importance-sliders');
+  if (!container) return;
+
+  var segments = state.wheel.segments;
+  container.innerHTML = '';
+
+  segments.forEach(function(seg, i) {
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'margin-bottom:10px;';
+
+    var label = document.createElement('div');
+    label.style.cssText = 'display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#475569;margin-bottom:4px;';
+    label.innerHTML = '<span>' + seg + '</span><span id="imp-val-' + i + '">' + state.wheel.importance[i] + '</span>';
+
+    var slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = 1;
+    slider.max = 10;
+    slider.value = state.wheel.importance[i];
+    slider.style.cssText = 'width:100%;accent-color:#a855f7;';
+    slider.addEventListener('input', function() {
+      state.wheel.importance[i] = parseInt(slider.value);
+      var valEl = document.getElementById('imp-val-' + i);
+      if (valEl) valEl.textContent = slider.value;
+    });
+
+    wrap.appendChild(label);
+    wrap.appendChild(slider);
+    container.appendChild(wrap);
+  });
+
+  // Кнопка расчёта приоритетов
+  var btnCalc = document.getElementById('btn-calc-priority');
+  if (btnCalc) {
+    // Сбрасываем старый обработчик
+    var newBtn = btnCalc.cloneNode(true);
+    btnCalc.parentNode.replaceChild(newBtn, btnCalc);
+    newBtn.addEventListener('click', function() {
+      var segments = state.wheel.segments;
+      var scores = segments.map(function(seg, i) {
+        var contacts = state.wheel.values[i] || 0;
+        var importance = state.wheel.importance[i] || 5;
+        // Приоритет = высокая важность + мало контактов
+        return { seg: seg, score: importance * (10 - contacts) };
+      });
+      scores.sort(function(a, b) { return b.score - a.score; });
+      var top = scores.slice(0, 2).map(function(s) { return s.seg; }).join(', ');
+      var topEl = document.getElementById('top-sectors');
+      if (topEl) topEl.textContent = top;
+      var resultEl = document.getElementById('priority-result');
+      if (resultEl) resultEl.style.display = 'block';
+
+      addScore(2);
+
+      // Показываем кнопку перехода на screen-16
+      var actionsRow = document.querySelector('#screen-15 .actions-row');
+      if (actionsRow) {
+        var existBtn = actionsRow.querySelector('[data-next="screen-16"]');
+        if (!existBtn) {
+          var nextBtn = document.createElement('button');
+          nextBtn.className = 'btn';
+          nextBtn.textContent = 'Продолжить →';
+          nextBtn.setAttribute('data-next', 'screen-16');
+          nextBtn.addEventListener('click', function() {
+            showScreen('screen-16');
+          });
+          actionsRow.appendChild(nextBtn);
+        }
+      }
+    });
   }
 }
 
