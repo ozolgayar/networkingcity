@@ -1530,7 +1530,7 @@ function initWheel() {
 
 // ===== Экран 15: Ползунки важности =====
 function initImportanceSliders() {
-  var container = document.getElementById('importance-sliders');
+  var container = document.getElementById('priority-sliders');
   if (!container) return;
 
   var segments = state.wheel.segments;
