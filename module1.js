@@ -1244,7 +1244,7 @@ function renderWheel(svgId, values, activeIndex) {
   var cy     = size / 2;      // 250
   var R      = 185;           // внешний радиус сектора (max)
   var innerR = 38;            // внутренний круг
-  var labelR = R + 30;        // радиус подписей
+  var labelR = R + 26;        // радиус подписей
 
   svg.setAttribute('viewBox', '0 0 ' + size + ' ' + size);
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
@@ -1253,7 +1253,14 @@ function renderWheel(svgId, values, activeIndex) {
   svg.style.overflow = 'visible';
 
   svg.innerHTML = '';
-
+ 
+  svg.setAttribute('viewBox', '0 0 500 500');
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.style.overflow = 'visible';
+  svg.style.display  = 'block';
+  svg.style.width    = '100%';
+  svg.style.height   = '100%';
+  
   var colors = [
     '#6366f1',  // Карьера      — индиго
     '#22c55e',  // Образование  — зелёный
