@@ -1518,14 +1518,43 @@ function initWheel() {
     btnFinish.addEventListener('click', function() {
       addScore(3);
       // Инициализируем ползунки для экрана 15
-      initImportanceSliders();
-      showScreen('screen-15');
+            showScreen('screen-15');
+      initPrioritySliders();
     });
   }
 
   // Первый рендер
   renderWheel('wheelSvg', state.wheel.values, currentIndex);
   renderButtons();
+}
+
+function initPrioritySliders() {
+  var container = document.getElementById('priority-sliders');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  var segments = state.wheel.segments;
+
+  segments.forEach(function(seg) {
+    var row = document.createElement('div');
+    row.className = 'slider-row';
+    row.innerHTML =
+      '<div class="slider-label">' +
+        '<span>' + seg.name + '</span>' +
+        '<span class="slider-value" id="val-' + seg.name + '">5</span>' +
+      '</div>' +
+      '<input type="range" min="1" max="10" value="5"' +
+      '       data-seg="' + seg.name + '"' +
+      '       id="slider-' + seg.name + '">';
+
+    container.appendChild(row);
+
+    var input = row.querySelector('input');
+    input.addEventListener('input', function() {
+      document.getElementById('val-' + seg.name).textContent = this.value;
+    });
+  });
 }
 
 // ===== Экран 15: Ползунки важности =====
