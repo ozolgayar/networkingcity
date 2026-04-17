@@ -1513,16 +1513,16 @@ function initWheel() {
   }
 
   // Кнопка "Готово"
-  var btnFinish = document.getElementById('btn-wheel-finish');
-  if (btnFinish) {
-    btnFinish.addEventListener('click', function() {
-      addScore(3);
-      // Инициализируем ползунки для экрана 15
-            showScreen('screen-15');
-      initPrioritySliders();
-    });
-  }
-
+ var btnFinish = document.getElementById('btn-wheel-finish');
+if (btnFinish) {
+  btnFinish.addEventListener('click', function() {
+    addScore(3);
+    showScreen('screen-15');
+    setTimeout(function() {
+      initImportanceSliders(); // ← вызываем ПОСЛЕ перехода
+    }, 100);
+  });
+}
   // Первый рендер
   renderWheel('wheelSvg', state.wheel.values, currentIndex);
   renderButtons();
@@ -1535,17 +1535,15 @@ function initPrioritySliders() {
   container.innerHTML = '';
   var segments = state.wheel.segments;
 
-  segments.forEach(function(seg) {   // seg — это строка, не объект!
+  segments.forEach(function(seg) {
     var row = document.createElement('div');
     row.className = 'slider-row';
     row.innerHTML =
       '<div class="slider-label">' +
-        '<span>' + seg + '</span>' +          
+        '<span>' + seg + '</span>' +
         '<span class="slider-value" id="val-' + seg + '">5</span>' +
       '</div>' +
-      '<input type="range" min="1" max="10" value="5"' +
-      '       data-seg="' + seg + '"' +
-      '       id="slider-' + seg + '">';
+      '<input type="range" min="1" max="10" value="5" data-seg="' + seg + '" id="slider-' + seg + '">';
 
     container.appendChild(row);
 
@@ -1578,6 +1576,7 @@ function initImportanceSliders() {
     slider.min = 1;
     slider.max = 10;
     slider.value = state.wheel.importance[i];
+    slider.dataset.seg = seg;
     slider.style.cssText = 'width:100%;accent-color:#a855f7;';
     slider.addEventListener('input', function() {
       state.wheel.importance[i] = parseInt(slider.value);
@@ -1591,38 +1590,71 @@ function initImportanceSliders() {
   });
 
   // Кнопка расчёта приоритетов
-var btnCalc = document.getElementById('btn-calc-priorities');
+  var btnCalc = document.getElementById('btn-calc-priorities');
+  if (btnCalc) {
+    var newBtn = btnCalc.cloneNode(true);
+    btnCalc.parentNode.replaceChild(newBtn, btnCalc);
+    newBtn.addEventListener('click', function() {
+      var sliders = container.querySelectorAll('input[type="range"]');
+      var results = segments.map(function(seg, i) {
+        var s = container.querySelectorAll('input[type="range"]')[i];
+        var imp = s ? parseInt(s.value) : state.wheel.importance[i];
+        var val = state.wheel.values[i] || 0;
+        var gap = imp - val;
+        return { seg: seg, imp: imp, val: val, gap: gap };
+      });
 
-if (btnCalc) {
-  btnCalc.addEventListener('click', function() {
+      // Сортируем по разрыву
+      var sorted = results.slice().sort(function(a, b) { return b.gap - a.gap; });
 
-    // Собираем значения ползунков
-    var sliders = document.querySelectorAll('#priority-sliders input[type="range"]');
-    var priorities = {};
+      // Сохраняем
+      state.wheel.priorities = {};
+      results.forEach(function(r) {
+        state.wheel.priorities[r.seg] = r.imp;
+      });
 
-    sliders.forEach(function(slider) {
-      var segName = slider.dataset.seg;  // имя сферы из data-seg
-      priorities[segName] = parseInt(slider.value);
+      // Показываем результаты
+      var colors = ['#ef4444','#f59e0b','#22c55e','#38bdf8','#6366f1','#a855f7'];
+      var resultsHtml = sorted.map(function(r, idx) {
+        var color = colors[idx % colors.length];
+        var gapText = r.gap > 0 ? ('+' + r.gap) : String(r.gap);
+        var gapColor = r.gap > 0 ? '#ef4444' : '#22c55e';
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:6px;">' +
+          '<div style="width:24px;height:24px;border-radius:50%;background:' + color + ';color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + (idx+1) + '</div>' +
+          '<div style="flex:1;font-size:13px;font-weight:600;color:#1e293b;">' + r.seg + '</div>' +
+          '<div style="font-size:11px;color:#64748b;">важность: <b>' + r.imp + '</b> / сейчас: <b>' + r.val + '</b></div>' +
+          '<div style="font-size:12px;font-weight:700;color:' + gapColor + ';">' + gapText + '</div>' +
+        '</div>';
+      }).join('');
+
+      // Вставляем результаты после ползунков
+      var existing = document.getElementById('priority-results');
+      if (existing) existing.remove();
+
+      var resultsDiv = document.createElement('div');
+      resultsDiv.id = 'priority-results';
+      resultsDiv.innerHTML =
+        '<div style="margin-top:12px;">' +
+          '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:8px;">🎯 Твои приоритеты (по важности):</div>' +
+          resultsHtml +
+        '</div>';
+      container.parentNode.insertBefore(resultsDiv, container.nextSibling);
+
+      // Скрываем ползунки и кнопку
+      container.style.display = 'none';
+      newBtn.style.display = 'none';
+
+      // Показываем кнопку "Продолжить"
+      var btnNext = document.getElementById('btn-wheel-next');
+      if (btnNext) btnNext.style.display = 'inline-flex';
+
+      addScore(3);
     });
-
-    // Сохраняем в state
-    state.wheel.priorities = priorities;
-
-    // Показываем кнопку "Продолжить"
-    var btnNext = document.getElementById('btn-wheel-next');
-    if (btnNext) {
-      btnNext.style.display = 'block';
-    }
-
-    // Скрываем кнопку расчёта
-    btnCalc.style.display = 'none';
-
-    // Переходим на следующий экран с результатами
-    goTo('screen-16');  // ← поставь нужный номер экрана результатов
-  });
-}
   }
+} // ← ЗАКРЫВАЮЩАЯ СКОБКА — она была потеряна!
 
+// ===== Экран 16: Локации =====
+function initLocations() {
 // ===== Экран 16: Локации =====
 function initLocations() {
   var btns = document.querySelectorAll('.location-btn');
