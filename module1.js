@@ -119,7 +119,9 @@ function showScreen(id) {
     initImportanceSliders();  // ← добавь это
   }, 100);
 }
-  
+  if (id === 'screen-16') {
+  setTimeout(function() { initPeopleGame(); }, 50);
+}
   if (id === 'screen-16-1' && !window._locationsInited) {
     window._locationsInited = true;
     setTimeout(function() { initLocations(); }, 50);
@@ -1783,6 +1785,127 @@ function initImportanceSliders() {
   panel.appendChild(block);
 }
 // ===== Экран 16: Локации =====
+function initPeopleGame() {
+  var pool   = document.getElementById('people-pool');
+  var target = document.getElementById('people-target');
+  var counter = document.getElementById('people-counter');
+  var feedback = document.getElementById('people-feedback');
+  var btnPlan = document.getElementById('btn-people-plan');
+  var btnNext = document.querySelector('#screen-16 [data-next="screen-16-1"]');
+
+  if (!pool || !target) return;
+
+  // Если уже инициализировано — не дублировать
+  if (pool.dataset.inited) return;
+  pool.dataset.inited = '1';
+
+  // Данные человечков
+  var people = [
+    { id: 'p1', emoji: '👩‍💼', label: 'Коллега' },
+    { id: 'p2', emoji: '👨‍🔬', label: 'Учёный' },
+    { id: 'p3', emoji: '👩‍⚕️', label: 'Врач' },
+    { id: 'p4', emoji: '👨‍💻', label: 'IT-специалист' },
+    { id: 'p5', emoji: '👩‍🎓', label: 'Студент' },
+    { id: 'p6', emoji: '🧑‍🤝‍🧑', label: 'Партнёр' },
+    { id: 'p7', emoji: '👨‍🏫', label: 'Эксперт' },
+    { id: 'p8', emoji: '👩‍🚀', label: 'Новатор' }
+  ];
+
+  var inTarget = [];
+
+  // Генерируем человечков в пуле
+  people.forEach(function(p) {
+    var el = document.createElement('div');
+    el.className = 'person-avatar';
+    el.dataset.personId = p.id;
+    el.title = p.label;
+    el.style.cssText = [
+      'display:flex',
+      'flex-direction:column',
+      'align-items:center',
+      'gap:4px',
+      'cursor:pointer',
+      'transition:transform 0.2s ease',
+      'user-select:none',
+      'width:56px'
+    ].join(';');
+    el.innerHTML =
+      '<div style="font-size:36px; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));">' + p.emoji + '</div>' +
+      '<div style="font-size:10px; color:#64748b; font-weight:600; text-align:center; line-height:1.2;">' + p.label + '</div>';
+
+    el.addEventListener('mouseenter', function() {
+      el.style.transform = 'translateY(-6px) scale(1.12)';
+    });
+    el.addEventListener('mouseleave', function() {
+      if (!el.classList.contains('in-target')) {
+        el.style.transform = '';
+      }
+    });
+
+    el.addEventListener('click', function() {
+      if (el.classList.contains('in-target')) {
+        // Убираем из target
+        el.classList.remove('in-target');
+        el.style.transform = '';
+        el.style.opacity = '1';
+        pool.appendChild(el);
+        inTarget = inTarget.filter(function(x) { return x !== p.id; });
+      } else {
+        // Добавляем в target
+        el.classList.add('in-target');
+        target.appendChild(el);
+        inTarget.push(p.id);
+      }
+      updateCounter();
+    });
+
+    pool.appendChild(el);
+  });
+
+  function updateCounter() {
+    var count = inTarget.length;
+    if (counter) {
+      counter.textContent = count;
+      counter.style.color = count > 0 ? '#3b82f6' : '#94a3b8';
+    }
+  }
+
+  // Кнопка "Запланировать"
+  if (btnPlan) {
+    btnPlan.addEventListener('click', function() {
+      var count = inTarget.length;
+      if (count === 0) {
+        if (feedback) {
+          feedback.style.display = 'block';
+          feedback.textContent = '👆 Нажми на человечков выше, чтобы добавить их в план!';
+          feedback.style.color = '#f59e0b';
+        }
+        return;
+      }
+
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.style.color = '#166534';
+        feedback.innerHTML =
+          '✅ Отлично! Ты запланировал <strong>' + count + '</strong> знакомств' +
+          (count >= 5 ? ' — это очень амбициозно! 🔥' :
+           count >= 3 ? ' — хороший реалистичный план 👍' :
+           ' — начало положено!') +
+          '<br><span style="font-size:12px;color:#64748b;">Помни: качество важнее количества. Лучше 2–3 глубоких знакомства, чем 10 поверхностных.</span>';
+      }
+
+      addScore(2);
+      localStorage.setItem('nc_people_count', String(count));
+
+      // Показываем кнопку "Продолжить"
+      if (btnNext) {
+        btnNext.style.display = 'inline-flex';
+      }
+
+      btnPlan.style.display = 'none';
+    });
+  }
+}
 function initLocations() {
   var btns = document.querySelectorAll('.location-btn');
   var info = document.getElementById('location-info');
