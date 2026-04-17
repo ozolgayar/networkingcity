@@ -993,54 +993,244 @@ function renderBeadsStage() {
   }
 }
 
-// ===== Экран 13: Страхи =====
+// ===== Экран 13: Сними маски своих страхов =====
+var _fearsSelected = []; // глобально — передадим на 13-s
+
 function initFears() {
-  var fears = [
-    { text: 'Страх быть отвергнутым', icon: '😰' },
-    { text: 'Страх показаться навязчивым', icon: '😬' },
-    { text: 'Страх не знать, о чём говорить', icon: '🤐' },
-    { text: 'Страх провала', icon: '😨' },
-    { text: 'Страх оценки окружающих', icon: '👀' },
-    { text: 'Страх незнакомых людей', icon: '🙈' }
-  ];
+  var container = document.getElementById('fears-container');
+  var masks = document.querySelectorAll('#screen-13 .fear-mask');
+  var btnUnmask = document.getElementById('btn-unmask');
+  var btnNoFear = document.getElementById('btn-no-fear');
+  var validations = document.getElementById('fears-validations');
+  var validationsList = document.getElementById('fears-validation-list');
 
-  var grid = document.getElementById('fears-grid');
-  var btn = document.getElementById('btn-fears-done');
-  if (!grid || !btn) return;
+  if (!container || !masks.length) {
+    console.warn('initFears: элементы не найдены');
+    return;
+  }
 
-  grid.innerHTML = '';
-  var selected = [];
+  // Данные для каждой маски: валидация + подсказки для стратегии
+  var fearData = {
+    say: {
+      label: 'Не знаю, что сказать',
+      validation: '<strong>80% людей боятся того же.</strong> Даже опытные нетворкеры в первые минуты ищут, с чего начать разговор.',
+      hint: 'Заготовь 3 универсальных вопроса: «Как вам конференция?», «Что привело сюда?», «Откуда вы?»'
+    },
+    reject: {
+      label: 'Меня отвергнут',
+      validation: 'Отказ — это <strong>не про тебя, а про ситуацию</strong>. Человек может быть занят, устал, спешит. Это редко про твою личность.',
+      hint: 'Напомни себе: «Если не ответят — это не катастрофа. Подойду к следующему».'
+    },
+    worth: {
+      label: 'Я недостаточно важен(на)',
+      validation: 'Синдром самозванца — <strong>у 70% профессионалов</strong>. Даже у тех, кто кажется очень уверенным.',
+      hint: 'Вспомни 3 факта, за которые тебя ценят коллеги. Ты пришёл(ла) не «продавать себя», а обменяться пользой.'
+    },
+    incompetent: {
+      label: 'Покажусь некомпетентным',
+      validation: '<strong>Никто не знает всё.</strong> Профессионалы не боятся сказать «не знаю» — они умеют задавать хорошие вопросы.',
+      hint: 'Фраза-спасатель: «Интересно, расскажите подробнее — я не до конца разбираюсь в этой теме».'
+    },
+    pushy: {
+      label: 'Буду навязчивым',
+      validation: 'Если ты <strong>искренне интересуешься человеком</strong> — это не навязчивость, а внимание.',
+      hint: 'Правило 70/30: слушай больше, чем говоришь. Интересуйся другими — и ты точно не покажешься навязчивым.'
+    },
+    everyone: {
+      label: 'Все уже знают друг друга',
+      validation: 'Это <strong>иллюзия</strong>. На любом мероприятии минимум треть людей — такие же новички, как ты.',
+      hint: 'Ищи тех, кто стоит один с бокалом — им тоже не по себе, они будут рады разговору.'
+    },
+    awkward: {
+      label: 'Потом будет неловко',
+      validation: 'Неловкие моменты <strong>забываются через 10 минут</strong>. Люди помнят общее впечатление, а не детали.',
+      hint: 'Если случился неловкий момент — пошути над собой. Самоирония снимает напряжение мгновенно.'
+    },
+    custom: {
+      label: 'Свой вариант',
+      validation: 'Признать страх — <strong>уже половина победы</strong>. Ты молодец, что назвал(а) его своими словами.',
+      hint: 'Подумай: что самое худшее может случиться? И что ты сделаешь, если это случится?'
+    }
+  };
 
-  fears.forEach(function(fear, i) {
-    var card = document.createElement('div');
-    card.className = 'fear-card';
-    card.innerHTML = '<span class="fear-icon">' + fear.icon + '</span><span>' + fear.text + '</span>';
-    card.addEventListener('click', function() {
-      card.classList.toggle('selected');
-      if (card.classList.contains('selected')) {
-        selected.push(i);
+  _fearsSelected = [];
+
+  masks.forEach(function(mask) {
+    var fearId = mask.dataset.fear;
+    var customInput = mask.querySelector('.fear-custom-input');
+
+    mask.addEventListener('click', function(e) {
+      // Клик по input — не триггерим выбор (чтобы ввод не снимал выделение)
+      if (e.target.classList && e.target.classList.contains('fear-custom-input')) return;
+
+      // Если это «Свой вариант» — показываем поле ввода
+      if (fearId === 'custom') {
+        if (!mask.classList.contains('selected')) {
+          mask.classList.add('selected');
+          _fearsSelected.push(fearId);
+          if (customInput) {
+            customInput.style.display = 'block';
+            setTimeout(function() { customInput.focus(); }, 50);
+          }
+        } else {
+          mask.classList.remove('selected');
+          _fearsSelected = _fearsSelected.filter(function(x) { return x !== fearId; });
+          if (customInput) {
+            customInput.style.display = 'none';
+            customInput.value = '';
+          }
+        }
       } else {
-        selected = selected.filter(function(x) { return x !== i; });
+        mask.classList.toggle('selected');
+        if (mask.classList.contains('selected')) {
+          _fearsSelected.push(fearId);
+        } else {
+          _fearsSelected = _fearsSelected.filter(function(x) { return x !== fearId; });
+        }
       }
+
+      updateValidations();
+      updateButtons();
     });
-    grid.appendChild(card);
   });
 
-  btn.addEventListener('click', function() {
-    addScore(2);
-    showScreen('screen-13-s');
-  });
+  function updateValidations() {
+    if (!validations || !validationsList) return;
+    if (_fearsSelected.length === 0) {
+      validations.style.display = 'none';
+      validationsList.innerHTML = '';
+      return;
+    }
+    validations.style.display = 'block';
+    validationsList.innerHTML = _fearsSelected.map(function(id) {
+      var d = fearData[id];
+      if (!d) return '';
+      return '<div class="fears-validation-item" style="padding:10px 14px; border-radius:10px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.2); margin-bottom:8px; font-size:13px; line-height:1.5;">' +
+               '<strong style="color:#16a34a;">' + d.label + '</strong><br>' +
+               '<span style="color:#475569;">' + d.validation + '</span>' +
+             '</div>';
+    }).join('');
+  }
+
+  function updateButtons() {
+    if (btnUnmask) {
+      btnUnmask.style.display = _fearsSelected.length > 0 ? 'inline-block' : 'none';
+    }
+    if (btnNoFear) {
+      btnNoFear.style.display = _fearsSelected.length > 0 ? 'none' : 'inline-block';
+    }
+  }
+
+  if (btnUnmask) {
+    btnUnmask.addEventListener('click', function() {
+      if (_fearsSelected.length === 0) return;
+      // Сохраняем выбранные страхи + данные для 13-s
+      window._selectedFearsData = _fearsSelected.map(function(id) {
+        var d = fearData[id];
+        var customText = '';
+        if (id === 'custom') {
+          var inp = document.querySelector('.fear-mask[data-fear="custom"] .fear-custom-input');
+          customText = inp && inp.value ? inp.value.trim() : '';
+        }
+        return {
+          id: id,
+          label: customText || d.label,
+          hint: d.hint
+        };
+      });
+      addScore(2);
+      showScreen('screen-13-s');
+    });
+  }
+
+  if (btnNoFear) {
+    btnNoFear.addEventListener('click', function() {
+      // Нет страхов — пропускаем экран стратегий
+      window._selectedFearsData = [];
+      addScore(2);
+      showScreen('screen-13-1');
+    });
+  }
+
+  updateButtons();
 }
 
-// ===== Экран 13-s: Полноэкранный страх =====
+// ===== Экран 13-s: Стратегии по страхам =====
 function initFears13S() {
-  var btn = document.getElementById('btn-fears13s-next');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    showScreen('screen-13-1');
-  });
-}
+  var list = document.getElementById('fears-strategy-list');
+  var btnSave = document.getElementById('btn-fears-save');
+  var btnDone = document.getElementById('btn-fears-done');
+  var modal = document.getElementById('fears-modal');
 
+  if (!list) {
+    console.warn('initFears13S: список не найден');
+    return;
+  }
+
+  var fears = window._selectedFearsData || [];
+
+  // Если страхов нет — сразу на 13-1
+  if (fears.length === 0) {
+    showScreen('screen-13-1');
+    return;
+  }
+
+  // Восстанавливаем сохранённые стратегии
+  var saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem('nc_fear_strategies') || '{}');
+  } catch(e) { saved = {}; }
+
+  list.innerHTML = fears.map(function(f, i) {
+    var savedText = saved[f.id] || '';
+    return '<div class="fear-strategy-item" style="margin-bottom:16px; padding:14px 16px; border-radius:14px; background:#fff; border:1px solid #e2e8f0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">' +
+             '<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">' +
+               '<div style="width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#facc15,#f59e0b); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px;">' + (i+1) + '</div>' +
+               '<strong style="font-size:15px; color:#1e293b;">' + f.label + '</strong>' +
+             '</div>' +
+             '<div style="font-size:12px; color:#64748b; margin-bottom:6px; padding:8px 10px; border-radius:8px; background:rgba(56,189,248,0.08); border-left:3px solid #38bdf8;">💡 <strong>Подсказка:</strong> ' + f.hint + '</div>' +
+             '<textarea data-fear-id="' + f.id + '" placeholder="Напиши свою стратегию..." style="width:100%; min-height:70px; padding:10px 12px; border-radius:10px; border:1px solid #e2e8f0; font-family:inherit; font-size:13px; line-height:1.5; resize:vertical; box-sizing:border-box;">' + savedText + '</textarea>' +
+           '</div>';
+  }).join('');
+
+  if (btnSave) {
+    var newSave = btnSave.cloneNode(true);
+    btnSave.parentNode.replaceChild(newSave, btnSave);
+    newSave.addEventListener('click', function() {
+      var data = {};
+      list.querySelectorAll('textarea[data-fear-id]').forEach(function(ta) {
+        data[ta.dataset.fearId] = ta.value.trim();
+      });
+      localStorage.setItem('nc_fear_strategies', JSON.stringify(data));
+      newSave.textContent = '✅ Сохранено';
+      setTimeout(function() { newSave.innerHTML = '💾 Сохранить'; }, 1500);
+    });
+  }
+
+  if (btnDone) {
+    var newDone = btnDone.cloneNode(true);
+    btnDone.parentNode.replaceChild(newDone, btnDone);
+    newDone.addEventListener('click', function() {
+      // Проверка, что заполнены все
+      var allFilled = true;
+      list.querySelectorAll('textarea[data-fear-id]').forEach(function(ta) {
+        if (!ta.value.trim()) allFilled = false;
+      });
+      if (!allFilled) {
+        alert('Напиши стратегию для каждого страха — это важный шаг!');
+        return;
+      }
+      // Сохраняем
+      var data = {};
+      list.querySelectorAll('textarea[data-fear-id]').forEach(function(ta) {
+        data[ta.dataset.fearId] = ta.value.trim();
+      });
+      localStorage.setItem('nc_fear_strategies', JSON.stringify(data));
+      addScore(3);
+      if (modal) modal.classList.add('active');
+    });
+  }
+}
 // ===== Экран 13-1: Карточка Златы 2 =====
 function initZlataCard2() {
   var btn = document.getElementById('btn-zlata2-next');
