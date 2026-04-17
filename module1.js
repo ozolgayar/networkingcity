@@ -1562,47 +1562,37 @@ function initImportanceSliders() {
   });
 
   // Кнопка расчёта приоритетов
-  var btnCalc = document.getElementById('btn-calc-priority');
-  if (btnCalc) {
-    // Сбрасываем старый обработчик
-    var newBtn = btnCalc.cloneNode(true);
-    btnCalc.parentNode.replaceChild(newBtn, btnCalc);
-    newBtn.addEventListener('click', function() {
-      var segments = state.wheel.segments;
-      var scores = segments.map(function(seg, i) {
-        var contacts = state.wheel.values[i] || 0;
-        var importance = state.wheel.importance[i] || 5;
-        // Приоритет = высокая важность + мало контактов
-        return { seg: seg, score: importance * (10 - contacts) };
-      });
-      scores.sort(function(a, b) { return b.score - a.score; });
-      var top = scores.slice(0, 2).map(function(s) { return s.seg; }).join(', ');
-      var topEl = document.getElementById('top-sectors');
-      if (topEl) topEl.textContent = top;
-      var resultEl = document.getElementById('priority-result');
-      if (resultEl) resultEl.style.display = 'block';
+var btnCalc = document.getElementById('btn-calc-priorities');
 
-      addScore(2);
+if (btnCalc) {
+  btnCalc.addEventListener('click', function() {
 
-      // Показываем кнопку перехода на screen-16
-      var actionsRow = document.querySelector('#screen-15 .actions-row');
-      if (actionsRow) {
-        var existBtn = actionsRow.querySelector('[data-next="screen-16"]');
-        if (!existBtn) {
-          var nextBtn = document.createElement('button');
-          nextBtn.className = 'btn';
-          nextBtn.textContent = 'Продолжить →';
-          nextBtn.setAttribute('data-next', 'screen-16');
-          nextBtn.addEventListener('click', function() {
-            showScreen('screen-16');
-          });
-          actionsRow.appendChild(nextBtn);
-        }
-      }
+    // Собираем значения ползунков
+    var sliders = document.querySelectorAll('#priority-sliders input[type="range"]');
+    var priorities = {};
+
+    sliders.forEach(function(slider) {
+      var segName = slider.dataset.seg;  // имя сферы из data-seg
+      priorities[segName] = parseInt(slider.value);
     });
-  }
-}
 
+    // Сохраняем в state
+    state.wheel.priorities = priorities;
+
+    // Показываем кнопку "Продолжить"
+    var btnNext = document.getElementById('btn-wheel-next');
+    if (btnNext) {
+      btnNext.style.display = 'block';
+    }
+
+    // Скрываем кнопку расчёта
+    btnCalc.style.display = 'none';
+
+    // Переходим на следующий экран с результатами
+    goTo('screen-16');  // ← поставь нужный номер экрана результатов
+  });
+}
+  
 // ===== Экран 16: Локации =====
 function initLocations() {
   var btns = document.querySelectorAll('.location-btn');
