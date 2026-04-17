@@ -119,7 +119,7 @@ function showScreen(id) {
     initImportanceSliders();  // ← добавь это
   }, 100);
 }
-  }
+  
   if (id === 'screen-16-1' && !window._locationsInited) {
     window._locationsInited = true;
     setTimeout(function() { initLocations(); }, 50);
