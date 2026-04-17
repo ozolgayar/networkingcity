@@ -1231,6 +1231,132 @@ function initFears13S() {
 }
 
 // ===== Экран 14: Колесо баланса =====
+function renderWheel(svgId, values, activeIndex) {
+  var svg = document.getElementById(svgId);
+  if (!svg) return;
+
+  var segments = state.wheel.segments;
+  var N = segments.length;
+  var cx = 280, cy = 280, R = 240, innerR = 40;
+  var angleStep = (2 * Math.PI) / N;
+
+  svg.innerHTML = '';
+
+  // Цвета секторов
+  var colors = ['#a855f7','#22c55e','#38bdf8','#f59e0b','#ef4444','#6366f1'];
+
+  for (var i = 0; i < N; i++) {
+    var startAngle = i * angleStep - Math.PI / 2;
+    var endAngle = startAngle + angleStep;
+    var val = values[i] || 0;
+    var ratio = val / 10;
+    var rOuter = innerR + (R - innerR) * ratio;
+    if (rOuter < innerR + 4) rOuter = innerR + 4;
+
+    // Координаты сектора
+    var x1 = cx + Math.cos(startAngle) * innerR;
+    var y1 = cy + Math.sin(startAngle) * innerR;
+    var x2 = cx + Math.cos(startAngle) * rOuter;
+    var y2 = cy + Math.sin(startAngle) * rOuter;
+    var x3 = cx + Math.cos(endAngle) * rOuter;
+    var y3 = cy + Math.sin(endAngle) * rOuter;
+    var x4 = cx + Math.cos(endAngle) * innerR;
+    var y4 = cy + Math.sin(endAngle) * innerR;
+
+    var largeArc = angleStep > Math.PI ? 1 : 0;
+
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    var d = [
+      'M', x1, y1,
+      'L', x2, y2,
+      'A', rOuter, rOuter, 0, largeArc, 1, x3, y3,
+      'L', x4, y4,
+      'A', innerR, innerR, 0, largeArc, 0, x1, y1,
+      'Z'
+    ].join(' ');
+    path.setAttribute('d', d);
+
+    var color = colors[i % colors.length];
+    var isActive = (i === activeIndex);
+    path.setAttribute('fill', color);
+    path.setAttribute('fill-opacity', isActive ? '0.95' : (val > 0 ? '0.7' : '0.15'));
+    path.setAttribute('stroke', '#fff');
+    path.setAttribute('stroke-width', isActive ? '3' : '1.5');
+    svg.appendChild(path);
+
+    // Сетка (кольца)
+    if (i === 0) {
+      for (var ring = 1; ring <= 10; ring++) {
+        var ringR = innerR + (R - innerR) * (ring / 10);
+        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', ringR);
+        circle.setAttribute('fill', 'none');
+        circle.setAttribute('stroke', 'rgba(255,255,255,0.2)');
+        circle.setAttribute('stroke-width', '1');
+        svg.insertBefore(circle, svg.firstChild);
+      }
+    }
+
+    // Линии-разделители
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx + Math.cos(startAngle) * innerR);
+    line.setAttribute('y1', cy + Math.sin(startAngle) * innerR);
+    line.setAttribute('x2', cx + Math.cos(startAngle) * R);
+    line.setAttribute('y2', cy + Math.sin(startAngle) * R);
+    line.setAttribute('stroke', 'rgba(255,255,255,0.5)');
+    line.setAttribute('stroke-width', '1.5');
+    svg.appendChild(line);
+
+    // Подписи секторов
+    var labelAngle = startAngle + angleStep / 2;
+    var labelR = R + 22;
+    var lx = cx + Math.cos(labelAngle) * labelR;
+    var ly = cy + Math.sin(labelAngle) * labelR;
+
+    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', lx);
+    text.setAttribute('y', ly);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'middle');
+    text.setAttribute('font-size', '13');
+    text.setAttribute('font-weight', isActive ? '700' : '500');
+    text.setAttribute('fill', isActive ? colors[i] : '#475569');
+    text.textContent = segments[i];
+    svg.appendChild(text);
+
+    // Значение в секторе (если > 0)
+    if (val > 0) {
+      var valAngle = startAngle + angleStep / 2;
+      var valR2 = innerR + (rOuter - innerR) / 2;
+      var vx = cx + Math.cos(valAngle) * valR2;
+      var vy = cy + Math.sin(valAngle) * valR2;
+
+      var valText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      valText.setAttribute('x', vx);
+      valText.setAttribute('y', vy);
+      valText.setAttribute('text-anchor', 'middle');
+      valText.setAttribute('dominant-baseline', 'middle');
+      valText.setAttribute('font-size', '14');
+      valText.setAttribute('font-weight', '700');
+      valText.setAttribute('fill', '#fff');
+      valText.textContent = val;
+      svg.appendChild(valText);
+    }
+  }
+
+  // Центральный круг
+  var centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  centerCircle.setAttribute('cx', cx);
+  centerCircle.setAttribute('cy', cy);
+  centerCircle.setAttribute('r', innerR);
+  centerCircle.setAttribute('fill', '#fff');
+  centerCircle.setAttribute('stroke', '#e2e8f0');
+  centerCircle.setAttribute('stroke-width', '2');
+  svg.appendChild(centerCircle);
+}
+
 function initWheel() {
   var segments = state.wheel.segments;
   var N = segments.length;
