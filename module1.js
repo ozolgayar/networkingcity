@@ -1237,35 +1237,83 @@ function renderWheel(svgId, values, activeIndex) {
 
   var segments = state.wheel.segments;
   var N = segments.length;
-  var cx = 280, cy = 280, R = 240, innerR = 40;
-  var angleStep = (2 * Math.PI) / N;
+
+  // Размеры — через viewBox, адаптивные
+  var size   = 500;           // viewBox size
+  var cx     = size / 2;      // 250
+  var cy     = size / 2;      // 250
+  var R      = 185;           // внешний радиус сектора (max)
+  var innerR = 38;            // внутренний круг
+  var labelR = R + 30;        // радиус подписей
+
+  svg.setAttribute('viewBox', '0 0 ' + size + ' ' + size);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.style.width  = '100%';
+  svg.style.height = '100%';
+  svg.style.overflow = 'visible';
 
   svg.innerHTML = '';
 
-  // Цвета секторов
-  var colors = ['#a855f7','#22c55e','#38bdf8','#f59e0b','#ef4444','#6366f1'];
+  var colors = [
+    '#6366f1',  // Карьера      — индиго
+    '#22c55e',  // Образование  — зелёный
+    '#38bdf8',  // Хобби        — голубой
+    '#f59e0b',  // Личные проекты — жёлтый
+    '#ef4444',  // Финансы      — красный
+    '#a855f7'   // Здоровье     — фиолетовый
+  ];
 
+  var angleStep = (2 * Math.PI) / N;
+
+  // --- Кольца-сетка (фон) ---
+  for (var ring = 1; ring <= 10; ring++) {
+    var ringR = innerR + (R - innerR) * (ring / 10);
+    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', ringR);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', 'rgba(203,213,225,0.5)');
+    circle.setAttribute('stroke-width', ring % 5 === 0 ? '1.2' : '0.6');
+    svg.appendChild(circle);
+  }
+
+  // --- Линии-разделители (фон) ---
+  for (var i = 0; i < N; i++) {
+    var angle = i * angleStep - Math.PI / 2;
+    var lineEl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    lineEl.setAttribute('x1', cx + Math.cos(angle) * innerR);
+    lineEl.setAttribute('y1', cy + Math.sin(angle) * innerR);
+    lineEl.setAttribute('x2', cx + Math.cos(angle) * R);
+    lineEl.setAttribute('y2', cy + Math.sin(angle) * R);
+    lineEl.setAttribute('stroke', 'rgba(255,255,255,0.7)');
+    lineEl.setAttribute('stroke-width', '1.5');
+    svg.appendChild(lineEl);
+  }
+
+  // --- Секторы ---
   for (var i = 0; i < N; i++) {
     var startAngle = i * angleStep - Math.PI / 2;
-    var endAngle = startAngle + angleStep;
-    var val = values[i] || 0;
-    var ratio = val / 10;
-    var rOuter = innerR + (R - innerR) * ratio;
-    if (rOuter < innerR + 4) rOuter = innerR + 4;
+    var endAngle   = startAngle + angleStep;
+    var val        = values[i] || 0;
+    var ratio      = val / 10;
+    var rOuter     = innerR + (R - innerR) * ratio;
+    if (rOuter < innerR + 5) rOuter = innerR + 5;
 
-    // Координаты сектора
+    var largeArc = angleStep > Math.PI ? 1 : 0;
+    var isActive = (i === activeIndex);
+    var color    = colors[i % colors.length];
+
+    // Путь сектора
     var x1 = cx + Math.cos(startAngle) * innerR;
     var y1 = cy + Math.sin(startAngle) * innerR;
     var x2 = cx + Math.cos(startAngle) * rOuter;
     var y2 = cy + Math.sin(startAngle) * rOuter;
-    var x3 = cx + Math.cos(endAngle) * rOuter;
-    var y3 = cy + Math.sin(endAngle) * rOuter;
-    var x4 = cx + Math.cos(endAngle) * innerR;
-    var y4 = cy + Math.sin(endAngle) * innerR;
+    var x3 = cx + Math.cos(endAngle)   * rOuter;
+    var y3 = cy + Math.sin(endAngle)   * rOuter;
+    var x4 = cx + Math.cos(endAngle)   * innerR;
+    var y4 = cy + Math.sin(endAngle)   * innerR;
 
-    var largeArc = angleStep > Math.PI ? 1 : 0;
-
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     var d = [
       'M', x1, y1,
       'L', x2, y2,
@@ -1274,84 +1322,103 @@ function renderWheel(svgId, values, activeIndex) {
       'A', innerR, innerR, 0, largeArc, 0, x1, y1,
       'Z'
     ].join(' ');
-    path.setAttribute('d', d);
 
-    var color = colors[i % colors.length];
-    var isActive = (i === activeIndex);
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
     path.setAttribute('fill', color);
-    path.setAttribute('fill-opacity', isActive ? '0.95' : (val > 0 ? '0.7' : '0.15'));
-    path.setAttribute('stroke', '#fff');
+    path.setAttribute('fill-opacity', isActive ? '0.95' : (val > 0 ? '0.75' : '0.12'));
+    path.setAttribute('stroke', '#ffffff');
     path.setAttribute('stroke-width', isActive ? '3' : '1.5');
+    if (isActive) {
+      path.setAttribute('filter', 'drop-shadow(0 0 6px ' + color + '80)');
+    }
     svg.appendChild(path);
 
-    // Сетка (кольца)
-    if (i === 0) {
-      for (var ring = 1; ring <= 10; ring++) {
-        var ringR = innerR + (R - innerR) * (ring / 10);
-        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', cx);
-        circle.setAttribute('cy', cy);
-        circle.setAttribute('r', ringR);
-        circle.setAttribute('fill', 'none');
-        circle.setAttribute('stroke', 'rgba(255,255,255,0.2)');
-        circle.setAttribute('stroke-width', '1');
-        svg.insertBefore(circle, svg.firstChild);
-      }
-    }
-
-    // Линии-разделители
-    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', cx + Math.cos(startAngle) * innerR);
-    line.setAttribute('y1', cy + Math.sin(startAngle) * innerR);
-    line.setAttribute('x2', cx + Math.cos(startAngle) * R);
-    line.setAttribute('y2', cy + Math.sin(startAngle) * R);
-    line.setAttribute('stroke', 'rgba(255,255,255,0.5)');
-    line.setAttribute('stroke-width', '1.5');
-    svg.appendChild(line);
-
-    // Подписи секторов
-    var labelAngle = startAngle + angleStep / 2;
-    var labelR = R + 22;
-    var lx = cx + Math.cos(labelAngle) * labelR;
-    var ly = cy + Math.sin(labelAngle) * labelR;
-
-    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', lx);
-    text.setAttribute('y', ly);
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('dominant-baseline', 'middle');
-    text.setAttribute('font-size', '13');
-    text.setAttribute('font-weight', isActive ? '700' : '500');
-    text.setAttribute('fill', isActive ? colors[i] : '#475569');
-    text.textContent = segments[i];
-    svg.appendChild(text);
-
-    // Значение в секторе (если > 0)
+    // Значение внутри сектора
     if (val > 0) {
-      var valAngle = startAngle + angleStep / 2;
-      var valR2 = innerR + (rOuter - innerR) / 2;
-      var vx = cx + Math.cos(valAngle) * valR2;
-      var vy = cy + Math.sin(valAngle) * valR2;
+      var midAngle = startAngle + angleStep / 2;
+      var valR     = innerR + (rOuter - innerR) * 0.55;
+      var vx = cx + Math.cos(midAngle) * valR;
+      var vy = cy + Math.sin(midAngle) * valR;
 
       var valText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       valText.setAttribute('x', vx);
       valText.setAttribute('y', vy);
       valText.setAttribute('text-anchor', 'middle');
-      valText.setAttribute('dominant-baseline', 'middle');
-      valText.setAttribute('font-size', '14');
+      valText.setAttribute('dominant-baseline', 'central');
+      valText.setAttribute('font-size', rOuter - innerR > 30 ? '15' : '12');
       valText.setAttribute('font-weight', '700');
-      valText.setAttribute('fill', '#fff');
+      valText.setAttribute('fill', '#ffffff');
+      valText.setAttribute('pointer-events', 'none');
       valText.textContent = val;
       svg.appendChild(valText);
     }
   }
 
-  // Центральный круг
+  // --- Подписи секторов ---
+  for (var i = 0; i < N; i++) {
+    var midAngle   = (i * angleStep - Math.PI / 2) + angleStep / 2;
+    var isActive   = (i === activeIndex);
+    var color      = colors[i % colors.length];
+
+    var lx = cx + Math.cos(midAngle) * labelR;
+    var ly = cy + Math.sin(midAngle) * labelR;
+
+    // Выравнивание по горизонтали
+    var anchor = 'middle';
+    var cosA = Math.cos(midAngle);
+    if (cosA > 0.3)  anchor = 'start';
+    if (cosA < -0.3) anchor = 'end';
+
+    var label = segments[i];
+
+    // Разбить длинное слово (> 8 символов) на строки
+    var words = label.split(' ');
+    var line1 = '', line2 = '';
+    if (words.length > 1) {
+      line1 = words[0];
+      line2 = words.slice(1).join(' ');
+    } else {
+      line1 = label;
+    }
+
+    var textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textEl.setAttribute('text-anchor', anchor);
+    textEl.setAttribute('font-size', isActive ? '13' : '12');
+    textEl.setAttribute('font-weight', isActive ? '700' : '500');
+    textEl.setAttribute('fill', isActive ? color : '#475569');
+    textEl.setAttribute('pointer-events', 'none');
+
+    if (line2) {
+      // Две строки
+      var tspan1 = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+      tspan1.setAttribute('x', lx);
+      tspan1.setAttribute('y', ly - 7);
+      tspan1.textContent = line1;
+
+      var tspan2 = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+      tspan2.setAttribute('x', lx);
+      tspan2.setAttribute('dy', '15');
+      tspan2.textContent = line2;
+
+      textEl.appendChild(tspan1);
+      textEl.appendChild(tspan2);
+    } else {
+      textEl.setAttribute('x', lx);
+      textEl.setAttribute('y', ly);
+      textEl.setAttribute('dominant-baseline', 'central');
+      textEl.textContent = line1;
+    }
+
+    svg.appendChild(textEl);
+  }
+
+  // --- Центральный круг ---
   var centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   centerCircle.setAttribute('cx', cx);
   centerCircle.setAttribute('cy', cy);
   centerCircle.setAttribute('r', innerR);
-  centerCircle.setAttribute('fill', '#fff');
+  centerCircle.setAttribute('fill', '#ffffff');
   centerCircle.setAttribute('stroke', '#e2e8f0');
   centerCircle.setAttribute('stroke-width', '2');
   svg.appendChild(centerCircle);
