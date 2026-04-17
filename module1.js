@@ -1230,112 +1230,108 @@ function initFears13S() {
   }
 }
 
-// ===== Экран 14: Колесо =====
 // ===== Экран 14: Колесо баланса =====
-function initWheel() {
-  var svg = document.getElementById('wheelSvg');
-  var segNameEl = document.getElementById('current-seg-name');
-  var levelBtnsWrap = document.getElementById('seg-level-buttons');
-  var btnReset = document.getElementById('btn-wheel-reset');
-  var btnFinish = document.getElementById('btn-wheel-finish');
-
-  if (!svg || !levelBtnsWrap) {
-    console.warn('initWheel: элементы не найдены');
-    return;
-  }
+function renderWheel(svgId, values, activeIdx) {
+  var svg = document.getElementById(svgId);
+  if (!svg) return;
 
   var segments = state.wheel.segments;
-  var values = state.wheel.values;
   var N = segments.length;
+  var cx = 280, cy = 280, R = 220;
+  var angleStep = (2 * Math.PI) / N;
+  var colors = ['#a855f7','#38bdf8','#22c55e','#f59e0b','#ef4444','#ec4899'];
 
-  // Сбрасываем оценки при входе
-  state.wheel.currentIndex = 0;
-  for (var i = 0; i < N; i++) values[i] = 0;
+  svg.setAttribute('viewBox', '0 0 560 560');
+  svg.innerHTML = '';
 
-  renderWheel('wheelSvg', values, state.wheel.currentIndex);
-  renderLevelButtons();
-  updateSegName();
-
-  function updateSegName() {
-    if (segNameEl) {
-      if (state.wheel.currentIndex < N) {
-        segNameEl.textContent = segments[state.wheel.currentIndex];
-      } else {
-        segNameEl.textContent = 'Все сферы оценены ✓';
-      }
-    }
+  // Фоновые секторы
+  for (var i = 0; i < N; i++) {
+    var startAngle = i * angleStep - Math.PI / 2;
+    var endAngle = startAngle + angleStep;
+    var x1 = cx + R * Math.cos(startAngle);
+    var y1 = cy + R * Math.sin(startAngle);
+    var x2 = cx + R * Math.cos(endAngle);
+    var y2 = cy + R * Math.sin(endAngle);
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M ' + cx + ' ' + cy + ' L ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 0 1 ' + x2 + ' ' + y2 + ' Z');
+    path.setAttribute('fill', colors[i % colors.length]);
+    path.setAttribute('opacity', activeIdx === i ? '0.3' : '0.15');
+    svg.appendChild(path);
   }
 
-  function renderLevelButtons() {
-    levelBtnsWrap.innerHTML = '';
-    if (state.wheel.currentIndex >= N) {
-      // Все сферы оценены — показываем кнопку «Готово»
-      if (btnFinish) btnFinish.style.display = 'inline-block';
-      if (btnReset)  btnReset.style.display = 'inline-block';
-      return;
-    }
-    for (var lvl = 1; lvl <= 10; lvl++) {
-      (function(level) {
-        var b = document.createElement('button');
-        b.className = 'seg-level-btn';
-        b.textContent = level;
-        b.style.cssText = 'width:32px;height:32px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-weight:600;color:#334155;transition:all 0.2s;';
-        b.addEventListener('mouseenter', function() {
-          b.style.background = '#a855f7';
-          b.style.color = '#fff';
-          b.style.borderColor = '#a855f7';
-        });
-        b.addEventListener('mouseleave', function() {
-          b.style.background = '#fff';
-          b.style.color = '#334155';
-          b.style.borderColor = '#cbd5e1';
-        });
-        b.addEventListener('click', function() {
-          values[state.wheel.currentIndex] = level;
-          renderWheel('wheelSvg', values, state.wheel.currentIndex);
-
-          // Переход к следующей сфере
-          state.wheel.currentIndex++;
-          updateSegName();
-          renderLevelButtons();
-
-          if (state.wheel.currentIndex >= N) {
-            // Все сферы оценены
-            renderWheel('wheelSvg', values, -1);
-            if (btnFinish) btnFinish.style.display = 'inline-block';
-          }
-        });
-        levelBtnsWrap.appendChild(b);
-      })(lvl);
-    }
+  // Концентрические круги
+  for (var r = 1; r <= 10; r++) {
+    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', R * r / 10);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', '#e2e8f0');
+    circle.setAttribute('stroke-width', '1');
+    svg.appendChild(circle);
   }
 
-  if (btnReset) {
-    var newReset = btnReset.cloneNode(true);
-    btnReset.parentNode.replaceChild(newReset, btnReset);
-    btnReset = newReset;
-    btnReset.style.display = 'none';
-    btnReset.addEventListener('click', function() {
-      state.wheel.currentIndex = 0;
-      for (var i = 0; i < N; i++) values[i] = 0;
-      renderWheel('wheelSvg', values, state.wheel.currentIndex);
-      updateSegName();
-      renderLevelButtons();
-      if (btnFinish) btnFinish.style.display = 'none';
-      btnReset.style.display = 'none';
-    });
+  // Линии-разделители
+  for (var i = 0; i < N; i++) {
+    var angle = i * angleStep - Math.PI / 2;
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx);
+    line.setAttribute('y1', cy);
+    line.setAttribute('x2', cx + R * Math.cos(angle));
+    line.setAttribute('y2', cy + R * Math.sin(angle));
+    line.setAttribute('stroke', '#cbd5e1');
+    line.setAttribute('stroke-width', '1.5');
+    svg.appendChild(line);
   }
 
-  if (btnFinish) {
-    var newFinish = btnFinish.cloneNode(true);
-    btnFinish.parentNode.replaceChild(newFinish, btnFinish);
-    btnFinish = newFinish;
-    btnFinish.style.display = 'none';
-    btnFinish.addEventListener('click', function() {
-      state.wheel.values = values;
-      addScore(3);
-      showScreen('screen-15');
-    });
+  // Полигон значений
+  var hasValues = values.some(function(v) { return v > 0; });
+  if (hasValues) {
+    var points = [];
+    for (var i = 0; i < N; i++) {
+      var angle = i * angleStep - Math.PI / 2;
+      var val = clamp(values[i] || 0, 0, 10);
+      var r2 = R * val / 10;
+      points.push((cx + r2 * Math.cos(angle)) + ',' + (cy + r2 * Math.sin(angle)));
+    }
+    var polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    polygon.setAttribute('points', points.join(' '));
+    polygon.setAttribute('fill', 'rgba(168,85,247,0.25)');
+    polygon.setAttribute('stroke', '#a855f7');
+    polygon.setAttribute('stroke-width', '3');
+    svg.appendChild(polygon);
+  }
+
+  // Точки и подписи
+  for (var i = 0; i < N; i++) {
+    var angle = i * angleStep - Math.PI / 2;
+    var val = clamp(values[i] || 0, 0, 10);
+
+    if (val > 0) {
+      var r2 = R * val / 10;
+      var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', cx + r2 * Math.cos(angle));
+      dot.setAttribute('cy', cy + r2 * Math.sin(angle));
+      dot.setAttribute('r', activeIdx === i ? 10 : 7);
+      dot.setAttribute('fill', colors[i % colors.length]);
+      dot.setAttribute('stroke', '#fff');
+      dot.setAttribute('stroke-width', '3');
+      svg.appendChild(dot);
+    }
+
+    var labelR = R + 32;
+    var lx = cx + labelR * Math.cos(angle);
+    var ly = cy + labelR * Math.sin(angle);
+    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', lx);
+    text.setAttribute('y', ly);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'middle');
+    text.setAttribute('font-size', '16');
+    text.setAttribute('font-weight', activeIdx === i ? '700' : '600');
+    text.setAttribute('fill', activeIdx === i ? '#a855f7' : '#475569');
+    text.textContent = segments[i];
+    svg.appendChild(text);
   }
 }
 
