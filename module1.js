@@ -34,7 +34,7 @@ const state = {
 // Порядок экранов
 const screenOrder = [
   'screen-1', 'screen-2', 'screen-3-0', 'screen-3', 'screen-10',
-  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-13-1', 'screen-14', 'screen-15',
+  'screen-11', 'screen-12', 'screen-13', 'screen-13-s','screen-14', 'screen-15',
   'screen-16', 'screen-16-1', 'screen-17', 'screen-17-1',
   'screen-19', 'screen-19-1',
   'screen-20', 'screen-20-1', 'screen-21', 'screen-21-0',
@@ -1148,7 +1148,7 @@ function initFears() {
       // Нет страхов — пропускаем экран стратегий
       window._selectedFearsData = [];
       addScore(2);
-      showScreen('screen-13-1');
+      showScreen('screen-14');
     });
   }
 
@@ -1171,7 +1171,7 @@ function initFears13S() {
 
   // Если страхов нет — сразу на 13-1
   if (fears.length === 0) {
-    showScreen('screen-13-1');
+    showScreen('screen-14');
     return;
   }
 
@@ -1231,6 +1231,7 @@ function initFears13S() {
     });
   }
 }
+
 // ===== Экран 13-1: Карточка Златы 2 =====
 function initZlataCard2() {
   var btn = document.getElementById('btn-zlata2-next');
