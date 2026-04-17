@@ -4692,13 +4692,11 @@ body:has(.screen-card.active) #app {
 }
 
 #screen-15 .scene-main {
-  flex: 1;
-  min-height: 0;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px 8px 8px;
+  overflow: hidden;
 }
 
 #screen-15 .scene-main svg {
@@ -4802,10 +4800,26 @@ body:has(.screen-card.active) #app {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 8px;
   padding: 16px 20px;
 }
-
+#screen-15 .sliders-block {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+/* Убираем всё лишнее из сцены экрана 15 */
+#screen-15 .scene > #sliders-instruction,
+#screen-15 .scene > #priority-sliders,
+#screen-15 .scene > #btn-calc-priorities {
+  display: none !important;
+}
+#btn-calc-priorities {
+  align-self: flex-start !important;
+  width: auto !important;
+  padding: 9px 20px !important;
+  font-size: 13px !important;
+}
 /* Ползунки — показываем всегда до расчёта */
 #priority-sliders {
    flex-shrink: 0;
