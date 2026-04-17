@@ -823,3 +823,12 @@
     padding-right: 32px !important;
   }
 }
+
+/* Убираем белую рамку и тень у экранов-карточек Златы */
+.screen.screen-card {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+}
