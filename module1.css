@@ -4574,3 +4574,42 @@ body:has(.screen-card.active) #app {
   border: none !important;
   background: none !important;
 }
+
+/* Drag & Drop бусин */
+.bead[draggable="true"] {
+  cursor: grab;
+  touch-action: none; /* отключить скролл при таче на бусине */
+}
+
+.bead[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.bead.dragging {
+  opacity: 0.4;
+  transform: scale(1.15);
+}
+
+.bead.used {
+  opacity: 0.25;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+
+.beads-target.drag-over {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 20px,
+      rgba(34,197,94,0.15) 20px,
+      rgba(34,197,94,0.15) 21px
+    ),
+    linear-gradient(180deg, rgba(220,252,231,0.8), rgba(187,247,208,0.6)) !important;
+  border-color: rgba(34,197,94,0.8) !important;
+  border-style: solid !important;
+}
+
+.bead.placed {
+  cursor: grab;
+}
