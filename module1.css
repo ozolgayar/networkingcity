@@ -4955,60 +4955,40 @@ body:has(.screen-card.active) #app {
   border-color: rgba(34, 197, 94, 0.6);
 }
 
-/* ===== ЭКРАН 16: кнопки одного размера ===== */
-#screen-16 .actions-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 12px;
-}
-
-#screen-16 .actions-row .btn {
-  padding: 12px 20px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  border-radius: 999px !important;
-  box-shadow: 0 4px 12px rgba(34,197,94,0.25) !important;
-}
-
-#screen-16 .actions-row .btn.secondary {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
-}
-
-/* Человечки — без подписей, только картинка */
-#people-pool .person-avatar div:last-child,
-#people-target .person-avatar div:last-child {
-  display: none !important;
-}
-
-#people-pool .person-avatar,
-#people-target .person-avatar {
-  width: 52px !important;
-}
-
-/* ===== ЭКРАН 16: кнопки одного размера в ряд ===== */
-#screen-16 .actions-row {
+/* ===== ЭКРАН 16: кнопки ===== */
+#screen-16-actions {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
   gap: 8px !important;
+  margin-top: 12px !important;
   flex-wrap: nowrap !important;
 }
 
-#screen-16 .actions-row .btn {
-  padding: 12px 20px !important;
+#screen-16-actions .btn {
+  padding: 11px 20px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   border-radius: 999px !important;
-  height: 44px !important;
+  height: 42px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   white-space: nowrap !important;
 }
 
-#screen-16 .actions-row .btn.secondary {
+#screen-16-actions .btn.secondary {
   background: #f1f5f9 !important;
   color: #475569 !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
+}
+
+/* Кнопка "Продолжить" скрыта по умолчанию */
+#btn-people-continue {
+  display: none !important;
+}
+
+/* Показывается только когда JS добавляет inline style */
+#btn-people-continue[style*="inline-flex"] {
+  display: inline-flex !important;
 }
