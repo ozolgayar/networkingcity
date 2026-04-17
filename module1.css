@@ -3779,8 +3779,6 @@ textarea {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
   height: 250px;
   background: linear-gradient(to top, rgba(15,23,42,0.6) 0%, transparent 100%);
   pointer-events: none;
@@ -4427,8 +4425,6 @@ background: transparent !important;
   overflow: hidden !important;
   top: 0 !important;
   bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
 }
 
 /* Картинка внутри обложки */
