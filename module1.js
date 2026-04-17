@@ -1479,7 +1479,7 @@ function initWheel() {
               var btnReset = document.getElementById('btn-wheel-reset');
               if (btnFinish) btnFinish.style.display = 'inline-block';
               if (btnReset) btnReset.style.display = 'inline-block';
-              container.innerHTML = '<span style="font-size:13px;color:#22c55e;font-weight:600;">✅ Все сферы оценены!</span>';
+              container.innerHTML = '<span style="font-size:13px;color:#6B7B90;font-weight:600;">✅ Все сферы оценены!</span>';
               var nameEl2 = document.getElementById('current-seg-name');
               if (nameEl2) nameEl2.textContent = 'Готово';
             }
