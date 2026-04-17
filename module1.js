@@ -1899,9 +1899,9 @@ var people = [
       localStorage.setItem('nc_people_count', String(count));
 
       // Показываем кнопку "Продолжить"
-      var btnContinue = document.getElementById('btn-people-continue');
+     var btnContinue = document.getElementById('btn-people-continue');
 if (btnContinue) {
-  btnContinue.style.display = 'inline-flex';
+  btnContinue.classList.add('visible');
 }
 
       btnPlan.style.display = 'none';
