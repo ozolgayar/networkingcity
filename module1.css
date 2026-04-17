@@ -4752,3 +4752,30 @@ body:has(.screen-card.active) #app {
 #screen-15 .actions-row .secondary-row .btn {
   flex: 1;
 }
+
+.slider-row {
+  margin-bottom: 10px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.slider-value {
+  font-weight: 700;
+  color: #7c3aed;
+  min-width: 16px;
+  text-align: right;
+}
+
+#priority-sliders input[type="range"] {
+  width: 100%;
+  accent-color: #a855f7;
+  height: 4px;
+  cursor: pointer;
+}
