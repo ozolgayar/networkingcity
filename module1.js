@@ -1567,13 +1567,35 @@ function initImportanceSliders() {
   var segments = state.wheel.segments;
   container.innerHTML = '';
 
+  // ===== Заголовок-инструкция =====
+  var instrEl = document.getElementById('sliders-instruction');
+  if (!instrEl) {
+    // Создаём и вставляем ПЕРЕД контейнером ползунков
+    instrEl = document.createElement('div');
+    instrEl.id = 'sliders-instruction';
+    instrEl.style.cssText = [
+      'font-size:13px',
+      'color:#475569',
+      'line-height:1.6',
+      'padding:10px 14px',
+      'border-radius:12px',
+      'background:rgba(168,85,247,0.06)',
+      'border:1px solid rgba(168,85,247,0.2)',
+      'margin-bottom:12px'
+    ].join(';');
+    instrEl.innerHTML = '📊 <strong>Насколько важна для тебя каждая сфера?</strong><br>' +
+      '<span style="font-size:12px;">Передвинь ползунок от <b>1</b> (не важна) до <b>10</b> (критически важна).</span>';
+    container.parentNode.insertBefore(instrEl, container);
+  }
+
+  // ===== Ползунки =====
   segments.forEach(function(seg, i) {
     var wrap = document.createElement('div');
     wrap.style.cssText = 'margin-bottom:10px;';
 
     var label = document.createElement('div');
     label.style.cssText = 'display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#475569;margin-bottom:4px;';
-    label.innerHTML = '<span>' + seg + '</span><span id="imp-val-' + i + '">' + state.wheel.importance[i] + '</span>';
+    label.innerHTML = '<span>' + seg + '</span><span id="imp-val-' + i + '" style="color:#a855f7;font-weight:700;">' + state.wheel.importance[i] + '</span>';
 
     var slider = document.createElement('input');
     slider.type = 'range';
@@ -1581,7 +1603,7 @@ function initImportanceSliders() {
     slider.max = 10;
     slider.value = state.wheel.importance[i];
     slider.dataset.seg = seg;
-    slider.style.cssText = 'width:100%;accent-color:#a855f7;';
+    slider.style.cssText = 'width:100%;accent-color:#a855f7;height:4px;cursor:pointer;';
     slider.addEventListener('input', function() {
       state.wheel.importance[i] = parseInt(slider.value);
       var valEl = document.getElementById('imp-val-' + i);
@@ -1593,31 +1615,51 @@ function initImportanceSliders() {
     container.appendChild(wrap);
   });
 
-  // Кнопка расчёта приоритетов
+  // ===== Кнопка расчёта =====
   var btnCalc = document.getElementById('btn-calc-priorities');
   if (btnCalc) {
     var newBtn = btnCalc.cloneNode(true);
     btnCalc.parentNode.replaceChild(newBtn, btnCalc);
+
+    // Перемещаем кнопку В панель (после контейнера ползунков)
+    container.parentNode.insertBefore(newBtn, container.nextSibling);
+
+    newBtn.style.cssText = [
+      'display:inline-flex',
+      'align-items:center',
+      'justify-content:center',
+      'width:100%',
+      'padding:12px 16px',
+      'border-radius:12px',
+      'border:none',
+      'cursor:pointer',
+      'font-size:14px',
+      'font-weight:700',
+      'background:linear-gradient(135deg,#a855f7,#7c3aed)',
+      'color:#fff',
+      'box-shadow:0 6px 20px rgba(168,85,247,0.35)',
+      'margin-top:8px',
+      'transition:transform 0.15s ease'
+    ].join(';');
+    newBtn.textContent = '📊 Рассчитать приоритеты';
+
     newBtn.addEventListener('click', function() {
       var sliders = container.querySelectorAll('input[type="range"]');
       var results = segments.map(function(seg, i) {
-        var s = container.querySelectorAll('input[type="range"]')[i];
+        var s = sliders[i];
         var imp = s ? parseInt(s.value) : state.wheel.importance[i];
         var val = state.wheel.values[i] || 0;
         var gap = imp - val;
         return { seg: seg, imp: imp, val: val, gap: gap };
       });
 
-      // Сортируем по разрыву
       var sorted = results.slice().sort(function(a, b) { return b.gap - a.gap; });
 
-      // Сохраняем
       state.wheel.priorities = {};
       results.forEach(function(r) {
         state.wheel.priorities[r.seg] = r.imp;
       });
 
-      // Показываем результаты
       var colors = ['#ef4444','#f59e0b','#22c55e','#38bdf8','#6366f1','#a855f7'];
       var resultsHtml = sorted.map(function(r, idx) {
         var color = colors[idx % colors.length];
@@ -1631,41 +1673,42 @@ function initImportanceSliders() {
         '</div>';
       }).join('');
 
-      // Вставляем результаты после ползунков
+      // Убираем инструкцию, ползунки и кнопку расчёта
+      if (instrEl) instrEl.style.display = 'none';
+      container.style.display = 'none';
+      newBtn.style.display = 'none';
+
+      // Вставляем результаты
       var existing = document.getElementById('priority-results');
       if (existing) existing.remove();
 
       var resultsDiv = document.createElement('div');
       resultsDiv.id = 'priority-results';
+      resultsDiv.style.cssText = 'margin-top:4px;overflow-y:auto;max-height:320px;';
       resultsDiv.innerHTML =
-        '<div style="margin-top:12px;">' +
-          '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:8px;">🎯 Твои приоритеты (по важности):</div>' +
-          resultsHtml +
-        '</div>';
-      container.parentNode.insertBefore(resultsDiv, container.nextSibling);
+        '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:8px;">🎯 Твои приоритеты (по важности):</div>' +
+        resultsHtml;
 
-      // Скрываем ползунки и кнопку
-      container.style.display = 'none';
-      newBtn.style.display = 'none';
+      // Вставляем результаты в панель
+      newBtn.parentNode.insertBefore(resultsDiv, newBtn.nextSibling);
 
       // Показываем кнопку "Продолжить"
-      var btnNext = document.getElementById('btn-wheel-next') 
-           || document.getElementById('btn-priorities-next');
-if (btnNext) {
-  btnNext.style.display = 'inline-flex';
-  // Вешаем обработчик только один раз
-  if (!btnNext.dataset.listenerAdded) {
-    btnNext.dataset.listenerAdded = '1';
-    btnNext.addEventListener('click', function() {
-      showScreen('screen-16');
-    });
-  }
-}
-     addScore(3);
-    });
-  }
-} // ← ЗАКРЫВАЮЩАЯ СКОБКА — она была потеряна!
+      var btnNext = document.getElementById('btn-wheel-next')
+                 || document.getElementById('btn-priorities-next');
+      if (btnNext) {
+        btnNext.style.display = 'inline-flex';
+        if (!btnNext.dataset.listenerAdded) {
+          btnNext.dataset.listenerAdded = '1';
+          btnNext.addEventListener('click', function() {
+            showScreen('screen-16');
+          });
+        }
+      }
 
+      addScore(3);
+    });
+  }
+} // ← закрытие initImportanceSliders
 
 // ===== Экран 16: Локации =====
 function initLocations() {
