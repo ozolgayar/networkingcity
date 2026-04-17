@@ -960,25 +960,38 @@ textarea {
 }
 
 .seg-level-buttons {
-  display: grid;
-  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .seg-level-buttons button {
-  padding: 4px 0;
-  font-size: 11px;
-  border-radius: 6px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
+  width: 36px;
+  height: 36px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
   color: var(--text-soft);
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.seg-level-buttons button:hover {
+  border-color: #a855f7;
+  background: rgba(168,85,247,0.08);
+  color: #7c3aed;
 }
 
 .seg-level-buttons button.active {
-  border-color: rgba(34, 197, 94, 0.9);
-  background: rgba(34, 197, 94, 0.15);
-  color: #166534;
+  border-color: #a855f7;
+  background: #a855f7;
+  color: #ffffff;
 }
+
 
 /* ===== БУСИНЫ ===== */
 .beads-wrapper {
