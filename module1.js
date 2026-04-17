@@ -1533,26 +1533,26 @@ function initPrioritySliders() {
   if (!container) return;
 
   container.innerHTML = '';
-
   var segments = state.wheel.segments;
 
-  segments.forEach(function(seg) {
+  segments.forEach(function(seg) {   // seg — это строка, не объект!
     var row = document.createElement('div');
     row.className = 'slider-row';
     row.innerHTML =
       '<div class="slider-label">' +
-        '<span>' + seg.name + '</span>' +
-        '<span class="slider-value" id="val-' + seg.name + '">5</span>' +
+        '<span>' + seg + '</span>' +          
+        '<span class="slider-value" id="val-' + seg + '">5</span>' +
       '</div>' +
       '<input type="range" min="1" max="10" value="5"' +
-      '       data-seg="' + seg.name + '"' +
-      '       id="slider-' + seg.name + '">';
+      '       data-seg="' + seg + '"' +
+      '       id="slider-' + seg + '">';
 
     container.appendChild(row);
 
     var input = row.querySelector('input');
     input.addEventListener('input', function() {
-      document.getElementById('val-' + seg.name).textContent = this.value;
+      var valEl = document.getElementById('val-' + seg);
+      if (valEl) valEl.textContent = this.value;
     });
   });
 }
@@ -1621,7 +1621,8 @@ if (btnCalc) {
     goTo('screen-16');  // ← поставь нужный номер экрана результатов
   });
 }
-  
+  }
+
 // ===== Экран 16: Локации =====
 function initLocations() {
   var btns = document.querySelectorAll('.location-btn');
