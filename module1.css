@@ -4467,3 +4467,8 @@ background: transparent !important;
   box-shadow: none !important;
   padding: 0 !important;
 }
+
+/* Скрываем кнопку "Назад" на экранах с карточкой Златы */
+.screen.screen-card .nav-back {
+  display: none !important;
+}
