@@ -1800,16 +1800,16 @@ function initPeopleGame() {
   pool.dataset.inited = '1';
 
   // Данные человечков
-  var people = [
-    { id: 'p1', emoji: '👩‍💼', label: 'Коллега' },
-    { id: 'p2', emoji: '👨‍🔬', label: 'Учёный' },
-    { id: 'p3', emoji: '👩‍⚕️', label: 'Врач' },
-    { id: 'p4', emoji: '👨‍💻', label: 'IT-специалист' },
-    { id: 'p5', emoji: '👩‍🎓', label: 'Студент' },
-    { id: 'p6', emoji: '🧑‍🤝‍🧑', label: 'Партнёр' },
-    { id: 'p7', emoji: '👨‍🏫', label: 'Эксперт' },
-    { id: 'p8', emoji: '👩‍🚀', label: 'Новатор' }
-  ];
+var people = [
+  { id: 'p1' },
+  { id: 'p2' },
+  { id: 'p3' },
+  { id: 'p4' },
+  { id: 'p5' },
+  { id: 'p6' },
+  { id: 'p7' },
+  { id: 'p8' }
+];
 
   var inTarget = [];
 
@@ -1830,8 +1830,9 @@ function initPeopleGame() {
       'width:56px'
     ].join(';');
     el.innerHTML =
-      '<div style="font-size:36px; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));">' + p.emoji + '</div>' +
-      '<div style="font-size:10px; color:#64748b; font-weight:600; text-align:center; line-height:1.2;">' + p.label + '</div>';
+  '<img src="https://i.ibb.co/cSz3DYGB/1.png" ' +
+  'style="width:48px; height:48px; object-fit:contain; ' +
+  'pointer-events:none; display:block;" alt="person">';
 
     el.addEventListener('mouseenter', function() {
       el.style.transform = 'translateY(-6px) scale(1.12)';
