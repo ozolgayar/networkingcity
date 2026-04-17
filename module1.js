@@ -701,6 +701,8 @@ function renderBeadsStage() {
   var feedback = document.getElementById('beads-feedback');
   var label = document.getElementById('beads-stage-label');
   var hint = document.getElementById('beads-hint');
+  var btnCheck = document.getElementById('beads-check');
+  var btnReset = document.getElementById('beads-reset');
 
   if (!stage || !pool || !target) {
     console.warn('renderBeadsStage: elements not found');
@@ -717,21 +719,47 @@ function renderBeadsStage() {
     if (d === state.beads.stage) dot.classList.add('active');
   }
 
+  // ===== ПОДСКАЗКА (первая буква + прочерки) =====
+  function buildHint(word) {
+    var chars = word.split('');
+    var result = chars.map(function(ch, i) {
+      return i === 0 ? ch : '_';
+    });
+    return result.join(' ');
+  }
+  if (hint) {
+    hint.textContent = buildHint(stage.word);
+    hint.style.fontFamily = 'monospace';
+    hint.style.fontSize = '18px';
+    hint.style.letterSpacing = '6px';
+  }
+
   var letters = shuffleArray(stage.word.split(''));
   pool.innerHTML = '';
   target.innerHTML = '';
   if (feedback) feedback.textContent = '';
-  if (hint) hint.textContent = 'Перетащи буквы вниз, чтобы собрать слово';
 
-  // Разрешаем drop в target
-  target.addEventListener('dragover', function(e) {
+  // Клонируем кнопки, чтобы сбросить старые обработчики
+  if (btnCheck) {
+    var newCheck = btnCheck.cloneNode(true);
+    btnCheck.parentNode.replaceChild(newCheck, btnCheck);
+    btnCheck = newCheck;
+  }
+  if (btnReset) {
+    var newReset = btnReset.cloneNode(true);
+    btnReset.parentNode.replaceChild(newReset, btnReset);
+    btnReset = newReset;
+  }
+
+  // ===== DROP в target =====
+  target.ondragover = function(e) {
     e.preventDefault();
     target.classList.add('drag-over');
-  });
-  target.addEventListener('dragleave', function() {
+  };
+  target.ondragleave = function() {
     target.classList.remove('drag-over');
-  });
-  target.addEventListener('drop', function(e) {
+  };
+  target.ondrop = function(e) {
     e.preventDefault();
     target.classList.remove('drag-over');
     var letter = e.dataTransfer.getData('text/plain');
@@ -741,13 +769,11 @@ function renderBeadsStage() {
     if (srcBead && !srcBead.classList.contains('used')) {
       placeBead(letter, srcBead);
     }
-  });
+  };
 
-  // Разрешаем drop обратно в pool (вернуть букву)
-  pool.addEventListener('dragover', function(e) {
-    e.preventDefault();
-  });
-  pool.addEventListener('drop', function(e) {
+  // DROP обратно в pool
+  pool.ondragover = function(e) { e.preventDefault(); };
+  pool.ondrop = function(e) {
     e.preventDefault();
     var fromTargetId = e.dataTransfer.getData('fromTargetId');
     if (fromTargetId) {
@@ -757,10 +783,9 @@ function renderBeadsStage() {
         var src = document.querySelector('.bead[data-bead-id="' + srcBeadId + '"]');
         if (src) src.classList.remove('used');
         slot.remove();
-        checkWord();
       }
     }
-  });
+  };
 
   letters.forEach(function(letter, idx) {
     var bead = document.createElement('div');
@@ -770,18 +795,13 @@ function renderBeadsStage() {
     bead.dataset.beadId = 'b' + idx;
     bead.dataset.letter = letter;
 
-    // ===== КЛИК =====
     bead.addEventListener('click', function() {
       if (bead.classList.contains('used')) return;
       placeBead(letter, bead);
     });
 
-    // ===== DRAG (мышь) =====
     bead.addEventListener('dragstart', function(e) {
-      if (bead.classList.contains('used')) {
-        e.preventDefault();
-        return;
-      }
+      if (bead.classList.contains('used')) { e.preventDefault(); return; }
       bead.classList.add('dragging');
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', letter);
@@ -791,9 +811,7 @@ function renderBeadsStage() {
       bead.classList.remove('dragging');
     });
 
-    // ===== TOUCH (мобилки) =====
     addTouchDrag(bead, letter);
-
     pool.appendChild(bead);
   });
 
@@ -807,44 +825,29 @@ function renderBeadsStage() {
     slot.dataset.srcBeadId = srcBead.dataset.beadId;
     slot.setAttribute('draggable', 'true');
 
-    // Клик по размещённой — убрать
     slot.addEventListener('click', function() {
       srcBead.classList.remove('used');
       slot.remove();
-      checkWord();
     });
 
-    // Drag размещённой обратно в pool
     slot.addEventListener('dragstart', function(e) {
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('fromTargetId', slot.dataset.slotId);
     });
 
     target.appendChild(slot);
-    checkWord();
   }
 
-  // ===== TOUCH DRAG для мобилок =====
+  // ===== TOUCH DRAG =====
   function addTouchDrag(bead, letter) {
-    var ghost = null;
-    var startX = 0, startY = 0;
-    var moved = false;
+    var ghost = null, startX = 0, startY = 0, moved = false;
 
     bead.addEventListener('touchstart', function(e) {
       if (bead.classList.contains('used')) return;
       var t = e.touches[0];
-      startX = t.clientX;
-      startY = t.clientY;
-      moved = false;
-
+      startX = t.clientX; startY = t.clientY; moved = false;
       ghost = bead.cloneNode(true);
-      ghost.style.position = 'fixed';
-      ghost.style.left = (t.clientX - 25) + 'px';
-      ghost.style.top = (t.clientY - 25) + 'px';
-      ghost.style.zIndex = '9999';
-      ghost.style.opacity = '0.85';
-      ghost.style.pointerEvents = 'none';
-      ghost.style.transform = 'scale(1.15)';
+      ghost.style.cssText = 'position:fixed;left:' + (t.clientX - 25) + 'px;top:' + (t.clientY - 25) + 'px;z-index:9999;opacity:0.85;pointer-events:none;transform:scale(1.15);';
       document.body.appendChild(ghost);
       bead.style.opacity = '0.4';
     }, { passive: true });
@@ -852,9 +855,7 @@ function renderBeadsStage() {
     bead.addEventListener('touchmove', function(e) {
       if (!ghost) return;
       var t = e.touches[0];
-      if (Math.abs(t.clientX - startX) > 5 || Math.abs(t.clientY - startY) > 5) {
-        moved = true;
-      }
+      if (Math.abs(t.clientX - startX) > 5 || Math.abs(t.clientY - startY) > 5) moved = true;
       ghost.style.left = (t.clientX - 25) + 'px';
       ghost.style.top = (t.clientY - 25) + 'px';
       e.preventDefault();
@@ -864,19 +865,12 @@ function renderBeadsStage() {
       if (!ghost) return;
       var t = e.changedTouches[0];
       var el = document.elementFromPoint(t.clientX, t.clientY);
-      ghost.remove();
-      ghost = null;
+      ghost.remove(); ghost = null;
       bead.style.opacity = '';
-
       if (moved && el && (el === target || target.contains(el))) {
-        if (!bead.classList.contains('used')) {
-          placeBead(letter, bead);
-        }
+        if (!bead.classList.contains('used')) placeBead(letter, bead);
       } else if (!moved) {
-        // Короткий тап = клик
-        if (!bead.classList.contains('used')) {
-          placeBead(letter, bead);
-        }
+        if (!bead.classList.contains('used')) placeBead(letter, bead);
       }
     });
 
@@ -886,66 +880,104 @@ function renderBeadsStage() {
     });
   }
 
-  function checkWord() {
-    var current = Array.from(target.querySelectorAll('.bead')).map(function(b) {
-      return b.textContent;
-    }).join('');
-
-    if (current.length < stage.word.length) {
-      if (feedback) feedback.textContent = '';
-      return;
-    }
-
-    if (current === stage.word) {
-      if (feedback) {
-        feedback.textContent = stage.feedbackOk;
-        feedback.style.color = '#22c55e';
-      }
-      addScore(3);
-      target.querySelectorAll('.bead').forEach(function(b) {
-        b.style.background = '#22c55e';
-        b.style.color = '#fff';
-        b.style.pointerEvents = 'none';
-        b.setAttribute('draggable', 'false');
-      });
+  // ===== КНОПКА "СБРОСИТЬ" =====
+  if (btnReset) {
+    btnReset.addEventListener('click', function() {
+      target.innerHTML = '';
       pool.querySelectorAll('.bead').forEach(function(b) {
-        b.style.pointerEvents = 'none';
-        b.setAttribute('draggable', 'false');
+        b.classList.remove('used');
+        b.style.background = '';
+        b.style.color = '';
       });
-      if (hint) hint.textContent = '';
+      if (feedback) feedback.textContent = '';
+    });
+  }
 
-      setTimeout(function() {
-        if (state.beads.stage < beadsStages.length) {
-          state.beads.stage++;
-          renderBeadsStage();
-        } else {
-          if (feedback) {
-            feedback.innerHTML = '🎉 Отлично! Ты собрала все три слова!';
-            feedback.style.color = '#a855f7';
-          }
-          setTimeout(function() { showScreen('screen-13'); }, 1200);
+  // ===== КНОПКА "ПРОВЕРИТЬ" =====
+  if (btnCheck) {
+    btnCheck.addEventListener('click', function() {
+      var current = Array.from(target.querySelectorAll('.bead'))
+        .map(function(b) { return (b.textContent || '').trim().toUpperCase(); })
+        .join('');
+      var expected = stage.word.trim().toUpperCase();
+
+      console.log('Проверка:', { собрано: current, нужно: expected, равны: current === expected });
+
+      if (current.length === 0) {
+        if (feedback) {
+          feedback.textContent = 'Сначала собери слово из букв 👆';
+          feedback.style.color = '#f59e0b';
         }
-      }, 1000);
-
-    } else {
-      if (feedback) {
-        feedback.textContent = 'Не то слово, попробуй ещё раз';
-        feedback.style.color = '#ef4444';
+        return;
       }
-      state.beads.attempts++;
-      target.querySelectorAll('.bead').forEach(function(b) {
-        b.style.background = '#fecaca';
-      });
-      setTimeout(function() {
-        target.innerHTML = '';
-        pool.querySelectorAll('.bead').forEach(function(b) {
-          b.classList.remove('used');
+
+      if (current.length < expected.length) {
+        if (feedback) {
+          feedback.textContent = 'Ещё не все буквы на месте (' + current.length + ' из ' + expected.length + ')';
+          feedback.style.color = '#f59e0b';
+        }
+        return;
+      }
+
+      if (current === expected) {
+        if (feedback) {
+          feedback.textContent = stage.feedbackOk;
+          feedback.style.color = '#22c55e';
+        }
+        addScore(3);
+        target.querySelectorAll('.bead').forEach(function(b) {
+          b.style.background = '#22c55e';
+          b.style.color = '#fff';
+          b.style.pointerEvents = 'none';
+          b.setAttribute('draggable', 'false');
         });
-        if (feedback) feedback.textContent = '';
-      }, 800);
-    }
+        pool.querySelectorAll('.bead').forEach(function(b) {
+          b.style.pointerEvents = 'none';
+          b.setAttribute('draggable', 'false');
+        });
+        if (hint) hint.textContent = '';
+        btnCheck.style.display = 'none';
+        btnReset.style.display = 'none';
+
+        setTimeout(function() {
+          if (state.beads.stage < beadsStages.length) {
+            state.beads.stage++;
+            renderBeadsStage();
+            // Вернуть кнопки
+            var bc = document.getElementById('beads-check');
+            var br = document.getElementById('beads-reset');
+            if (bc) bc.style.display = '';
+            if (br) br.style.display = '';
+          } else {
+            if (feedback) {
+              feedback.innerHTML = '🎉 Отлично! Ты собрала все три слова!';
+              feedback.style.color = '#a855f7';
+            }
+            setTimeout(function() { showScreen('screen-13'); }, 1500);
+          }
+        }, 1500);
+
+      } else {
+        if (feedback) {
+          feedback.textContent = 'Не то слово, попробуй ещё раз 🤔';
+          feedback.style.color = '#ef4444';
+        }
+        state.beads.attempts++;
+        target.querySelectorAll('.bead').forEach(function(b) {
+          b.style.background = '#fecaca';
+        });
+        setTimeout(function() {
+          target.innerHTML = '';
+          pool.querySelectorAll('.bead').forEach(function(b) {
+            b.classList.remove('used');
+          });
+          if (feedback) feedback.textContent = '';
+        }, 1200);
+      }
+    });
   }
 }
+
 // ===== Экран 13: Страхи =====
 function initFears() {
   var fears = [
