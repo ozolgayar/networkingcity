@@ -4709,3 +4709,46 @@ body:has(.screen-card.active) #app {
   display: block;
   overflow: visible;
 }
+
+.panel-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.panel-header .panel-tag {
+  position: static;   /* убираем absolute если был */
+  margin: 0;
+}
+
+.panel-header h2 {
+  margin: 0;
+}
+
+/* Все кнопки действий одного размера */
+#screen-15 .actions-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+#screen-15 .actions-row .btn {
+  width: 100%;
+  text-align: center;
+  padding: 12px 16px;
+  font-size: 15px;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+#screen-15 .actions-row .secondary-row {
+  display: flex;
+  gap: 8px;
+}
+
+#screen-15 .actions-row .secondary-row .btn {
+  flex: 1;
+}
