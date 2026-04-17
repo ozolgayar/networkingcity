@@ -815,36 +815,50 @@
 
 <!-- Экран 15. Твоё колесо баланса -->
 <div class="screen" id="screen-15">
-<div class="screen-layout">
-<div class="scene">
-<div class="scene-header">
-<span class="tagline">Твоё колесо баланса</span>
+  <div class="screen-layout">
+
+    <!-- СЦЕНА -->
+    <div class="scene">
+      <div class="scene-header">
+        ТВОЁ КОЛЕСО БАЛАНСА
+      </div>
+      <div class="scene-main">
+        <svg id="resultWheelSvg"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 500 500"
+             preserveAspectRatio="xMidYMid meet"
+             style="overflow:visible; display:block;">
+        </svg>
+      </div>
+    </div>
+
+    <!-- ПАНЕЛЬ -->
+    <div class="panel">
+      <div class="panel-tag">Упражнение</div>
+      <h2>Оцени важность каждой сферы</h2>
+      <p>
+        Насколько важна для тебя каждая сфера?
+        Передвинь ползунок от 1 (не важна) до 10 (критически важна).
+      </p>
+
+      <!-- Слайдеры -->
+      <div id="priority-sliders" style="margin-top:8px;">
+        <!-- генерируются JS-ом -->
+      </div>
+
+      <div class="actions-row" style="margin-top:12px;">
+        <button class="btn" id="btn-calc-priorities">
+          Рассчитать приоритеты
+        </button>
+        <button class="btn secondary" id="btn-wheel-back">
+          Назад
+        </button>
+      </div>
+    </div>
+
+  </div>
 </div>
-<div class="scene-main">
-<svg id="resultWheelSvg" viewBox="0 0 560 560" width="100%" height="100%"></svg>
-</div>
-</div>
-<div class="panel" style="overflow-y:auto; max-height:calc(100vh - 180px);">
-<div class="panel-tag">Упражнение</div>
-<h2>Оцени важность каждой сферы</h2>
-<p>Насколько важна для тебя каждая сфера? Передвинь ползунок от 1 (не важна) до 10 (критически важна).</p>
-<div id="importance-sliders"></div>
-<button class="btn" id="btn-calc-priority" style="margin-top:8px;">Рассчитать приоритеты</button>
-<div id="priority-result" style="display:none; margin-top:10px;">
-<h3>🎯 Рекомендация</h3>
-<p>Сферы, где <strong>высокая важность</strong>, но <strong>мало контактов</strong> — именно там стоит искать людей на конференции:</p>
-<div class="metric-row" style="margin-top:6px;">
-<span class="mini-label">Твои приоритетные сферы:</span>
-<strong id="top-sectors" style="color: var(--accent-soft);"></strong>
-</div>
-</div>
-<div class="actions-row" style="margin-top:8px;">
-<button class="btn secondary nav-back" data-prev>Назад</button>
-</div>
-</div>
-</div>
-</div>
-      
+     
 <!-- Экран 16. Сколько знакомств ты заведёшь -->
 <div class="screen" id="screen-16">
   <div class="screen-layout">
