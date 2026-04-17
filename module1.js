@@ -719,13 +719,28 @@ function renderBeadsStage() {
     if (d === state.beads.stage) dot.classList.add('active');
   }
 
-  // ===== ПОДСКАЗКА (первая буква + прочерки) =====
+ 
+  // ===== ПОДСКАЗКА: 4 случайные буквы открыты =====
   function buildHint(word) {
     var chars = word.split('');
-    var result = chars.map(function(ch, i) {
-      return i === 0 ? ch : '_';
-    });
-    return result.join(' ');
+    var total = chars.length;
+    var openCount = Math.min(4, total);
+
+    // Выбираем 4 случайных индекса
+    var indices = [];
+    for (var i = 0; i < total; i++) indices.push(i);
+    // Перемешиваем
+    for (var j = indices.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = indices[j];
+      indices[j] = indices[k];
+      indices[k] = tmp;
+    }
+    var openSet = new Set(indices.slice(0, openCount));
+
+    return chars.map(function(ch, i) {
+      return openSet.has(i) ? ch : '_';
+    }).join(' ');
   }
   if (hint) {
     hint.textContent = buildHint(stage.word);
@@ -950,7 +965,7 @@ function renderBeadsStage() {
             if (br) br.style.display = '';
           } else {
             if (feedback) {
-              feedback.innerHTML = '🎉 Отлично! Ты собрала все три слова!';
+              feedback.innerHTML = 'Отлично! Ты собрал все три слова!';
               feedback.style.color = '#a855f7';
             }
             setTimeout(function() { showScreen('screen-13'); }, 1500);
