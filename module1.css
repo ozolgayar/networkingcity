@@ -4525,20 +4525,6 @@ body:has(.screen-card.active) #app {
   overflow: hidden !important;
 }
 
-/* Картинка заполняет всю сцену */
-#screen-11 .scene-main img,
-#screen-11 .scene-main picture,
-#screen-11 .scene-main .fake-illustration {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  display: block !important;
-  border-radius: 0 !important;
-  border: none !important;
-  background: none !important;
-}
-
 /* Заголовок сверху */
 #screen-11 .scene-header {
   position: static !important;       /* не абсолютный, а обычный блок */
@@ -4587,7 +4573,7 @@ body:has(.screen-card.active) #app {
   object-fit: cover !important;
   object-position: center !important;
   display: block !important;
-  border-radius: 0 !important;
+  border-radius: 14 !important;
   border: none !important;
   background: none !important;
 }
