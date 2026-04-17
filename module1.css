@@ -4802,21 +4802,20 @@ body:has(.screen-card.active) #app {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  padding: 16px 20px;
 }
 
 /* Ползунки — показываем всегда до расчёта */
 #priority-sliders {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+   flex-shrink: 0;
 }
 
 /* Результаты приоритетов */
 #priority-results {
-  margin-top: 8px;
+ flex: 1;
   overflow-y: auto;
-  max-height: 300px;
+  min-height: 0;
 }
 
 /* Кнопка продолжить — скрыта до расчёта */
@@ -4824,5 +4823,7 @@ body:has(.screen-card.active) #app {
 #btn-priorities-next {
   display: none;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 8px;
+  flex-shrink: 0;
 }
+
