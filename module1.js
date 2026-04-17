@@ -1562,26 +1562,47 @@ function initPrioritySliders() {
 // ===== Экран 15: Ползунки важности =====
 function initImportanceSliders() {
   var panel = document.querySelector('#screen-15 .panel');
-  if (!panel) return;
+  if (!panel) {
+    console.warn('initImportanceSliders: панель не найдена');
+    return;
+  }
 
   var segments = state.wheel.segments;
 
-  // Очищаем панель от старого содержимого (кроме тега и заголовка)
-  var toRemove = panel.querySelectorAll(
-    '#sliders-instruction, #priority-sliders, #btn-calc-priorities, #priority-results, #btn-wheel-next, .sliders-block'
-  );
-  toRemove.forEach(function(el) { el.remove(); });
+  // ===== 1. Убираем ВСЁ старое из сцены =====
+  var scene15 = document.querySelector('#screen-15 .scene');
+  if (scene15) {
+    // Убираем инструкцию, ползунки, кнопки из сцены
+    [
+      '#sliders-instruction',
+      '#priority-sliders',
+      '#btn-calc-priorities',
+      '.sliders-block',
+      '.importance-row',
+      '[id^="imp-val-"]'
+    ].forEach(function(sel) {
+      scene15.querySelectorAll(sel).forEach(function(el) { el.remove(); });
+    });
 
-  // Убираем текст из сцены (scene-main) если там есть
-  var sceneInstruction = document.querySelector('#screen-15 .scene-main #sliders-instruction');
-  if (sceneInstruction) sceneInstruction.remove();
+    // Убираем любые текстовые ноды / параграфы с текстом про ползунки
+    scene15.querySelectorAll('p, div').forEach(function(el) {
+      if (el.textContent.includes('ползунок') || el.textContent.includes('важна для тебя')) {
+        el.remove();
+      }
+    });
+  }
 
-  // ===== Создаём блок-обёртку =====
+  // ===== 2. Убираем старое из панели =====
+  panel.querySelectorAll(
+    '#sliders-instruction, #priority-sliders, #btn-calc-priorities, #priority-results, #btn-wheel-next, .sliders-block, .importance-row'
+  ).forEach(function(el) { el.remove(); });
+
+  // ===== 3. Создаём блок =====
   var block = document.createElement('div');
   block.className = 'sliders-block';
-  block.style.cssText = 'display:flex;flex-direction:column;gap:10px;margin-top:8px;';
+  block.style.cssText = 'display:flex;flex-direction:column;gap:10px;width:100%;';
 
-  // ===== Инструкция =====
+  // --- Инструкция ---
   var instr = document.createElement('div');
   instr.id = 'sliders-instruction';
   instr.style.cssText = [
@@ -1591,49 +1612,77 @@ function initImportanceSliders() {
     'padding:10px 14px',
     'border-radius:12px',
     'background:rgba(168,85,247,0.06)',
-    'border:1px solid rgba(168,85,247,0.2)'
+    'border:1px solid rgba(168,85,247,0.2)',
+    'flex-shrink:0'
   ].join(';');
   instr.innerHTML =
     '📊 <strong style="color:#1e293b;">Насколько важна для тебя каждая сфера?</strong><br>' +
     '<span style="font-size:12px;">Передвинь ползунок от <b>1</b> (не важна) до <b>10</b> (критически важна).</span>';
   block.appendChild(instr);
 
-  // ===== Ползунки =====
+  // --- Ползунки ---
   var slidersWrap = document.createElement('div');
   slidersWrap.id = 'priority-sliders';
-  slidersWrap.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
+  slidersWrap.style.cssText = 'display:flex;flex-direction:column;gap:10px;flex-shrink:0;';
 
   segments.forEach(function(seg, i) {
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex;flex-direction:column;gap:3px;';
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;flex-direction:column;gap:4px;';
 
     var labelRow = document.createElement('div');
-    labelRow.style.cssText = 'display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#475569;';
-    labelRow.innerHTML =
-      '<span>' + seg + '</span>' +
-      '<span id="imp-val-' + i + '" style="color:#a855f7;font-weight:700;min-width:16px;text-align:right;">' +
-        state.wheel.importance[i] +
-      '</span>';
+    labelRow.style.cssText = [
+      'display:flex',
+      'justify-content:space-between',
+      'align-items:center',
+      'font-size:13px',
+      'font-weight:600',
+      'color:#334155'
+    ].join(';');
+
+    var nameSpan = document.createElement('span');
+    nameSpan.textContent = seg;
+
+    var valSpan = document.createElement('span');
+    valSpan.id = 'imp-val-' + i;
+    valSpan.textContent = state.wheel.importance[i];
+    valSpan.style.cssText = 'color:#a855f7;font-weight:700;min-width:20px;text-align:right;font-size:14px;';
+
+    labelRow.appendChild(nameSpan);
+    labelRow.appendChild(valSpan);
 
     var slider = document.createElement('input');
     slider.type = 'range';
-    slider.min = 1;
-    slider.max = 10;
-    slider.value = state.wheel.importance[i];
-    slider.style.cssText = 'width:100%;accent-color:#a855f7;height:4px;cursor:pointer;margin:0;';
-    slider.addEventListener('input', function() {
-      state.wheel.importance[i] = parseInt(slider.value);
-      var valEl = document.getElementById('imp-val-' + i);
-      if (valEl) valEl.textContent = slider.value;
-    });
+    slider.min = '1';
+    slider.max = '10';
+    slider.value = String(state.wheel.importance[i]);
+    slider.style.cssText = [
+      'width:100%',
+      'accent-color:#a855f7',
+      'height:6px',
+      'cursor:pointer',
+      'margin:0',
+      '-webkit-appearance:none',
+      'appearance:none',
+      'background:#e2e8f0',
+      'border-radius:999px',
+      'outline:none'
+    ].join(';');
 
-    wrap.appendChild(labelRow);
-    wrap.appendChild(slider);
-    slidersWrap.appendChild(wrap);
+    (function(index, sp, sl) {
+      sl.addEventListener('input', function() {
+        state.wheel.importance[index] = parseInt(sl.value);
+        sp.textContent = sl.value;
+      });
+    })(i, valSpan, slider);
+
+    row.appendChild(labelRow);
+    row.appendChild(slider);
+    slidersWrap.appendChild(row);
   });
+
   block.appendChild(slidersWrap);
 
-  // ===== Кнопка "Рассчитать" =====
+  // --- Кнопка Рассчитать ---
   var btnCalc = document.createElement('button');
   btnCalc.id = 'btn-calc-priorities';
   btnCalc.style.cssText = [
@@ -1641,9 +1690,7 @@ function initImportanceSliders() {
     'align-items:center',
     'justify-content:center',
     'gap:6px',
-    'width:auto',
-    'align-self:flex-start',
-    'padding:9px 20px',
+    'padding:10px 20px',
     'border-radius:10px',
     'border:none',
     'cursor:pointer',
@@ -1652,14 +1699,16 @@ function initImportanceSliders() {
     'background:linear-gradient(135deg,#a855f7,#7c3aed)',
     'color:#fff',
     'box-shadow:0 4px 14px rgba(168,85,247,0.35)',
-    'transition:transform 0.15s ease,box-shadow 0.15s ease',
+    'transition:transform 0.15s,box-shadow 0.15s',
+    'align-self:flex-start',
+    'flex-shrink:0',
     'margin-top:4px'
   ].join(';');
   btnCalc.innerHTML = '📊 Рассчитать приоритеты';
 
   btnCalc.addEventListener('mouseenter', function() {
     btnCalc.style.transform = 'translateY(-1px)';
-    btnCalc.style.boxShadow = '0 6px 20px rgba(168,85,247,0.45)';
+    btnCalc.style.boxShadow = '0 6px 20px rgba(168,85,247,0.5)';
   });
   btnCalc.addEventListener('mouseleave', function() {
     btnCalc.style.transform = '';
@@ -1667,33 +1716,40 @@ function initImportanceSliders() {
   });
 
   btnCalc.addEventListener('click', function() {
-    var sliders = slidersWrap.querySelectorAll('input[type="range"]');
+    // Собираем значения с ползунков
+    var sliderEls = slidersWrap.querySelectorAll('input[type="range"]');
     var results = segments.map(function(seg, i) {
-      var s = sliders[i];
-      var imp = s ? parseInt(s.value) : state.wheel.importance[i];
+      var s = sliderEls[i];
+      var imp = s ? parseInt(s.value) : (state.wheel.importance[i] || 5);
       var val = state.wheel.values[i] || 0;
-      var gap = imp - val;
-      return { seg: seg, imp: imp, val: val, gap: gap };
+      return { seg: seg, imp: imp, val: val, gap: imp - val };
     });
 
     var sorted = results.slice().sort(function(a, b) { return b.gap - a.gap; });
+
     state.wheel.priorities = {};
     results.forEach(function(r) { state.wheel.priorities[r.seg] = r.imp; });
 
     var colors = ['#ef4444','#f59e0b','#22c55e','#38bdf8','#6366f1','#a855f7'];
+
     var resultsHtml = sorted.map(function(r, idx) {
       var color = colors[idx % colors.length];
       var gapText = r.gap > 0 ? ('+' + r.gap) : String(r.gap);
       var gapColor = r.gap > 0 ? '#ef4444' : '#22c55e';
-      return '<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:5px;">' +
-        '<div style="width:22px;height:22px;border-radius:50%;background:' + color + ';color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + (idx+1) + '</div>' +
-        '<div style="flex:1;font-size:12px;font-weight:600;color:#1e293b;">' + r.seg + '</div>' +
-        '<div style="font-size:11px;color:#64748b;">важность: <b>' + r.imp + '</b> / сейчас: <b>' + r.val + '</b></div>' +
-        '<div style="font-size:12px;font-weight:700;color:' + gapColor + ';">' + gapText + '</div>' +
-      '</div>';
+      return [
+        '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;',
+        'border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:6px;">',
+        '<div style="width:22px;height:22px;border-radius:50%;background:' + color + ';',
+        'color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;',
+        'justify-content:center;flex-shrink:0;">' + (idx + 1) + '</div>',
+        '<div style="flex:1;font-size:12px;font-weight:600;color:#1e293b;">' + r.seg + '</div>',
+        '<div style="font-size:11px;color:#64748b;">важность: <b>' + r.imp + '</b>&nbsp;/&nbsp;сейчас: <b>' + r.val + '</b></div>',
+        '<div style="font-size:12px;font-weight:700;color:' + gapColor + ';">' + gapText + '</div>',
+        '</div>'
+      ].join('');
     }).join('');
 
-    // Скрываем инструкцию, ползунки и кнопку
+    // Скрываем инструкцию, ползунки, кнопку
     instr.style.display = 'none';
     slidersWrap.style.display = 'none';
     btnCalc.style.display = 'none';
@@ -1701,16 +1757,17 @@ function initImportanceSliders() {
     // Результаты
     var resultsDiv = document.createElement('div');
     resultsDiv.id = 'priority-results';
+    resultsDiv.style.cssText = 'overflow-y:auto;flex:1;min-height:0;';
     resultsDiv.innerHTML =
-      '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:8px;">🎯 Твои приоритеты:</div>' +
+      '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:10px;">🎯 Твои приоритеты:</div>' +
       resultsHtml;
     block.appendChild(resultsDiv);
 
-    // Кнопка "Продолжить"
+    // Кнопка Продолжить
     var btnNext = document.createElement('button');
-    btnNext.id = 'btn-wheel-next';
     btnNext.className = 'btn';
-    btnNext.style.cssText = 'margin-top:8px;width:100%;';
+    btnNext.id = 'btn-wheel-next';
+    btnNext.style.cssText = 'width:100%;margin-top:8px;flex-shrink:0;';
     btnNext.textContent = 'Продолжить →';
     btnNext.addEventListener('click', function() {
       showScreen('screen-16');
@@ -1722,14 +1779,9 @@ function initImportanceSliders() {
 
   block.appendChild(btnCalc);
 
-  // Вставляем блок в панель
+  // ===== 4. Вставляем блок в панель =====
   panel.appendChild(block);
-
-  // ===== Убираем дублирующий текст из левой части (сцены) =====
-  var leftText = document.querySelector('#screen-15 .scene #sliders-instruction');
-  if (leftText) leftText.remove();
 }
-
 // ===== Экран 16: Локации =====
 function initLocations() {
   var btns = document.querySelectorAll('.location-btn');
