@@ -55,7 +55,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 0;
     height: calc(100vh - 160px);
-    max-height: 700px;
     min-height: 500px;
   }
 
