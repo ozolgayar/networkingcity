@@ -4538,3 +4538,56 @@ body:has(.screen-card.active) #app {
   border: none !important;
   background: none !important;
 }
+
+/* Заголовок сверху */
+#screen-11 .scene-header {
+  position: static !important;       /* не абсолютный, а обычный блок */
+  display: block !important;
+  width: 100% !important;
+  padding: 14px 20px !important;
+  margin: 0 !important;
+  background: #f1f5f9 !important;    /* светло-серая подложка */
+  border-bottom: 1px solid #e2e8f0 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #64748b !important;         /* приглушённый серый */
+  text-transform: uppercase !important;
+  letter-spacing: 0.14em !important;
+  text-align: left !important;
+  z-index: auto !important;
+}
+#screen-11 .scene {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  border-radius: 18px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+}
+
+/* Картинка теперь занимает оставшееся место под заголовком */
+#screen-11 .scene-main {
+  flex: 1 !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+#screen-11 .scene-main img,
+#screen-11 .scene-main picture,
+#screen-11 .scene-main .fake-illustration {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background: none !important;
+}
