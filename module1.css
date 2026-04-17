@@ -4779,3 +4779,50 @@ body:has(.screen-card.active) #app {
   height: 4px;
   cursor: pointer;
 }
+
+/* ===== ЭКРАН 15: исправление layout ===== */
+#screen-15 .screen-layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  padding: 16px;
+  overflow: hidden;
+}
+
+#screen-15 .scene {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#screen-15 .panel {
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Ползунки — показываем всегда до расчёта */
+#priority-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Результаты приоритетов */
+#priority-results {
+  margin-top: 8px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+/* Кнопка продолжить — скрыта до расчёта */
+#btn-wheel-next,
+#btn-priorities-next {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+}
