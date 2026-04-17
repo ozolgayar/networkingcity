@@ -4473,22 +4473,16 @@ background: transparent !important;
   display: none !important;
 }
 
-/* Убираем ВСЕ декоративные уголки на экранах с карточкой Златы */
-#app:has(.screen-card.active) main::before,
-#app:has(.screen-card.active) main::after,
-#app:has(.screen-card.active)::before,
-#app:has(.screen-card.active)::after,
-body:has(.screen-card.active) main::before,
-body:has(.screen-card.active) main::after {
-  display: none !important;
-  content: none !important;
-  border: none !important;
-  background: none !important;
-}
-
-/* На всякий случай — убираем рамку у main и #screen-container */
-body:has(.screen-card.active) main,
-body:has(.screen-card.active) #screen-container {
+/* Убираем padding и рамку у main на экранах с карточкой Златы */
+body:has(.screen-card.active) main {
+  padding: 0 !important;
   border: none !important;
   box-shadow: none !important;
+  background: transparent !important;
+}
+body:has(.screen-card.active) #app {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
