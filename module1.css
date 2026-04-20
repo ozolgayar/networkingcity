@@ -1466,11 +1466,13 @@ textarea {
 
 /* ===== ЭКРАН 16: скролл панели ===== */
 #screen-16 .panel {
-  max-height: calc(100vh - 180px);
+  height: 100% !important;           /* ← на всю высоту ячейки grid */
+  max-height: none !important;       /* ← убираем ограничение */
   overflow-y: auto;
   min-height: 0;
   position: relative;
   padding-top: 20px !important;
+  box-sizing: border-box !important;
 }
 #screen-16 .panel .panel-tag {
   position: absolute;
@@ -5101,4 +5103,16 @@ body:has(.screen-card.active) #app {
   color: #475569 !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
   border: none !important;
+}
+
+/* ===== ЭКРАН 16: layout на всю высоту ===== */
+#screen-16 .screen-layout {
+  height: 100% !important;
+  min-height: 0 !important;
+  align-items: stretch !important;  /* ← ключевое: обе колонки одной высоты */
+}
+
+#screen-16 .scene {
+  height: 100% !important;
+  min-height: 0 !important;
 }
