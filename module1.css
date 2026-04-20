@@ -5054,3 +5054,56 @@ body:has(.screen-card.active) #app {
   color: #475569 !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
 }
+
+/* ===== ЭКРАН 16: финальный фикс кнопок в одной строке ===== */
+#screen-16 #screen-16-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;   /* ключевое — одинаковая высота */
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  margin-top: 16px !important;
+  padding: 0 !important;
+}
+
+/* Порядок: сначала Продолжить, потом Назад */
+#screen-16 #screen-16-actions #btn-people-continue {
+  order: 1 !important;
+}
+
+#screen-16 #screen-16-actions [data-prev] {
+  order: 2 !important;
+}
+
+/* Обе кнопки — одинаковые по размеру, на одной линии */
+#screen-16 #screen-16-actions .btn,
+#screen-16 #screen-16-actions #btn-people-continue,
+#screen-16 #screen-16-actions [data-prev] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  padding: 0 22px !important;
+  margin: 0 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  border-radius: 999px !important;
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Стилизация кнопки "Назад" */
+#screen-16 #screen-16-actions [data-prev].secondary {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
+  border: none !important;
+}
