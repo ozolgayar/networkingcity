@@ -5272,3 +5272,112 @@ body:has(.screen-card.active) #app {
   min-width: 0 !important;
   width: auto !important;
 }
+
+/* ===== ЭКРАН 17: SMART-цель — фикс отображения ===== */
+
+/* Сам экран — позволяем внутренний скролл */
+#screen-17.active {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* Контейнер — убираем жёсткую min-height, делаем адаптивным */
+#screen-17 .smart-fullscreen {
+  width: 100% !important;
+  min-height: auto !important;
+  height: auto !important;
+  padding: 20px 24px 32px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Заголовок — компактнее */
+#screen-17 .smart-header {
+  margin-bottom: 16px !important;
+  flex-shrink: 0 !important;
+}
+
+#screen-17 .smart-header h2 {
+  font-size: 22px !important;
+  margin: 4px 0 !important;
+}
+
+#screen-17 .smart-header p {
+  font-size: 13px !important;
+  margin: 0 !important;
+}
+
+/* Майнд-карта — адаптивная, без жёсткой min-height */
+#screen-17 .smart-mind-map {
+  min-height: auto !important;
+  gap: 20px !important;
+  width: 100% !important;
+  max-width: 920px !important;
+}
+
+/* Ветви — чуть больше воздуха */
+#screen-17 .smart-branch {
+  max-width: 280px !important;
+  width: 100% !important;
+}
+
+/* Textarea — ограничим высоту */
+#screen-17 .smart-textarea {
+  min-height: 70px !important;
+  max-height: 120px !important;
+  font-size: 12.5px !important;
+  padding: 8px 10px !important;
+}
+
+/* Пример Златы — компактнее */
+#screen-17 .smart-example {
+  margin-top: 16px !important;
+  width: 100% !important;
+  max-width: 600px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Кнопки внизу — не прижимаются, есть отступ */
+#screen-17 .smart-actions {
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+  padding: 0 !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+#screen-17 .smart-actions .btn {
+  height: 44px !important;
+  padding: 0 24px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+/* Скроллбар внутри экрана */
+#screen-17.active::-webkit-scrollbar,
+#screen-17 .smart-fullscreen::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+#screen-17.active::-webkit-scrollbar-thumb,
+#screen-17 .smart-fullscreen::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4) !important;
+  border-radius: 999px !important;
+}
