@@ -5043,17 +5043,6 @@ body:has(.screen-card.active) #app {
   white-space: nowrap !important;
 }
 
-/* Порядок кнопок: сначала Продолжить, потом Назад */
-#btn-people-continue {
-  order: 1 !important;
-}
-
-#screen-16 [data-prev] {
-  order: 2 !important;
-  background: #f1f5f9 !important;
-  color: #475569 !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
-}
 
 /* ===== ЭКРАН 16: финальный фикс кнопок в одной строке ===== */
 #screen-16 #screen-16-actions {
@@ -5067,13 +5056,19 @@ body:has(.screen-card.active) #app {
   padding: 0 !important;
 }
 
-/* Порядок: сначала Продолжить, потом Назад */
-#screen-16 #screen-16-actions #btn-people-continue {
+/* Порядок: Назад слева, Продолжить справа */
+#screen-16 #screen-16-actions [data-prev],
+#screen-16 [data-prev] {
   order: 1 !important;
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
 }
 
-#screen-16 #screen-16-actions [data-prev] {
+#screen-16 #screen-16-actions #btn-people-continue,
+#btn-people-continue {
   order: 2 !important;
+  margin-left: auto !important;
 }
 
 /* Обе кнопки — одинаковые по размеру, на одной линии */
