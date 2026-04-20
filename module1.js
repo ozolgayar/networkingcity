@@ -1986,6 +1986,47 @@ function initSmartGoal() {
   });
 }
 
+(function initSmartExample() {
+  const screen = document.getElementById('screen-17');
+  if (!screen) return;
+
+  // Находим элемент примера (любой вариант: details или div)
+  const example = screen.querySelector('.smart-example, details.smart-example');
+  if (!example) {
+    console.warn('[screen-17] .smart-example не найден');
+    return;
+  }
+
+  // Если это <details> — браузер сам раскроет, но подстрахуемся
+  if (example.tagName.toLowerCase() === 'details') {
+    const summary = example.querySelector('summary');
+    if (summary) {
+      // Убираем возможные перехваты
+      summary.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // preventDefault НЕ вызываем — пусть браузер открывает
+      }, true);
+    }
+    console.log('[screen-17] <details> готов');
+    return;
+  }
+
+  // Если это <div> — вешаем свой toggle
+  example.addEventListener('click', (e) => {
+    // Клик по textarea/input внутри не должен закрывать
+    if (e.target.closest('textarea, input, button')) return;
+    
+    example.classList.toggle('open');
+    const content = example.querySelector('.smart-example-content');
+    if (content) {
+      const isOpen = example.classList.contains('open');
+      content.style.display = isOpen ? 'block' : 'none';
+    }
+  });
+
+  console.log('[screen-17] toggle примера инициализирован');
+})();
+
 // ===== Экран 17-1: Карточка Златы =====
 function initZlataCard17() {
   var btn = document.getElementById('btn-zlata17-next');
