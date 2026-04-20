@@ -1785,167 +1785,180 @@ function initImportanceSliders() {
   panel.appendChild(block);
 }
 // ===== Экран 16: Локации =====
-function initPeopleGame() {
-  var pool   = document.getElementById('people-pool');
-  var target = document.getElementById('people-target');
-  var counter = document.getElementById('people-counter');
-  var feedback = document.getElementById('people-feedback');
-  var btnPlan = document.getElementById('btn-people-plan');
- 
+function initLocations() {
+  var pool = document.getElementById('location-pool');
+  var zones = document.querySelectorAll('#screen-16-1 .location-drop-zone');
+  var btnDone = document.getElementById('btn-locations-done');
+  var modal = document.getElementById('locations-modal');
+  var feedbackEl = document.getElementById('locations-feedback');
+  var btnContinue = document.getElementById('locations-continue');
 
-  if (!pool || !target) return;
+  if (!pool || !zones.length) {
+    console.warn('initLocations: элементы не найдены');
+    return;
+  }
 
-  // Если уже инициализировано — не дублировать
+  // Защита от повторной инициализации
   if (pool.dataset.inited) return;
   pool.dataset.inited = '1';
 
-  // Данные человечков
-var people = [
-  { id: 'p1' },
-  { id: 'p2' },
-  { id: 'p3' },
-  { id: 'p4' },
-  { id: 'p5' },
-  { id: 'p6' },
-  { id: 'p7' },
-  { id: 'p8' }
-];
+  // Список локаций
+  var locations = [
+    { id: 'conf',      label: 'Конференции' },
+    { id: 'meetup',    label: 'Митапы' },
+    { id: 'workshop',  label: 'Воркшопы' },
+    { id: 'party',     label: 'Вечеринки' },
+    { id: 'coworking', label: 'Коворкинг' },
+    { id: 'online',    label: 'Онлайн-чаты' },
+    { id: 'gym',       label: 'Спортзал' },
+    { id: 'cafe',      label: 'Кафе/кофейня' },
+    { id: 'course',    label: 'Курсы/лекции' },
+    { id: 'club',      label: 'Бизнес-клуб' },
+    { id: 'travel',    label: 'Путешествия' },
+    { id: 'bar',       label: 'Бар' }
+  ];
 
-  var inTarget = [];
+  // Создаём чипы
+  locations.forEach(function(loc) {
+    var chip = document.createElement('div');
+    chip.className = 'location-chip';
+    chip.textContent = loc.label;
+    chip.dataset.locId = loc.id;
+    chip.setAttribute('draggable', 'true');
 
-  // Генерируем человечков в пуле
-  people.forEach(function(p) {
-    var el = document.createElement('div');
-    el.className = 'person-avatar';
-    el.dataset.personId = p.id;
-    el.title = p.label;
-    el.style.cssText = [
-      'display:flex',
-      'flex-direction:column',
-      'align-items:center',
-      'gap:4px',
-      'cursor:pointer',
-      'transition:transform 0.2s ease',
-      'user-select:none',
-      'width:56px'
-    ].join(';');
-    el.innerHTML =
-  '<img src="https://i.ibb.co/cSz3DYGB/1.png" ' +
-  'style="width:48px; height:48px; object-fit:contain; ' +
-  'pointer-events:none; display:block;" alt="person">';
-
-    el.addEventListener('mouseenter', function() {
-      el.style.transform = 'translateY(-6px) scale(1.12)';
+    // Desktop drag
+    chip.addEventListener('dragstart', function(e) {
+      chip.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', loc.id);
     });
-    el.addEventListener('mouseleave', function() {
-      if (!el.classList.contains('in-target')) {
-        el.style.transform = '';
-      }
+    chip.addEventListener('dragend', function() {
+      chip.classList.remove('dragging');
     });
 
-    el.addEventListener('click', function() {
-      if (el.classList.contains('in-target')) {
-        // Убираем из target
-        el.classList.remove('in-target');
-        el.style.transform = '';
-        el.style.opacity = '1';
-        pool.appendChild(el);
-        inTarget = inTarget.filter(function(x) { return x !== p.id; });
-      } else {
-        // Добавляем в target
-        el.classList.add('in-target');
-        target.appendChild(el);
-        inTarget.push(p.id);
-      }
-      updateCounter();
-    });
+    // Mobile touch drag
+    addTouchDragLocation(chip);
 
-    pool.appendChild(el);
+    pool.appendChild(chip);
   });
 
-  function updateCounter() {
-    var count = inTarget.length;
-    if (counter) {
-      counter.textContent = count;
-      counter.style.color = count > 0 ? '#3b82f6' : '#94a3b8';
+  // Drop-зоны
+  zones.forEach(function(zone) {
+    zone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', function() {
+      zone.classList.remove('drag-over');
+    });
+    zone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      var id = e.dataTransfer.getData('text/plain');
+      var chip = document.querySelector('.location-chip[data-loc-id="' + id + '"]');
+      if (!chip) return;
+      moveChipToZone(chip, zone);
+    });
+  });
+
+  // Pool тоже принимает drop — чтобы можно было вернуть чип
+  pool.addEventListener('dragover', function(e) { e.preventDefault(); });
+  pool.addEventListener('drop', function(e) {
+    e.preventDefault();
+    var id = e.dataTransfer.getData('text/plain');
+    var chip = document.querySelector('.location-chip[data-loc-id="' + id + '"]');
+    if (chip) {
+      chip.classList.remove('in-comfort', 'in-neutral', 'in-avoid');
+      pool.appendChild(chip);
     }
+  });
+
+  function moveChipToZone(chip, zone) {
+    var cat = zone.dataset.category;
+    chip.classList.remove('in-comfort', 'in-neutral', 'in-avoid');
+    chip.classList.add('in-' + cat);
+    zone.appendChild(chip);
   }
 
-  // Кнопка "Запланировать"
-  if (btnPlan) {
-    btnPlan.addEventListener('click', function() {
-      var count = inTarget.length;
+  // Touch drag (мобилка)
+  function addTouchDragLocation(chip) {
+    var ghost = null, startX = 0, startY = 0, moved = false;
 
-      // --- Пусто ---
-      if (count === 0) {
-        if (feedback) {
-          feedback.style.display = 'block';
-          feedback.style.background = 'rgba(245,158,11,0.1)';
-          feedback.style.borderColor = 'rgba(245,158,11,0.3)';
-          feedback.style.color = '#b45309';
-          feedback.textContent = '👆 Нажми на человечков выше, чтобы добавить их в план!';
+    chip.addEventListener('touchstart', function(e) {
+      var t = e.touches[0];
+      startX = t.clientX; startY = t.clientY; moved = false;
+      ghost = chip.cloneNode(true);
+      ghost.style.cssText = 'position:fixed;left:' + (t.clientX - 40) + 'px;top:' + (t.clientY - 15) + 'px;z-index:9999;opacity:0.85;pointer-events:none;';
+      document.body.appendChild(ghost);
+      chip.style.opacity = '0.4';
+    }, { passive: true });
+
+    chip.addEventListener('touchmove', function(e) {
+      if (!ghost) return;
+      var t = e.touches[0];
+      if (Math.abs(t.clientX - startX) > 5 || Math.abs(t.clientY - startY) > 5) moved = true;
+      ghost.style.left = (t.clientX - 40) + 'px';
+      ghost.style.top = (t.clientY - 15) + 'px';
+      e.preventDefault();
+    }, { passive: false });
+
+    chip.addEventListener('touchend', function(e) {
+      if (!ghost) return;
+      var t = e.changedTouches[0];
+      var el = document.elementFromPoint(t.clientX, t.clientY);
+      ghost.remove(); ghost = null;
+      chip.style.opacity = '';
+      if (!moved) return;
+
+      // Ищем ближайшую drop-зону
+      var target = el;
+      while (target && target !== document.body) {
+        if (target.classList && target.classList.contains('location-drop-zone')) {
+          moveChipToZone(chip, target);
+          return;
         }
+        if (target.id === 'location-pool') {
+          chip.classList.remove('in-comfort', 'in-neutral', 'in-avoid');
+          pool.appendChild(chip);
+          return;
+        }
+        target = target.parentNode;
+      }
+    });
+  }
+
+  // Кнопка "Готово"
+  if (btnDone) {
+    btnDone.addEventListener('click', function() {
+      var comfort = document.querySelectorAll('.location-drop-zone[data-category="comfort"] .location-chip').length;
+      var neutral = document.querySelectorAll('.location-drop-zone[data-category="neutral"] .location-chip').length;
+      var avoid   = document.querySelectorAll('.location-drop-zone[data-category="avoid"] .location-chip').length;
+      var placed  = comfort + neutral + avoid;
+
+      if (placed === 0) {
+        alert('Перетащи хотя бы одну локацию в любую категорию!');
         return;
       }
 
-      // --- СЛИШКОМ МНОГО (7+) — негативная ОС, кнопку НЕ показываем ---
-      if (count > 6) {
-        if (feedback) {
-          feedback.style.display = 'block';
-          feedback.style.background = 'rgba(239,68,68,0.08)';
-          feedback.style.borderColor = 'rgba(239,68,68,0.3)';
-          feedback.style.color = '#dc2626';
-          feedback.innerHTML =
-            '⚠️ <strong>' + count + ' — это уже многовато!</strong>' +
-            '<br><span style="font-size:12px;color:#7f1d1d;">Помни: качество важнее количества. ' +
-             'Убери нескольких человечков и попробуй снова.</span>';
-        }
-
-        // Прокручиваем к фидбеку
-        setTimeout(function() {
-          feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 50);
-
-        return; // НЕ показываем "Продолжить" и не сохраняем
-      }
-
-      // --- ОК (1–6) — позитивная ОС ---
-      if (feedback) {
-        feedback.style.display = 'block';
-        feedback.style.background = 'rgba(34,197,94,0.08)';
-        feedback.style.borderColor = 'rgba(34,197,94,0.3)';
-        feedback.style.color = '#166534';
-        feedback.innerHTML =
-          '✅ Отлично! Ты запланировал <strong>' + count + '</strong> знакомств' +
-          (count >= 5 ? ' — амбициозный план! 🔥' :
-           count >= 3 ? ' — хороший реалистичный план 👍' :
-           ' — отличное начало!') +
-          '<br><span style="font-size:12px;color:#64748b;">Помни: качество важнее количества. ' +
-          'Лучше 2–3 глубоких знакомства, чем 10 поверхностных.</span>';
+      if (feedbackEl) {
+        feedbackEl.innerHTML =
+          '<div style="display:flex; flex-direction:column; gap:6px; font-size:13px; margin-top:8px;">' +
+            '<div>🐟 Комфорт: <strong>' + comfort + '</strong></div>' +
+            '<div>😐 Нейтрально: <strong>' + neutral + '</strong></div>' +
+            '<div>🚫 Избегаю: <strong>' + avoid + '</strong></div>' +
+          '</div>';
       }
 
       addScore(2);
-      localStorage.setItem('nc_people_count', String(count));
+      if (modal) modal.classList.add('active');
+    });
+  }
 
-      // Показываем кнопку "Продолжить"
-      var btnContinue = document.getElementById('btn-people-continue');
-      if (btnContinue) {
-        btnContinue.classList.add('visible');
-      }
-
-      btnPlan.style.display = 'none';
-
-      // --- ПРОКРУТКА к кнопкам в правой панели ---
-      setTimeout(function() {
-        var panel = document.querySelector('#screen-16 .panel');
-        var actionsRow = document.getElementById('screen-16-actions');
-        if (panel && actionsRow) {
-          panel.scrollTo({
-            top: panel.scrollHeight,
-            behavior: 'smooth'
-          });
-        }
-      }, 200);
+  // Кнопка "Продолжить" в модалке
+  if (btnContinue) {
+    btnContinue.addEventListener('click', function() {
+      if (modal) modal.classList.remove('active');
+      showScreen('screen-17');
     });
   }
 }
