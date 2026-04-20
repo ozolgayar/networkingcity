@@ -4985,10 +4985,6 @@ body:has(.screen-card.active) #app {
   box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
 }
 
-/* Скрыта по умолчанию */
-#btn-people-continue {
-  display: none !important;
-}
 
 /* Показывается через JS класс .visible */
 #btn-people-continue.visible {
