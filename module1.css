@@ -5381,3 +5381,21 @@ body:has(.screen-card.active) #app {
   background: rgba(148, 163, 184, 0.4) !important;
   border-radius: 999px !important;
 }
+
+/* Вариант Б: если это <div class="smart-example"> с кастомным toggle */
+#screen-17 div.smart-example {
+  cursor: pointer !important;
+}
+
+#screen-17 div.smart-example.open .smart-example-content,
+#screen-17 div.smart-example[data-open="true"] .smart-example-content {
+  display: block !important;
+  max-height: 500px !important;
+  opacity: 1 !important;
+}
+
+/* Скрываем дубль-кнопку "Ответить" (оставляем только "Продолжить") */
+#screen-17 .smart-actions #btn-smart-answer,
+#screen-17 .smart-actions button[data-action="answer"]:not(#btn-smart-continue) {
+  display: none !important;
+}
