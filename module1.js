@@ -1875,83 +1875,78 @@ var people = [
   if (btnPlan) {
     btnPlan.addEventListener('click', function() {
       var count = inTarget.length;
+
+      // --- Пусто ---
       if (count === 0) {
         if (feedback) {
           feedback.style.display = 'block';
+          feedback.style.background = 'rgba(245,158,11,0.1)';
+          feedback.style.borderColor = 'rgba(245,158,11,0.3)';
+          feedback.style.color = '#b45309';
           feedback.textContent = '👆 Нажми на человечков выше, чтобы добавить их в план!';
-          feedback.style.color = '#f59e0b';
         }
         return;
       }
 
+      // --- СЛИШКОМ МНОГО (7+) — негативная ОС, кнопку НЕ показываем ---
+      if (count > 6) {
+        if (feedback) {
+          feedback.style.display = 'block';
+          feedback.style.background = 'rgba(239,68,68,0.08)';
+          feedback.style.borderColor = 'rgba(239,68,68,0.3)';
+          feedback.style.color = '#dc2626';
+          feedback.innerHTML =
+            '⚠️ <strong>' + count + ' — это уже многовато!</strong>' +
+            '<br><span style="font-size:12px;color:#7f1d1d;">Помни: качество важнее количества. ' +
+            'Лучше <strong>2–3 глубоких знакомства</strong>, чем ' + count + ' поверхностных. ' +
+            'Убери нескольких человечков и попробуй снова.</span>';
+        }
+
+        // Прокручиваем к фидбеку
+        setTimeout(function() {
+          feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 50);
+
+        return; // НЕ показываем "Продолжить" и не сохраняем
+      }
+
+      // --- ОК (1–6) — позитивная ОС ---
       if (feedback) {
         feedback.style.display = 'block';
+        feedback.style.background = 'rgba(34,197,94,0.08)';
+        feedback.style.borderColor = 'rgba(34,197,94,0.3)';
         feedback.style.color = '#166534';
         feedback.innerHTML =
           '✅ Отлично! Ты запланировал <strong>' + count + '</strong> знакомств' +
-          (count >= 5 ? ' — это очень амбициозно! 🔥' :
+          (count >= 5 ? ' — амбициозный план! 🔥' :
            count >= 3 ? ' — хороший реалистичный план 👍' :
-           ' — начало положено!') +
-          '<br><span style="font-size:12px;color:#64748b;">Помни: качество важнее количества. Лучше 2–3 глубоких знакомства, чем 10 поверхностных.</span>';
+           ' — отличное начало!') +
+          '<br><span style="font-size:12px;color:#64748b;">Помни: качество важнее количества. ' +
+          'Лучше 2–3 глубоких знакомства, чем 10 поверхностных.</span>';
       }
 
       addScore(2);
       localStorage.setItem('nc_people_count', String(count));
 
       // Показываем кнопку "Продолжить"
-     var btnContinue = document.getElementById('btn-people-continue');
-if (btnContinue) {
-  btnContinue.classList.add('visible');
-}
+      var btnContinue = document.getElementById('btn-people-continue');
+      if (btnContinue) {
+        btnContinue.classList.add('visible');
+      }
 
       btnPlan.style.display = 'none';
-    });
-  }
-}
-function initLocations() {
-  var btns = document.querySelectorAll('.location-btn');
-  var info = document.getElementById('location-info');
-  var btnNext = document.getElementById('btn-locations-next');
-  var visited = {};
 
-  var data = {
-    online: {
-      title: 'Онлайн',
-      text: 'LinkedIn, Telegram-группы, профессиональные форумы — цифровые площадки для знакомств без географических ограничений.'
-    },
-    events: {
-      title: 'Мероприятия',
-      text: 'Конференции, форумы, нетворкинг-ивенты — лучшее место для живых знакомств с профессионалами.'
-    },
-    clubs: {
-      title: 'Клубы',
-      text: 'Бизнес-клубы, профессиональные сообщества, коворкинги — места с регулярным общением единомышленников.'
-    },
-    education: {
-      title: 'Образование',
-      text: 'Курсы, мастер-классы, воркшопы — учишься и знакомишься с людьми со схожими интересами.'
-    }
-  };
-
-  btns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var key = btn.dataset.location;
-      btns.forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      visited[key] = true;
-      if (info && data[key]) {
-        info.innerHTML = '<strong>' + data[key].title + '</strong><p>' + data[key].text + '</p>';
-      }
-      if (Object.keys(visited).length >= 2 && btnNext) {
-        btnNext.style.display = 'block';
-      }
-    });
-  });
-
-  if (btnNext) {
-    btnNext.addEventListener('click', function() {
-      addScore(2);
-      showScreen('screen-16-1');
+      // --- ПРОКРУТКА к кнопкам в правой панели ---
+      setTimeout(function() {
+        var panel = document.querySelector('#screen-16 .panel');
+        var actionsRow = document.getElementById('screen-16-actions');
+        if (panel && actionsRow) {
+          panel.scrollTo({
+            top: panel.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 200);
     });
   }
 }
