@@ -157,6 +157,10 @@ if (id === 'screen-19') {
     window._photoInited = true;
     setTimeout(function() { initPhotoGame(); }, 50);
   }
+    if (id === 'screen-20-1' && !window._statusInited) {
+    window._statusInited = true;
+    setTimeout(function() { initStatusForm(); }, 50);
+  }
   if (id === 'screen-21' && !window._stickyInited) {
     window._stickyInited = true;
     setTimeout(function() { initProfileAndSticky(); }, 50);
@@ -2906,7 +2910,6 @@ function initBizcard() {
   } catch(e) {}
 }
 
-// ===== Экран 20: Фото =====
 // ===== Экран 20: Выбор фото =====
 function initPhotoGame() {
   var screen = document.getElementById('screen-20');
@@ -3079,6 +3082,150 @@ function initPhotoGame() {
     });
   }
 }
+
+// ===== Экран 20-1: Статус профиля =====
+function initStatusForm() {
+  var screen = document.getElementById('screen-20-1');
+  if (!screen) return;
+  if (screen.dataset.inited === '1') return;
+  screen.dataset.inited = '1';
+
+  var roleInput = document.getElementById('status-role');
+  var specInput = document.getElementById('status-spec');
+  var focusInput = document.getElementById('status-focus');
+  var btnSet = document.getElementById('btn-status-set');
+  var btnRetry = document.getElementById('btn-status-retry');
+  var btnNext = document.getElementById('btn-status-next');
+  var preview = document.getElementById('status-preview');
+  var previewText = document.getElementById('status-text');
+  var inlineFeedback = document.getElementById('status-inline-feedback');
+  var form = document.getElementById('status-form');
+
+  if (!roleInput || !specInput || !focusInput || !btnSet) {
+    console.warn('initStatusForm: элементы не найдены');
+    return;
+  }
+
+  // Убираем старые onclick
+  btnSet.removeAttribute('onclick');
+  if (btnRetry) btnRetry.removeAttribute('onclick');
+  if (btnNext) btnNext.removeAttribute('onclick');
+
+  // Восстановление сохранённого
+  try {
+    var saved = JSON.parse(localStorage.getItem('nc_status') || '{}');
+    if (saved.role) roleInput.value = saved.role;
+    if (saved.spec) specInput.value = saved.spec;
+    if (saved.focus) focusInput.value = saved.focus;
+  } catch(e) {}
+
+  // Создаём модалку успеха
+  var successModal = document.getElementById('status-success-modal');
+  if (!successModal) {
+    successModal = document.createElement('div');
+    successModal.id = 'status-success-modal';
+    successModal.className = 'modal-overlay';
+    successModal.innerHTML =
+      '<div class="modal" style="max-width:460px;">' +
+        '<div style="text-align:center; font-size:48px; margin-bottom:8px;">🎉</div>' +
+        '<h3 style="text-align:center; font-size:20px; color:#16a34a; margin-bottom:8px;">Отличный статус!</h3>' +
+        '<p style="font-size:14px; color:#475569; line-height:1.6; text-align:center; margin-bottom:14px;">' +
+          'Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».' +
+        '</p>' +
+        '<div id="status-preview-modal" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:14px 16px; text-align:center; margin-bottom:18px;">' +
+          '<div style="font-size:10px; color:#16a34a; font-weight:700; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">ТВОЙ СТАТУС</div>' +
+          '<div id="status-preview-modal-text" style="font-size:14px; font-weight:600; color:#1e293b; line-height:1.5;"></div>' +
+        '</div>' +
+        '<div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); margin-bottom:18px; font-size:12px; color:#0c4a6e; line-height:1.5;">' +
+          '💡 <strong>Совет:</strong> обновляй статус, когда меняется фокус твоей работы. Это твоя актуальная «визитная карточка».' +
+        '</div>' +
+        '<div class="actions-row" style="display:flex; gap:10px; justify-content:center; flex-wrap:nowrap;">' +
+          '<button class="btn" id="btn-status-next-modal" style="height:44px; padding:0 28px; font-size:14px; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
+            'Далее →' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(successModal);
+
+    document.getElementById('btn-status-next-modal').addEventListener('click', function() {
+      successModal.classList.remove('active');
+      showScreen('screen-21');
+    });
+  }
+
+  // Кнопка «Установить статус»
+  btnSet.addEventListener('click', function() {
+    var role = roleInput.value.trim();
+    var spec = specInput.value.trim();
+    var focus = focusInput.value.trim();
+
+    // Валидация
+    var errors = [];
+    [roleInput, specInput, focusInput].forEach(function(el) {
+      el.classList.remove('error');
+    });
+
+    if (role.length < 3) { errors.push('Роль/Сфера'); roleInput.classList.add('error'); }
+    if (spec.length < 3) { errors.push('Специализация'); specInput.classList.add('error'); }
+    if (focus.length < 3) { errors.push('Фокус/Интерес'); focusInput.classList.add('error'); }
+
+    if (errors.length > 0) {
+      if (inlineFeedback) {
+        inlineFeedback.style.display = 'block';
+        inlineFeedback.style.background = 'rgba(239,68,68,0.08)';
+        inlineFeedback.style.border = '1px solid rgba(239,68,68,0.3)';
+        inlineFeedback.style.color = '#dc2626';
+        inlineFeedback.innerHTML = '⚠️ Заполни все поля: <strong>' + errors.join(', ') + '</strong>';
+      }
+      return;
+    }
+
+    // Собираем статус
+    var fullStatus = role + ' | ' + spec + ' · ' + focus;
+
+    // Показываем превью
+    if (preview && previewText) {
+      previewText.textContent = fullStatus;
+      preview.style.display = 'block';
+    }
+
+    // Скрываем форму, показываем кнопку «Ещё раз»
+    if (form) form.style.display = 'none';
+    btnSet.style.display = 'none';
+    if (btnRetry) btnRetry.style.display = 'inline-flex';
+
+    // Сохраняем
+    localStorage.setItem('nc_status', JSON.stringify({
+      role: role, spec: spec, focus: focus, full: fullStatus
+    }));
+
+    // Награда
+    if (!state.statusRewarded) {
+      addScore(3);
+      state.statusRewarded = true;
+    }
+
+    // Обновляем текст в модалке и открываем её
+    var modalText = document.getElementById('status-preview-modal-text');
+    if (modalText) modalText.textContent = fullStatus;
+
+    setTimeout(function() {
+      successModal.classList.add('active');
+    }, 800);
+  });
+
+  // Кнопка «Ещё раз»
+  if (btnRetry) {
+    btnRetry.addEventListener('click', function() {
+      if (form) form.style.display = 'block';
+      if (preview) preview.style.display = 'none';
+      if (inlineFeedback) inlineFeedback.style.display = 'none';
+      btnSet.style.display = 'inline-flex';
+      btnRetry.style.display = 'none';
+    });
+  }
+}
+
 // ===== Экран 21: Стикеры =====
 function initProfileAndSticky() {
   var btn = document.getElementById('btn-sticky-done');
