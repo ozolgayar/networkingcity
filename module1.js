@@ -3701,6 +3701,38 @@ function initBag() {
     return { item: it, originalIdx: idx };
   }).sort(function() { return Math.random() - 0.5; });
 
+  // При drag&drop: для неправильных — сразу handleDrop (покажет модалку "лишнее"),
+  // для правильных — показываем модалку с описанием
+  function showItemModalOrDrop(idx) {
+    if (idx >= CORRECT_COUNT) {
+      handleDrop(idx); // неправильный — сразу модалка "это лишнее"
+    } else {
+      showItemModal(idx); // правильный — модалка с описанием + кнопка "Положить в сумку"
+    }
+  }
+  
+  // Показ модалки с описанием предмета
+  function showItemModal(idx) {
+    if (idx < 0 || idx >= allItems.length) return;
+    var item = allItems[idx];
+    var shelfEl = shelfVisual.querySelector('[data-idx="' + idx + '"]');
+    if (!shelfEl || shelfEl.classList.contains('taken')) return;
+
+    currentIdx = idx;
+    if (mImg) mImg.src = item.img;
+    if (mTitle) mTitle.textContent = item.name;
+    if (mText) mText.textContent = item.text;
+    if (mTake) {
+      mTake.style.display = 'inline-flex';
+      mTake.textContent = 'Положить в сумку';
+    }
+    if (mSkip) {
+      mSkip.style.display = 'inline-flex';
+      mSkip.textContent = 'Понятно';
+    }
+    if (modal) modal.classList.add('active');
+  }
+  
  // Функция обработки "дропа" предмета в сумку
   function handleDrop(idx) {
     if (idx < 0 || idx >= allItems.length) return;
@@ -3828,7 +3860,7 @@ function initBag() {
         var zone = target;
         while (zone && zone !== document.body) {
           if (zone.classList && (zone.classList.contains('bag-visual') || zone.id === 'bag-inside' || zone.classList.contains('bag-item-inside'))) {
-            handleDrop(i);
+            showItemModalOrDrop(i);
             return;
           }
           zone = zone.parentNode;
@@ -3855,7 +3887,7 @@ function initBag() {
       e.preventDefault();
       zone.classList.remove('drag-over-bag');
       var idx = parseInt(e.dataTransfer.getData('text/plain'), 10);
-      if (!isNaN(idx)) handleDrop(idx);
+      if (!isNaN(idx)) showItemModalOrDrop(idx);
     });
   }
   setupDropZone(bagVisual);
