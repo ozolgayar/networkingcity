@@ -2607,43 +2607,6 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// ===== Экран 17-1: Карточка Златы — переход к визитке =====
-function initZlataCard17() {
-  var screen = document.getElementById('screen-17-1');
-  if (!screen) return;
-
-  var card = document.getElementById('zlata-card-17');
-  var wrapper = document.getElementById('zlata-card-wrapper-17');
-  var bizcardFront = document.getElementById('inv-bizcard-17');
-  var bizcardBack = document.getElementById('inv-bizcard-17-back');
-
-  // Переворот карточки по клику на неё (кроме кликов по иконке визитки)
-  if (wrapper && card) {
-    wrapper.addEventListener('click', function(e) {
-      // Если кликнули по иконке визитки — не переворачиваем, а переходим дальше
-      if (e.target.closest('#inv-bizcard-17') || e.target.closest('#inv-bizcard-17-back')) {
-        return;
-      }
-      card.classList.toggle('flipped');
-    });
-  }
-
-  // Клик по иконке визитки (лицевая сторона) → переход на экран 19
-  if (bizcardFront) {
-    bizcardFront.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-19');
-    });
-  }
-
-  // Клик по иконке визитки (обратная сторона) → переход на экран 19
-  if (bizcardBack) {
-    bizcardBack.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-19');
-    });
-  }
-}
 
 // ===== Экран 19: Визитка =====
 function initBizcard() {
@@ -2990,37 +2953,6 @@ function initProfileAndSticky() {
   });
 }
 
-// ===== Экран 21-0: Карточка Златы — переход к сумке =====
-function initZlataCard21() {
-  var card = document.getElementById('zlata-card-21');
-  var wrapper = document.getElementById('zlata-card-wrapper-21');
-  var bagFront = document.getElementById('inv-bag-21');
-  var bagBack = document.getElementById('inv-bag-21-back');
-
-  if (wrapper && card) {
-    wrapper.addEventListener('click', function(e) {
-      if (e.target.closest('#inv-bag-21') || e.target.closest('#inv-bag-21-back')) {
-        return;
-      }
-      card.classList.toggle('flipped');
-    });
-  }
-
-  if (bagFront) {
-    bagFront.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-21-1');
-    });
-  }
-
-  if (bagBack) {
-    bagBack.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-21-1');
-    });
-  }
-}
-
 
 // ===== Экран 21-1: Сумка =====
 function initBag() {
@@ -3054,35 +2986,84 @@ function initBag() {
   }
 }
 
-// ===== Экран 21-1-1: Карточка Златы =====
-function initZlataCard211() {
-  var card = document.getElementById('zlata-card-211');
-  var wrapper = document.getElementById('zlata-card-wrapper-211');
-  var mapFront = document.getElementById('inv-map-211');
-  var mapBack = document.getElementById('inv-map-211-back');
+// ===== УНИВЕРСАЛЬНАЯ функция для карточек Златы =====
+function initZlataCardUniversal(screenId, nextScreenId, activeIconIds) {
+  var screen = document.getElementById(screenId);
+  if (!screen) {
+    console.warn('initZlataCardUniversal: экран не найден →', screenId);
+    return;
+  }
 
-  if (wrapper && card) {
-    wrapper.addEventListener('click', function(e) {
-      if (e.target.closest('#inv-map-211') || e.target.closest('#inv-map-211-back')) {
+  if (screen.dataset.zlataCardInited === '1') return;
+  screen.dataset.zlataCardInited = '1';
+
+  // Ищем карточку и обёртку внутри экрана по классам
+  var wrapper = screen.querySelector('.zlata-card-wrapper');
+  var card = screen.querySelector('.zlata-card');
+
+  if (!wrapper || !card) {
+    console.warn('initZlataCardUniversal: карточка не найдена на', screenId);
+    return;
+  }
+
+  // Собираем все активные иконки (может быть несколько: лицевая + обратная)
+  var activeIcons = [];
+  if (activeIconIds && Array.isArray(activeIconIds)) {
+    activeIconIds.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) activeIcons.push(el);
+    });
+  }
+  // Fallback — все .zlata-inv-item.active на экране
+  if (activeIcons.length === 0) {
+    screen.querySelectorAll('.zlata-inv-item.active').forEach(function(el) {
+      activeIcons.push(el);
+    });
+  }
+
+  // Клик по обёртке → переворот (кроме кликов по активным иконкам)
+  wrapper.addEventListener('click', function(e) {
+    // Если клик по любой активной иконке — не переворачиваем
+    for (var i = 0; i < activeIcons.length; i++) {
+      if (activeIcons[i] === e.target || activeIcons[i].contains(e.target)) {
         return;
       }
-      card.classList.toggle('flipped');
-    });
-  }
+    }
+    card.classList.toggle('flipped');
+    console.log('Карточка перевёрнута на', screenId);
+  });
 
-  if (mapFront) {
-    mapFront.addEventListener('click', function(e) {
+  // Клик по активной иконке → переход
+  activeIcons.forEach(function(icon) {
+    icon.style.cursor = 'pointer';
+    icon.addEventListener('click', function(e) {
       e.stopPropagation();
-      showScreen('screen-21-2');
+      console.log('Клик по активной иконке на', screenId, '→', nextScreenId);
+      showScreen(nextScreenId);
     });
-  }
+  });
 
-  if (mapBack) {
-    mapBack.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-21-2');
-    });
-  }
+  console.log('✅ initZlataCardUniversal готов:', screenId, '→', nextScreenId, '| иконок:', activeIcons.length);
+}
+
+// ===== Экран 17-1: после SMART → к визитке =====
+function initZlataCard17() {
+  initZlataCardUniversal('screen-17-1', 'screen-19', ['inv-bizcard-17', 'inv-bizcard-17-back']);
+}
+
+// ===== Экран 19-1: после визитки → к фото =====
+function initZlataCard19() {
+  initZlataCardUniversal('screen-19-1', 'screen-20', ['inv-phone-19', 'inv-phone-19-back']);
+}
+
+// ===== Экран 21-0: после стикеров → к сумке =====
+function initZlataCard21() {
+  initZlataCardUniversal('screen-21-0', 'screen-21-1', ['inv-bag-21', 'inv-bag-21-back']);
+}
+
+// ===== Экран 21-1-1: после сумки → к карте =====
+function initZlataCard211() {
+  initZlataCardUniversal('screen-21-1-1', 'screen-21-2', ['inv-map-211', 'inv-map-211-back']);
 }
 
 // ===== Экран 21-2: Карта =====
