@@ -2660,6 +2660,9 @@ function initBizcard() {
   var phoneError = document.getElementById('bc-phone-error');
   var phoneInput = document.getElementById('bc-phone');
 
+  // Скрываем «Далее» в основной панели (теперь он в модалке)
+  if (btnNext) btnNext.style.display = 'none';
+
   // ===== DRAG & DROP — desktop =====
   dragEls.forEach(function(el) {
     el.addEventListener('dragstart', function(e) {
@@ -2702,7 +2705,6 @@ function initBizcard() {
       el.style.opacity = '';
       if (!moved) return;
 
-      // Ищем drop-zone
       var zone = target;
       while (zone && zone !== document.body) {
         if (zone.classList && zone.classList.contains('bizcard-drop-zone')) {
@@ -2727,7 +2729,6 @@ function initBizcard() {
       e.preventDefault();
       zone.classList.remove('drag-over');
       var elType = e.dataTransfer.getData('text/plain');
-      var imgSrc = e.dataTransfer.getData('img');
       var sourceEl = document.querySelector('.drag-el[data-el="' + elType + '"]');
       if (!sourceEl) return;
       placeElementInZone(sourceEl, zone);
@@ -2735,25 +2736,20 @@ function initBizcard() {
   });
 
   function placeElementInZone(sourceEl, zone) {
-    // Проверяем, подходит ли элемент к этой зоне
     var elType = sourceEl.dataset.el;
     var zoneType = zone.dataset.zone;
 
     if (elType !== zoneType) {
-      // Неподходящая зона — подсвечиваем красным
       zone.classList.add('error-flash');
-      setTimeout(function() {
-        zone.classList.remove('error-flash');
-      }, 600);
+      setTimeout(function() { zone.classList.remove('error-flash'); }, 600);
       if (feedback) {
         feedback.className = 'bizcard-feedback err';
-        feedback.textContent = '❌ Этот элемент не подходит в эту зону. Логотип → к логотипу, QR → к QR, Фото → к фото.';
+        feedback.textContent = '❌ Этот элемент не подходит сюда. Логотип → к логотипу, QR → к QR, Фото → к фото.';
         setTimeout(function() { feedback.textContent = ''; feedback.className = 'bizcard-feedback'; }, 3000);
       }
       return;
     }
 
-    // Всё ок — помещаем
     var imgSrc = sourceEl.dataset.img;
     zone.innerHTML = '<img src="' + imgSrc + '" alt="' + elType + '">';
     zone.classList.add('filled');
@@ -2781,6 +2777,65 @@ function initBizcard() {
     });
   }
 
+  // ===== Создаём модалку успеха (если её ещё нет) =====
+  var successModal = document.getElementById('bizcard-success-modal');
+  if (!successModal) {
+    successModal = document.createElement('div');
+    successModal.id = 'bizcard-success-modal';
+    successModal.className = 'modal-overlay';
+    successModal.innerHTML =
+      '<div class="modal" style="max-width:440px;">' +
+        '<div style="text-align:center; font-size:48px; margin-bottom:8px;">🎉</div>' +
+        '<h3 style="text-align:center; font-size:20px; color:#16a34a; margin-bottom:8px;">Отличная визитка!</h3>' +
+        '<p style="font-size:14px; color:#475569; line-height:1.6; text-align:center; margin-bottom:18px;">' +
+          'Все основные элементы на месте. Теперь ты готов(а) к знакомствам на мероприятии.' +
+        '</p>' +
+        '<div style="padding:12px 14px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); margin-bottom:18px; font-size:13px; color:#166534; line-height:1.5;">' +
+          '💡 <strong>Совет:</strong> сохрани свою визитку — она пригодится на экране итогов и в будущих модулях.' +
+        '</div>' +
+        '<div id="bizcard-saved-indicator" style="display:none; text-align:center; font-size:13px; color:#16a34a; font-weight:600; margin-bottom:12px; animation:fadeIn 0.3s ease;">' +
+          '✅ Ответ сохранён!' +
+        '</div>' +
+        '<div class="actions-row" style="display:flex; gap:10px; justify-content:center; flex-wrap:nowrap;">' +
+          '<button class="btn secondary" id="btn-bc-save-modal" style="height:44px; padding:0 20px; font-size:14px; border-radius:999px; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; font-weight:600; cursor:pointer;">' +
+            '💾 Сохранить ответ' +
+          '</button>' +
+          '<button class="btn" id="btn-bc-next-modal" style="height:44px; padding:0 28px; font-size:14px; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
+            'Далее →' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(successModal);
+
+    // Обработчики модалки
+    document.getElementById('btn-bc-save-modal').addEventListener('click', function() {
+      var data = {};
+      ['name','role','company','hook','email','phone','profile'].forEach(function(key) {
+        var el = document.getElementById('bc-' + key);
+        if (el) data[key] = el.value.trim();
+      });
+      localStorage.setItem('nc_bizcard', JSON.stringify(data));
+      var ind = document.getElementById('bizcard-saved-indicator');
+      if (ind) {
+        ind.style.display = 'block';
+        setTimeout(function() { ind.style.display = 'none'; }, 2500);
+      }
+    });
+
+    document.getElementById('btn-bc-next-modal').addEventListener('click', function() {
+      // Автосохранение перед переходом
+      var data = {};
+      ['name','role','company','hook','email','phone','profile'].forEach(function(key) {
+        var el = document.getElementById('bc-' + key);
+        if (el) data[key] = el.value.trim();
+      });
+      localStorage.setItem('nc_bizcard', JSON.stringify(data));
+
+      successModal.classList.remove('active');
+      showScreen('screen-19-1');
+    });
+  }
+
   // ===== КНОПКА "ПРОВЕРИТЬ" =====
   if (btnCheck) {
     btnCheck.addEventListener('click', function() {
@@ -2797,7 +2852,6 @@ function initBizcard() {
       var errors = [];
       var filled = 0;
 
-      // Проверяем поля
       Object.keys(fields).forEach(function(key) {
         var el = fields[key];
         if (!el) return;
@@ -2810,14 +2864,12 @@ function initBizcard() {
         }
       });
 
-      // Проверка телефона — есть ли цифры
       var phoneVal = fields.phone ? fields.phone.value.trim() : '';
       if (phoneVal.length > 0 && !/\d/.test(phoneVal)) {
         errors.push('В телефоне должны быть цифры');
         if (phoneError) phoneError.style.display = 'block';
       }
 
-      // Проверяем drop-zones
       var filledZones = screen.querySelectorAll('.bizcard-drop-zone.filled').length;
 
       if (filled < 4) {
@@ -2839,7 +2891,7 @@ function initBizcard() {
       // Всё ок!
       if (feedback) {
         feedback.className = 'bizcard-feedback ok';
-        feedback.innerHTML = '✅ <strong>Отличная визитка!</strong> Все основные элементы на месте. Теперь ты готов к знакомствам.';
+        feedback.innerHTML = '✅ <strong>Отличная визитка!</strong> Все основные элементы на месте.';
       }
 
       // Сохраняем
@@ -2855,23 +2907,17 @@ function initBizcard() {
         state.bizcardRewarded = true;
       }
 
-      // Скрываем «Проверить», показываем «Далее»
-      btnCheck.style.display = 'none';
-      if (btnNext) btnNext.style.display = 'inline-flex';
-
       // Празднование
       var template = document.getElementById('bc-template');
       if (template) {
         template.classList.add('celebrate');
         setTimeout(function() { template.classList.remove('celebrate'); }, 1500);
       }
-    });
-  }
 
-  // ===== КНОПКА "ДАЛЕЕ" =====
-  if (btnNext) {
-    btnNext.addEventListener('click', function() {
-      showScreen('screen-19-1');
+      // Открываем модалку успеха
+      setTimeout(function() {
+        successModal.classList.add('active');
+      }, 500);
     });
   }
 
@@ -2884,39 +2930,6 @@ function initBizcard() {
     });
   } catch(e) {}
 }
-// ===== Экран 19-1: Карточка Златы =====
-function initZlataCard19() {
-  var card = document.getElementById('zlata-card-19');
-  var wrapper = document.getElementById('zlata-card-wrapper-19');
-  var phoneFront = document.getElementById('inv-phone-19');
-  var phoneBack = document.getElementById('inv-phone-19-back');
-
-  if (wrapper && card) {
-    wrapper.addEventListener('click', function(e) {
-      if (e.target.closest('#inv-phone-19') || e.target.closest('#inv-phone-19-back')) {
-        return;
-      }
-      card.classList.toggle('flipped');
-    });
-  }
-
-  if (phoneFront) {
-    phoneFront.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-20');
-    });
-  }
-
-  if (phoneBack) {
-    phoneBack.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showScreen('screen-20');
-    });
-  }
-}
-
-
-
 // ===== Экран 20: Фото =====
 function initPhotoGame() {
   var slots = document.querySelectorAll('.photo-slot');
