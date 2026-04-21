@@ -2310,6 +2310,14 @@
 </div>
       
 <div class="screen" id="screen-final">
+     <!-- Внутри screen-final, где сейчас кнопки -->
+<div class="final-actions">
+  <div class="final-actions-row">
+    <button id="btn-download-pdf" type="button">
+      <span>📥</span>
+      <span>Скачать мои ответы (PDF)</span>
+    </button>
+  </div>
 <div style="max-width:500px; margin:0 auto; text-align:center; padding:40px 20px; display:flex; flex-direction:column; gap:16px; align-items:center;">
 <div style="font-size:48px;">🎉</div>
 <h2>Модуль 1 пройден!</h2>
@@ -2339,7 +2347,8 @@
 
      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="module1.js"></script>
-
+<!-- jsPDF для генерации PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style id="screen-visibility-fix">
   .screen {
     display: none !important;
