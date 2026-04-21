@@ -7240,3 +7240,31 @@ body:has(.screen-card.active) #app {
   max-width: 200px !important;
   margin: 0 auto !important;
 }
+
+/* ===== ФИКС КНОПОК В МОДАЛКЕ СУМКИ ===== */
+#bag-modal.active {
+  pointer-events: auto !important;
+}
+
+#bag-modal .modal {
+  pointer-events: auto !important;
+}
+
+#bag-modal-take,
+#bag-modal-skip {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+}
+
+#bag-modal-take:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(34,197,94,0.45) !important;
+}
+
+#bag-modal-take:active,
+#bag-modal-skip:active {
+  transform: scale(0.97);
+}
