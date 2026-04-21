@@ -3139,7 +3139,13 @@ function initStatusForm() {
         '<div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); margin-bottom:18px; font-size:12px; color:#0c4a6e; line-height:1.5;">' +
           '💡 <strong>Совет:</strong> обновляй статус, когда меняется фокус твоей работы. Это твоя актуальная «визитная карточка».' +
         '</div>' +
+        '<div id="status-saved-indicator" style="display:none; text-align:center; font-size:13px; color:#16a34a; font-weight:600; margin-bottom:12px;">' +
+          '✅ Ответ сохранён!' +
+        '</div>' +
         '<div class="actions-row" style="display:flex; gap:10px; justify-content:center; flex-wrap:nowrap;">' +
+          '<button class="btn secondary" id="btn-status-save-modal" style="height:44px; padding:0 20px; font-size:14px; border-radius:999px; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; font-weight:600; cursor:pointer;">' +
+            '💾 Сохранить ответ' +
+          '</button>' +
           '<button class="btn" id="btn-status-next-modal" style="height:44px; padding:0 28px; font-size:14px; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
             'Далее →' +
           '</button>' +
@@ -3147,7 +3153,49 @@ function initStatusForm() {
       '</div>';
     document.body.appendChild(successModal);
 
+    // Кнопка «Сохранить ответ» в модалке
+    document.getElementById('btn-status-save-modal').addEventListener('click', function() {
+      var role = roleInput.value.trim();
+      var spec = specInput.value.trim();
+      var focus = focusInput.value.trim();
+      var fullStatus = role + ' | ' + spec + ' · ' + focus;
+
+      localStorage.setItem('nc_status', JSON.stringify({
+        role: role, spec: spec, focus: focus, full: fullStatus
+      }));
+      localStorage.setItem('nc_status_confirmed', '1');
+
+      var ind = document.getElementById('status-saved-indicator');
+      if (ind) {
+        ind.style.display = 'block';
+        setTimeout(function() { ind.style.display = 'none'; }, 2500);
+      }
+
+      var btn = document.getElementById('btn-status-save-modal');
+      if (btn) {
+        var orig = btn.innerHTML;
+        btn.innerHTML = '✅ Сохранено';
+        btn.disabled = true;
+        setTimeout(function() {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+        }, 2000);
+      }
+
+      console.log('✅ Статус сохранён:', fullStatus);
+    });
+
+    // Кнопка «Далее» в модалке
     document.getElementById('btn-status-next-modal').addEventListener('click', function() {
+      // Автосохранение перед переходом
+      var role = roleInput.value.trim();
+      var spec = specInput.value.trim();
+      var focus = focusInput.value.trim();
+      var fullStatus = role + ' | ' + spec + ' · ' + focus;
+      localStorage.setItem('nc_status', JSON.stringify({
+        role: role, spec: spec, focus: focus, full: fullStatus
+      }));
+
       successModal.classList.remove('active');
       showScreen('screen-21');
     });
