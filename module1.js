@@ -199,12 +199,16 @@ if (id === 'screen-19') {
       if (hint) hint.style.display = allDone ? 'none'  : 'block';
     }, 50);
   }
-  if (id === 'screen-final') {
+if (id === 'screen-final') {
     localStorage.setItem('nc_mod1_status', 'complete');
     localStorage.setItem('nc_mod1_progress', '100');
     var finalScoreEl = document.getElementById('final-score');
     if (finalScoreEl) finalScoreEl.textContent = state.score;
-  }
+    
+    // Подключаем кнопку скачивания PDF
+    setTimeout(function() {
+      initDownloadPdfButton();
+    }, 100);
 }
 
 function clamp(v, min, max) {
@@ -4160,6 +4164,337 @@ function initZlataReady() {
   });
 }
 
+// ===== Генерация PDF с ответами =====
+function generateAnswersPDF() {
+  // Проверяем jsPDF
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert('Библиотека jsPDF не загружена. Проверь подключение скрипта в index.html');
+    return;
+  }
+
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
+  });
+
+  // ===== ПОДКЛЮЧАЕМ КИРИЛЛИЧЕСКИЙ ШРИФТ =====
+  // jsPDF по умолчанию не поддерживает кириллицу, поэтому используем встроенный Times с конвертацией
+  // Для простоты — используем helvetica, но транслитерация не нужна, 
+  // т.к. подключим cp1251 через встроенные возможности
+
+  // Собираем все ответы из localStorage
+  var answers = {
+    purpose: localStorage.getItem('nc_purpose_text') || '',
+    fearStrategies: {},
+    smartGoal: {},
+    bizcard: {},
+    status: {},
+    mySticky: {}
+  };
+
+  try { answers.fearStrategies = JSON.parse(localStorage.getItem('nc_fear_strategies') || '{}'); } catch(e) {}
+  try { answers.smartGoal = JSON.parse(localStorage.getItem('nc_smart_goal') || '{}'); } catch(e) {}
+  try { answers.bizcard = JSON.parse(localStorage.getItem('nc_bizcard') || '{}'); } catch(e) {}
+  try { answers.status = JSON.parse(localStorage.getItem('nc_status') || '{}'); } catch(e) {}
+  try { answers.mySticky = JSON.parse(localStorage.getItem('nc_my_sticky') || '{}'); } catch(e) {}
+
+  // ===== ПОСКОЛЬКУ jsPDF не поддерживает кириллицу из коробки,
+  // используем html2canvas-подход: рендерим красивый HTML и конвертируем в PDF =====
+
+  // Создаём временный div с красивой версткой
+  var pdfContent = document.createElement('div');
+  pdfContent.style.cssText = [
+    'position:fixed',
+    'left:-9999px',
+    'top:0',
+    'width:794px', // A4 ширина при 96dpi
+    'padding:40px',
+    'background:#ffffff',
+    'font-family:Arial, sans-serif',
+    'color:#1e293b',
+    'line-height:1.5',
+    'box-sizing:border-box'
+  ].join(';');
+
+  // Формируем HTML
+  var html = '';
+
+  // Обложка
+  html += '<div style="text-align:center; padding:40px 20px; background:linear-gradient(135deg,#a855f7,#7c3aed); color:#fff; border-radius:16px; margin-bottom:30px;">';
+  html +=   '<div style="font-size:40px; margin-bottom:10px;">🎓</div>';
+  html +=   '<h1 style="font-size:28px; font-weight:700; margin:0 0 8px; color:#fff;">Мои ответы</h1>';
+  html +=   '<div style="font-size:16px; opacity:0.9;">Модуль 1: Основы нетворкинга</div>';
+  html +=   '<div style="font-size:13px; opacity:0.8; margin-top:12px;">' + new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + '</div>';
+  html += '</div>';
+
+  // Очки
+  html += '<div style="display:flex; justify-content:space-around; margin-bottom:30px; padding:16px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0;">';
+  html +=   '<div style="text-align:center;"><div style="font-size:28px; font-weight:700; color:#a855f7;">' + (state.score || 0) + '</div><div style="font-size:12px; color:#64748b;">Очки</div></div>';
+  html +=   '<div style="text-align:center;"><div style="font-size:28px; font-weight:700; color:#22c55e;">100%</div><div style="font-size:12px; color:#64748b;">Прогресс</div></div>';
+  html += '</div>';
+
+  // 1. Цель нетворкинга
+  if (answers.purpose) {
+    html += renderPdfSection('🎯', 'Моя цель нетворкинга', answers.purpose, '#3b82f6');
+  }
+
+  // 2. Стратегии по страхам
+  if (Object.keys(answers.fearStrategies).length > 0) {
+    var fearLabels = {
+      say: 'Не знаю, что сказать',
+      reject: 'Меня отвергнут',
+      worth: 'Я недостаточно важен(на)',
+      incompetent: 'Покажусь некомпетентным',
+      pushy: 'Буду навязчивым',
+      everyone: 'Все уже знают друг друга',
+      awkward: 'Потом будет неловко',
+      custom: 'Мой страх'
+    };
+    var fearContent = '';
+    Object.keys(answers.fearStrategies).forEach(function(key) {
+      var val = answers.fearStrategies[key];
+      if (val && val.trim()) {
+        fearContent += '<div style="margin-bottom:12px; padding:10px 14px; background:#fef3c7; border-left:3px solid #f59e0b; border-radius:8px;">';
+        fearContent +=   '<div style="font-size:13px; font-weight:700; color:#92400e; margin-bottom:4px;">' + (fearLabels[key] || key) + '</div>';
+        fearContent +=   '<div style="font-size:13px; color:#1e293b;">' + escapeHtml(val) + '</div>';
+        fearContent += '</div>';
+      }
+    });
+    if (fearContent) {
+      html += renderPdfSection('🎭', 'Стратегии работы со страхами', fearContent, '#f59e0b', true);
+    }
+  }
+
+  // 3. Колесо баланса
+  if (state.wheel && state.wheel.values && state.wheel.values.some(function(v) { return v > 0; })) {
+    var wheelContent = '<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">';
+    state.wheel.segments.forEach(function(seg, i) {
+      var val = state.wheel.values[i] || 0;
+      var imp = (state.wheel.importance && state.wheel.importance[i]) || 5;
+      wheelContent += '<div style="padding:10px 12px; background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">';
+      wheelContent +=   '<div style="font-size:13px; font-weight:700; color:#0c4a6e; margin-bottom:4px;">' + seg + '</div>';
+      wheelContent +=   '<div style="font-size:11px; color:#475569;">Сейчас: <b>' + val + '/10</b> | Важность: <b>' + imp + '/10</b></div>';
+      wheelContent += '</div>';
+    });
+    wheelContent += '</div>';
+    html += renderPdfSection('⚖️', 'Моё колесо баланса', wheelContent, '#38bdf8', true);
+  }
+
+  // 4. SMART цель
+  if (Object.keys(answers.smartGoal).length > 0) {
+    var smartLabels = {
+      s: { letter: 'S', name: 'Specific (Конкретная)', color: '#22c55e' },
+      m: { letter: 'M', name: 'Measurable (Измеримая)', color: '#3b82f6' },
+      a: { letter: 'A', name: 'Achievable (Достижимая)', color: '#f59e0b' },
+      r: { letter: 'R', name: 'Relevant (Релевантная)', color: '#a855f7' },
+      t: { letter: 'T', name: 'Time-bound (Ограниченная во времени)', color: '#ef4444' }
+    };
+    var smartContent = '';
+    ['s','m','a','r','t'].forEach(function(key) {
+      var val = answers.smartGoal[key];
+      if (val && val.trim()) {
+        var info = smartLabels[key];
+        smartContent += '<div style="margin-bottom:10px; padding:10px 14px; background:' + info.color + '15; border-left:3px solid ' + info.color + '; border-radius:8px;">';
+        smartContent +=   '<div style="font-size:11px; font-weight:700; color:' + info.color + '; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px;">';
+        smartContent +=     info.letter + ' — ' + info.name;
+        smartContent +=   '</div>';
+        smartContent +=   '<div style="font-size:13px; color:#1e293b;">' + escapeHtml(val) + '</div>';
+        smartContent += '</div>';
+      }
+    });
+    if (smartContent) {
+      html += renderPdfSection('🎯', 'Моя SMART-цель', smartContent, '#22c55e', true);
+    }
+  }
+
+  // 5. Визитка
+  if (Object.keys(answers.bizcard).length > 0) {
+    var bcLabels = {
+      name: 'Имя',
+      role: 'Должность',
+      company: 'Компания',
+      hook: 'Зацепка',
+      email: 'Email',
+      phone: 'Телефон',
+      profile: 'Профиль / сайт'
+    };
+    var bcContent = '<div style="padding:20px; background:linear-gradient(135deg,#fef3c7,#fde68a); border-radius:12px; border:1px solid #fbbf24;">';
+    Object.keys(bcLabels).forEach(function(key) {
+      var val = answers.bizcard[key];
+      if (val && val.trim()) {
+        bcContent += '<div style="margin-bottom:8px; font-size:13px;"><strong style="color:#92400e;">' + bcLabels[key] + ':</strong> <span style="color:#1e293b;">' + escapeHtml(val) + '</span></div>';
+      }
+    });
+    bcContent += '</div>';
+    html += renderPdfSection('💼', 'Моя визитка', bcContent, '#f59e0b', true);
+  }
+
+  // 6. Статус профиля
+  if (answers.status.full) {
+    var statusContent = '<div style="padding:16px 20px; background:linear-gradient(135deg,#f0fdf4,#dcfce7); border-radius:12px; border:1px solid #86efac; text-align:center;">';
+    statusContent +=   '<div style="font-size:15px; font-weight:600; color:#14532d;">' + escapeHtml(answers.status.full) + '</div>';
+    statusContent += '</div>';
+    html += renderPdfSection('📱', 'Мой статус в соцсетях', statusContent, '#22c55e', true);
+  }
+
+  // 7. Стикер-самопрезентация
+  if (answers.mySticky.text) {
+    var stickyContent = '<div style="padding:20px; background:linear-gradient(135deg,#fef9c3,#fde68a); border:2px dashed #facc15; border-radius:12px; text-align:center;">';
+    stickyContent +=   '<div style="font-size:14px; font-style:italic; color:#713f12; line-height:1.6;">«' + escapeHtml(answers.mySticky.text) + '»</div>';
+    stickyContent += '</div>';
+    html += renderPdfSection('📌', 'Моя самопрезентация', stickyContent, '#facc15', true);
+  }
+
+  // Футер
+  html += '<div style="margin-top:40px; padding-top:20px; border-top:2px solid #e2e8f0; text-align:center; font-size:11px; color:#94a3b8;">';
+  html +=   'Сформировано в курсе «Нетворкинг» · ' + new Date().toLocaleDateString('ru-RU');
+  html += '</div>';
+
+  pdfContent.innerHTML = html;
+  document.body.appendChild(pdfContent);
+
+  // Рендерим через html2canvas → jsPDF
+  renderHtmlToPdf(pdfContent, 'Мои_ответы_Нетворкинг.pdf');
+}
+
+function renderPdfSection(icon, title, content, color, isHtml) {
+  var html = '';
+  html += '<div style="margin-bottom:24px; page-break-inside:avoid;">';
+  html +=   '<div style="display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid ' + color + ';">';
+  html +=     '<div style="font-size:22px;">' + icon + '</div>';
+  html +=     '<h2 style="font-size:17px; font-weight:700; color:' + color + '; margin:0;">' + title + '</h2>';
+  html +=   '</div>';
+  if (isHtml) {
+    html += '<div>' + content + '</div>';
+  } else {
+    html += '<div style="padding:12px 16px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; font-size:13px; line-height:1.6; color:#334155;">';
+    html +=   escapeHtml(content);
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderHtmlToPdf(element, filename) {
+  var btn = document.getElementById('btn-download-pdf');
+  if (btn) {
+    btn.innerHTML = '<span class="spinner"></span><span>Генерирую PDF...</span>';
+    btn.disabled = true;
+  }
+
+  // Загружаем html2canvas динамически если не загружен
+  function doRender() {
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false
+    }).then(function(canvas) {
+      var imgData = canvas.toDataURL('image/png');
+      var jsPDF = window.jspdf.jsPDF;
+      var pdf = new jsPDF('p', 'mm', 'a4');
+      var pdfWidth = pdf.internal.pageSize.getWidth();
+      var pdfHeight = pdf.internal.pageSize.getHeight();
+
+      var imgWidth = pdfWidth;
+      var imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      var heightLeft = imgHeight;
+      var position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      // Доп. страницы если контент длинный
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save(filename);
+
+      // Убираем временный элемент
+      element.remove();
+
+      // Показываем toast
+      showPdfToast('✅ PDF скачан!');
+
+      if (btn) {
+        btn.innerHTML = '<span>📥</span><span>Скачать мои ответы (PDF)</span>';
+        btn.disabled = false;
+      }
+    }).catch(function(err) {
+       console.error('Ошибка генерации PDF:', err);
+      alert('Не удалось сгенерировать PDF. Попробуй ещё раз.');
+      element.remove();
+      if (btn) {
+        btn.innerHTML = '<span>📥</span><span>Скачать мои ответы (PDF)</span>';
+        btn.disabled = false;
+      }
+    });
+  }
+
+  // Проверяем наличие html2canvas
+  if (typeof html2canvas === 'undefined') {
+    // Динамически подгружаем
+    var script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    script.onload = doRender;
+    script.onerror = function() {
+      alert('Не удалось загрузить библиотеку html2canvas. Проверь интернет.');
+      element.remove();
+      if (btn) {
+        btn.innerHTML = '<span>📥</span><span>Скачать мои ответы (PDF)</span>';
+        btn.disabled = false;
+      }
+    };
+    document.head.appendChild(script);
+  } else {
+    doRender();
+  }
+}
+
+function showPdfToast(text) {
+  var existing = document.querySelector('.pdf-saved-toast');
+  if (existing) existing.remove();
+
+  var toast = document.createElement('div');
+  toast.className = 'pdf-saved-toast';
+  toast.textContent = text;
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      toast.classList.add('visible');
+    });
+  });
+
+  setTimeout(function() {
+    toast.classList.remove('visible');
+    setTimeout(function() { toast.remove(); }, 300);
+  }, 3000);
+}
+
+// ===== Привязка кнопки «Скачать PDF» =====
+function initDownloadPdfButton() {
+  var btn = document.getElementById('btn-download-pdf');
+  if (!btn) {
+    console.warn('initDownloadPdfButton: кнопка не найдена');
+    return;
+  }
+  if (btn.dataset.inited === '1') return;
+  btn.dataset.inited = '1';
+
+  btn.addEventListener('click', function() {
+    generateAnswersPDF();
+  });
+
+  console.log('✅ Кнопка PDF подключена');
+}
 document.addEventListener('DOMContentLoaded', function() {
   try { initGlobalNav(); } catch(e) { console.warn('initGlobalNav error:', e); }
   try { initMainMenu(); } catch(e) { console.warn('initMainMenu error:', e); }
