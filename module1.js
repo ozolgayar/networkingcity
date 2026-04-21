@@ -3771,7 +3771,7 @@ function initBag() {
 
     document.getElementById('btn-bag-final-continue').addEventListener('click', function() {
       finalModal.classList.remove('active');
-      if (typeof showScreen === 'function') showScreen('screen-21-1-1');
+      if (typeof showScreen === 'function') showScreen('screen-zlata-ready');
     });
   }
 
@@ -3968,36 +3968,156 @@ function initZlataCard211() {
 
 // ===== Экран 21-2: Карта =====
 function initVenueMap() {
-  var pins = document.querySelectorAll('.map-pin');
-  var info = document.getElementById('map-venue-info');
-  var btn = document.getElementById('btn-map-done');
+  var screen = document.getElementById('screen-21-2');
+  if (!screen) return;
+  if (screen.dataset.inited === '1') return;
+  screen.dataset.inited = '1';
 
-  var venues = {
-    venue1: { name: 'Конференц-зал "Горизонт"', desc: 'Идеально для деловых встреч и презентаций' },
-    venue2: { name: 'Коворкинг "Точка роста"', desc: 'Неформальная атмосфера для знакомств' },
-    venue3: { name: 'Бизнес-клуб "Капитал"', desc: 'Элитные нетворкинг-ивенты для предпринимателей' }
-  };
+  var objects = screen.querySelectorAll('.venue-obj');
+  var counter = document.getElementById('venue-counter');
+  var successMsg = document.getElementById('venue-success');
+  var lifehack = document.getElementById('venue-lifehack');
+  var btnNext = document.getElementById('btn-venue-next');
+  var modal = document.getElementById('venue-modal');
+  var modalTitle = document.getElementById('venue-modal-title');
+  var modalText = document.getElementById('venue-modal-text');
+  var modalOk = document.getElementById('venue-modal-ok');
 
-  pins.forEach(function(pin) {
-    pin.addEventListener('click', function() {
-      pins.forEach(function(p) { p.classList.remove('active'); });
-      pin.classList.add('active');
-      var key = pin.dataset.venue;
-      if (info && venues[key]) {
-        info.innerHTML = '<strong>' + venues[key].name + '</strong><p>' + venues[key].desc + '</p>';
+  if (!objects.length) {
+    console.warn('initVenueMap: объекты не найдены');
+    return;
+  }
+
+  // Данные по каждому объекту (индекс = data-obj)
+  var venueData = [
+    { // 0 — Гардероб
+      good: true,
+      title: '🧥 Гардероб',
+      text: 'Отличное место! Люди расслаблены, никуда не спешат, снимают пальто — есть пауза для «Привет, ты тоже впервые здесь?». Короткая реплика может перейти в разговор.'
+    },
+    { // 1 — Ресепшен
+      good: false,
+      title: '🎫 Ресепшен',
+      text: 'Неподходящее место. Люди заняты регистрацией, думают о бейджах и программе. Они сосредоточены на процессе — знакомиться не настроены.'
+    },
+    { // 2 — Организатор
+      good: false,
+      title: '📋 Организатор',
+      text: 'Не лучшее место. Организаторы всегда заняты и решают рабочие вопросы. Если и общаться — то коротко, по делу.'
+    },
+    { // 3 — Напитки (Бар) ⭐
+      good: true,
+      title: '🍹 Зона с напитками',
+      text: 'Отличное место! Классика нетворкинга. Люди расслаблены, стоят с бокалами, ждут своей очереди. Отличный повод: «Что посоветуете из безалкогольного?» или «Как кофе?» — и разговор пошёл.'
+    },
+    { // 4 — Еда ⭐
+      good: true,
+      title: '🍱 Столик с едой',
+      text: 'Отличное место! Здесь работает закон «одной очереди»: люди выбирают, комментируют, шутят. Легко начать: «О, вы тоже берёте это? Рекомендую!». Метод «Корова на выпасе» — ходи сюда несколько раз, каждый поход даёт новый повод для разговора.'
+    },
+    { // 5 — Столик с закусками
+      good: false,
+      title: '🍽️ Столик с закусками',
+      text: 'Осторожно! Если человек уже с тарелкой — ему неудобно есть и разговаривать одновременно. Лучше подойти до еды, а не во время.'
+    },
+    { // 6 — Давний знакомый ⭐
+      good: true,
+      title: '👋 Давний знакомый',
+      text: 'Отличная точка входа! Через знакомого легче войти в группу: «Привет! Кстати, ты не знакома с...?» — и вот ты уже в разговоре с новыми людьми. Это самый безопасный способ нетворкинга.'
+    },
+    { // 7 — Туалеты
+      good: false,
+      title: '🚻 Туалеты',
+      text: 'Точно нет. Не лучшее место для знакомств по понятным причинам. Люди спешат и меньше всего готовы к диалогу.'
+    }
+  ];
+
+  var foundCount = 0;
+  var totalGood = 3; // 3 правильные точки: напитки, еда, давний знакомый
+  var clickedIds = {};
+
+  function updateCounter() {
+    if (counter) {
+      counter.textContent = 'Найдено: ' + foundCount + ' из ' + totalGood + ' ⭐';
+    }
+
+    if (foundCount >= totalGood) {
+      if (successMsg) successMsg.style.display = 'block';
+      if (lifehack) lifehack.style.display = 'block';
+      if (btnNext) btnNext.style.display = 'inline-flex';
+    }
+  }
+
+  // Обработчики клика на каждый объект
+  objects.forEach(function(obj) {
+    obj.style.cursor = 'pointer';
+
+    obj.addEventListener('click', function() {
+      var idx = parseInt(obj.dataset.obj, 10);
+      var data = venueData[idx];
+      if (!data) return;
+
+      // Показываем модалку
+      if (modalTitle) modalTitle.textContent = data.title;
+      if (modalText) modalText.textContent = data.text;
+      if (modal) modal.classList.add('active');
+
+      // Если это хорошая точка и ещё не отмечена
+      if (data.good && !clickedIds[idx]) {
+        clickedIds[idx] = true;
+        foundCount++;
+
+        // Визуально отмечаем
+        obj.classList.add('venue-good');
+
+        // Добавляем звёздочку
+        if (!obj.querySelector('.venue-star')) {
+          var star = document.createElement('div');
+          star.className = 'venue-star';
+          star.textContent = '⭐';
+          star.style.cssText = 'position:absolute; top:-6px; right:-6px; font-size:18px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2)); animation:popIn 0.4s ease;';
+          obj.style.position = 'relative';
+          obj.appendChild(star);
+        }
+
+        updateCounter();
+
+        // Награда только один раз
+        if (foundCount === totalGood && typeof addScore === 'function') {
+          addScore(3);
+        }
+      } else if (!data.good && !clickedIds[idx]) {
+        clickedIds[idx] = true;
+        // Визуально помечаем как «ловушку»
+        obj.classList.add('venue-bad');
       }
     });
   });
 
-  if (btn) {
-    btn.addEventListener('click', function() {
+  // Закрытие модалки
+  if (modalOk) {
+    modalOk.addEventListener('click', function() {
+      if (modal) modal.classList.remove('active');
+    });
+  }
+
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  }
+
+  // Кнопка «Далее» — возврат на рабочий стол
+  if (btnNext) {
+    btnNext.addEventListener('click', function() {
+      // Помечаем, что карту изучили
       localStorage.setItem('mapViewed', '1');
-      addScore(2);
       showScreen('screen-10');
     });
   }
-}
 
+  updateCounter();
+}
 // ===== Экран zlata-ready =====
 function initZlataReady() {
   var btn = document.getElementById('btn-zlata-ready-next');
