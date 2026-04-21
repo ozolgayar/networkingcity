@@ -3276,7 +3276,6 @@ function initStatusForm() {
 
 // ===== Экран 21: Стикеры =====
 function initProfileAndSticky() {
-function initProfileAndSticky() {
   var screen = document.getElementById('screen-21');
   if (!screen) return;
   if (screen.dataset.inited === '1') return;
