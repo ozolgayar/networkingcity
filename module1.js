@@ -51,6 +51,18 @@ function showScreen(id) {
     sc.style.cssText = '';
   }
 
+   if (id !== 'screen-17') {
+    var smartSvg = document.getElementById('smart-lines');
+    if (smartSvg) {
+      // Очищаем все нарисованные пути
+      smartSvg.innerHTML = '';
+    }
+    // На всякий случай удаляем любые «сбежавшие» SVG на других экранах
+    document.querySelectorAll('.screen:not(#screen-17) svg.smart-lines').forEach(function(svg) {
+      if (svg.id !== 'smart-lines') svg.remove();
+    });
+  }
+  
   // Сброс inline-стилей панели экрана 2
   var panel2 = document.querySelector('#screen-2 .panel');
   if (panel2) panel2.style.cssText = '';
