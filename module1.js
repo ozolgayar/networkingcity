@@ -3761,7 +3761,7 @@ function initBag() {
           'Ты справился(ась) с выбором! Теперь твоя сумка укомплектована всем необходимым для комфортного нетворкинга.' +
         '</p>' +
         '<div style="padding:12px 14px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); margin-bottom:18px; font-size:13px; color:#166534; line-height:1.5;">' +
-          '💡 <strong>Совет:</strong> проверяй сумку за день до каждого мероприятия. Ничто так не убивает уверенность, как разряженный телефон или отсутствие визиток.' +
+          '<strong>Совет:</strong> проверяй сумку за день до каждого мероприятия. Ничто так не убивает уверенность, как разряженный телефон или отсутствие визиток.' +
         '</div>' +
         '<button id="btn-bag-final-continue" style="height:44px; padding:0 32px; font-size:14px; font-weight:700; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
           'Продолжить →' +
