@@ -3701,28 +3701,153 @@ function initBag() {
     return { item: it, originalIdx: idx };
   }).sort(function() { return Math.random() - 0.5; });
 
+ // Функция обработки "дропа" предмета в сумку
+  function handleDrop(idx) {
+    if (idx < 0 || idx >= allItems.length) return;
+    var item = allItems[idx];
+    var shelfEl = shelfVisual.querySelector('[data-idx="' + idx + '"]');
+    if (!shelfEl || shelfEl.classList.contains('taken')) return;
+
+    var isWrong = idx >= CORRECT_COUNT;
+
+    // НЕПРАВИЛЬНЫЙ — модалка "это лишнее"
+    if (isWrong) {
+      var wTitle = document.getElementById('bag-wrong-title');
+      var wText = document.getElementById('bag-wrong-text');
+      if (wTitle) wTitle.textContent = '🤔 «' + item.name + '» — это лишнее!';
+      if (wText) wText.textContent = item.wrongReason;
+      wrongModal.classList.add('active');
+      // shake эффект
+      shelfEl.style.transition = 'transform 0.2s ease';
+      shelfEl.style.transform = 'translateX(-6px)';
+      setTimeout(function(){ shelfEl.style.transform='translateX(6px)'; setTimeout(function(){ shelfEl.style.transform=''; },150); },150);
+      return;
+    }
+
+    // ПРАВИЛЬНЫЙ — кладём в сумку + показываем модалку с описанием
+    shelfEl.classList.add('taken');
+    var bagEl = document.createElement('div');
+    bagEl.className = 'bag-item-inside';
+    bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
+    var positions = [
+      { left:'22%', top:'8%' },{ left:'38%', top:'5%' },{ left:'52%', top:'8%' },
+      { left:'10%', top:'30%' },{ left:'28%', top:'30%' },{ left:'44%', top:'30%' },
+      { left:'62%', top:'30%' },{ left:'18%', top:'53%' }
+    ];
+    var pos = positions[idx] || { left:'45%', top:'45%' };
+    bagEl.style.left = pos.left;
+    bagEl.style.top = pos.top;
+    bagInside.appendChild(bagEl);
+    takenCorrect++;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ bagEl.classList.add('dropped'); }); });
+
+    // Показываем модалку с описанием предмета
+    if (mImg) mImg.src = item.img;
+    if (mTitle) mTitle.textContent = '✅ ' + item.name;
+    if (mText) mText.textContent = item.text;
+    if (mTake) mTake.style.display = 'none';
+    if (modal) modal.classList.add('active');
+
+    if (takenCorrect >= CORRECT_COUNT) {
+      setTimeout(function() {
+        if (doneMsg) doneMsg.style.display = 'block';
+        if (btnGo) btnGo.style.display = 'inline-flex';
+        if (typeof addScore === 'function') addScore(2);
+        setTimeout(function() {
+          if (modal) modal.classList.remove('active');
+          finalModal.classList.add('active');
+        }, 1500);
+      }, 400);
+    }
+  }
+
+  // Создаём предметы с DRAG & DROP
   shuffled.forEach(function(entry) {
     var item = entry.item;
     var i = entry.originalIdx;
     var el = document.createElement('div');
     el.className = 'bag-item-visual';
     el.dataset.idx = i;
+    el.setAttribute('draggable', 'true');
+    el.style.cursor = 'grab';
     el.innerHTML =
-      '<img src="' + item.img + '" alt="' + item.name + '">' +
+      '<img src="' + item.img + '" alt="' + item.name + '" draggable="false">' +
       '<span>' + item.name + '</span>';
-    
-    el.addEventListener('click', function() {
-      if (el.classList.contains('taken')) return;
-      console.log('📦 Клик по предмету:', item.name, 'idx:', i);
-      currentIdx = i;
-      if (mImg) mImg.src = item.img;
-      if (mTitle) mTitle.textContent = item.name;
-      if (mText) mText.textContent = item.text;
-      if (mTake) mTake.style.display = 'inline-flex';
-      if (modal) modal.classList.add('active');
+
+    // DESKTOP drag
+    el.addEventListener('dragstart', function(e) {
+      if (el.classList.contains('taken')) { e.preventDefault(); return; }
+      el.classList.add('dragging');
+      el.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(i));
     });
+    el.addEventListener('dragend', function() {
+      el.classList.remove('dragging');
+      el.style.opacity = '';
+    });
+
+    // MOBILE touch
+    var ghost = null, startX = 0, startY = 0, moved = false;
+    el.addEventListener('touchstart', function(e) {
+      if (el.classList.contains('taken')) return;
+      var t = e.touches[0];
+      startX = t.clientX; startY = t.clientY; moved = false;
+      ghost = el.cloneNode(true);
+      ghost.style.cssText = 'position:fixed;left:'+(t.clientX-32)+'px;top:'+(t.clientY-40)+'px;z-index:99999;opacity:0.85;pointer-events:none;transform:scale(1.1);box-shadow:0 8px 24px rgba(0,0,0,0.25);';
+      document.body.appendChild(ghost);
+      el.style.opacity = '0.4';
+    }, { passive: true });
+    el.addEventListener('touchmove', function(e) {
+      if (!ghost) return;
+      var t = e.touches[0];
+      if (Math.abs(t.clientX-startX)>5 || Math.abs(t.clientY-startY)>5) moved = true;
+      ghost.style.left = (t.clientX-32)+'px';
+      ghost.style.top = (t.clientY-40)+'px';
+      e.preventDefault();
+    }, { passive: false });
+    el.addEventListener('touchend', function(e) {
+      if (!ghost) return;
+      var t = e.changedTouches[0];
+      var target = document.elementFromPoint(t.clientX, t.clientY);
+      ghost.remove(); ghost = null;
+      el.style.opacity = '';
+      if (moved && target) {
+        var zone = target;
+        while (zone && zone !== document.body) {
+          if (zone.classList && (zone.classList.contains('bag-visual') || zone.id === 'bag-inside' || zone.classList.contains('bag-item-inside'))) {
+            handleDrop(i);
+            return;
+          }
+          zone = zone.parentNode;
+        }
+      }
+    });
+
     shelfVisual.appendChild(el);
   });
+
+  // DROP ZONE — сумка
+  var bagVisual = document.querySelector('#screen-21-1 .bag-visual');
+  function setupDropZone(zone) {
+    if (!zone) return;
+    zone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      zone.classList.add('drag-over-bag');
+    });
+    zone.addEventListener('dragleave', function(e) {
+      if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over-bag');
+    });
+    zone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zone.classList.remove('drag-over-bag');
+      var idx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+      if (!isNaN(idx)) handleDrop(idx);
+    });
+  }
+  setupDropZone(bagVisual);
+  setupDropZone(bagInside);
 
   // ===== Финальная модалка =====
   var finalModal = document.getElementById('bag-final-modal');
@@ -3763,85 +3888,8 @@ function initBag() {
     });
   }
 
-  // ===== КНОПКА "ПОЛОЖИТЬ В СУМКУ" =====
-  if (mTake) {
-    mTake.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log('✅ Клик на "Положить в сумку", currentIdx:', currentIdx);
-      
-      if (currentIdx < 0) {
-        console.warn('currentIdx < 0, выходим');
-        return;
-      }
-      
-      var item = allItems[currentIdx];
-      var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
-      var isWrong = currentIdx >= CORRECT_COUNT;
-
-      if (modal) modal.classList.remove('active');
-
-      // НЕПРАВИЛЬНЫЙ
-      if (isWrong) {
-        console.log('🚫 Неправильный предмет');
-        var wTitle = document.getElementById('bag-wrong-title');
-        var wText = document.getElementById('bag-wrong-text');
-        if (wTitle) wTitle.textContent = '🤔 «' + item.name + '» — это лишнее!';
-        if (wText) wText.textContent = item.wrongReason;
-        wrongModal.classList.add('active');
-        currentIdx = -1;
-        return;
-      }
-
-      // ПРАВИЛЬНЫЙ
-      if (shelfEl && !shelfEl.classList.contains('taken')) {
-        console.log('✅ Правильный предмет, кладём в сумку');
-        shelfEl.classList.add('taken');
-
-        var bagEl = document.createElement('div');
-        bagEl.className = 'bag-item-inside';
-        bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
-
-        var positions = [
-          { left: '22%', top: '8%' }, { left: '38%', top: '5%' }, { left: '52%', top: '8%' },
-          { left: '10%', top: '30%' }, { left: '28%', top: '30%' }, { left: '44%', top: '30%' },
-          { left: '62%', top: '30%' }, { left: '18%', top: '53%' }
-        ];
-        var pos = positions[currentIdx] || { left: '45%', top: '45%' };
-        bagEl.style.left = pos.left;
-        bagEl.style.top = pos.top;
-
-        bagInside.appendChild(bagEl);
-        takenCorrect++;
-        console.log('📦 takenCorrect:', takenCorrect, '/', CORRECT_COUNT);
-
-        requestAnimationFrame(function() {
-          requestAnimationFrame(function() {
-            bagEl.classList.add('dropped');
-          });
-        });
-
-        // Все собраны
-        if (takenCorrect >= CORRECT_COUNT) {
-          setTimeout(function() {
-            if (doneMsg) doneMsg.style.display = 'block';
-            if (btnGo) btnGo.style.display = 'inline-flex';
-            if (typeof addScore === 'function') addScore(2);
-            setTimeout(function() {
-              finalModal.classList.add('active');
-            }, 800);
-          }, 500);
-        }
-      } else {
-        console.warn('shelfEl не найден или уже taken');
-      }
-
-      currentIdx = -1;
-    });
-    console.log('✅ Обработчик "Положить в сумку" подключён');
-  } else {
-    console.error('❌ Кнопка bag-modal-take не найдена!');
-  }
+ // Кнопка "Положить в сумку" больше не нужна — используется drag&drop
+  if (mTake) mTake.style.display = 'none';
 
   // ===== КНОПКА "ЗАКРЫТЬ" =====
   if (mSkip) {
@@ -3952,7 +4000,7 @@ function initZlataCard21() {
 
 // ===== Экран 21-1-1: после сумки → к карте =====
 function initZlataCard211() {
-  initZlataCardUniversal('screen-21-1-1', 'screen-21-2', ['inv-map-211', 'inv-map-211-back']);
+  initZlataCardUniversal('screen-21-1-1', 'screen-final', ['inv-map-211', 'inv-map-211-back']);
 }
 
 // ===== Экран 21-2: Карта =====
