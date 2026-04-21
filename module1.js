@@ -3740,12 +3740,16 @@ function initBag() {
     bagInside.appendChild(bagEl);
     takenCorrect++;
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ bagEl.classList.add('dropped'); }); });
-
-    // Показываем модалку с описанием предмета
+    
+// Показываем модалку с описанием предмета
     if (mImg) mImg.src = item.img;
     if (mTitle) mTitle.textContent = '✅ ' + item.name;
     if (mText) mText.textContent = item.text;
     if (mTake) mTake.style.display = 'none';
+    if (mSkip) {
+      mSkip.style.display = 'inline-flex';
+      mSkip.textContent = 'Понятно';
+    }
     if (modal) modal.classList.add('active');
 
     if (takenCorrect >= CORRECT_COUNT) {
