@@ -1784,6 +1784,7 @@ function initImportanceSliders() {
   // ===== 4. Вставляем блок в панель =====
   panel.appendChild(block);
 }
+
 // ===== Экран 16: Локации =====
 function initPeopleGame() {
   var pool = document.getElementById('people-pool');
@@ -1806,7 +1807,7 @@ function initPeopleGame() {
 
   var TOTAL_PEOPLE = 12;
 
-  pool.innerHTML = '';
+ pool.innerHTML = '';
   target.innerHTML = '';
 
   for (var i = 0; i < TOTAL_PEOPLE; i++) {
@@ -1833,12 +1834,10 @@ function initPeopleGame() {
     img.style.cssText = 'width:100%;height:100%;object-fit:contain;pointer-events:none;display:block;';
     person.appendChild(img);
 
-    // Клик: перемещение pool ↔ target
     person.addEventListener('click', function() {
       var el = this;
       if (el.parentElement === pool) {
         target.appendChild(el);
-        // Подсветка «в плане» — зелёный оттенок
         el.style.filter = 'drop-shadow(0 4px 8px rgba(34,197,94,0.4))';
       } else {
         pool.appendChild(el);
@@ -1847,7 +1846,6 @@ function initPeopleGame() {
       updateCounter();
     });
 
-    // Hover-эффект
     person.addEventListener('mouseenter', function() {
       this.style.transform = 'translateY(-6px) scale(1.12)';
     });
@@ -1869,7 +1867,8 @@ function initPeopleGame() {
     } else if (n <= 7) {
       counter.style.color = '#3b82f6';
     } else {
-      counter.style.color = '#a855f7';
+      // > 7 — красный (предупреждение)
+      counter.style.color = '#ef4444';
     }
   }
 
@@ -1877,13 +1876,15 @@ function initPeopleGame() {
   if (btnPlan) {
     btnPlan.addEventListener('click', function() {
       var n = target.children.length;
+
+      // Случай 0 — нужно добавить хотя бы одного
       if (n === 0) {
         if (feedback) {
           feedback.style.display = 'block';
-          feedback.innerHTML = '🤔 Добавь хотя бы одного человечка в свой план!';
+          feedback.innerHTML = 'Добавь хотя бы одного человечка в свой план!';
           feedback.style.color = '#f59e0b';
           feedback.style.background = 'rgba(250,204,21,0.08)';
-          feedback.style.borderColor = 'rgba(250,204,21,0.3)';
+          feedback.style.border = '1px solid rgba(250,204,21,0.3)';
         }
         return;
       }
@@ -1891,103 +1892,90 @@ function initPeopleGame() {
       localStorage.setItem('nc_people_planned', String(n));
 
       var msg = '';
+      var bgColor = '';
+      var borderColor = '';
+      var textColor = '#1e293b';
+
       if (n <= 3) {
-        msg = '💪 <strong>Реалистичный план!</strong> ' + n + ' качественных знакомств — это уже много. Главное — не количество, а глубина.';
+        // 1-3: позитив (реалистично)
+        msg = '<strong>Реалистичный план!</strong> ' + n + ' качественных знакомств — это уже много. Главное — не количество, а глубина.';
+        bgColor = 'rgba(34,197,94,0.08)';
+        borderColor = 'rgba(34,197,94,0.3)';
       } else if (n <= 7) {
-        msg = '🎯 <strong>Отличная цель!</strong> ' + n + ' знакомств за одно мероприятие — хороший баланс между амбицией и реальностью.';
+        // 4-7: позитив (баланс)
+        msg = ' <strong>Отличная цель!</strong> ' + n + ' знакомств за одно мероприятие — хороший баланс между амбицией и реальностью.';
+        bgColor = 'rgba(59,130,246,0.08)';
+        borderColor = 'rgba(59,130,246,0.3)';
       } else {
-        msg = '🔥 <strong>Амбициозно!</strong> ' + n + ' человек — это серьёзный вызов. Помни: лучше 3 глубоких контакта, чем 10 поверхностных.';
+        // > 7: НЕГАТИВНАЯ ОС
+        msg = '<strong>Слишком много!</strong> ' + n + ' знакомств за одно мероприятие — это нереалистично. ' +
+              '<br><br> <strong>Лучше качество, чем количество.</strong><br>' +
+              'За одну конференцию физически невозможно построить столько глубоких контактов. ' +
+              'Поверхностные знакомства быстро забываются — ни ты, ни они не вспомнят друг друга через неделю.' +
+              '<br><br> Уменьши число до <strong>3–7 человек</strong> — и ты получишь реальные, а не «галочные» связи.';
+        bgColor = 'rgba(239,68,68,0.08)';
+        borderColor = 'rgba(239,68,68,0.35)';
+        textColor = '#7f1d1d';
       }
 
       if (feedback) {
         feedback.style.display = 'block';
         feedback.innerHTML = msg;
-        feedback.style.color = '#1e293b';
-        feedback.style.background = 'rgba(34,197,94,0.08)';
-        feedback.style.border = '1px solid rgba(34,197,94,0.3)';
+        feedback.style.color = textColor;
+        feedback.style.background = bgColor;
+        feedback.style.border = '1px solid ' + borderColor;
+        feedback.style.padding = '12px 16px';
+        feedback.style.borderRadius = '12px';
+        feedback.style.lineHeight = '1.55';
+        feedback.style.textAlign = 'left';
       }
 
+      // Показываем "Продолжить" только если число разумное
       if (btnContinue) {
-        btnContinue.classList.add('visible');
-        btnContinue.style.display = 'inline-flex';
+        if (n > 7) {
+          btnContinue.style.display = 'none';
+          btnContinue.classList.remove('visible');
+        } else {
+          btnContinue.classList.add('visible');
+          btnContinue.style.display = 'inline-flex';
+        }
       }
 
-      if (typeof addScore === 'function') addScore(2);
+      if (typeof addScore === 'function' && n <= 7) addScore(2);
+
+      // ↓↓↓ СКРОЛЛ К ФИДБЕКУ (на десктопе скроллим панель теории, на мобиле — окно) ↓↓↓
+      setTimeout(function() {
+        scrollToFeedback(feedback);
+      }, 100);
     });
   }
 
   updateCounter();
 }
 
-    // Hover-эффекты
-    person.addEventListener('mouseenter', function() {
-      this.style.transform = 'translateY(-6px) scale(1.12)';
-    });
-    person.addEventListener('mouseleave', function() {
-      this.style.transform = '';
-    });
+// Универсальный скролл к фидбеку
+function scrollToFeedback(feedback) {
+  if (!feedback) return;
 
-    pool.appendChild(person);
-  }
-
-  function updateCounter() {
-    var n = target.children.length;
-    counter.textContent = n;
-
-    if (n === 0) {
-      counter.style.color = '#94a3b8';
-    } else if (n <= 3) {
-      counter.style.color = '#22c55e';
-    } else if (n <= 7) {
-      counter.style.color = '#3b82f6';
-    } else {
-      counter.style.color = '#a855f7';
+  // Ищем ближайший скроллируемый контейнер
+  var scrollableParent = feedback.parentElement;
+  while (scrollableParent && scrollableParent !== document.body) {
+    var style = window.getComputedStyle(scrollableParent);
+    var overflowY = style.overflowY;
+    if ((overflowY === 'auto' || overflowY === 'scroll') &&
+        scrollableParent.scrollHeight > scrollableParent.clientHeight) {
+      // Нашли скроллируемого родителя
+      var rect = feedback.getBoundingClientRect();
+      var parentRect = scrollableParent.getBoundingClientRect();
+      var offset = rect.top - parentRect.top + scrollableParent.scrollTop - 20;
+      scrollableParent.scrollTo({ top: offset, behavior: 'smooth' });
+      return;
     }
+    scrollableParent = scrollableParent.parentElement;
   }
 
-  // Кнопка "Запланировать"
-  if (btnPlan) {
-    btnPlan.addEventListener('click', function() {
-      var n = target.children.length;
-      if (n === 0) {
-        if (feedback) {
-          feedback.style.display = 'block';
-          feedback.innerHTML = '🤔 Добавь хотя бы одного человечка в свой план!';
-          feedback.style.color = '#f59e0b';
-        }
-        return;
-      }
-
-      localStorage.setItem('nc_people_planned', String(n));
-
-      var msg = '';
-      if (n <= 3) {
-        msg = '💪 <strong>Реалистичный план!</strong> ' + n + ' качественных знакомств — это уже много. Главное — не количество, а глубина.';
-      } else if (n <= 7) {
-        msg = '🎯 <strong>Отличная цель!</strong> ' + n + ' знакомств за одно мероприятие — хороший баланс между амбицией и реальностью.';
-      } else {
-        msg = '🔥 <strong>Амбициозно!</strong> ' + n + ' человек — это серьёзный вызов. Помни: лучше 3 глубоких контакта, чем 10 поверхностных.';
-      }
-
-      if (feedback) {
-        feedback.style.display = 'block';
-        feedback.innerHTML = msg;
-        feedback.style.color = '#1e293b';
-        feedback.style.background = 'rgba(34,197,94,0.08)';
-        feedback.style.borderColor = 'rgba(34,197,94,0.3)';
-      }
-
-      // Показываем кнопку "Продолжить"
-      if (btnContinue) {
-        btnContinue.classList.add('visible');
-        btnContinue.style.display = 'inline-flex';
-      }
-
-      addScore(2);
-    });
-  }
-
-  updateCounter();
+  // Fallback — скроллим окно
+  feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function initLocations() {
