@@ -3276,6 +3276,7 @@ function initStatusForm() {
 
 // ===== Экран 21: Стикеры =====
 function initProfileAndSticky() {
+function initProfileAndSticky() {
   var screen = document.getElementById('screen-21');
   if (!screen) return;
   if (screen.dataset.inited === '1') return;
@@ -3302,7 +3303,6 @@ function initProfileAndSticky() {
     return div.innerHTML;
   }
 
-  // ===== Мой стикер из localStorage =====
   function loadMySticky() {
     var saved = localStorage.getItem('nc_my_sticky');
     if (!saved || !myStickEl) return;
@@ -3311,11 +3311,9 @@ function initProfileAndSticky() {
       myStickEl.style.display = 'block';
       var txtEl = myStickEl.querySelector('.my-sticky-text');
       if (txtEl) txtEl.textContent = data.text;
-      if (btnNext) btnNext.style.display = 'inline-flex';
     } catch(e) {}
   }
 
-  // ===== Загрузка стикеров с доски =====
   function loadStickies() {
     if (!_sb) {
       console.warn('Supabase не подключён — стикеры не загружаем');
@@ -3337,7 +3335,6 @@ function initProfileAndSticky() {
       });
   }
 
-  // ===== Создание стикера DOM =====
   function createStickyEl(row) {
     var sticky = document.createElement('div');
     sticky.className = 'sticky';
@@ -3353,7 +3350,7 @@ function initProfileAndSticky() {
     return sticky;
   }
 
-  // ===== Удаление — открыть модалку =====
+  // ===== Удаление =====
   board.addEventListener('click', function(e) {
     var deleteBtn = e.target.closest('.sticky-delete');
     if (!deleteBtn) return;
@@ -3407,8 +3404,8 @@ function initProfileAndSticky() {
     });
   }
 
-  // ===== Добавление стикера =====
-var successModal = document.getElementById('sticky-success-modal');
+  // ===== Модалка успеха =====
+  var successModal = document.getElementById('sticky-success-modal');
   if (!successModal) {
     successModal = document.createElement('div');
     successModal.id = 'sticky-success-modal';
@@ -3435,12 +3432,10 @@ var successModal = document.getElementById('sticky-success-modal');
       '</div>';
     document.body.appendChild(successModal);
 
-    // Закрыть модалку (редактировать)
     document.getElementById('btn-sticky-edit-modal').addEventListener('click', function() {
       successModal.classList.remove('active');
     });
 
-    // Далее → screen-21-0
     document.getElementById('btn-sticky-next-modal').addEventListener('click', function() {
       successModal.classList.remove('active');
       showScreen('screen-21-0');
@@ -3456,17 +3451,14 @@ var successModal = document.getElementById('sticky-success-modal');
       return;
     }
 
-    // localStorage — личная копия
     localStorage.setItem('nc_my_sticky', JSON.stringify({ text: text }));
 
-    // Показываем жёлтый блок «Твой стикер сохранён»
     if (myStickEl) {
       myStickEl.style.display = 'block';
       var txtEl = myStickEl.querySelector('.my-sticky-text');
       if (txtEl) txtEl.textContent = text;
     }
 
-    // Функция показа модалки с превью
     function openSuccessModal(finalText) {
       var modalPrev = document.getElementById('sticky-modal-preview');
       if (modalPrev) modalPrev.textContent = '«' + finalText + '»';
@@ -3482,12 +3474,9 @@ var successModal = document.getElementById('sticky-success-modal');
         .select()
         .then(function(result) {
           if (result.error) { console.error('Ошибка сохранения:', result.error); return; }
-
           if (result.data && result.data.length > 0) {
             board.insertBefore(createStickyEl(result.data[0]), board.firstChild);
           }
-
-          // Удаляем самый старый, если > 20
           var allStickies = board.querySelectorAll('.sticky');
           if (allStickies.length > 20) {
             var oldest = allStickies[allStickies.length - 1];
@@ -3505,75 +3494,16 @@ var successModal = document.getElementById('sticky-success-modal');
                 });
             }
           }
-
           addScore(1);
           input.value = '';
-
-          // ↓↓↓ ОТКРЫВАЕМ МОДАЛКУ ↓↓↓
           openSuccessModal(text);
         });
     } else {
-      // Fallback без Supabase
       var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
       board.insertBefore(createStickyEl(fallback), board.firstChild);
       addScore(1);
       input.value = '';
       openSuccessModal(text);
-    }
-  });
-
-    // localStorage — личная копия
-    localStorage.setItem('nc_my_sticky', JSON.stringify({ text: text }));
-
-    // Показываем жёлтый блок
-    if (myStickEl) {
-      myStickEl.style.display = 'block';
-      var txtEl = myStickEl.querySelector('.my-sticky-text');
-      if (txtEl) txtEl.textContent = text;
-    }
-
-    if (_sb) {
-      _sb
-        .from('stickies')
-        .insert({ screen: 'screen-21', text: text, author: 'Участник', likes: 0 })
-        .select()
-        .then(function(result) {
-          if (result.error) { console.error('Ошибка сохранения:', result.error); return; }
-
-          if (result.data && result.data.length > 0) {
-            board.insertBefore(createStickyEl(result.data[0]), board.firstChild);
-          }
-
-          // Удаляем самый старый, если > 20
-          var allStickies = board.querySelectorAll('.sticky');
-          if (allStickies.length > 20) {
-            var oldest = allStickies[allStickies.length - 1];
-            var oldestId = oldest.dataset.id;
-            oldest.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-            oldest.style.opacity = '0';
-            oldest.style.transform = 'scale(0.7)';
-            setTimeout(function() {
-              if (oldest && oldest.parentNode) oldest.remove();
-            }, 400);
-            if (_sb && oldestId) {
-              _sb.from('stickies').delete().eq('id', oldestId)
-                .then(function(r) {
-                  if (r.error) console.error('Ошибка удаления старого:', r.error);
-                });
-            }
-          }
-
-          addScore(1);
-          input.value = '';
-          if (btnNext) btnNext.style.display = 'inline-flex';
-        });
-    } else {
-      // Fallback без Supabase
-      var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
-      board.insertBefore(createStickyEl(fallback), board.firstChild);
-      addScore(1);
-      input.value = '';
-      if (btnNext) btnNext.style.display = 'inline-flex';
     }
   });
 
@@ -3633,20 +3563,9 @@ var successModal = document.getElementById('sticky-success-modal');
     }
   }
 
-  // Первая загрузка
   loadStickies();
   loadMySticky();
 
-  // Обработчик кнопки "Далее"
-  if (btnNext) {
-    var newNext = btnNext.cloneNode(true);
-    btnNext.parentNode.replaceChild(newNext, btnNext);
-    newNext.addEventListener('click', function() {
-      showScreen('screen-21-0');
-    });
-  }
-
-  // Тултип
   if (typeof initStickyTooltip === 'function') {
     initStickyTooltip();
   }
