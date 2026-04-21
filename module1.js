@@ -2157,146 +2157,457 @@ function initLocations() {
 }
 
 <!-- Экран 17. SMART цель — майнд-карта -->
-<div class="screen" id="screen-17">
-  <div class="smart-fullscreen">
+// ===== Экран 17: SMART цель — майнд-карта с последовательным появлением =====
+function initSmartGoal() {
+  var screen = document.getElementById('screen-17');
+  if (!screen) return;
 
-    <!-- Заголовок -->
-    <div class="smart-header">
-      <div style="font-size: 36px;">🎯</div>
-      <h2>Ставим чёткую цель</h2>
-      <p style="color: var(--text-soft); max-width: 560px; line-height: 1.5;">
-        Сформулируй свою цель нетворкинга по модели SMART. Заполняй ветви по порядку — новая появится, когда предыдущая заполнена.
-      </p>
-    </div>
+  // Защита от повторной инициализации
+  if (screen.dataset.inited === '1') {
+    // При повторном входе — просто восстанавливаем состояние
+    restoreSmartState();
+    return;
+  }
+  screen.dataset.inited = '1';
 
-    <!-- Прогресс -->
-    <div class="smart-progress">
-      <div class="smart-progress-dot" data-step="1">S</div>
-      <div class="smart-progress-line"></div>
-      <div class="smart-progress-dot" data-step="2">M</div>
-      <div class="smart-progress-line"></div>
-      <div class="smart-progress-dot" data-step="3">A</div>
-      <div class="smart-progress-line"></div>
-      <div class="smart-progress-dot" data-step="4">R</div>
-      <div class="smart-progress-line"></div>
-      <div class="smart-progress-dot" data-step="5">T</div>
-    </div>
+  // Порядок появления ветвей
+  var order = ['s', 'm', 'a', 'r', 't'];
+  var colors = {
+    s: '#22c55e',
+    m: '#3b82f6',
+    a: '#f59e0b',
+    r: '#a855f7',
+    t: '#ef4444'
+  };
+  var labels = {
+    s: 'Specific',
+    m: 'Measurable',
+    a: 'Achievable',
+    r: 'Relevant',
+    t: 'Time-bound'
+  };
 
-    <!-- Майнд-карта -->
-    <div class="smart-mind-map-wrap">
+  // Загружаем сохранённые ответы
+  var saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem('nc_smart_goal') || '{}');
+  } catch(e) { saved = {}; }
 
-      <!-- SVG линии от центра к ветвям -->
-      <svg class="smart-lines" id="smart-lines" aria-hidden="true"></svg>
+  // Показать ветвь по индексу (0..4)
+  function showBranch(index) {
+    if (index >= order.length) return;
+    var key = order[index];
+    var branch = screen.querySelector('.smart-branch[data-branch="' + key + '"]');
+    if (!branch) return;
 
-      <div class="smart-mind-map">
+    if (!branch.classList.contains('visible')) {
+      branch.classList.add('visible');
+    }
+    branch.classList.add('active');
 
-        <!-- Центр -->
-        <div class="smart-center" id="smart-center">
-          <div class="smart-center-icon">🎯</div>
-          <div class="smart-center-label">Моя SMART-цель</div>
-        </div>
+    // Обновить прогресс-точку
+    var dot = screen.querySelector('.smart-progress-dot[data-step="' + (index + 1) + '"]');
+    if (dot) dot.classList.add('active');
 
-        <!-- Ветви -->
-        <div class="smart-branch smart-branch-s" data-step="1" data-branch="s">
-          <div class="smart-branch-header" style="--branch-color: #22c55e;">
-            <span class="smart-letter">S</span>
-            <span class="smart-branch-title">Specific<br><small>Конкретная</small></span>
-          </div>
-          <textarea class="smart-textarea" id="smart-s" data-branch="s" placeholder="Что именно ты хочешь достичь?"></textarea>
-        </div>
+    // Нарисовать линию от центра к ветви
+    drawLineToBranch(key);
 
-        <div class="smart-branch smart-branch-m" data-step="2" data-branch="m">
-          <div class="smart-branch-header" style="--branch-color: #3b82f6;">
-            <span class="smart-letter">M</span>
-            <span class="smart-branch-title">Measurable<br><small>Измеримая</small></span>
-          </div>
-          <textarea class="smart-textarea" id="smart-m" data-branch="m" placeholder="Как ты поймёшь, что цель достигнута?"></textarea>
-        </div>
+    // Установить фокус на textarea этой ветви
+    setTimeout(function() {
+      var ta = branch.querySelector('textarea');
+      if (ta && !ta.value) ta.focus();
+    }, 400);
+  }
 
-        <div class="smart-branch smart-branch-a" data-step="3" data-branch="a">
-          <div class="smart-branch-header" style="--branch-color: #f59e0b;">
-            <span class="smart-letter">A</span>
-            <span class="smart-branch-title">Achievable<br><small>Достижимая</small></span>
-          </div>
-          <textarea class="smart-textarea" id="smart-a" data-branch="a" placeholder="Реально ли это? Какие ресурсы есть?"></textarea>
-        </div>
+  // Отметить ветвь как заполненную и показать следующую
+  function markFilled(index) {
+    var key = order[index];
+    var branch = screen.querySelector('.smart-branch[data-branch="' + key + '"]');
+    if (branch) {
+      branch.classList.add('filled');
+      branch.classList.remove('active');
+    }
 
-        <div class="smart-branch smart-branch-r" data-step="4" data-branch="r">
-          <div class="smart-branch-header" style="--branch-color: #a855f7;">
-            <span class="smart-letter">R</span>
-            <span class="smart-branch-title">Relevant<br><small>Релевантная</small></span>
-          </div>
-          <textarea class="smart-textarea" id="smart-r" data-branch="r" placeholder="Зачем тебе это?"></textarea>
-        </div>
+    // Прогресс-точка → done
+    var dot = screen.querySelector('.smart-progress-dot[data-step="' + (index + 1) + '"]');
+    if (dot) {
+      dot.classList.remove('active');
+      dot.classList.add('done');
+    }
 
-        <div class="smart-branch smart-branch-t" data-step="5" data-branch="t">
-          <div class="smart-branch-header" style="--branch-color: #ef4444;">
-            <span class="smart-letter">T</span>
-            <span class="smart-branch-title">Time-bound<br><small>Ограниченная по времени</small></span>
-          </div>
-          <textarea class="smart-textarea" id="smart-t" data-branch="t" placeholder="Когда? К какой дате?"></textarea>
-        </div>
+    // Линия → filled
+    var line = screen.querySelector('.smart-line-path[data-for="' + key + '"]');
+    if (line) {
+      line.classList.add('filled');
+      line.setAttribute('stroke', colors[key]);
+    }
 
-      </div>
-    </div>
+    // Соединительная линия на прогресс-баре
+    var lines = screen.querySelectorAll('.smart-progress-line');
+    if (lines[index]) lines[index].classList.add('done');
 
-    <!-- Пример Златы -->
-    <div class="smart-example" id="smart-example-toggle">
-      <div class="smart-example-header" id="smart-example-header">
-        <span>💡</span> <strong>Посмотреть пример Златы</strong>
-        <span class="smart-example-arrow">▼</span>
-      </div>
-      <div class="smart-example-body" id="smart-example-body">
-        <div class="smart-example-row"><strong style="color:#22c55e;">S:</strong> Познакомиться с 3 специалистами из отдела маркетинга других компаний</div>
-        <div class="smart-example-row"><strong style="color:#3b82f6;">M:</strong> Обменяться визитками или контактами в мессенджере с 3 людьми</div>
-        <div class="smart-example-row"><strong style="color:#f59e0b;">A:</strong> Конференция на 150 человек, есть визитки и подготовленное представление</div>
-        <div class="smart-example-row"><strong style="color:#a855f7;">R:</strong> Нужны контакты для ускорения процесса регистрации препаратов</div>
-        <div class="smart-example-row"><strong style="color:#ef4444;">T:</strong> На конференции PharmaTech 15 октября 2026</div>
-      </div>
-    </div>
+    // Показать следующую ветвь
+    if (index + 1 < order.length) {
+      setTimeout(function() {
+        showBranch(index + 1);
+      }, 350);
+    }
+  }
 
-    <!-- Кнопки — только "Назад" и "Ответить" -->
-    <div class="smart-actions">
-      <button class="btn secondary nav-back" data-prev>Назад</button>
-      <button class="btn" id="btn-smart-submit">Ответить</button>
-    </div>
+  // Нарисовать линию от центра к ветви (SVG)
+  function drawLineToBranch(key) {
+    var svg = document.getElementById('smart-lines');
+    var center = document.getElementById('smart-center');
+    var branch = screen.querySelector('.smart-branch[data-branch="' + key + '"]');
+    if (!svg || !center || !branch) return;
 
-    <!-- Модалка предупреждения -->
-    <div class="modal-overlay" id="smart-warning-modal">
-      <div class="modal" style="text-align:center; max-width: 380px;">
-        <div style="font-size: 36px; margin-bottom: 8px;">⚠️</div>
-        <h3>Заполни все пункты цели!</h3>
-        <p style="color: var(--text-soft); margin-top: 6px;">Каждая ветвь SMART-цели должна быть заполнена.</p>
-        <div style="margin-top: 14px;">
-          <button class="btn" id="smart-warning-ok">Понятно</button>
-        </div>
-      </div>
-    </div>
+    // Если линия уже есть — не дублируем
+    if (svg.querySelector('[data-for="' + key + '"]')) return;
 
-    <!-- Модалка ОС + кнопки сохранить/продолжить -->
-    <div class="modal-overlay" id="smart-feedback-modal">
-      <div class="modal" style="max-width: 520px;">
-        <div style="font-size: 42px; text-align: center; margin-bottom: 8px;">🎉</div>
-        <h3 style="text-align: center; margin-bottom: 4px;">Отличная SMART-цель!</h3>
-        <p style="text-align:center; color:var(--text-soft); font-size:13px; margin-bottom:14px;">
-          Ты сформулировал свою цель по всем пяти критериям. Это уже половина успеха.
-        </p>
+    var wrap = screen.querySelector('.smart-mind-map-wrap');
+    if (!wrap) return;
 
-        <div id="smart-feedback-content" style="margin-top: 8px; display:flex; flex-direction:column; gap:8px;"></div>
+    var wrapRect = wrap.getBoundingClientRect();
+    var centerRect = center.getBoundingClientRect();
+    var branchRect = branch.getBoundingClientRect();
 
-        <div id="smart-saved-indicator" style="display:none; margin-top:12px; padding:8px 12px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#166534; font-size:13px; text-align:center; font-weight:600;">
-          💾 Ответ сохранён!
-        </div>
+    // Координаты относительно SVG
+    var cx = centerRect.left + centerRect.width / 2 - wrapRect.left;
+    var cy = centerRect.top + centerRect.height / 2 - wrapRect.top;
+    var bx = branchRect.left + branchRect.width / 2 - wrapRect.left;
+    var by = branchRect.top + branchRect.height / 2 - wrapRect.top;
 
-        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 18px; flex-wrap:wrap;">
-          <button class="btn secondary" id="btn-smart-save">💾 Сохранить ответ</button>
-          <button class="btn" id="btn-smart-continue">Продолжить →</button>
-        </div>
-      </div>
-    </div>
+    // Контрольная точка для красивой кривой Безье
+    var mx = (cx + bx) / 2;
+    var my = (cy + by) / 2;
+    // Смещение контрольной точки перпендикулярно линии
+    var dx = bx - cx;
+    var dy = by - cy;
+    var offset = 30;
+    var perpX = -dy * 0.15;
+    var perpY = dx * 0.15;
 
-  </div>
-</div>
+    var d = 'M ' + cx + ' ' + cy +
+            ' Q ' + (mx + perpX) + ' ' + (my + perpY) +
+            ' ' + bx + ' ' + by;
+
+    var ns = 'http://www.w3.org/2000/svg';
+    var path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('data-for', key);
+    path.setAttribute('stroke', colors[key]);
+    path.setAttribute('class', 'smart-line-path');
+    svg.appendChild(path);
+
+    // Обновить длину для анимации
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    // Запуск анимации
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        path.classList.add('visible');
+        path.style.strokeDashoffset = 0;
+      });
+    });
+  }
+
+  // Перерисовка всех линий (при ресайзе)
+  function redrawAllLines() {
+    var svg = document.getElementById('smart-lines');
+    if (!svg) return;
+
+    // Обновляем размер SVG
+    var wrap = screen.querySelector('.smart-mind-map-wrap');
+    if (wrap) {
+      svg.setAttribute('width', wrap.offsetWidth);
+      svg.setAttribute('height', wrap.offsetHeight);
+    }
+
+    // Удаляем существующие и перерисовываем для видимых ветвей
+    svg.innerHTML = '';
+    order.forEach(function(key) {
+      var branch = screen.querySelector('.smart-branch[data-branch="' + key + '"]');
+      if (branch && branch.classList.contains('visible')) {
+        drawLineToBranch(key);
+        if (branch.classList.contains('filled')) {
+          var line = svg.querySelector('[data-for="' + key + '"]');
+          if (line) line.classList.add('filled');
+        }
+      }
+    });
+  }
+
+  // Проверка заполнения всех ветвей
+  function allFilled() {
+    return order.every(function(k) {
+      var ta = document.getElementById('smart-' + k);
+      return ta && ta.value.trim().length >= 3;
+    });
+  }
+
+  // Восстановление состояния при повторном входе
+  function restoreSmartState() {
+    var anyFilled = false;
+    order.forEach(function(key, i) {
+      var ta = document.getElementById('smart-' + key);
+      if (ta && saved[key]) {
+        ta.value = saved[key];
+      }
+    });
+
+    // Показываем ветви по порядку
+    var firstUnfilled = -1;
+    order.forEach(function(key, i) {
+      var val = document.getElementById('smart-' + key).value.trim();
+      var branch = screen.querySelector('.smart-branch[data-branch="' + key + '"]');
+      if (val.length >= 3) {
+        // Заполнено
+        if (branch) {
+          branch.classList.add('visible', 'filled');
+        }
+        var dot = screen.querySelector('.smart-progress-dot[data-step="' + (i + 1) + '"]');
+        if (dot) dot.classList.add('done');
+        var lines = screen.querySelectorAll('.smart-progress-line');
+        if (lines[i]) lines[i].classList.add('done');
+      } else if (firstUnfilled === -1) {
+        firstUnfilled = i;
+      }
+    });
+
+    if (firstUnfilled !== -1) {
+      showBranch(firstUnfilled);
+    } else {
+      // Всё заполнено
+      showBranch(order.length - 1);
+      var lastBranch = screen.querySelector('.smart-branch[data-branch="t"]');
+      if (lastBranch) {
+        lastBranch.classList.add('visible');
+      }
+    }
+
+    // Рисуем линии после появления ветвей
+    setTimeout(redrawAllLines, 100);
+  }
+
+  // ===== Инициализация =====
+
+  // Скрываем все ветви изначально
+  order.forEach(function(key) {
+    var branch = screen.querySelector('.smart-branch[data-branch="' + key + '"]');
+    if (branch) branch.classList.remove('visible', 'active', 'filled');
+  });
+
+  // Скрываем все прогресс-точки
+  screen.querySelectorAll('.smart-progress-dot').forEach(function(d) {
+    d.classList.remove('active', 'done');
+  });
+  screen.querySelectorAll('.smart-progress-line').forEach(function(l) {
+    l.classList.remove('done');
+  });
+
+  // Восстанавливаем если есть сохранённое
+  if (Object.keys(saved).length > 0) {
+    restoreSmartState();
+  } else {
+    // Первый вход — показываем только S
+    setTimeout(function() {
+      showBranch(0);
+    }, 300);
+  }
+
+  // ===== Обработчики textarea — следующая ветвь появляется на blur =====
+  order.forEach(function(key, i) {
+    var ta = document.getElementById('smart-' + key);
+    if (!ta) return;
+
+    // Убираем старые слушатели (на всякий случай)
+    var newTa = ta.cloneNode(true);
+    ta.parentNode.replaceChild(newTa, ta);
+    if (saved[key]) newTa.value = saved[key];
+
+    // На blur — если заполнено, открываем следующую
+    newTa.addEventListener('blur', function() {
+      var val = this.value.trim();
+      if (val.length >= 3) {
+        markFilled(i);
+      }
+    });
+
+    // На Enter — переход к следующей (без ухода с фокуса)
+    newTa.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey && this.value.trim().length >= 3) {
+        e.preventDefault();
+        this.blur();
+      }
+    });
+
+    // Убираем ошибку при вводе
+    newTa.addEventListener('input', function() {
+      this.classList.remove('error');
+    });
+  });
+
+  // ===== Кнопка "Ответить" =====
+  var btnSubmit = document.getElementById('btn-smart-submit');
+  if (btnSubmit) {
+    var newBtn = btnSubmit.cloneNode(true);
+    btnSubmit.parentNode.replaceChild(newBtn, btnSubmit);
+
+    newBtn.addEventListener('click', function() {
+      // Проверяем заполнение
+      var empty = [];
+      order.forEach(function(key) {
+        var ta = document.getElementById('smart-' + key);
+        if (!ta || ta.value.trim().length < 3) {
+          empty.push(key);
+          if (ta) ta.classList.add('error');
+        }
+      });
+
+      if (empty.length > 0) {
+        // Показываем первую незаполненную ветвь
+        var firstEmptyIdx = order.indexOf(empty[0]);
+        showBranch(firstEmptyIdx);
+
+        // Модалка предупреждения
+        var warnModal = document.getElementById('smart-warning-modal');
+        if (warnModal) warnModal.classList.add('active');
+        return;
+      }
+
+      // Все заполнено — открываем модалку с ОС
+      showFeedbackModal();
+    });
+  }
+
+  // Модалка предупреждения — кнопка OK
+  var warnOk = document.getElementById('smart-warning-ok');
+  if (warnOk) {
+    warnOk.onclick = function() {
+      document.getElementById('smart-warning-modal').classList.remove('active');
+    };
+  }
+
+  // ===== Пример Златы — раскрытие =====
+  var exampleToggle = document.getElementById('smart-example-toggle');
+  var exampleHeader = document.getElementById('smart-example-header');
+  if (exampleHeader && exampleToggle) {
+    exampleHeader.onclick = function() {
+      exampleToggle.classList.toggle('open');
+    };
+  }
+
+  // ===== Модалка ОС =====
+  function showFeedbackModal() {
+    var modal = document.getElementById('smart-feedback-modal');
+    var content = document.getElementById('smart-feedback-content');
+    if (!modal || !content) return;
+
+    // Формируем ОС — показываем заполненное + подсветка
+    var html = '';
+    order.forEach(function(key) {
+      var ta = document.getElementById('smart-' + key);
+      var val = ta ? ta.value.trim() : '';
+      html += '<div style="padding:10px 12px; border-radius:10px; background:' +
+              hexToRgba(colors[key], 0.08) +
+              '; border-left:3px solid ' + colors[key] + ';">' +
+              '<div style="font-size:11px; font-weight:700; color:' + colors[key] +
+              '; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:3px;">' +
+              key.toUpperCase() + ' — ' + labels[key] +
+              '</div>' +
+              '<div style="font-size:13px; color:#1e293b; line-height:1.5;">' +
+              escapeHtml(val) +
+              '</div></div>';
+    });
+    content.innerHTML = html;
+
+    // Скрываем индикатор сохранения
+    var indicator = document.getElementById('smart-saved-indicator');
+    if (indicator) indicator.style.display = 'none';
+
+    modal.classList.add('active');
+  }
+
+  // Кнопка "Сохранить" в модалке
+  var btnSave = document.getElementById('btn-smart-save');
+  if (btnSave) {
+    var newSave = btnSave.cloneNode(true);
+    btnSave.parentNode.replaceChild(newSave, btnSave);
+
+    newSave.addEventListener('click', function() {
+      var data = {};
+      order.forEach(function(key) {
+        var ta = document.getElementById('smart-' + key);
+        if (ta) data[key] = ta.value.trim();
+      });
+      localStorage.setItem('nc_smart_goal', JSON.stringify(data));
+
+      // Показать индикатор
+      var indicator = document.getElementById('smart-saved-indicator');
+      if (indicator) {
+        indicator.style.display = 'block';
+        setTimeout(function() {
+          indicator.style.display = 'none';
+        }, 2500);
+      }
+
+      if (typeof addScore === 'function') addScore(3);
+    });
+  }
+
+  // Кнопка "Продолжить" в модалке
+  var btnContinue = document.getElementById('btn-smart-continue');
+  if (btnContinue) {
+    var newCont = btnContinue.cloneNode(true);
+    btnContinue.parentNode.replaceChild(newCont, btnContinue);
+
+    newCont.addEventListener('click', function() {
+      // Автосохранение при продолжении
+      var data = {};
+      order.forEach(function(key) {
+        var ta = document.getElementById('smart-' + key);
+        if (ta) data[key] = ta.value.trim();
+      });
+      localStorage.setItem('nc_smart_goal', JSON.stringify(data));
+
+      document.getElementById('smart-feedback-modal').classList.remove('active');
+      if (typeof showScreen === 'function') showScreen('screen-17-1');
+    });
+  }
+
+  // ===== Ресайз — перерисовка линий =====
+  var resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(redrawAllLines, 200);
+  });
+
+  // Первоначальная установка размера SVG
+  setTimeout(function() {
+    var svg = document.getElementById('smart-lines');
+    var wrap = screen.querySelector('.smart-mind-map-wrap');
+    if (svg && wrap) {
+      svg.setAttribute('width', wrap.offsetWidth);
+      svg.setAttribute('height', wrap.offsetHeight);
+    }
+  }, 100);
+}
+
+// Вспомогательные функции
+function hexToRgba(hex, alpha) {
+  var r = parseInt(hex.slice(1, 3), 16);
+  var g = parseInt(hex.slice(3, 5), 16);
+  var b = parseInt(hex.slice(5, 7), 16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+}
+
+function escapeHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 // ===== Экран 17-1: Карточка Златы =====
 function initZlataCard17() {
   var btn = document.getElementById('btn-zlata17-next');
