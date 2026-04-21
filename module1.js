@@ -3276,14 +3276,327 @@ function initStatusForm() {
 
 // ===== Экран 21: Стикеры =====
 function initProfileAndSticky() {
-  var btn = document.getElementById('btn-sticky-done');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    addScore(2);
-    showScreen('screen-21-0');
+  var screen = document.getElementById('screen-21');
+  if (!screen) return;
+  if (screen.dataset.inited === '1') return;
+  screen.dataset.inited = '1';
+
+  var board = document.getElementById('sticky-board');
+  var input = document.getElementById('sticky-input');
+  var addBtn = document.getElementById('btn-sticky-add');
+  var btnNext = document.getElementById('btn-sticky-next');
+  var deleteModal = document.getElementById('sticky-delete-modal');
+  var deleteCancel = document.getElementById('sticky-delete-cancel');
+  var deleteConfirm = document.getElementById('sticky-delete-confirm');
+  var myStickEl = document.getElementById('my-sticky-preview');
+  var stickyToDelete = null;
+
+  if (!board || !input || !addBtn) {
+    console.warn('initProfileAndSticky: элементы не найдены');
+    return;
+  }
+
+  function escapeHtmlLocal(str) {
+    var div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  // ===== Мой стикер из localStorage =====
+  function loadMySticky() {
+    var saved = localStorage.getItem('nc_my_sticky');
+    if (!saved || !myStickEl) return;
+    try {
+      var data = JSON.parse(saved);
+      myStickEl.style.display = 'block';
+      var txtEl = myStickEl.querySelector('.my-sticky-text');
+      if (txtEl) txtEl.textContent = data.text;
+      if (btnNext) btnNext.style.display = 'inline-flex';
+    } catch(e) {}
+  }
+
+  // ===== Загрузка стикеров с доски =====
+  function loadStickies() {
+    if (!_sb) {
+      console.warn('Supabase не подключён — стикеры не загружаем');
+      return;
+    }
+    _sb
+      .from('stickies')
+      .select('*')
+      .eq('screen', 'screen-21')
+      .order('created_at', { ascending: false })
+      .limit(20)
+      .then(function(result) {
+        if (result.error) { console.error('Ошибка загрузки стикеров:', result.error); return; }
+        board.innerHTML = '';
+        (result.data || []).forEach(function(row) {
+          board.appendChild(createStickyEl(row));
+        });
+        console.log('✅ Загружено стикеров:', (result.data || []).length);
+      });
+  }
+
+  // ===== Создание стикера DOM =====
+  function createStickyEl(row) {
+    var sticky = document.createElement('div');
+    sticky.className = 'sticky';
+    sticky.dataset.id = row.id;
+    sticky.dataset.text = row.text;
+    sticky.innerHTML =
+      '<button class="sticky-delete" title="Удалить стикер">✕</button>' +
+      '<div>' + escapeHtmlLocal(row.text) + '</div>' +
+      '<div class="sticky-footer">' +
+        '<span style="opacity:0.7;">' + escapeHtmlLocal(row.author || 'Аноним') + '</span>' +
+        '<span class="like-count" data-likes="' + (row.likes || 0) + '">♥ ' + (row.likes || 0) + '</span>' +
+      '</div>';
+    return sticky;
+  }
+
+  // ===== Удаление — открыть модалку =====
+  board.addEventListener('click', function(e) {
+    var deleteBtn = e.target.closest('.sticky-delete');
+    if (!deleteBtn) return;
+    e.stopPropagation();
+    stickyToDelete = deleteBtn.closest('.sticky');
+    if (stickyToDelete && deleteModal) {
+      deleteModal.classList.add('active');
+    }
   });
+
+  if (deleteCancel) {
+    deleteCancel.addEventListener('click', function() {
+      stickyToDelete = null;
+      deleteModal.classList.remove('active');
+    });
+  }
+
+  if (deleteModal) {
+    deleteModal.addEventListener('click', function(e) {
+      if (e.target === deleteModal) {
+        stickyToDelete = null;
+        deleteModal.classList.remove('active');
+      }
+    });
+  }
+
+  if (deleteConfirm) {
+    deleteConfirm.addEventListener('click', function() {
+      if (!stickyToDelete) {
+        if (deleteModal) deleteModal.classList.remove('active');
+        return;
+      }
+      var elToRemove = stickyToDelete;
+      var stickyId = elToRemove.dataset.id;
+      stickyToDelete = null;
+      deleteModal.classList.remove('active');
+
+      elToRemove.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      elToRemove.style.opacity = '0';
+      elToRemove.style.transform = 'scale(0.8)';
+      setTimeout(function() {
+        if (elToRemove && elToRemove.parentNode) elToRemove.remove();
+      }, 300);
+
+      if (_sb && stickyId) {
+        _sb.from('stickies').delete().eq('id', stickyId)
+          .then(function(result) {
+            if (result.error) console.error('Ошибка удаления:', result.error);
+          });
+      }
+    });
+  }
+
+  // ===== Добавление стикера =====
+  addBtn.addEventListener('click', function() {
+    var text = input.value.trim();
+    if (!text) {
+      input.style.borderColor = '#ef4444';
+      setTimeout(function() { input.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    // localStorage — личная копия
+    localStorage.setItem('nc_my_sticky', JSON.stringify({ text: text }));
+
+    // Показываем жёлтый блок
+    if (myStickEl) {
+      myStickEl.style.display = 'block';
+      var txtEl = myStickEl.querySelector('.my-sticky-text');
+      if (txtEl) txtEl.textContent = text;
+    }
+
+    if (_sb) {
+      _sb
+        .from('stickies')
+        .insert({ screen: 'screen-21', text: text, author: 'Участник', likes: 0 })
+        .select()
+        .then(function(result) {
+          if (result.error) { console.error('Ошибка сохранения:', result.error); return; }
+
+          if (result.data && result.data.length > 0) {
+            board.insertBefore(createStickyEl(result.data[0]), board.firstChild);
+          }
+
+          // Удаляем самый старый, если > 20
+          var allStickies = board.querySelectorAll('.sticky');
+          if (allStickies.length > 20) {
+            var oldest = allStickies[allStickies.length - 1];
+            var oldestId = oldest.dataset.id;
+            oldest.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            oldest.style.opacity = '0';
+            oldest.style.transform = 'scale(0.7)';
+            setTimeout(function() {
+              if (oldest && oldest.parentNode) oldest.remove();
+            }, 400);
+            if (_sb && oldestId) {
+              _sb.from('stickies').delete().eq('id', oldestId)
+                .then(function(r) {
+                  if (r.error) console.error('Ошибка удаления старого:', r.error);
+                });
+            }
+          }
+
+          addScore(1);
+          input.value = '';
+          if (btnNext) btnNext.style.display = 'inline-flex';
+        });
+    } else {
+      // Fallback без Supabase
+      var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
+      board.insertBefore(createStickyEl(fallback), board.firstChild);
+      addScore(1);
+      input.value = '';
+      if (btnNext) btnNext.style.display = 'inline-flex';
+    }
+  });
+
+  // ===== Лайки =====
+  board.addEventListener('click', function(e) {
+    if (e.target.closest('.sticky-delete')) return;
+    var target = e.target.closest('.like-count');
+    if (!target) return;
+    var sticky = target.closest('.sticky');
+    var id = sticky ? sticky.dataset.id : null;
+    var likes = parseInt(target.dataset.likes || '0', 10) + 1;
+    target.dataset.likes = String(likes);
+    target.textContent = '♥ ' + likes;
+    if (_sb && id) {
+      _sb.from('stickies').update({ likes: likes }).eq('id', id)
+        .then(function(r) { if (r.error) console.error(r.error); });
+    }
+  });
+
+  // ===== Realtime =====
+  if (_sb) {
+    try {
+      _sb
+        .channel('stickies-realtime')
+        .on('postgres_changes', {
+          event: 'INSERT', schema: 'public', table: 'stickies',
+          filter: 'screen=eq.screen-21'
+        }, function(payload) {
+          if (board.querySelector('[data-id="' + payload.new.id + '"]')) return;
+          board.insertBefore(createStickyEl(payload.new), board.firstChild);
+        })
+        .on('postgres_changes', {
+          event: 'UPDATE', schema: 'public', table: 'stickies'
+        }, function(payload) {
+          var el = board.querySelector('[data-id="' + payload.new.id + '"]');
+          if (!el) return;
+          var lc = el.querySelector('.like-count');
+          if (lc) {
+            lc.dataset.likes = String(payload.new.likes);
+            lc.textContent = '♥ ' + payload.new.likes;
+          }
+        })
+        .on('postgres_changes', {
+          event: 'DELETE', schema: 'public', table: 'stickies'
+        }, function(payload) {
+          var el = board.querySelector('[data-id="' + payload.old.id + '"]');
+          if (el) {
+            el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.8)';
+            setTimeout(function() { el.remove(); }, 300);
+          }
+        })
+        .subscribe();
+    } catch(e) {
+      console.warn('Realtime не подключился:', e);
+    }
+  }
+
+  // Первая загрузка
+  loadStickies();
+  loadMySticky();
+
+  // Обработчик кнопки "Далее"
+  if (btnNext) {
+    var newNext = btnNext.cloneNode(true);
+    btnNext.parentNode.replaceChild(newNext, btnNext);
+    newNext.addEventListener('click', function() {
+      showScreen('screen-21-0');
+    });
+  }
+
+  // Тултип
+  if (typeof initStickyTooltip === 'function') {
+    initStickyTooltip();
+  }
 }
 
+// ===== Глобальный тултип для стикеров =====
+function initStickyTooltip() {
+  var tooltip = document.getElementById('sticky-tooltip');
+  if (!tooltip) return;
+  if (tooltip.dataset.inited === '1') return;
+  tooltip.dataset.inited = '1';
+
+  var currentTarget = null;
+
+  document.addEventListener('mouseover', function(e) {
+    var sticky = e.target.closest('.sticky');
+    if (!sticky) return;
+    if (e.target.closest('.sticky-delete')) return;
+    var text = sticky.dataset.text;
+    if (!text) return;
+    currentTarget = sticky;
+    tooltip.textContent = text;
+    tooltip.classList.add('visible');
+    positionTooltip(e);
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!currentTarget) return;
+    positionTooltip(e);
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    var sticky = e.target.closest('.sticky');
+    if (!sticky) return;
+    currentTarget = null;
+    tooltip.classList.remove('visible');
+  });
+
+  function positionTooltip(e) {
+    var x = e.clientX;
+    var y = e.clientY;
+    var tw = tooltip.offsetWidth;
+    var th = tooltip.offsetHeight;
+    var vw = window.innerWidth;
+
+    var left = x - tw / 2;
+    var top = y - th - 14;
+
+    if (left + tw > vw - 10) left = vw - tw - 10;
+    if (left < 10) left = 10;
+    if (top < 10) top = y + 18;
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+}
 
 // ===== Экран 21-1: Сумка =====
 function initBag() {
