@@ -1785,6 +1785,155 @@ function initImportanceSliders() {
   panel.appendChild(block);
 }
 // ===== Экран 16: Локации =====
+function initPeopleGame() {
+  var pool = document.getElementById('people-pool');
+  var target = document.getElementById('people-target');
+  var counter = document.getElementById('people-counter');
+  var feedback = document.getElementById('people-feedback');
+  var btnPlan = document.getElementById('btn-people-plan');
+  var btnContinue = document.getElementById('btn-people-continue');
+
+  if (!pool || !target || !counter) {
+    console.warn('initPeopleGame: элементы не найдены');
+    return;
+  }
+
+  // Защита от повторной инициализации
+  if (pool.dataset.inited === '1') return;
+  pool.dataset.inited = '1';
+
+  // URLs человечков (замени на свои, если есть)
+  var peopleImgs = [
+    'https://i.ibb.co/album-your-people/p1.png'
+    // ↑ если есть свои картинки — вставь сюда массив URL
+  ];
+
+  // Если картинок нет — используем эмодзи-аватары
+  var useEmoji = peopleImgs.length === 0 || !peopleImgs[0].startsWith('http');
+  var emojis = ['👨', '👩', '🧑', '👨‍💼', '👩‍💼', '🧑‍💼', '👨‍🔬', '👩‍🔬', '🧑‍🎓', '👨‍⚕️', '👩‍⚕️', '🧑‍💻'];
+
+  pool.innerHTML = '';
+  target.innerHTML = '';
+
+  var TOTAL_PEOPLE = 12;
+
+  for (var i = 0; i < TOTAL_PEOPLE; i++) {
+    var person = document.createElement('div');
+    person.className = 'person-avatar';
+    person.dataset.personId = 'p' + i;
+
+    if (useEmoji) {
+      // Эмодзи-человечки
+      var emoji = emojis[i % emojis.length];
+      person.style.cssText = [
+        'width:52px',
+        'height:72px',
+        'display:flex',
+        'align-items:center',
+        'justify-content:center',
+        'font-size:42px',
+        'cursor:pointer',
+        'user-select:none',
+        'transition:transform 0.2s ease, filter 0.2s ease',
+        'background:linear-gradient(180deg,#fef3c7,#fde68a)',
+        'border-radius:12px',
+        'border:2px solid #facc15',
+        'box-shadow:0 2px 8px rgba(0,0,0,0.08)'
+      ].join(';');
+      person.textContent = emoji;
+    } else {
+      // С картинками
+      var img = document.createElement('img');
+      img.src = peopleImgs[i % peopleImgs.length];
+      img.alt = 'Человек ' + (i + 1);
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;pointer-events:none;';
+      person.appendChild(img);
+    }
+
+    // Клик: перемещение pool ↔ target
+    person.addEventListener('click', function() {
+      var el = this;
+      if (el.parentElement === pool) {
+        target.appendChild(el);
+        el.style.filter = 'hue-rotate(90deg) brightness(1.1)';
+      } else {
+        pool.appendChild(el);
+        el.style.filter = '';
+      }
+      updateCounter();
+    });
+
+    // Hover-эффекты
+    person.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-6px) scale(1.12)';
+    });
+    person.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+
+    pool.appendChild(person);
+  }
+
+  function updateCounter() {
+    var n = target.children.length;
+    counter.textContent = n;
+
+    if (n === 0) {
+      counter.style.color = '#94a3b8';
+    } else if (n <= 3) {
+      counter.style.color = '#22c55e';
+    } else if (n <= 7) {
+      counter.style.color = '#3b82f6';
+    } else {
+      counter.style.color = '#a855f7';
+    }
+  }
+
+  // Кнопка "Запланировать"
+  if (btnPlan) {
+    btnPlan.addEventListener('click', function() {
+      var n = target.children.length;
+      if (n === 0) {
+        if (feedback) {
+          feedback.style.display = 'block';
+          feedback.innerHTML = '🤔 Добавь хотя бы одного человечка в свой план!';
+          feedback.style.color = '#f59e0b';
+        }
+        return;
+      }
+
+      localStorage.setItem('nc_people_planned', String(n));
+
+      var msg = '';
+      if (n <= 3) {
+        msg = '💪 <strong>Реалистичный план!</strong> ' + n + ' качественных знакомств — это уже много. Главное — не количество, а глубина.';
+      } else if (n <= 7) {
+        msg = '🎯 <strong>Отличная цель!</strong> ' + n + ' знакомств за одно мероприятие — хороший баланс между амбицией и реальностью.';
+      } else {
+        msg = '🔥 <strong>Амбициозно!</strong> ' + n + ' человек — это серьёзный вызов. Помни: лучше 3 глубоких контакта, чем 10 поверхностных.';
+      }
+
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.innerHTML = msg;
+        feedback.style.color = '#1e293b';
+        feedback.style.background = 'rgba(34,197,94,0.08)';
+        feedback.style.borderColor = 'rgba(34,197,94,0.3)';
+      }
+
+      // Показываем кнопку "Продолжить"
+      if (btnContinue) {
+        btnContinue.classList.add('visible');
+        btnContinue.style.display = 'inline-flex';
+      }
+
+      addScore(2);
+    });
+  }
+
+  updateCounter();
+}
+
 function initLocations() {
   var pool = document.getElementById('location-pool');
   var zones = document.querySelectorAll('#screen-16-1 .location-drop-zone');
