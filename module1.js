@@ -2171,7 +2171,7 @@ function initLocations() {
   }
 }
 
-<!-- Экран 17. SMART цель — майнд-карта -->
+
 // ===== Экран 17: SMART цель — майнд-карта с последовательным появлением =====
 function initSmartGoal() {
   var screen = document.getElementById('screen-17');
