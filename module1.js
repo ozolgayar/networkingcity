@@ -4053,7 +4053,7 @@ function initZlataCard21() {
 
 // ===== Экран 21-1-1: после сумки → к карте =====
 function initZlataCard211() {
-  initZlataCardUniversal('screen-21-1-1', 'screen-final', ['inv-map-211', 'inv-map-211-back']);
+  initZlataCardUniversal('screen-21-1-1', 'screen-zlata-ready', ['inv-map-211', 'inv-map-211-back']);
 }
 
 // ===== Экран 21-2: Карта =====
