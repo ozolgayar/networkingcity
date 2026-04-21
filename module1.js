@@ -3624,36 +3624,184 @@ function initStickyTooltip() {
 
 // ===== Экран 21-1: Сумка =====
 function initBag() {
-  var items = document.querySelectorAll('.bag-item');
-  var btnDone = document.getElementById('btn-bag-done');
-  var counter = document.getElementById('bag-counter');
-  var selected = [];
+  var screen = document.getElementById('screen-21-1');
+  if (!screen) return;
+  if (screen.dataset.inited === '1') return;
+  screen.dataset.inited = '1';
 
-  items.forEach(function(item) {
-    item.addEventListener('click', function() {
-      item.classList.toggle('selected');
-      var id = item.dataset.id;
-      if (item.classList.contains('selected')) {
-        selected.push(id);
-      } else {
-        selected = selected.filter(function(x) { return x !== id; });
-      }
-      if (counter) counter.textContent = selected.length;
+  var items = [
+    {
+      name: 'Визитница',
+      img: 'https://i.ibb.co/Z6Cpr5wM/image.png',
+      text: 'Это не та визитница, которая находится в левом внутреннем кармане пиджака или блейзера. Это запасная визитница — неприкосновенный запас, пользоваться которым нужно в случае крайней необходимости.'
+    },
+    {
+      name: 'Ручка',
+      img: 'https://i.ibb.co/pttqb8S/1.png',
+      text: 'Всегда имей при себе запасную ручку, а лучше две. Идеально, если они именные или корпоративные.'
+    },
+    {
+      name: 'Записная книжка',
+      img: 'https://i.ibb.co/7xtcQfFK/image.png',
+      text: 'Понадобится для записей мыслей в дороге, во время семинаров или конференций. Не бери в привычку запоминать имена, телефоны, идеи и любые мысли. Забудешь.'
+    },
+    {
+      name: 'Салфетки',
+      img: 'https://i.ibb.co/jv0Lw5fN/1.png',
+      text: 'Частые переезды, десятки рукопожатий в день, регулярные кофе-брейки, где еду чаще всего берут руками. Влажные салфетки тут просто незаменимы.'
+    },
+    {
+      name: 'Пятновыводитель',
+      img: 'https://i.ibb.co/8ggVDc4Z/image.png',
+      text: 'Порой случается этот неловкий момент, когда приятный кофе-брейк заканчивается пятном на сорочке. А ведь конференция только началась!'
+    },
+    {
+      name: 'Аптечка',
+      img: 'https://i.ibb.co/FL4zkrHF/image.png',
+      text: 'Частые переезды и длительные конференции выматывают. Возьми только средства от головной боли, от давления и для улучшения пищеварения.'
+    },
+    {
+      name: 'Мятные конфеты',
+      img: 'https://i.ibb.co/99kG2qvJ/1.png',
+      text: 'Убедись, что после кофе-брейка с тобой приятно общаться. Как говорится: «Свежесть дыхания облегчает понимание».'
+    },
+    {
+      name: 'Книга или журнал',
+      img: 'https://i.ibb.co/HDKPmVhn/image.png',
+      text: 'Любой нетворкер должен уделять время развитию кругозора. Он помогает поддержать разговор на разные темы.'
+    },
+    {
+      name: 'Зарядное устройство',
+      img: 'https://i.ibb.co/LdBxNkkf/image.png',
+      text: 'Универсальное зарядное устройство — гаджет размером с визитницу. Выручает при каждой поездке.'
+    },
+    {
+      name: 'Парфюм',
+      img: 'https://i.ibb.co/fVtRzjqZ/1.png',
+      text: 'Можно держать в сумке парфюм маленькой ёмкости 30 мл или купить пробники.'
+    }
+  ];
+
+  var shelfVisual = document.getElementById('bag-shelf-visual');
+  var bagInside   = document.getElementById('bag-inside');
+  var modal       = document.getElementById('bag-modal');
+  var mTitle      = document.getElementById('bag-modal-title');
+  var mText       = document.getElementById('bag-modal-text');
+  var mImg        = document.getElementById('bag-modal-img');
+  var mTake       = document.getElementById('bag-modal-take');
+  var mSkip       = document.getElementById('bag-modal-skip');
+  var btnGo       = document.getElementById('btn-bag-go');
+  var doneMsg     = document.getElementById('bag-done-msg');
+
+  if (!shelfVisual || !bagInside) {
+    console.warn('initBag: shelf или bag-inside не найдены');
+    return;
+  }
+
+  var currentIdx = -1;
+  var taken = 0;
+
+  // ===== Создаём предметы на полке =====
+  shelfVisual.innerHTML = '';
+  items.forEach(function(item, i) {
+    var el = document.createElement('div');
+    el.className = 'bag-item-visual';
+    el.dataset.idx = i;
+    el.innerHTML =
+      '<img src="' + item.img + '" alt="' + item.name + '">' +
+      '<span>' + item.name + '</span>';
+    el.addEventListener('click', function() {
+      if (el.classList.contains('taken')) return;
+      currentIdx = i;
+      if (mImg) mImg.src = item.img;
+      if (mTitle) mTitle.textContent = item.name;
+      if (mText) mText.textContent = item.text;
+      if (mTake) mTake.style.display = 'inline-flex';
+      if (modal) modal.classList.add('active');
     });
+    shelfVisual.appendChild(el);
   });
 
-  if (btnDone) {
-    btnDone.addEventListener('click', function() {
-      if (selected.length < 3) {
-        alert('Выбери хотя бы 3 предмета!');
-        return;
+  // ===== Положить в сумку =====
+  if (mTake) {
+    mTake.addEventListener('click', function() {
+      if (currentIdx < 0) return;
+      var item = items[currentIdx];
+      var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
+
+      if (shelfEl && !shelfEl.classList.contains('taken')) {
+        shelfEl.classList.add('taken');
+
+        var bagEl = document.createElement('div');
+        bagEl.className = 'bag-item-inside';
+        bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
+
+        // Фиксированные позиции для каждого из 10 предметов
+        var positions = [
+          { left: '22%', top: '8%'  },  // 0 визитница
+          { left: '38%', top: '5%'  },  // 1 ручка
+          { left: '52%', top: '8%'  },  // 2 книжка
+          { left: '10%', top: '30%' },  // 3 салфетки
+          { left: '28%', top: '30%' },  // 4 пятновыв.
+          { left: '44%', top: '30%' },  // 5 аптечка
+          { left: '62%', top: '30%' },  // 6 конфеты
+          { left: '18%', top: '53%' },  // 7 книга
+          { left: '40%', top: '65%' },  // 8 зарядка
+          { left: '60%', top: '58%' }   // 9 парфюм
+        ];
+        var pos = positions[currentIdx] || { left: '45%', top: '45%' };
+        bagEl.style.left = pos.left;
+        bagEl.style.top  = pos.top;
+
+        bagInside.appendChild(bagEl);
+        taken++;
+
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            bagEl.classList.add('dropped');
+          });
+        });
+
+        if (taken >= items.length) {
+          setTimeout(function() {
+            if (doneMsg) doneMsg.style.display = 'block';
+            if (btnGo) btnGo.style.display = 'inline-flex';
+            if (typeof addScore === 'function') addScore(2);
+          }, 500);
+        }
       }
-      addScore(2);
+
+      if (modal) modal.classList.remove('active');
+      currentIdx = -1;
+    });
+  }
+
+  // ===== Закрыть без добавления =====
+  if (mSkip) {
+    mSkip.addEventListener('click', function() {
+      if (modal) modal.classList.remove('active');
+      currentIdx = -1;
+    });
+  }
+
+  // ===== Клик по фону модалки — закрыть =====
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        currentIdx = -1;
+      }
+    });
+  }
+
+  // ===== Кнопка "Далее" =====
+  if (btnGo && !btnGo.dataset.bound) {
+    btnGo.dataset.bound = '1';
+    btnGo.addEventListener('click', function() {
       showScreen('screen-21-1-1');
     });
   }
 }
-
 // ===== УНИВЕРСАЛЬНАЯ функция для карточек Златы =====
 function initZlataCardUniversal(screenId, nextScreenId, activeIconIds) {
   var screen = document.getElementById(screenId);
