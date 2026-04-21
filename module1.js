@@ -2682,12 +2682,36 @@ function initBizcard() {
 
 // ===== Экран 19-1: Карточка Златы =====
 function initZlataCard19() {
-  var btn = document.getElementById('btn-zlata19-next');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    showScreen('screen-20');
-  });
+  var card = document.getElementById('zlata-card-19');
+  var wrapper = document.getElementById('zlata-card-wrapper-19');
+  var phoneFront = document.getElementById('inv-phone-19');
+  var phoneBack = document.getElementById('inv-phone-19-back');
+
+  if (wrapper && card) {
+    wrapper.addEventListener('click', function(e) {
+      if (e.target.closest('#inv-phone-19') || e.target.closest('#inv-phone-19-back')) {
+        return;
+      }
+      card.classList.toggle('flipped');
+    });
+  }
+
+  if (phoneFront) {
+    phoneFront.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-20');
+    });
+  }
+
+  if (phoneBack) {
+    phoneBack.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-20');
+    });
+  }
 }
+
+
 
 // ===== Экран 20: Фото =====
 function initPhotoGame() {
@@ -2749,14 +2773,37 @@ function initProfileAndSticky() {
   });
 }
 
-// ===== Экран 21-0: Карточка Златы =====
+// ===== Экран 21-0: Карточка Златы — переход к сумке =====
 function initZlataCard21() {
-  var btn = document.getElementById('btn-zlata21-next');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    showScreen('screen-21-1');
-  });
+  var card = document.getElementById('zlata-card-21');
+  var wrapper = document.getElementById('zlata-card-wrapper-21');
+  var bagFront = document.getElementById('inv-bag-21');
+  var bagBack = document.getElementById('inv-bag-21-back');
+
+  if (wrapper && card) {
+    wrapper.addEventListener('click', function(e) {
+      if (e.target.closest('#inv-bag-21') || e.target.closest('#inv-bag-21-back')) {
+        return;
+      }
+      card.classList.toggle('flipped');
+    });
+  }
+
+  if (bagFront) {
+    bagFront.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-21-1');
+    });
+  }
+
+  if (bagBack) {
+    bagBack.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-21-1');
+    });
+  }
 }
+
 
 // ===== Экран 21-1: Сумка =====
 function initBag() {
@@ -2792,11 +2839,33 @@ function initBag() {
 
 // ===== Экран 21-1-1: Карточка Златы =====
 function initZlataCard211() {
-  var btn = document.getElementById('btn-zlata211-next');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    showScreen('screen-21-2');
-  });
+  var card = document.getElementById('zlata-card-211');
+  var wrapper = document.getElementById('zlata-card-wrapper-211');
+  var mapFront = document.getElementById('inv-map-211');
+  var mapBack = document.getElementById('inv-map-211-back');
+
+  if (wrapper && card) {
+    wrapper.addEventListener('click', function(e) {
+      if (e.target.closest('#inv-map-211') || e.target.closest('#inv-map-211-back')) {
+        return;
+      }
+      card.classList.toggle('flipped');
+    });
+  }
+
+  if (mapFront) {
+    mapFront.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-21-2');
+    });
+  }
+
+  if (mapBack) {
+    mapBack.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-21-2');
+    });
+  }
 }
 
 // ===== Экран 21-2: Карта =====
