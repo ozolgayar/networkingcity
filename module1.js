@@ -3988,6 +3988,9 @@ function initVenueMap() {
     return;
   }
 
+  // СКРЫВАЕМ старую кнопку «Далее» в нижней панели — теперь она в модалке
+  if (btnNext) btnNext.style.display = 'none';
+
   // Данные по каждому объекту (индекс = data-obj)
   var venueData = [
     { // 0 — Гардероб
@@ -4036,15 +4039,59 @@ function initVenueMap() {
   var totalGood = 3; // 3 правильные точки: напитки, еда, давний знакомый
   var clickedIds = {};
 
+  // ===== Создаём финальную модалку с кнопкой "Далее" =====
+  var finalModal = document.getElementById('venue-final-modal');
+  if (!finalModal) {
+    finalModal = document.createElement('div');
+    finalModal.id = 'venue-final-modal';
+    finalModal.className = 'modal-overlay';
+    finalModal.innerHTML =
+      '<div class="modal" style="max-width:480px; text-align:center;">' +
+        '<div style="font-size:56px; margin-bottom:10px;">🗺️</div>' +
+        '<h3 style="font-size:20px; color:#16a34a; margin-bottom:10px;">Ты нашёл(а) все благоприятные точки!</h3>' +
+        '<p style="font-size:14px; color:#475569; line-height:1.6; margin-bottom:14px;">' +
+          'Теперь ты знаешь, где происходит магия нетворкинга: <strong>зона напитков</strong>, <strong>столик с едой</strong> и <strong>давний знакомый</strong> как точка входа в группу.' +
+        '</p>' +
+        '<div style="padding:12px 14px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.25); margin-bottom:14px; font-size:13px; color:#166534; line-height:1.55; text-align:left;">' +
+          '💡 <strong>Лайфхак: метод «Корова на выпасе»</strong><br>' +
+          'Ходи к столу с едой или напитками несколько раз — каждый поход меняет твою позицию в зале и даёт новый повод познакомиться с новыми людьми.' +
+        '</div>' +
+        '<div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); margin-bottom:20px; font-size:12.5px; color:#0c4a6e; line-height:1.5; text-align:left;">' +
+          '⚡ <strong>Помни три закона знакомства:</strong><br>' +
+          '1. Человек не должен быть занят чем-то важным<br>' +
+          '2. Должен быть естественный повод начать разговор<br>' +
+          '3. Человек физически доступен (открытая поза)' +
+        '</div>' +
+        '<button id="btn-venue-final-continue" style="height:44px; padding:0 32px; font-size:14px; font-weight:700; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
+          'Продолжить →' +
+        '</button>' +
+      '</div>';
+    document.body.appendChild(finalModal);
+
+    document.getElementById('btn-venue-final-continue').addEventListener('click', function() {
+      finalModal.classList.remove('active');
+      // Помечаем, что карту изучили
+      localStorage.setItem('mapViewed', '1');
+      if (typeof addScore === 'function') addScore(3);
+      // Возврат на рабочий стол Златы
+      if (typeof showScreen === 'function') showScreen('screen-10');
+    });
+  }
+
   function updateCounter() {
     if (counter) {
       counter.textContent = 'Найдено: ' + foundCount + ' из ' + totalGood + ' ⭐';
     }
 
+    // Показать сообщение об успехе и лайфхак прямо на сцене
     if (foundCount >= totalGood) {
       if (successMsg) successMsg.style.display = 'block';
       if (lifehack) lifehack.style.display = 'block';
-      if (btnNext) btnNext.style.display = 'inline-flex';
+
+      // Открываем финальную модалку с небольшой задержкой
+      setTimeout(function() {
+        finalModal.classList.add('active');
+      }, 800);
     }
   }
 
@@ -4057,7 +4104,7 @@ function initVenueMap() {
       var data = venueData[idx];
       if (!data) return;
 
-      // Показываем модалку
+      // Показываем модалку с описанием
       if (modalTitle) modalTitle.textContent = data.title;
       if (modalText) modalText.textContent = data.text;
       if (modal) modal.classList.add('active');
@@ -4081,11 +4128,6 @@ function initVenueMap() {
         }
 
         updateCounter();
-
-        // Награда только один раз
-        if (foundCount === totalGood && typeof addScore === 'function') {
-          addScore(3);
-        }
       } else if (!data.good && !clickedIds[idx]) {
         clickedIds[idx] = true;
         // Визуально помечаем как «ловушку»
@@ -4094,7 +4136,7 @@ function initVenueMap() {
     });
   });
 
-  // Закрытие модалки
+  // Закрытие модалки с описанием объекта
   if (modalOk) {
     modalOk.addEventListener('click', function() {
       if (modal) modal.classList.remove('active');
@@ -4104,15 +4146,6 @@ function initVenueMap() {
   if (modal) {
     modal.addEventListener('click', function(e) {
       if (e.target === modal) modal.classList.remove('active');
-    });
-  }
-
-  // Кнопка «Далее» — возврат на рабочий стол
-  if (btnNext) {
-    btnNext.addEventListener('click', function() {
-      // Помечаем, что карту изучили
-      localStorage.setItem('mapViewed', '1');
-      showScreen('screen-10');
     });
   }
 
