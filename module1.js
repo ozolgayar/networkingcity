@@ -3623,13 +3623,15 @@ function initStickyTooltip() {
 }
 
 // ===== Экран 21-1: Сумка =====
+// ===== Экран 21-1: Сумочка нетворкера =====
 function initBag() {
   var screen = document.getElementById('screen-21-1');
   if (!screen) return;
   if (screen.dataset.inited === '1') return;
   screen.dataset.inited = '1';
 
-  var items = [
+  // ===== ПРАВИЛЬНЫЕ ПРЕДМЕТЫ =====
+  var correctItems = [
     {
       name: 'Визитница',
       img: 'https://i.ibb.co/Z6Cpr5wM/image.png',
@@ -3682,6 +3684,29 @@ function initBag() {
     }
   ];
 
+  // ===== НЕПРАВИЛЬНЫЕ ПРЕДМЕТЫ (ловушки) =====
+  // ↓ Замени URL на свои ссылки
+  var wrongItems = [
+    {
+      name: 'Ноутбук',
+      img: 'https://i.ibb.co/xS0cKzyG/1cc21ffc81d4b5d70623eb2976a6d5a6-c2a86506-bc52-483b-a8ff-b3390a6a3344-1.png',  // ← ВСТАВЬ СВОЮ ССЫЛКУ
+      text: 'На конференциях редко удаётся поработать за ноутбуком в полную силу. Он тяжёлый, занимает всю сумку и отвлекает от главного — живого общения. Оставь его в отеле.',
+      wrongReason: 'Ноутбук слишком громоздкий и отвлекает от нетворкинга. На мероприятии главное — живое общение, а не работа за экраном.'
+    },
+    {
+      name: 'Наушники большие',
+      img: 'https://i.ibb.co/FLNCx1FH/e622c2eff3c16540aed9f07dc80c98f7-748d3f2c-a562-4ed5-a2b8-a57857f2b0d7-1.png',  // ← ВСТАВЬ СВОЮ ССЫЛКУ
+      text: 'Большие накладные наушники — это сигнал «не подходите ко мне». На нетворкинг-ивенте они мешают: ты не услышишь, когда к тебе обратятся, и выглядишь закрытым.',
+      wrongReason: 'Наушники создают барьер для общения. Если нужна музыка в дороге — возьми компактные вкладыши.'
+    }
+  ];
+
+  // Объединяем все предметы (правильные + неправильные)
+  var allItems = correctItems.concat(wrongItems);
+
+  // Запоминаем количество правильных для проверки завершения
+  var CORRECT_COUNT = correctItems.length;
+
   var shelfVisual = document.getElementById('bag-shelf-visual');
   var bagInside   = document.getElementById('bag-inside');
   var modal       = document.getElementById('bag-modal');
@@ -3690,7 +3715,6 @@ function initBag() {
   var mImg        = document.getElementById('bag-modal-img');
   var mTake       = document.getElementById('bag-modal-take');
   var mSkip       = document.getElementById('bag-modal-skip');
-  var btnGo       = document.getElementById('btn-bag-go');
   var doneMsg     = document.getElementById('bag-done-msg');
 
   if (!shelfVisual || !bagInside) {
@@ -3698,12 +3722,23 @@ function initBag() {
     return;
   }
 
-  var currentIdx = -1;
-  var taken = 0;
+  // Скрываем старую кнопку «Далее» если она есть
+  var oldBtnGo = document.getElementById('btn-bag-go');
+  if (oldBtnGo) oldBtnGo.style.display = 'none';
 
-  // ===== Создаём предметы на полке =====
+  var currentIdx = -1;
+  var takenCorrect = 0;
+
+  // ===== Создаём предметы на полке (перемешанные) =====
   shelfVisual.innerHTML = '';
-  items.forEach(function(item, i) {
+  // Перемешиваем, чтобы неправильные не шли подряд в конце
+  var shuffled = allItems.map(function(it, idx) {
+    return { item: it, originalIdx: idx };
+  }).sort(function() { return Math.random() - 0.5; });
+
+  shuffled.forEach(function(entry) {
+    var item = entry.item;
+    var i = entry.originalIdx;
     var el = document.createElement('div');
     el.className = 'bag-item-visual';
     el.dataset.idx = i;
@@ -3722,13 +3757,78 @@ function initBag() {
     shelfVisual.appendChild(el);
   });
 
+  // ===== Создаём финальную модалку "Сумка собрана" =====
+  var finalModal = document.getElementById('bag-final-modal');
+  if (!finalModal) {
+    finalModal = document.createElement('div');
+    finalModal.id = 'bag-final-modal';
+    finalModal.className = 'modal-overlay';
+    finalModal.innerHTML =
+      '<div class="modal" style="max-width:440px; text-align:center;">' +
+        '<div style="font-size:56px; margin-bottom:10px;">🎒</div>' +
+        '<h3 style="font-size:20px; color:#16a34a; margin-bottom:10px;">Сумка собрана!</h3>' +
+        '<p style="font-size:14px; color:#475569; line-height:1.6; margin-bottom:14px;">' +
+          'Ты справился(ась) с выбором! Теперь твоя сумка укомплектована всем необходимым для комфортного нетворкинга.' +
+        '</p>' +
+        '<div style="padding:12px 14px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); margin-bottom:18px; font-size:13px; color:#166534; line-height:1.5;">' +
+          '💡 <strong>Совет:</strong> проверяй сумку за день до каждого мероприятия. Ничто так не убивает уверенность, как разряженный телефон или отсутствие визиток.' +
+        '</div>' +
+        '<button id="btn-bag-final-continue" style="height:44px; padding:0 32px; font-size:14px; font-weight:700; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
+          'Продолжить →' +
+        '</button>' +
+      '</div>';
+    document.body.appendChild(finalModal);
+
+    document.getElementById('btn-bag-final-continue').addEventListener('click', function() {
+      finalModal.classList.remove('active');
+      if (typeof showScreen === 'function') showScreen('screen-21-1-1');
+    });
+  }
+
+  // ===== Создаём модалку-предупреждение для неправильных предметов =====
+  var wrongModal = document.getElementById('bag-wrong-modal');
+  if (!wrongModal) {
+    wrongModal = document.createElement('div');
+    wrongModal.id = 'bag-wrong-modal';
+    wrongModal.className = 'modal-overlay';
+    wrongModal.innerHTML =
+      '<div class="modal" style="max-width:420px; text-align:center;">' +
+        '<div style="font-size:48px; margin-bottom:8px;">🤔</div>' +
+        '<h3 id="bag-wrong-title" style="font-size:18px; color:#dc2626; margin-bottom:10px;">Это лишнее!</h3>' +
+        '<p id="bag-wrong-text" style="font-size:13px; color:#475569; line-height:1.6; margin-bottom:18px;"></p>' +
+        '<button id="btn-bag-wrong-ok" style="height:40px; padding:0 24px; font-size:13px; font-weight:700; border-radius:999px; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(245,158,11,0.35);">' +
+          'Понятно' +
+        '</button>' +
+      '</div>';
+    document.body.appendChild(wrongModal);
+
+    document.getElementById('btn-bag-wrong-ok').addEventListener('click', function() {
+      wrongModal.classList.remove('active');
+    });
+  }
+
   // ===== Положить в сумку =====
   if (mTake) {
     mTake.addEventListener('click', function() {
       if (currentIdx < 0) return;
-      var item = items[currentIdx];
+      var item = allItems[currentIdx];
       var shelfEl = shelfVisual.querySelector('[data-idx="' + currentIdx + '"]');
+      var isWrong = currentIdx >= CORRECT_COUNT; // неправильные идут после правильных
 
+      if (modal) modal.classList.remove('active');
+
+      // ===== Если неправильный — показываем предупреждение =====
+      if (isWrong) {
+        var wTitle = document.getElementById('bag-wrong-title');
+        var wText = document.getElementById('bag-wrong-text');
+        if (wTitle) wTitle.textContent = '🤔 «' + item.name + '» — это лишнее!';
+        if (wText) wText.textContent = item.wrongReason;
+        wrongModal.classList.add('active');
+        currentIdx = -1;
+        return;
+      }
+
+      // ===== Правильный предмет — кладём в сумку =====
       if (shelfEl && !shelfEl.classList.contains('taken')) {
         shelfEl.classList.add('taken');
 
@@ -3736,25 +3836,24 @@ function initBag() {
         bagEl.className = 'bag-item-inside';
         bagEl.innerHTML = '<img src="' + item.img + '" alt="' + item.name + '">';
 
-        // Фиксированные позиции для каждого из 10 предметов
         var positions = [
-          { left: '22%', top: '8%'  },  // 0 визитница
-          { left: '38%', top: '5%'  },  // 1 ручка
-          { left: '52%', top: '8%'  },  // 2 книжка
-          { left: '10%', top: '30%' },  // 3 салфетки
-          { left: '28%', top: '30%' },  // 4 пятновыв.
-          { left: '44%', top: '30%' },  // 5 аптечка
-          { left: '62%', top: '30%' },  // 6 конфеты
-          { left: '18%', top: '53%' },  // 7 книга
-          { left: '40%', top: '65%' },  // 8 зарядка
-          { left: '60%', top: '58%' }   // 9 парфюм
+          { left: '22%', top: '8%'  },
+          { left: '38%', top: '5%'  },
+          { left: '52%', top: '8%'  },
+          { left: '10%', top: '30%' },
+          { left: '28%', top: '30%' },
+          { left: '44%', top: '30%' },
+          { left: '62%', top: '30%' },
+          { left: '18%', top: '53%' },
+          { left: '40%', top: '65%' },
+          { left: '60%', top: '58%' }
         ];
         var pos = positions[currentIdx] || { left: '45%', top: '45%' };
         bagEl.style.left = pos.left;
         bagEl.style.top  = pos.top;
 
         bagInside.appendChild(bagEl);
-        taken++;
+        takenCorrect++;
 
         requestAnimationFrame(function() {
           requestAnimationFrame(function() {
@@ -3762,21 +3861,24 @@ function initBag() {
           });
         });
 
-        if (taken >= items.length) {
+        // Все правильные собраны → финальная модалка
+        if (takenCorrect >= CORRECT_COUNT) {
           setTimeout(function() {
             if (doneMsg) doneMsg.style.display = 'block';
-            if (btnGo) btnGo.style.display = 'inline-flex';
             if (typeof addScore === 'function') addScore(2);
+            // Открываем финальную модалку через небольшую задержку
+            setTimeout(function() {
+              finalModal.classList.add('active');
+            }, 800);
           }, 500);
         }
       }
 
-      if (modal) modal.classList.remove('active');
       currentIdx = -1;
     });
   }
 
-  // ===== Закрыть без добавления =====
+  // ===== Закрыть модалку =====
   if (mSkip) {
     mSkip.addEventListener('click', function() {
       if (modal) modal.classList.remove('active');
@@ -3784,7 +3886,6 @@ function initBag() {
     });
   }
 
-  // ===== Клик по фону модалки — закрыть =====
   if (modal) {
     modal.addEventListener('click', function(e) {
       if (e.target === modal) {
@@ -3793,15 +3894,8 @@ function initBag() {
       }
     });
   }
-
-  // ===== Кнопка "Далее" =====
-  if (btnGo && !btnGo.dataset.bound) {
-    btnGo.dataset.bound = '1';
-    btnGo.addEventListener('click', function() {
-      showScreen('screen-21-1-1');
-    });
-  }
 }
+
 // ===== УНИВЕРСАЛЬНАЯ функция для карточек Златы =====
 function initZlataCardUniversal(screenId, nextScreenId, activeIconIds) {
   var screen = document.getElementById(screenId);
