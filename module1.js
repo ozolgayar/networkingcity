@@ -2608,13 +2608,42 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// ===== Экран 17-1: Карточка Златы =====
+// ===== Экран 17-1: Карточка Златы — переход к визитке =====
 function initZlataCard17() {
-  var btn = document.getElementById('btn-zlata17-next');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    showScreen('screen-10');
-  });
+  var screen = document.getElementById('screen-17-1');
+  if (!screen) return;
+
+  var card = document.getElementById('zlata-card-17');
+  var wrapper = document.getElementById('zlata-card-wrapper-17');
+  var bizcardFront = document.getElementById('inv-bizcard-17');
+  var bizcardBack = document.getElementById('inv-bizcard-17-back');
+
+  // Переворот карточки по клику на неё (кроме кликов по иконке визитки)
+  if (wrapper && card) {
+    wrapper.addEventListener('click', function(e) {
+      // Если кликнули по иконке визитки — не переворачиваем, а переходим дальше
+      if (e.target.closest('#inv-bizcard-17') || e.target.closest('#inv-bizcard-17-back')) {
+        return;
+      }
+      card.classList.toggle('flipped');
+    });
+  }
+
+  // Клик по иконке визитки (лицевая сторона) → переход на экран 19
+  if (bizcardFront) {
+    bizcardFront.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-19');
+    });
+  }
+
+  // Клик по иконке визитки (обратная сторона) → переход на экран 19
+  if (bizcardBack) {
+    bizcardBack.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showScreen('screen-19');
+    });
+  }
 }
 
 // ===== Экран 19: Визитка =====
