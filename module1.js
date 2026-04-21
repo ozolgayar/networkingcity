@@ -3741,16 +3741,7 @@ function initBag() {
     takenCorrect++;
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ bagEl.classList.add('dropped'); }); });
     
-// Показываем модалку с описанием предмета
-    if (mImg) mImg.src = item.img;
-    if (mTitle) mTitle.textContent = '✅ ' + item.name;
-    if (mText) mText.textContent = item.text;
-    if (mTake) mTake.style.display = 'none';
-    if (mSkip) {
-      mSkip.style.display = 'inline-flex';
-      mSkip.textContent = 'Понятно';
-    }
-    if (modal) modal.classList.add('active');
+
 
     if (takenCorrect >= CORRECT_COUNT) {
       setTimeout(function() {
@@ -3777,6 +3768,23 @@ function initBag() {
     el.innerHTML =
       '<img src="' + item.img + '" alt="' + item.name + '" draggable="false">' +
       '<span>' + item.name + '</span>';
+     // КЛИК — открываем модалку с описанием
+    el.addEventListener('click', function(e) {
+      if (el.classList.contains('taken')) return;
+      currentIdx = i;
+      if (mImg) mImg.src = item.img;
+      if (mTitle) mTitle.textContent = item.name;
+      if (mText) mText.textContent = item.text;
+      if (mTake) {
+        mTake.style.display = 'inline-flex';
+        mTake.textContent = 'Положить в сумку';
+      }
+      if (mSkip) {
+        mSkip.style.display = 'inline-flex';
+        mSkip.textContent = 'Понятно';
+      }
+      if (modal) modal.classList.add('active');
+    });
 
     // DESKTOP drag
     el.addEventListener('dragstart', function(e) {
@@ -3892,8 +3900,20 @@ function initBag() {
     });
   }
 
- // Кнопка "Положить в сумку" больше не нужна — используется drag&drop
-  if (mTake) mTake.style.display = 'none';
+  // КНОПКА "ПОЛОЖИТЬ В СУМКУ" — работает через handleDrop
+  if (mTake) {
+    mTake.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (currentIdx < 0) return;
+      var idxToPlace = currentIdx;
+      currentIdx = -1;
+      if (modal) modal.classList.remove('active');
+      setTimeout(function() {
+        handleDrop(idxToPlace);
+      }, 100);
+    });
+  }
 
   // ===== КНОПКА "ЗАКРЫТЬ" =====
   if (mSkip) {
