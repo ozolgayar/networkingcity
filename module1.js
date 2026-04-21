@@ -4197,7 +4197,6 @@ function generateAnswersPDF() {
   html +=   '<div style="font-size:40px;margin-bottom:10px;">🎓</div>';
   html +=   '<h1 style="font-size:28px;font-weight:700;margin:0 0 8px;color:#fff;">Мои ответы</h1>';
   html +=   '<div style="font-size:16px;opacity:0.9;">Модуль 1: Основы нетворкинга</div>';
-  html +=   '<div style="font-size:13px;opacity:0.8;margin-top:12px;">' + new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + '</div>';
   html += '</div>';
 
   html += '<div style="display:flex;justify-content:space-around;margin-bottom:30px;padding:16px;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;">';
@@ -4206,7 +4205,7 @@ function generateAnswersPDF() {
   html += '</div>';
 
   if (answers.purpose) {
-    html += renderPdfSection('🎯', 'Моя цель нетворкинга', answers.purpose, '#3b82f6');
+    html += renderPdfSection('Моя цель нетворкинга', answers.purpose, '#3b82f6');
   }
 
   if (Object.keys(answers.fearStrategies).length > 0) {
@@ -4231,7 +4230,7 @@ function generateAnswersPDF() {
       }
     });
     if (fearContent) {
-      html += renderPdfSection('🎭', 'Стратегии работы со страхами', fearContent, '#f59e0b', true);
+      html += renderPdfSection('Стратегии работы со страхами', fearContent, '#f59e0b', true);
     }
   }
 
@@ -4246,7 +4245,7 @@ function generateAnswersPDF() {
       wheelContent += '</div>';
     });
     wheelContent += '</div>';
-    html += renderPdfSection('⚖️', 'Моё колесо баланса', wheelContent, '#38bdf8', true);
+    html += renderPdfSection('Моё колесо баланса', wheelContent, '#38bdf8', true);
   }
 
   if (Object.keys(answers.smartGoal).length > 0) {
@@ -4271,7 +4270,7 @@ function generateAnswersPDF() {
       }
     });
     if (smartContent) {
-      html += renderPdfSection('🎯', 'Моя SMART-цель', smartContent, '#22c55e', true);
+      html += renderPdfSection('Моя SMART-цель', smartContent, '#22c55e', true);
     }
   }
 
@@ -4296,7 +4295,7 @@ function generateAnswersPDF() {
     });
     bcContent += '</div>';
     if (hasAny) {
-      html += renderPdfSection('💼', 'Моя визитка', bcContent, '#f59e0b', true);
+      html += renderPdfSection('Моя визитка', bcContent, '#f59e0b', true);
     }
   }
 
@@ -4304,14 +4303,14 @@ function generateAnswersPDF() {
     var statusContent = '<div style="padding:16px 20px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:12px;border:1px solid #86efac;text-align:center;">';
     statusContent +=   '<div style="font-size:15px;font-weight:600;color:#14532d;">' + escapeHtml(answers.status.full) + '</div>';
     statusContent += '</div>';
-    html += renderPdfSection('📱', 'Мой статус в соцсетях', statusContent, '#22c55e', true);
+    html += renderPdfSection('Мой статус в соцсетях', statusContent, '#22c55e', true);
   }
 
   if (answers.mySticky && answers.mySticky.text) {
     var stickyContent = '<div style="padding:20px;background:linear-gradient(135deg,#fef9c3,#fde68a);border:2px dashed #facc15;border-radius:12px;text-align:center;">';
     stickyContent +=   '<div style="font-size:14px;font-style:italic;color:#713f12;line-height:1.6;">«' + escapeHtml(answers.mySticky.text) + '»</div>';
     stickyContent += '</div>';
-    html += renderPdfSection('📌', 'Моя самопрезентация', stickyContent, '#facc15', true);
+    html += renderPdfSection('Моя самопрезентация', stickyContent, '#facc15', true);
   }
 
   html += '<div style="margin-top:40px;padding-top:20px;border-top:2px solid #e2e8f0;text-align:center;font-size:11px;color:#94a3b8;">';
