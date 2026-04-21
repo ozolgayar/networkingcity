@@ -6959,3 +6959,172 @@ body:has(.screen-card.active) #app {
 #venue-modal {
   z-index: 10000 !important;
 }
+
+/* ===== ЭКРАН zlata-ready: ФИКСЫ ===== */
+
+/* Заголовок сцены — наверх */
+#screen-zlata-ready .scene {
+  position: relative !important;
+}
+
+#screen-zlata-ready .scene-header {
+  position: absolute !important;
+  top: 16px !important;
+  left: 16px !important;
+  right: 16px !important;
+  z-index: 5 !important;
+  padding: 8px 14px !important;
+  background: rgba(255,255,255,0.85) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  color: #64748b !important;
+  border: 1px solid rgba(226,232,240,0.8) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  width: auto !important;
+  max-width: fit-content !important;
+}
+
+/* Кнопки в панели теории — компактные */
+#screen-zlata-ready .actions-row {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 10px !important;
+  margin-top: auto !important;
+  padding-top: 16px !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  flex-shrink: 0 !important;
+}
+
+#screen-zlata-ready .actions-row .btn,
+#screen-zlata-ready .actions-row .btn.secondary,
+#screen-zlata-ready #btn-zlata-ready-next {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  padding: 0 22px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  border-radius: 999px !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+}
+
+#screen-zlata-ready .actions-row .btn.secondary {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
+}
+
+#screen-zlata-ready #btn-zlata-ready-next {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(34,197,94,0.35) !important;
+  font-weight: 700 !important;
+  padding: 0 26px !important;
+}
+
+
+/* ===== ЭКРАН FINAL: кнопка PDF ===== */
+#screen-final .final-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  align-items: center !important;
+  margin-top: 20px !important;
+  width: 100% !important;
+}
+
+#screen-final .final-actions-row {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+}
+
+#btn-download-pdf {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  height: 48px !important;
+  padding: 0 28px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+  color: #ffffff !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(168,85,247,0.4) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+#btn-download-pdf:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(168,85,247,0.5) !important;
+}
+
+#btn-download-pdf:active {
+  transform: translateY(0) !important;
+}
+
+#btn-download-pdf .spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdfSpin 0.7s linear infinite;
+}
+
+@keyframes pdfSpin {
+  to { transform: rotate(360deg); }
+}
+
+.pdf-saved-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(34,197,94,0.45);
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.pdf-saved-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
