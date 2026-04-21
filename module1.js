@@ -2893,56 +2893,180 @@ function initBizcard() {
     });
   } catch(e) {}
 }
+
 // ===== Экран 20: Фото =====
+// ===== Экран 20: Выбор фото =====
 function initPhotoGame() {
-  var slots = document.querySelectorAll('.photo-slot');
-  var items = document.querySelectorAll('.photo-item');
-  var btn = document.getElementById('btn-photo-done');
+  var screen = document.getElementById('screen-20');
+  if (!screen) return;
+  if (screen.dataset.inited === '1') return;
+  screen.dataset.inited = '1';
+
+  var grid = document.getElementById('photo-grid');
+  var cards = screen.querySelectorAll('.photo-card');
+  var btnCheck = document.getElementById('btn-photo-check');
+  var btnNext = document.getElementById('btn-photo-next');
   var feedback = document.getElementById('photo-feedback');
 
-  items.forEach(function(item) {
-    item.addEventListener('dragstart', function(e) {
-      e.dataTransfer.setData('text/plain', item.dataset.id);
+  if (!grid || !cards.length) {
+    console.warn('initPhotoGame: элементы не найдены');
+    return;
+  }
+
+  // Скрываем «Далее» — он появится через модалку
+  if (btnNext) btnNext.style.display = 'none';
+
+  // ПРАВИЛЬНОЕ ФОТО: №1 (Портрет в офисе)
+  var CORRECT_PHOTO = '1';
+  var selectedPhoto = null;
+  var attempts = 0;
+
+  // Данные для ОС по каждому фото
+  var photoFeedback = {
+    '1': {
+      correct: true,
+      title: 'Отличный выбор!',
+      text: 'Профессиональный портрет в офисе — лицо крупным планом, чистый фон, хороший свет, живое выражение. По всем критериям 5+.'
+    },
+    '2': {
+      correct: false,
+      title: 'Не подходит',
+      text: 'Селфи в лифте — плохой фон (зеркало), неестественный ракурс, часто плохой свет. Для делового профиля не годится.'
+    },
+    '3': {
+      correct: false,
+      title: 'Не подходит',
+      text: 'Фото с корпоратива — есть лицо, но фон слишком яркий и отвлекает. Лучше для личной страницы.'
+    },
+    '4': {
+      correct: false,
+      title: 'Не подходит',
+      text: 'Командное фото — на нём тебя сложно узнать. Для личного профиля нужен кадр, где ты главный герой.'
+    },
+    '5': {
+      correct: false,
+      title: 'Не подходит',
+      text: 'Фото с отпуска — отличный отдых, но не деловой контекст. Купальник не располагает к деловым предложениям.'
+    },
+    '6': {
+      correct: false,
+      title: 'Не подходит',
+      text: 'Вечернее фото — плохой свет, неформальный контекст. Для профессионального профиля нужен дневной кадр.'
+    }
+  };
+
+  // Создаём модалку успеха
+  var successModal = document.getElementById('photo-success-modal');
+  if (!successModal) {
+    successModal = document.createElement('div');
+    successModal.id = 'photo-success-modal';
+    successModal.className = 'modal-overlay';
+    successModal.innerHTML =
+      '<div class="modal" style="max-width:440px;">' +
+        '<div style="text-align:center; font-size:48px; margin-bottom:8px;">🎉</div>' +
+        '<h3 style="text-align:center; font-size:20px; color:#16a34a; margin-bottom:8px;">Отличный выбор фото!</h3>' +
+        '<p style="font-size:14px; color:#475569; line-height:1.6; text-align:center; margin-bottom:18px;">' +
+          'Профессиональный портрет — именно то, что нужно для онлайн-профиля. Лицо, чистый фон, живое выражение.' +
+        '</p>' +
+        '<div style="padding:12px 14px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); margin-bottom:18px; font-size:13px; color:#166534; line-height:1.5;">' +
+          '💡 <strong>Помни:</strong> аватарка — это твоё первое «рукопожатие» онлайн. Люди решают за 1–2 секунды, хотят ли продолжать общение.' +
+        '</div>' +
+        '<div class="actions-row" style="display:flex; gap:10px; justify-content:center; flex-wrap:nowrap;">' +
+          '<button class="btn" id="btn-photo-next-modal" style="height:44px; padding:0 28px; font-size:14px; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
+            'Далее →' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(successModal);
+
+    document.getElementById('btn-photo-next-modal').addEventListener('click', function() {
+      successModal.classList.remove('active');
+      showScreen('screen-20-1');
+    });
+  }
+
+  // Клик по фото
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      if (card.classList.contains('dimmed')) return;
+      // Снимаем выделение со всех
+      cards.forEach(function(c) { c.classList.remove('selected'); });
+      // Ставим выделение на это
+      card.classList.add('selected');
+      selectedPhoto = card.dataset.photo;
+
+      if (feedback) {
+        feedback.textContent = '';
+        feedback.className = 'photo-feedback';
+      }
     });
   });
 
-  slots.forEach(function(slot) {
-    slot.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      slot.classList.add('drag-over');
-    });
-    slot.addEventListener('dragleave', function() {
-      slot.classList.remove('drag-over');
-    });
-    slot.addEventListener('drop', function(e) {
-      e.preventDefault();
-      slot.classList.remove('drag-over');
-      var id = e.dataTransfer.getData('text/plain');
-      var item = document.querySelector('.photo-item[data-id="' + id + '"]');
-      if (!item) return;
-      slot.innerHTML = '';
-      var clone = item.cloneNode(true);
-      clone.style.width = '100%';
-      clone.style.height = '100%';
-      clone.style.objectFit = 'cover';
-      slot.appendChild(clone);
-      slot.dataset.filled = id;
-    });
-  });
-
-  if (btn) {
-    btn.addEventListener('click', function() {
-      var filled = Array.from(slots).filter(function(s) { return s.dataset.filled; }).length;
-      if (filled < slots.length) {
-        if (feedback) feedback.textContent = 'Заполни все слоты!';
+  // Кнопка «Проверить»
+  if (btnCheck) {
+    btnCheck.addEventListener('click', function() {
+      if (!selectedPhoto) {
+        if (feedback) {
+          feedback.className = 'photo-feedback err';
+          feedback.innerHTML = '⚠️ Сначала выбери одно фото';
+        }
         return;
       }
-      addScore(3);
-      showScreen('screen-21');
+
+      attempts++;
+      var data = photoFeedback[selectedPhoto];
+
+      if (selectedPhoto === CORRECT_PHOTO) {
+        // ПРАВИЛЬНО!
+        var selectedCard = document.querySelector('.photo-card[data-photo="' + CORRECT_PHOTO + '"]');
+        if (selectedCard) {
+          selectedCard.classList.remove('selected');
+          selectedCard.classList.add('correct');
+        }
+        // Остальные — тусклые
+        cards.forEach(function(c) {
+          if (c.dataset.photo !== CORRECT_PHOTO) {
+            c.classList.add('dimmed');
+          }
+        });
+
+        if (feedback) {
+          feedback.className = 'photo-feedback ok';
+          feedback.innerHTML = '✅ <strong>' + data.title + '</strong><br>' + data.text;
+        }
+
+        // Награда
+        if (!state.photoRewarded) {
+          addScore(3);
+          state.photoRewarded = true;
+        }
+
+        // Модалка через 1 секунду
+        setTimeout(function() {
+          successModal.classList.add('active');
+        }, 1200);
+
+      } else {
+        // НЕПРАВИЛЬНО
+        var wrongCard = document.querySelector('.photo-card[data-photo="' + selectedPhoto + '"]');
+        if (wrongCard) {
+          wrongCard.classList.add('wrong');
+          setTimeout(function() {
+            wrongCard.classList.remove('wrong');
+          }, 500);
+        }
+
+        if (feedback) {
+          feedback.className = 'photo-feedback err';
+          feedback.innerHTML = '❌ <strong>' + data.title + '</strong><br>' + data.text;
+          if (attempts >= 2) {
+            feedback.innerHTML += '<br><br>💡 <strong>Подсказка:</strong> ищи фото с лицом крупным планом, чистым фоном и живым выражением.';
+          }
+        }
+      }
     });
   }
 }
-
 // ===== Экран 21: Стикеры =====
 function initProfileAndSticky() {
   var btn = document.getElementById('btn-sticky-done');
