@@ -3072,7 +3072,7 @@ function initPhotoGame() {
           feedback.className = 'photo-feedback err';
           feedback.innerHTML = '❌ <strong>' + data.title + '</strong><br>' + data.text;
           if (attempts >= 2) {
-            feedback.innerHTML += '<br><br>💡 <strong>Подсказка:</strong> ищи фото с лицом крупным планом, чистым фоном и живым выражением.';
+            feedback.innerHTML += '<br><br><strong>Подсказка:</strong> ищи фото с лицом крупным планом, чистым фоном и живым выражением.';
           }
         }
       }
