@@ -3755,7 +3755,7 @@ function initBag() {
     finalModal.className = 'modal-overlay';
     finalModal.innerHTML =
       '<div class="modal" style="max-width:440px; text-align:center;">' +
-        '<div style="font-size:56px; margin-bottom:10px;">🎒</div>' +
+        '<div style="font-size:56px; margin-bottom:10px;"></div>' +
         '<h3 style="font-size:20px; color:#16a34a; margin-bottom:10px;">Сумка собрана!</h3>' +
         '<p style="font-size:14px; color:#475569; line-height:1.6; margin-bottom:14px;">' +
           'Ты справился(ась) с выбором! Теперь твоя сумка укомплектована всем необходимым для комфортного нетворкинга.' +
@@ -3783,7 +3783,7 @@ function initBag() {
     wrongModal.className = 'modal-overlay';
     wrongModal.innerHTML =
       '<div class="modal" style="max-width:420px; text-align:center;">' +
-        '<div style="font-size:48px; margin-bottom:8px;">🤔</div>' +
+        '<div style="font-size:48px; margin-bottom:8px;"></div>' +
         '<h3 id="bag-wrong-title" style="font-size:18px; color:#dc2626; margin-bottom:10px;">Это лишнее!</h3>' +
         '<p id="bag-wrong-text" style="font-size:13px; color:#475569; line-height:1.6; margin-bottom:18px;"></p>' +
         '<button id="btn-bag-wrong-ok" style="height:40px; padding:0 24px; font-size:13px; font-weight:700; border-radius:999px; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(245,158,11,0.35);">' +
