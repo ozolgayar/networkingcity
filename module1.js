@@ -3408,6 +3408,46 @@ function initProfileAndSticky() {
   }
 
   // ===== Добавление стикера =====
+var successModal = document.getElementById('sticky-success-modal');
+  if (!successModal) {
+    successModal = document.createElement('div');
+    successModal.id = 'sticky-success-modal';
+    successModal.className = 'modal-overlay';
+    successModal.innerHTML =
+      '<div class="modal" style="max-width:460px;">' +
+        '<div style="text-align:center; font-size:48px; margin-bottom:8px;">📌</div>' +
+        '<h3 style="text-align:center; font-size:20px; color:#16a34a; margin-bottom:10px;">Стикер добавлен на доску!</h3>' +
+        '<p style="font-size:14px; color:#475569; line-height:1.6; text-align:center; margin-bottom:14px;">' +
+          'Отлично! Твоя самопрезентация теперь видна другим участникам курса.' +
+        '</p>' +
+        '<div id="sticky-modal-preview" style="background:linear-gradient(135deg,#fef9c3,#fde68a); border:1.5px solid #facc15; border-radius:12px; padding:14px 16px; margin-bottom:16px; font-size:13px; color:#713f12; line-height:1.5; font-weight:500; box-shadow: 0 2px 8px rgba(250,204,21,0.25);"></div>' +
+        '<div style="padding:10px 14px; border-radius:10px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); margin-bottom:18px; font-size:12px; color:#0c4a6e; line-height:1.5;">' +
+          '💡 <strong>Совет:</strong> обновляй свой стикер, когда меняется фокус или появляется новая «фишка» в работе.' +
+        '</div>' +
+        '<div style="display:flex; gap:10px; justify-content:center; flex-wrap:nowrap;">' +
+          '<button class="btn secondary" id="btn-sticky-edit-modal" style="height:42px; padding:0 20px; font-size:13px; border-radius:999px; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; font-weight:600; cursor:pointer;">' +
+            '✏️ Редактировать' +
+          '</button>' +
+          '<button class="btn" id="btn-sticky-next-modal" style="height:42px; padding:0 26px; font-size:14px; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">' +
+            'Далее →' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(successModal);
+
+    // Закрыть модалку (редактировать)
+    document.getElementById('btn-sticky-edit-modal').addEventListener('click', function() {
+      successModal.classList.remove('active');
+    });
+
+    // Далее → screen-21-0
+    document.getElementById('btn-sticky-next-modal').addEventListener('click', function() {
+      successModal.classList.remove('active');
+      showScreen('screen-21-0');
+    });
+  }
+
+  // ===== Добавление стикера =====
   addBtn.addEventListener('click', function() {
     var text = input.value.trim();
     if (!text) {
@@ -3415,6 +3455,72 @@ function initProfileAndSticky() {
       setTimeout(function() { input.style.borderColor = ''; }, 1500);
       return;
     }
+
+    // localStorage — личная копия
+    localStorage.setItem('nc_my_sticky', JSON.stringify({ text: text }));
+
+    // Показываем жёлтый блок «Твой стикер сохранён»
+    if (myStickEl) {
+      myStickEl.style.display = 'block';
+      var txtEl = myStickEl.querySelector('.my-sticky-text');
+      if (txtEl) txtEl.textContent = text;
+    }
+
+    // Функция показа модалки с превью
+    function openSuccessModal(finalText) {
+      var modalPrev = document.getElementById('sticky-modal-preview');
+      if (modalPrev) modalPrev.textContent = '«' + finalText + '»';
+      setTimeout(function() {
+        successModal.classList.add('active');
+      }, 400);
+    }
+
+    if (_sb) {
+      _sb
+        .from('stickies')
+        .insert({ screen: 'screen-21', text: text, author: 'Участник', likes: 0 })
+        .select()
+        .then(function(result) {
+          if (result.error) { console.error('Ошибка сохранения:', result.error); return; }
+
+          if (result.data && result.data.length > 0) {
+            board.insertBefore(createStickyEl(result.data[0]), board.firstChild);
+          }
+
+          // Удаляем самый старый, если > 20
+          var allStickies = board.querySelectorAll('.sticky');
+          if (allStickies.length > 20) {
+            var oldest = allStickies[allStickies.length - 1];
+            var oldestId = oldest.dataset.id;
+            oldest.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            oldest.style.opacity = '0';
+            oldest.style.transform = 'scale(0.7)';
+            setTimeout(function() {
+              if (oldest && oldest.parentNode) oldest.remove();
+            }, 400);
+            if (_sb && oldestId) {
+              _sb.from('stickies').delete().eq('id', oldestId)
+                .then(function(r) {
+                  if (r.error) console.error('Ошибка удаления старого:', r.error);
+                });
+            }
+          }
+
+          addScore(1);
+          input.value = '';
+
+          // ↓↓↓ ОТКРЫВАЕМ МОДАЛКУ ↓↓↓
+          openSuccessModal(text);
+        });
+    } else {
+      // Fallback без Supabase
+      var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
+      board.insertBefore(createStickyEl(fallback), board.firstChild);
+      addScore(1);
+      input.value = '';
+      openSuccessModal(text);
+    }
+  });
 
     // localStorage — личная копия
     localStorage.setItem('nc_my_sticky', JSON.stringify({ text: text }));
