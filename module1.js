@@ -3811,10 +3811,7 @@ function initBag() {
         mTake.style.display = 'inline-flex';
         mTake.textContent = 'Положить в сумку';
       }
-      if (mSkip) {
-        mSkip.style.display = 'inline-flex';
-        mSkip.textContent = 'Понятно';
-      }
+    if (mSkip) mSkip.style.display = 'none';
       if (modal) modal.classList.add('active');
     });
 
