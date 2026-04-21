@@ -2156,70 +2156,147 @@ function initLocations() {
   }
 }
 
-// ===== Экран 17: SMART =====
-function initSmartGoal() {
-  var fields = document.querySelectorAll('.smart-field');
-  var btn = document.getElementById('btn-smart-done');
-  if (!btn) return;
+<!-- Экран 17. SMART цель — майнд-карта -->
+<div class="screen" id="screen-17">
+  <div class="smart-fullscreen">
 
-  btn.addEventListener('click', function() {
-    var allFilled = true;
-    fields.forEach(function(f) {
-      if (!f.value.trim()) {
-        f.style.borderColor = '#ef4444';
-        allFilled = false;
-        setTimeout(function() { f.style.borderColor = ''; }, 1500);
-      }
-    });
-    if (!allFilled) return;
+    <!-- Заголовок -->
+    <div class="smart-header">
+      <div style="font-size: 36px;">🎯</div>
+      <h2>Ставим чёткую цель</h2>
+      <p style="color: var(--text-soft); max-width: 560px; line-height: 1.5;">
+        Сформулируй свою цель нетворкинга по модели SMART. Заполняй ветви по порядку — новая появится, когда предыдущая заполнена.
+      </p>
+    </div>
 
-    localStorage.setItem('laptopGoalDone', '1');
-    addScore(3);
-    showScreen('screen-17-1');
-  });
-}
+    <!-- Прогресс -->
+    <div class="smart-progress">
+      <div class="smart-progress-dot" data-step="1">S</div>
+      <div class="smart-progress-line"></div>
+      <div class="smart-progress-dot" data-step="2">M</div>
+      <div class="smart-progress-line"></div>
+      <div class="smart-progress-dot" data-step="3">A</div>
+      <div class="smart-progress-line"></div>
+      <div class="smart-progress-dot" data-step="4">R</div>
+      <div class="smart-progress-line"></div>
+      <div class="smart-progress-dot" data-step="5">T</div>
+    </div>
 
-(function initSmartExample() {
-  const screen = document.getElementById('screen-17');
-  if (!screen) return;
+    <!-- Майнд-карта -->
+    <div class="smart-mind-map-wrap">
 
-  // Находим элемент примера (любой вариант: details или div)
-  const example = screen.querySelector('.smart-example, details.smart-example');
-  if (!example) {
-    console.warn('[screen-17] .smart-example не найден');
-    return;
-  }
+      <!-- SVG линии от центра к ветвям -->
+      <svg class="smart-lines" id="smart-lines" aria-hidden="true"></svg>
 
-  // Если это <details> — браузер сам раскроет, но подстрахуемся
-  if (example.tagName.toLowerCase() === 'details') {
-    const summary = example.querySelector('summary');
-    if (summary) {
-      // Убираем возможные перехваты
-      summary.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // preventDefault НЕ вызываем — пусть браузер открывает
-      }, true);
-    }
-    console.log('[screen-17] <details> готов');
-    return;
-  }
+      <div class="smart-mind-map">
 
-  // Если это <div> — вешаем свой toggle
-  example.addEventListener('click', (e) => {
-    // Клик по textarea/input внутри не должен закрывать
-    if (e.target.closest('textarea, input, button')) return;
-    
-    example.classList.toggle('open');
-    const content = example.querySelector('.smart-example-content');
-    if (content) {
-      const isOpen = example.classList.contains('open');
-      content.style.display = isOpen ? 'block' : 'none';
-    }
-  });
+        <!-- Центр -->
+        <div class="smart-center" id="smart-center">
+          <div class="smart-center-icon">🎯</div>
+          <div class="smart-center-label">Моя SMART-цель</div>
+        </div>
 
-  console.log('[screen-17] toggle примера инициализирован');
-})();
+        <!-- Ветви -->
+        <div class="smart-branch smart-branch-s" data-step="1" data-branch="s">
+          <div class="smart-branch-header" style="--branch-color: #22c55e;">
+            <span class="smart-letter">S</span>
+            <span class="smart-branch-title">Specific<br><small>Конкретная</small></span>
+          </div>
+          <textarea class="smart-textarea" id="smart-s" data-branch="s" placeholder="Что именно ты хочешь достичь?"></textarea>
+        </div>
 
+        <div class="smart-branch smart-branch-m" data-step="2" data-branch="m">
+          <div class="smart-branch-header" style="--branch-color: #3b82f6;">
+            <span class="smart-letter">M</span>
+            <span class="smart-branch-title">Measurable<br><small>Измеримая</small></span>
+          </div>
+          <textarea class="smart-textarea" id="smart-m" data-branch="m" placeholder="Как ты поймёшь, что цель достигнута?"></textarea>
+        </div>
+
+        <div class="smart-branch smart-branch-a" data-step="3" data-branch="a">
+          <div class="smart-branch-header" style="--branch-color: #f59e0b;">
+            <span class="smart-letter">A</span>
+            <span class="smart-branch-title">Achievable<br><small>Достижимая</small></span>
+          </div>
+          <textarea class="smart-textarea" id="smart-a" data-branch="a" placeholder="Реально ли это? Какие ресурсы есть?"></textarea>
+        </div>
+
+        <div class="smart-branch smart-branch-r" data-step="4" data-branch="r">
+          <div class="smart-branch-header" style="--branch-color: #a855f7;">
+            <span class="smart-letter">R</span>
+            <span class="smart-branch-title">Relevant<br><small>Релевантная</small></span>
+          </div>
+          <textarea class="smart-textarea" id="smart-r" data-branch="r" placeholder="Зачем тебе это?"></textarea>
+        </div>
+
+        <div class="smart-branch smart-branch-t" data-step="5" data-branch="t">
+          <div class="smart-branch-header" style="--branch-color: #ef4444;">
+            <span class="smart-letter">T</span>
+            <span class="smart-branch-title">Time-bound<br><small>Ограниченная по времени</small></span>
+          </div>
+          <textarea class="smart-textarea" id="smart-t" data-branch="t" placeholder="Когда? К какой дате?"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Пример Златы -->
+    <div class="smart-example" id="smart-example-toggle">
+      <div class="smart-example-header" id="smart-example-header">
+        <span>💡</span> <strong>Посмотреть пример Златы</strong>
+        <span class="smart-example-arrow">▼</span>
+      </div>
+      <div class="smart-example-body" id="smart-example-body">
+        <div class="smart-example-row"><strong style="color:#22c55e;">S:</strong> Познакомиться с 3 специалистами из отдела маркетинга других компаний</div>
+        <div class="smart-example-row"><strong style="color:#3b82f6;">M:</strong> Обменяться визитками или контактами в мессенджере с 3 людьми</div>
+        <div class="smart-example-row"><strong style="color:#f59e0b;">A:</strong> Конференция на 150 человек, есть визитки и подготовленное представление</div>
+        <div class="smart-example-row"><strong style="color:#a855f7;">R:</strong> Нужны контакты для ускорения процесса регистрации препаратов</div>
+        <div class="smart-example-row"><strong style="color:#ef4444;">T:</strong> На конференции PharmaTech 15 октября 2026</div>
+      </div>
+    </div>
+
+    <!-- Кнопки — только "Назад" и "Ответить" -->
+    <div class="smart-actions">
+      <button class="btn secondary nav-back" data-prev>Назад</button>
+      <button class="btn" id="btn-smart-submit">Ответить</button>
+    </div>
+
+    <!-- Модалка предупреждения -->
+    <div class="modal-overlay" id="smart-warning-modal">
+      <div class="modal" style="text-align:center; max-width: 380px;">
+        <div style="font-size: 36px; margin-bottom: 8px;">⚠️</div>
+        <h3>Заполни все пункты цели!</h3>
+        <p style="color: var(--text-soft); margin-top: 6px;">Каждая ветвь SMART-цели должна быть заполнена.</p>
+        <div style="margin-top: 14px;">
+          <button class="btn" id="smart-warning-ok">Понятно</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модалка ОС + кнопки сохранить/продолжить -->
+    <div class="modal-overlay" id="smart-feedback-modal">
+      <div class="modal" style="max-width: 520px;">
+        <div style="font-size: 42px; text-align: center; margin-bottom: 8px;">🎉</div>
+        <h3 style="text-align: center; margin-bottom: 4px;">Отличная SMART-цель!</h3>
+        <p style="text-align:center; color:var(--text-soft); font-size:13px; margin-bottom:14px;">
+          Ты сформулировал свою цель по всем пяти критериям. Это уже половина успеха.
+        </p>
+
+        <div id="smart-feedback-content" style="margin-top: 8px; display:flex; flex-direction:column; gap:8px;"></div>
+
+        <div id="smart-saved-indicator" style="display:none; margin-top:12px; padding:8px 12px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#166534; font-size:13px; text-align:center; font-weight:600;">
+          💾 Ответ сохранён!
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 18px; flex-wrap:wrap;">
+          <button class="btn secondary" id="btn-smart-save">💾 Сохранить ответ</button>
+          <button class="btn" id="btn-smart-continue">Продолжить →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 // ===== Экран 17-1: Карточка Златы =====
 function initZlataCard17() {
   var btn = document.getElementById('btn-zlata17-next');
