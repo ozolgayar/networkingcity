@@ -4408,7 +4408,19 @@ function generateAnswersPDF() {
   renderHtmlToPdf(pdfContent, 'Мои_ответы_Нетворкинг.pdf');
 }
 
-function renderPdfSection(icon, title, content, color, isHtml) {
+function renderPdfSection(title, content, color, isHtml) {
+  // Определяем иконку автоматически по цвету/названию
+  var icons = {
+    'Моя цель нетворкинга':,
+    'Стратегии работы со страхами':,
+    'Моё колесо баланса':,
+    'Моя SMART-цель':,
+    'Моя визитка':,
+    'Мой статус в соцсетях':,
+    'Моя самопрезентация':
+  };
+  var icon = icons[title] || '📋';
+  
   var html = '';
   html += '<div style="margin-bottom:24px;page-break-inside:avoid;">';
   html +=   '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid ' + color + ';">';
@@ -4425,7 +4437,6 @@ function renderPdfSection(icon, title, content, color, isHtml) {
   html += '</div>';
   return html;
 }
-
 function renderHtmlToPdf(element, filename) {
   var btn = document.getElementById('btn-download-pdf');
   if (btn) {
