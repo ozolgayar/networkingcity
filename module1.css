@@ -7618,10 +7618,15 @@ body:has(.screen-card.active) #app {
   flex-direction: column !important;
 }
 
-/* ===== НУКЛЕАРНЫЙ ФИКС screen-zlata-ready — последний в файле ===== */
-html body #app main #screen-container #screen-zlata-ready,
+/* ===== НУКЛЕАРНЫЙ ФИКС screen-zlata-ready — только когда АКТИВЕН ===== */
+
+/* Скрываем когда НЕ активен */
+html body #app main #screen-container #screen-zlata-ready:not(.active) {
+  display: none !important;
+}
+
+/* Показываем только когда активен */
 html body #app main #screen-container #screen-zlata-ready.active {
-  all: revert !important;
   position: static !important;
   top: auto !important;
   bottom: auto !important;
@@ -7647,7 +7652,7 @@ html body #app main #screen-container #screen-zlata-ready.active {
   padding: 0 !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready > .screen-layout {
+html body #app main #screen-container #screen-zlata-ready.active > .screen-layout {
   position: static !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -7665,7 +7670,7 @@ html body #app main #screen-container #screen-zlata-ready > .screen-layout {
   flex: 1 1 auto !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready .scene {
+html body #app main #screen-container #screen-zlata-ready.active .scene {
   position: static !important;
   grid-column: 1 / 2 !important;
   grid-row: 1 / 2 !important;
@@ -7684,11 +7689,8 @@ html body #app main #screen-container #screen-zlata-ready .scene {
   box-sizing: border-box !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready .scene-header {
+html body #app main #screen-container #screen-zlata-ready.active .scene-header {
   position: static !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
   width: 100% !important;
   flex-shrink: 0 !important;
   padding: 12px 16px !important;
@@ -7705,7 +7707,7 @@ html body #app main #screen-container #screen-zlata-ready .scene-header {
   box-sizing: border-box !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready .scene-main {
+html body #app main #screen-container #screen-zlata-ready.active .scene-main {
   position: static !important;
   flex: 1 1 auto !important;
   width: 100% !important;
@@ -7717,7 +7719,7 @@ html body #app main #screen-container #screen-zlata-ready .scene-main {
   box-sizing: border-box !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready .scene-main .fake-illustration {
+html body #app main #screen-container #screen-zlata-ready.active .scene-main .fake-illustration {
   width: 100% !important;
   height: 100% !important;
   margin: 0 !important;
@@ -7729,7 +7731,7 @@ html body #app main #screen-container #screen-zlata-ready .scene-main .fake-illu
   box-sizing: border-box !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready .scene-main .fake-illustration img {
+html body #app main #screen-container #screen-zlata-ready.active .scene-main .fake-illustration img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
@@ -7740,7 +7742,7 @@ html body #app main #screen-container #screen-zlata-ready .scene-main .fake-illu
   border-radius: 0 !important;
 }
 
-html body #app main #screen-container #screen-zlata-ready .panel {
+html body #app main #screen-container #screen-zlata-ready.active .panel {
   position: static !important;
   grid-column: 2 / 3 !important;
   grid-row: 1 / 2 !important;
