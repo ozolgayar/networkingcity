@@ -3775,18 +3775,16 @@ function initBag() {
     
 
 
-    if (takenCorrect >= CORRECT_COUNT) {
-      setTimeout(function() {
-        if (doneMsg) doneMsg.style.display = 'block';
-        if (btnGo) btnGo.style.display = 'inline-flex';
-        if (typeof addScore === 'function') addScore(2);
-        setTimeout(function() {
-          if (modal) modal.classList.remove('active');
-          finalModal.classList.add('active');
-        }, 1500);
-      }, 400);
-    }
-  }
+   if (takenCorrect >= CORRECT_COUNT) {
+  setTimeout(function() {
+    if (doneMsg) doneMsg.style.display = 'block';
+    if (typeof addScore === 'function') addScore(2);
+    setTimeout(function() {
+      if (modal) modal.classList.remove('active');
+      finalModal.classList.add('active');
+    }, 1500);
+  }, 400);
+}
 
   // Создаём предметы с DRAG & DROP
   shuffled.forEach(function(entry) {
@@ -3904,10 +3902,14 @@ function initBag() {
         '<button id="btn-bag-final-continue" style="height:44px; padding:0 32px; font-size:14px; font-weight:700; border-radius:999px; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(34,197,94,0.35);">Продолжить →</button>' +
       '</div>';
     document.body.appendChild(finalModal);
-    document.getElementById('btn-bag-final-continue').addEventListener('click', function() {
-      finalModal.classList.remove('active');
-      if (typeof showScreen === 'function') showScreen('screen-21-1-1');
-    });
+   document.getElementById('btn-bag-final-continue').addEventListener('click', function() {
+  finalModal.classList.remove('active');
+  // Показываем кнопку "Далее" на самом экране
+  var btnGoNow = document.getElementById('btn-bag-go');
+  if (btnGoNow) {
+    btnGoNow.style.display = 'inline-flex';
+  }
+});
   }
 
   // ===== Модалка "это лишнее" =====
