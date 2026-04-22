@@ -1817,3 +1817,29 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
+
+/* ================================================================
+   КНОПКА «НАЗАД НА КАРТУ» — на обложке модуля 2
+   ================================================================ */
+.m2-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;          /* прижать к левому краю */
+  font-size: 13px;
+  font-weight: 700;
+  color: #7c3aed;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+}
+
+.m2-back-btn:hover {
+  background: rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.4);
+  transform: translateX(-2px);
+}
