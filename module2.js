@@ -2014,5 +2014,6 @@ document.addEventListener('DOMContentLoaded', function() {
     '%c Модуль 2 загружен ✅',
     'color:#a855f7; font-weight:bold; font-size:14px'
   );
-
+initHub();
+    updateHUD();
 }); // конец DOMContentLoaded
