@@ -7256,15 +7256,6 @@ body:has(.screen-card.active) #app {
   filter: drop-shadow(0 12px 32px rgba(34,197,94,0.5));
 }
 
-/* ===== ЭКРАН screen-zlata-ready: фикс layout ===== */
-#screen-zlata-ready.active {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
-}
-
 #screen-zlata-ready .screen-layout {
   flex: 1 !important;
   height: auto !important;
