@@ -445,164 +445,178 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
 
 /* ----------------------------------------------------------------
    7. ЭКРАН: ХАБ (m2-hub)
-   Схематичная карта конференции
+   Список зон — вертикальная прокрутка, без абсолютного позиционирования
    ---------------------------------------------------------------- */
 .m2-screen#m2-hub {
-  /* Тёмный фон с лёгкой сеткой для эффекта «плана» */
-  background:
-    linear-gradient(rgba(168,85,247,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(168,85,247,0.03) 1px, transparent 1px),
-    #0d1526;
-  background-size: 40px 40px, 40px 40px, 100% 100%;
-  padding: 0;
+  background: #0d1526;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 /* Заголовок хаба */
 .hub-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 10px 16px;
-  background: rgba(13, 21, 38, 0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--m2-border);
+  padding: 14px 16px 10px;
   text-align: center;
+  border-bottom: 1px solid var(--m2-border);
+  flex-shrink: 0;
 }
 
-.hub-chapter-label {
-  font-size: 13px;
-  font-weight: 600;
+.hub-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--m2-text);
+}
+
+.hub-subtitle {
+  font-size: 12px;
   color: var(--m2-text-muted);
+  margin-top: 2px;
 }
 
-/* Карта — занимает всё доступное пространство */
+/* Карта — вертикальный список */
 .hub-map {
-  position: relative;
-  /* Фиксированное соотношение сторон для схемы плана */
-  width: 100%;
-  /* Минимальная высота для отображения всех зон */
-  height: calc(100vh - var(--m2-hud-height) - 80px);
-  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  flex: 1;
 }
 
 /* -------
    Зона хаба — базовый стиль
-   Все зоны позиционированы абсолютно внутри .hub-map
+   Горизонтальная карточка: иконка + текст + стрелка
    ------- */
 .hub-zone {
-  position: absolute;
-  border-radius: var(--m2-radius-sm);
-  border: 1.5px solid transparent;
-  padding: 8px 10px;
+  position: relative;          /* убираем absolute */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;         /* горизонтально */
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 2px;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--m2-radius);
+  border: 1.5px solid transparent;
   cursor: default;
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-  overflow: hidden;
+  width: 100%;                 /* растянуть на всю ширину */
+  text-align: left;
 }
 
+/* Иконка зоны */
 .hub-zone-icon {
-  font-size: 22px;
+  font-size: 28px;
   line-height: 1;
+  flex-shrink: 0;
+  width: 40px;
+  text-align: center;
+}
+
+/* Текстовый блок */
+.hub-zone-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .hub-zone-label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--m2-text);
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .hub-zone-chapter {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
+  color: var(--m2-primary);
+  line-height: 1.3;
+  margin-top: 1px;
+}
+
+.hub-zone-npc {
+  font-size: 11px;
   color: var(--m2-text-muted);
-  line-height: 1.2;
+  line-height: 1.3;
+  margin-top: 1px;
 }
 
-/* Бейдж «завершено» — скрыт по умолчанию */
-.hub-zone-done {
-  display: none; /* показывается через JS: el.style.display = 'block' */
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  font-size: 14px;
-}
-
-/* Счётчик использований (для энергетических зон) */
-.hub-zone-uses {
-  font-size: 9px;
+/* Стрелка / значок справа */
+.hub-zone-arrow {
+  font-size: 13px;
   font-weight: 700;
-  color: var(--m2-success);
-  background: rgba(34,197,94,0.1);
-  padding: 1px 5px;
-  border-radius: 999px;
+  color: var(--m2-text-muted);
+  flex-shrink: 0;
+}
+
+/* Бейдж «завершено» */
+.hub-zone-done {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
 }
 
 /* -------
-   Типы зон: цвета и поведение
+   Типы зон
    ------- */
 
-/* Играбельные зоны (главы) — фиолетовый акцент */
+/* Играбельные (главы) */
 .hub-zone-playable {
   background: var(--m2-zone-playable);
-  border-color: rgba(168,85,247,0.35);
+  border-color: rgba(168,85,247,0.3);
   cursor: pointer;
 }
 
 .hub-zone-playable:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 20px rgba(168,85,247,0.3);
-  border-color: rgba(168,85,247,0.7);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(168,85,247,0.25);
+  border-color: rgba(168,85,247,0.6);
 }
 
-/* Активная (следующая доступная) глава — пульсация */
+/* Активная (следующая доступная) */
 .hub-zone-playable.hub-zone-active {
   border-color: var(--m2-primary);
   box-shadow: 0 0 0 0 rgba(168,85,247,0.4);
   animation: m2HubPulse 2s ease-in-out infinite;
 }
 
-@keyframes m2HubPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(168,85,247,0); }
-}
-
-/* Завершённые главы — зелёный */
+/* Пройденная */
 .hub-zone-playable.hub-zone-completed {
-  background: rgba(34,197,94,0.1);
-  border-color: rgba(34,197,94,0.4);
-  opacity: 0.7;
+  background: rgba(34,197,94,0.08);
+  border-color: rgba(34,197,94,0.35);
+  opacity: 0.75;
   cursor: default;
 }
 
-/* Заблокированные главы — серые */
-.hub-zone-playable.hub-zone-locked {
-  opacity: 0.4;
-  cursor: not-allowed;
-  filter: grayscale(0.6);
+.hub-zone-playable.hub-zone-completed .hub-zone-arrow {
+  color: var(--m2-success);
 }
 
-/* Энергетические зоны — зелёный */
+/* Заблокированная */
+.hub-zone-playable.hub-zone-locked {
+  opacity: 0.35;
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+}
+
+/* Энергетические зоны */
 .hub-zone-energy {
   background: var(--m2-zone-energy);
-  border-color: rgba(34,197,94,0.3);
+  border-color: rgba(34,197,94,0.25);
   cursor: pointer;
 }
 
 .hub-zone-energy:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(34,197,94,0.25);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(34,197,94,0.2);
   border-color: var(--m2-success);
 }
 
-/* Исчерпанная зона энергии */
+.hub-zone-energy .hub-zone-arrow {
+  color: var(--m2-success);
+  font-weight: 800;
+}
+
 .hub-zone-energy.hub-zone-depleted {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
   filter: grayscale(1);
 }
@@ -612,7 +626,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   box-shadow: none;
 }
 
-/* Зоны-ловушки — красный */
+/* Ловушки */
 .hub-zone-trap {
   background: var(--m2-zone-trap);
   border-color: rgba(239,68,68,0.2);
@@ -621,14 +635,15 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
 
 .hub-zone-trap:hover {
   border-color: rgba(239,68,68,0.5);
+  transform: translateX(4px);
 }
 
-/* Декоративные зоны — серые, не кликабельные */
-.hub-zone-deco {
-  background: var(--m2-zone-deco);
-  border-color: rgba(148,163,184,0.15);
-  cursor: default;
-  opacity: 0.6;
+.hub-zone-trap .hub-zone-label {
+  color: var(--m2-danger);
+}
+
+.hub-zone-trap .hub-zone-arrow {
+  color: var(--m2-danger);
 }
 
 /* Финальная зона */
@@ -639,34 +654,48 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   animation: m2HubPulseGold 2s ease-in-out infinite;
 }
 
-@keyframes m2HubPulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.3); }
-  50%       { box-shadow: 0 0 0 10px rgba(251,191,36,0); }
+.hub-zone-final .hub-zone-label {
+  color: #fbbf24;
 }
 
-/* Декоративные разделители комнат */
-.hub-deco-room {
-  position: absolute;
-  pointer-events: none;
+.hub-zone-final .hub-zone-arrow {
+  font-size: 20px;
 }
 
-/* Подсказка в подвале хаба */
+/* Визуальный разделитель между группами зон */
+.hub-zone-divider {
+  height: 1px;
+  background: var(--m2-border);
+  margin: 2px 0;
+  opacity: 0.5;
+}
+
+/* Подсказка в подвале */
+.hub-footer {
+  padding: 10px 16px 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
 .hub-footer-hint {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  display: inline-block;
   font-size: 12px;
   color: var(--m2-text-muted);
   background: rgba(15,23,42,0.85);
-  backdrop-filter: blur(8px);
   border: 1px solid var(--m2-border);
   padding: 6px 14px;
   border-radius: 999px;
-  white-space: nowrap;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 10;
+}
+
+/* Анимации пульсации */
+@keyframes m2HubPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(168,85,247,0); }
+}
+
+@keyframes m2HubPulseGold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.3); }
+  50%       { box-shadow: 0 0 0 10px rgba(251,191,36,0); }
 }
 
 /* ----------------------------------------------------------------
