@@ -4480,7 +4480,7 @@ function renderHtmlToPdf(element, filename) {
       alert('Не удалось сгенерировать PDF. Попробуй ещё раз.');
       element.remove();
       if (btn) {
-        btn.innerHTML = '<span>📥</span><span>Скачать мои ответы (PDF)</span>';
+        btn.innerHTML = '<span>Скачать мои ответы (PDF)</span>';
         btn.disabled = false;
       }
     });
