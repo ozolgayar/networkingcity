@@ -4560,3 +4560,30 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('✅ INIT завершён, показываем screen-1');
   showScreen('screen-1');
 });
+
+// ===== АВТОФИКС: возвращаем сбежавшие экраны в screen-container =====
+(function fixRunawayScreens() {
+  function doFix() {
+    var sc = document.getElementById('screen-container');
+    if (!sc) return;
+    
+    var moved = 0;
+    document.querySelectorAll('.screen').forEach(function(scr) {
+      if (scr.parentElement !== sc) {
+        console.warn('🔧 Перенёс экран', scr.id, 'в screen-container (был в ' + scr.parentElement.tagName + ')');
+        sc.appendChild(scr);
+        moved++;
+      }
+    });
+    
+    if (moved > 0) {
+      console.log('✅ Всего перенесено экранов:', moved);
+    }
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', doFix);
+  } else {
+    doFix();
+  }
+})();
