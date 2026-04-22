@@ -7617,3 +7617,144 @@ body:has(.screen-card.active) #app {
   display: flex !important;
   flex-direction: column !important;
 }
+
+/* ===== НУКЛЕАРНЫЙ ФИКС screen-zlata-ready — последний в файле ===== */
+html body #app main #screen-container #screen-zlata-ready,
+html body #app main #screen-container #screen-zlata-ready.active {
+  all: revert !important;
+  position: static !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  inset: auto !important;
+  transform: none !important;
+  float: none !important;
+  clear: both !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  z-index: auto !important;
+  padding: 0 !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready > .screen-layout {
+  position: static !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: 3fr 2fr !important;
+  grid-template-rows: 1fr !important;
+  gap: 16px !important;
+  padding: 16px !important;
+  overflow: hidden !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+  flex: 1 1 auto !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready .scene {
+  position: static !important;
+  grid-column: 1 / 2 !important;
+  grid-row: 1 / 2 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  box-sizing: border-box !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready .scene-header {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  flex-shrink: 0 !important;
+  padding: 12px 16px !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #64748b !important;
+  background: rgba(255,255,255,0.9) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  text-align: center !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready .scene-main {
+  position: static !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready .scene-main .fake-illustration {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #f8fafc !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready .scene-main .fake-illustration img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+html body #app main #screen-container #screen-zlata-ready .panel {
+  position: static !important;
+  grid-column: 2 / 3 !important;
+  grid-row: 1 / 2 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 20px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
+}
