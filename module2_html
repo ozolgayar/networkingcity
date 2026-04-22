@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Нетворкинг — Модуль 2</title>
+  <link rel="stylesheet" href="module2.css">
+</head>
+<body>
+
+<!-- ============================================================
+     HUD — верхняя панель (всегда видна во время игры)
+     Показывает: энергию, прогресс знакомств, название главы
+     ============================================================ -->
+<div id="m2-hud" class="m2-hud hidden">
+  
+  <!-- Энергия (полоска + число) -->
+  <div class="hud-energy">
+    <span class="hud-icon">⚡</span>
+    <div class="hud-energy-bar-wrap">
+      <div class="hud-energy-bar" id="hud-energy-bar"></div>
+    </div>
+    <span class="hud-energy-value" id="hud-energy-value">100%</span>
+  </div>
+
+  <!-- Прогресс знакомств -->
+  <div class="hud-meets">
+    <span class="hud-icon">🤝</span>
+    <span id="hud-meets-value">0 / 6</span>
+  </div>
+
+  <!-- Кнопка блокнота артефактов -->
+  <button class="hud-notebook-btn" id="btn-open-notebook" title="Мой блокнот">
+    📓
+  </button>
+
+</div>
+
+<!-- ============================================================
+     ПОРТАЛ ДЛЯ МОДАЛОК — все попапы рендерятся сюда,
+     чтобы они были поверх всего контента
+     ============================================================ -->
+<div id="m2-modals-portal"></div>
+
+<!-- ============================================================
+     КОНТЕЙНЕР ЭКРАНОВ — все .m2-screen переключаются здесь
+     Активный экран имеет класс .active
+     ============================================================ -->
+<div id="m2-screen-container">
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ОБЛОЖКА МОДУЛЯ 2
+       id: m2-cover
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-cover">
+    <div class="cover-wrap">
+      
+      <!-- Номер модуля -->
+      <div class="cover-module-label">Модуль 2</div>
+      
+      <!-- Заголовок -->
+      <h1 class="cover-title">На мероприятии</h1>
+      
+      <!-- Подзаголовок -->
+      <p class="cover-subtitle">
+        Симулятор нетворкинга на конференции.<br>
+        Познакомься с 6 людьми и заведи нужные связи.
+      </p>
+
+      <!-- Аватар Златы (заглушка) -->
+      <div class="cover-zlata-wrap">
+        <div class="cover-zlata-placeholder">
+          <span style="font-size:64px;">👩‍💼</span>
+          <div class="cover-zlata-name">Злата</div>
+        </div>
+      </div>
+
+      <!-- Кнопка старта -->
+      <button class="m2-btn m2-btn-primary cover-start-btn" id="btn-cover-start">
+        Начать игру →
+      </button>
+
+      <!-- Связь с Модулем 1: показываем статус из localStorage если есть -->
+      <div class="cover-m1-link" id="cover-m1-status"></div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ИНТРО — Злата объясняет правила
+       id: m2-intro
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-intro">
+    <div class="intro-wrap">
+      
+      <!-- Речевой пузырь Златы -->
+      <div class="zlata-speech-scene">
+        
+        <!-- Аватар Златы (заглушка) -->
+        <div class="zlata-avatar-intro">
+          <span style="font-size:80px;">👩‍💼</span>
+        </div>
+
+        <!-- Пузырь с текстом — меняется по шагам -->
+        <div class="speech-bubble" id="intro-bubble">
+          <p id="intro-bubble-text">Привет! Я Злата. Сегодня мы идём на конференцию.</p>
+        </div>
+
+      </div>
+
+      <!-- Кнопки навигации по интро -->
+      <div class="intro-nav">
+        <div class="intro-step-dots" id="intro-dots">
+          <!-- Точки прогресса генерируются в JS -->
+        </div>
+        <button class="m2-btn m2-btn-primary" id="btn-intro-next">
+          Далее →
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ХАБ — схематичная карта конференции
+       id: m2-hub
+       
+       Здесь игрок видит все зоны и выбирает, куда идти.
+       Зоны подсвечены цветными прямоугольниками (заглушки).
+       После прохождения главы NPC помечается ✅.
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-hub">
+
+    <!-- Название текущей главы / подсказка -->
+    <div class="hub-header">
+      <div class="hub-chapter-label" id="hub-chapter-label">Выбери, куда пройти</div>
+    </div>
+
+    <!-- Схематичная карта (прямоугольники = зоны) -->
+    <div class="hub-map" id="hub-map">
+
+      <!-- 
+        КАК ДОБАВИТЬ НОВУЮ ЗОНУ:
+        1. Скопируй div.hub-zone
+        2. Поставь уникальный data-zone="имя_главы"
+        3. Укажи data-chapter-index="индекс в массиве chapterOrder в JS"
+        4. Добавь позицию через style (left/top в %)
+        5. Добавь данные главы в JS в объект CHAPTERS
+      -->
+
+      <!-- ЗОНА: Гардероб (декоративная, не играбельная) -->
+      <div class="hub-zone hub-zone-deco" 
+           style="left:2%; top:5%; width:18%; height:12%;">
+        <span class="hub-zone-icon">🧥</span>
+        <span class="hub-zone-label">Гардероб</span>
+      </div>
+
+      <!-- ЗОНА: Вход / Арка -->
+      <div class="hub-zone hub-zone-deco"
+           style="left:2%; top:20%; width:18%; height:10%;">
+        <span class="hub-zone-icon">🚪</span>
+        <span class="hub-zone-label">Вход</span>
+      </div>
+
+      <!-- ЗОНА: Глава 1 — Кофейная стойка (Первое впечатление) -->
+      <div class="hub-zone hub-zone-playable" 
+           data-zone="chapter1"
+           style="left:22%; top:5%; width:22%; height:18%;">
+        <span class="hub-zone-icon">☕</span>
+        <span class="hub-zone-label">Кофейная стойка</span>
+        <span class="hub-zone-chapter">Гл. 1: Первое впечатление</span>
+        <!-- Бейдж "завершено" — скрыт до прохождения -->
+        <span class="hub-zone-done" id="zone-done-chapter1">✅</span>
+      </div>
+
+      <!-- ЗОНА: Глава 2 — Стол с напитками (Самопрезентация) -->
+      <div class="hub-zone hub-zone-playable"
+           data-zone="chapter2"
+           style="left:47%; top:5%; width:22%; height:18%;">
+        <span class="hub-zone-icon">🍹</span>
+        <span class="hub-zone-label">Напитки</span>
+        <span class="hub-zone-chapter">Гл. 2: Самопрезентация</span>
+        <span class="hub-zone-done" id="zone-done-chapter2">✅</span>
+      </div>
+
+      <!-- ЗОНА: Глава 3 — Буфет (Праздная беседа) -->
+      <div class="hub-zone hub-zone-playable"
+           data-zone="chapter3"
+           style="left:72%; top:5%; width:25%; height:18%;">
+        <span class="hub-zone-icon">🍱</span>
+        <span class="hub-zone-label">Буфет</span>
+        <span class="hub-zone-chapter">Гл. 3: Праздная беседа</span>
+        <span class="hub-zone-done" id="zone-done-chapter3">✅</span>
+      </div>
+
+      <!-- ЗОНА: Стол с едой (пополнение энергии) -->
+      <div class="hub-zone hub-zone-energy"
+           data-zone="refuel"
+           style="left:22%; top:28%; width:22%; height:14%;">
+        <span class="hub-zone-icon">🍽️</span>
+        <span class="hub-zone-label">Стол с едой</span>
+        <span class="hub-zone-chapter">+30 ⚡ энергии</span>
+        <!-- Счётчик использований (макс 2) -->
+        <span class="hub-zone-uses" id="refuel-uses">2 / 2</span>
+      </div>
+
+      <!-- ЗОНА: Туалет (ловушка — потеря энергии в главе 2) -->
+      <div class="hub-zone hub-zone-trap"
+           data-zone="toilet"
+           style="left:2%; top:35%; width:18%; height:10%;">
+        <span class="hub-zone-icon">🚻</span>
+        <span class="hub-zone-label">Туалет</span>
+        <span class="hub-zone-chapter">⚠️ Осторожно!</span>
+      </div>
+
+      <!-- ЗОНА: Глава 4 — Сцена / Спикеры (Как быть запоминающимся) -->
+      <div class="hub-zone hub-zone-playable"
+           data-zone="chapter4"
+           style="left:22%; top:47%; width:46%; height:18%;">
+        <span class="hub-zone-icon">🎤</span>
+        <span class="hub-zone-label">У сцены</span>
+        <span class="hub-zone-chapter">Гл. 4: Быть запоминающимся</span>
+        <span class="hub-zone-done" id="zone-done-chapter4">✅</span>
+      </div>
+
+      <!-- ЗОНА: Зона отдыха (пополнение энергии) -->
+      <div class="hub-zone hub-zone-energy"
+           data-zone="rest"
+           style="left:72%; top:28%; width:25%; height:14%;">
+        <span class="hub-zone-icon">🪑</span>
+        <span class="hub-zone-label">Зона отдыха</span>
+        <span class="hub-zone-chapter">+20 ⚡ энергии</span>
+        <span class="hub-zone-uses" id="rest-uses">1 / 1</span>
+      </div>
+
+      <!-- ЗОНА: Знакомый (ловушка — потеря энергии в главе 3) -->
+      <div class="hub-zone hub-zone-trap"
+           data-zone="oldFriend"
+           style="left:72%; top:47%; width:25%; height:18%;">
+        <span class="hub-zone-icon">👋</span>
+        <span class="hub-zone-label">Давний знакомый</span>
+        <span class="hub-zone-chapter">⚠️ Осторожно!</span>
+      </div>
+
+      <!-- ЗОНА: Глава 5 — Зона отдыха / Финал (Длительные отношения) -->
+      <div class="hub-zone hub-zone-playable"
+           data-zone="chapter5"
+           style="left:2%; top:52%; width:18%; height:38%;">
+        <span class="hub-zone-icon">🌿</span>
+        <span class="hub-zone-label">Зона отдыха</span>
+        <span class="hub-zone-chapter">Гл. 5: Длительные отношения</span>
+        <span class="hub-zone-done" id="zone-done-chapter5">✅</span>
+      </div>
+
+      <!-- ЗОНА: Выход / Финал (появляется когда достаточно знакомств) -->
+      <div class="hub-zone hub-zone-final hidden"
+           data-zone="final"
+           id="hub-zone-final"
+           style="left:22%; top:70%; width:75%; height:20%;">
+        <span class="hub-zone-icon">🎉</span>
+        <span class="hub-zone-label">Подвести итоги</span>
+        <span class="hub-zone-chapter">Конференция завершается!</span>
+      </div>
+
+      <!-- Декоративные элементы карты -->
+      <div class="hub-deco-room" style="left:22%; top:25%; width:75%; height:1px; background:rgba(255,255,255,0.15);"></div>
+      <div class="hub-deco-room" style="left:22%; top:45%; width:75%; height:1px; background:rgba(255,255,255,0.15);"></div>
+      <div class="hub-deco-room" style="left:2%; top:32%; width:18%; height:1px; background:rgba(255,255,255,0.15);"></div>
+      <div class="hub-deco-room" style="left:20%; top:5%; width:1px; height:85%; background:rgba(255,255,255,0.15);"></div>
+      <div class="hub-deco-room" style="left:70%; top:5%; width:1px; height:85%; background:rgba(255,255,255,0.15);"></div>
+
+    </div>
+
+    <!-- Подсказка снизу -->
+    <div class="hub-footer-hint" id="hub-footer-hint">
+      Нажми на подсвеченную зону, чтобы начать
+    </div>
+
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ДИАЛОГ — основной игровой экран
+       id: m2-dialog
+       
+       Структура:
+       - Верхняя строка: тема + номер ситуации
+       - Центр: аватар NPC + эмодзи реакции + описание сцены
+       - Нижняя часть: варианты ответов + кнопка подсказки
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-dialog">
+
+    <!-- Шапка диалога: тема + счётчик ситуаций -->
+    <div class="dialog-header">
+      <!-- Название темы главы -->
+      <div class="dialog-theme-label" id="dialog-theme-label">
+        Первое впечатление
+      </div>
+      <!-- Номер ситуации (скрыт в последней главе — задаётся в JS) -->
+      <div class="dialog-situation-counter" id="dialog-situation-counter">
+        Ситуация 1 / 3
+      </div>
+    </div>
+
+    <!-- Зона NPC: аватар + эмодзи реакции + описание сцены -->
+    <div class="dialog-npc-zone">
+      
+      <!-- Аватар NPC (заглушка с именем) -->
+      <div class="dialog-npc-avatar-wrap">
+        <!-- Эмодзи реакции NPC (появляется после выбора ответа) -->
+        <div class="dialog-npc-emoji" id="dialog-npc-emoji"></div>
+        <!-- Само изображение NPC (заглушка) -->
+        <div class="dialog-npc-avatar" id="dialog-npc-avatar">
+          <span class="dialog-npc-avatar-icon" id="dialog-npc-avatar-icon">🧑‍💼</span>
+        </div>
+        <!-- Имя + должность NPC -->
+        <div class="dialog-npc-name" id="dialog-npc-name">Андрей</div>
+        <div class="dialog-npc-role" id="dialog-npc-role">Медицинский советник</div>
+      </div>
+
+      <!-- Описание сцены (текст ситуации) -->
+      <div class="dialog-scene-text" id="dialog-scene-text">
+        Описание ситуации загружается...
+      </div>
+
+    </div>
+
+    <!-- Зона вопроса и вариантов ответа -->
+    <div class="dialog-answers-zone">
+
+      <!-- Вопрос -->
+      <div class="dialog-question" id="dialog-question">
+        Вопрос загружается...
+      </div>
+
+      <!-- Варианты ответов — генерируются в JS -->
+      <div class="dialog-options" id="dialog-options">
+        <!-- 
+          Структура одного варианта (генерируется в JS):
+          <button class="dialog-option" data-option-idx="0">
+            <span class="dialog-option-letter">А</span>
+            <span class="dialog-option-text">Текст варианта</span>
+          </button>
+        -->
+      </div>
+
+      <!-- Панель реакции NPC (появляется после выбора ответа) -->
+      <div class="dialog-reaction hidden" id="dialog-reaction">
+        <div class="dialog-reaction-icon" id="dialog-reaction-icon">✅</div>
+        <div class="dialog-reaction-text" id="dialog-reaction-text">
+          Текст реакции...
+        </div>
+        <!-- Кнопка "Попробовать ещё раз" (только при неверном ответе) -->
+        <button class="m2-btn m2-btn-secondary dialog-retry-btn hidden" id="dialog-retry-btn">
+          ↺ Попробовать ещё раз
+        </button>
+        <!-- Кнопка "Далее" (только при верном ответе) -->
+        <button class="m2-btn m2-btn-primary dialog-next-btn hidden" id="dialog-next-btn">
+          Далее →
+        </button>
+      </div>
+
+      <!-- Разделитель -->
+      <div class="dialog-divider"></div>
+
+      <!-- Кнопка подсказки (тратит 10% энергии) -->
+      <button class="dialog-hint-btn" id="dialog-hint-btn">
+        💡 Подсказка <span class="dialog-hint-cost">(-10% ⚡)</span>
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ПОПОЛНЕНИЕ ЭНЕРГИИ
+       id: m2-refuel
+       Показывается когда энергия = 0 или игрок выбрал стол с едой
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-refuel">
+    <div class="refuel-wrap">
+
+      <!-- Анимация: Злата идёт к столу (заглушка) -->
+      <div class="refuel-scene">
+        <span style="font-size:80px;">👩‍💼</span>
+        <span class="refuel-arrow">→</span>
+        <span style="font-size:80px;">🍽️</span>
+      </div>
+
+      <h2 class="refuel-title" id="refuel-title">Время перекусить!</h2>
+      <p class="refuel-desc" id="refuel-desc">
+        Злата подходит к столу с едой и восстанавливает энергию.
+      </p>
+
+      <!-- Анимация восполнения энергии -->
+      <div class="refuel-energy-preview">
+        <div class="refuel-energy-bar-wrap">
+          <div class="refuel-energy-bar" id="refuel-energy-bar"></div>
+        </div>
+        <div class="refuel-energy-text" id="refuel-energy-text">⚡ Энергия восстанавливается...</div>
+      </div>
+
+      <button class="m2-btn m2-btn-primary refuel-continue-btn hidden" id="btn-refuel-continue">
+        Вернуться к конференции →
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ФИНАЛ ГЛАВЫ — итоги после прохождения одной темы
+       id: m2-chapter-end
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-chapter-end">
+    <div class="chapter-end-wrap">
+
+      <!-- Заголовок -->
+      <div class="chapter-end-celebration">🎉</div>
+      <h2 class="chapter-end-title" id="chapter-end-title">Глава завершена!</h2>
+      <p class="chapter-end-subtitle" id="chapter-end-subtitle">
+        Злата познакомилась с Андреем
+      </p>
+
+      <!-- Что узнал(а) — список -->
+      <div class="chapter-end-learned">
+        <div class="chapter-end-learned-title">Что ты узнал(а):</div>
+        <div class="chapter-end-learned-list" id="chapter-end-learned-list">
+          <!-- Генерируется в JS -->
+        </div>
+      </div>
+
+      <!-- Цитата Златы -->
+      <div class="chapter-end-quote" id="chapter-end-quote">
+        <span class="chapter-end-quote-icon">💬</span>
+        <span id="chapter-end-quote-text">
+          «Я раньше не думала, что поза решает так много. Оказалось — тело говорит раньше, чем рот»
+        </span>
+      </div>
+
+      <!-- Кнопка перехода -->
+      <button class="m2-btn m2-btn-primary" id="btn-chapter-end-continue">
+        Следующий навык →
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЭКРАН: ФИНАЛ МОДУЛЯ
+       id: m2-final
+       ══════════════════════════════════════════════════════════ -->
+  <div class="m2-screen" id="m2-final">
+    <div class="final-wrap">
+
+      <div class="final-celebration">🏆</div>
+      <h1 class="final-title">Конференция завершена!</h1>
+      <p class="final-subtitle">Злата провела этот день продуктивно</p>
+
+      <!-- Статистика -->
+      <div class="final-stats">
+        <div class="final-stat-item">
+          <div class="final-stat-value" id="final-meets">0</div>
+          <div class="final-stat-label">Знакомств</div>
+        </div>
+        <div class="final-stat-item">
+          <div class="final-stat-value" id="final-energy">100%</div>
+          <div class="final-stat-label">Энергия</div>
+        </div>
+        <div class="final-stat-item">
+          <div class="final-stat-value" id="final-artifacts">0</div>
+          <div class="final-stat-label">Артефактов</div>
+        </div>
+      </div>
+
+      <!-- Все собранные артефакты -->
+      <div class="final-artifacts-title">Твой блокнот нетворкера:</div>
+      <div class="final-artifacts-list" id="final-artifacts-list">
+        <!-- Генерируется в JS -->
+      </div>
+
+      <!-- Кнопки -->
+      <div class="final-btns">
+        <button class="m2-btn m2-btn-secondary" id="btn-final-notebook">
+          📓 Открыть блокнот
+        </button>
+        <button class="m2-btn m2-btn-primary" id="btn-final-pdf">
+          📥 Скачать PDF
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+</div><!-- /m2-screen-container -->
+
+
+<!-- ============================================================
+     МОДАЛКА: ПОДСКАЗКА
+     Появляется при нажатии на "💡 Подсказка"
+     ============================================================ -->
+<div class="m2-modal-overlay hidden" id="modal-hint">
+  <div class="m2-modal">
+    <div class="m2-modal-header">
+      <span class="m2-modal-icon">💡</span>
+      <span class="m2-modal-title">Подсказка</span>
+      <button class="m2-modal-close" id="btn-hint-close">✕</button>
+    </div>
+    <div class="m2-modal-body" id="modal-hint-body">
+      Текст подсказки...
+    </div>
+    <div class="m2-modal-footer">
+      <div class="hint-cost-warning">
+        ⚡ Использование подсказки стоит 10% энергии
+      </div>
+      <button class="m2-btn m2-btn-primary" id="btn-hint-use">
+        Показать подсказку (-10% ⚡)
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     МОДАЛКА: БЛОКНОТ АРТЕФАКТОВ
+     ============================================================ -->
+<div class="m2-modal-overlay hidden" id="modal-notebook">
+  <div class="m2-modal m2-modal-wide">
+    <div class="m2-modal-header">
+      <span class="m2-modal-icon">📓</span>
+      <span class="m2-modal-title">Мой блокнот нетворкера</span>
+      <button class="m2-modal-close" id="btn-notebook-close">✕</button>
+    </div>
+    <div class="m2-modal-body" id="modal-notebook-body">
+      <!-- Артефакты генерируются в JS -->
+      <p style="color:#94a3b8; text-align:center; padding:20px;">
+        Артефакты появятся после прохождения глав
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     МОДАЛКА: ПРЕДУПРЕЖДЕНИЕ — ЭНЕРГИЯ НА НУЛЕ
+     ============================================================ -->
+<div class="m2-modal-overlay hidden" id="modal-no-energy">
+  <div class="m2-modal">
+    <div class="m2-modal-header">
+      <span class="m2-modal-icon">😴</span>
+      <span class="m2-modal-title">Злата устала...</span>
+    </div>
+    <div class="m2-modal-body">
+      <p>Энергия полностью исчерпана. Нужно восстановить силы перед продолжением.</p>
+    </div>
+    <div class="m2-modal-footer">
+      <button class="m2-btn m2-btn-primary" id="btn-goto-refuel">
+        🍽️ Пополнить энергию
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     МОДАЛКА: АРТЕФАКТ ПОЛУЧЕН
+     ============================================================ -->
+<div class="m2-modal-overlay hidden" id="modal-artifact">
+  <div class="m2-modal">
+    <div class="m2-modal-header">
+      <span class="m2-modal-icon">🎁</span>
+      <span class="m2-modal-title">Новый артефакт!</span>
+    </div>
+    <div class="m2-modal-body">
+      <div class="artifact-preview" id="artifact-preview">
+        <!-- Контент артефакта генерируется в JS -->
+      </div>
+    </div>
+    <div class="m2-modal-footer">
+      <button class="m2-btn m2-btn-primary" id="btn-artifact-ok">
+        Добавить в блокнот →
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     МОДАЛКА: ЛОВУШКА (туалет / давний знакомый)
+     ============================================================ -->
+<div class="m2-modal-overlay hidden" id="modal-trap">
+  <div class="m2-modal">
+    <div class="m2-modal-header">
+      <span class="m2-modal-icon" id="trap-icon">⚠️</span>
+      <span class="m2-modal-title" id="trap-title">Ой!</span>
+    </div>
+    <div class="m2-modal-body">
+      <p id="trap-text">Текст ловушки...</p>
+    </div>
+    <div class="m2-modal-footer">
+      <button class="m2-btn m2-btn-primary" id="btn-trap-close">
+        Понятно
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- JS подключаем последним -->
+<script src="module2.js"></script>
+
+</body>
+</html>
