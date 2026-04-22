@@ -8,11 +8,23 @@
 </head>
 <body>
 
-<!-- ============================================================
-     HUD — фиксированная верхняя панель
-     Видна на всех экранах кроме обложки и интро
-     ============================================================ -->
+<!-- HUD остаётся снаружи контейнера -->
 <div class="m2-hud hidden" id="m2-hud">
+  <div class="hud-energy">
+    <span class="hud-energy-icon">⚡</span>
+    <div class="hud-energy-bar-wrap">
+      <div class="hud-energy-bar" id="hud-energy-bar" style="width:100%"></div>
+    </div>
+    <span class="hud-energy-value" id="hud-energy-value">100%</span>
+  </div>
+  <div class="hud-meets">
+    <span class="hud-meets-icon">🤝</span>
+    <span id="hud-meets-value">0 / 5</span>
+  </div>
+  <button class="hud-notebook-btn" id="hud-notebook-btn" title="Открыть блокнот">
+    📓
+  </button>
+</div>
 
   <!-- Энергия -->
   <div class="hud-energy">
