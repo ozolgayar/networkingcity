@@ -4569,7 +4569,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     var moved = 0;
     document.querySelectorAll('.screen').forEach(function(scr) {
+      // Сначала снимаем active со всех сбежавших экранов
       if (scr.parentElement !== sc) {
+        scr.classList.remove('active');
         console.warn('🔧 Перенёс экран', scr.id, 'в screen-container (был в ' + scr.parentElement.tagName + ')');
         sc.appendChild(scr);
         moved++;
@@ -4578,12 +4580,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (moved > 0) {
       console.log('✅ Всего перенесено экранов:', moved);
+      // После переноса — показываем только screen-1
+      document.querySelectorAll('.screen').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      var first = document.getElementById('screen-1');
+      if (first) first.classList.add('active');
     }
   }
   
+  // Запускаем ПОСЛЕ того, как отработал DOMContentLoaded основного кода
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', doFix);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ждём чуть-чуть, чтобы основной скрипт успел отработать
+      setTimeout(doFix, 50);
+    });
   } else {
-    doFix();
+    setTimeout(doFix, 50);
   }
 })();
