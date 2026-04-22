@@ -3769,22 +3769,21 @@ function initBag() {
     var pos = positions[idx] || { left:'45%', top:'45%' };
     bagEl.style.left = pos.left;
     bagEl.style.top = pos.top;
-    bagInside.appendChild(bagEl);
+   bagInside.appendChild(bagEl);
     takenCorrect++;
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ bagEl.classList.add('dropped'); }); });
-    
 
-
-   if (takenCorrect >= CORRECT_COUNT) {
-  setTimeout(function() {
-    if (doneMsg) doneMsg.style.display = 'block';
-    if (typeof addScore === 'function') addScore(2);
-    setTimeout(function() {
-      if (modal) modal.classList.remove('active');
-      finalModal.classList.add('active');
-    }, 1500);
-  }, 400);
-}
+    if (takenCorrect >= CORRECT_COUNT) {
+      setTimeout(function() {
+        if (doneMsg) doneMsg.style.display = 'block';
+        if (typeof addScore === 'function') addScore(2);
+        setTimeout(function() {
+          if (modal) modal.classList.remove('active');
+          finalModal.classList.add('active');
+        }, 1500);
+      }, 400);
+    }
+  } 
 
   // Создаём предметы с DRAG & DROP
   shuffled.forEach(function(entry) {
