@@ -4409,15 +4409,15 @@ function generateAnswersPDF() {
 }
 
 function renderPdfSection(title, content, color, isHtml) {
-  // Определяем иконку автоматически по цвету/названию
+   // Определяем иконку автоматически по названию
   var icons = {
-    'Моя цель нетворкинга':,
-    'Стратегии работы со страхами':,
-    'Моё колесо баланса':,
-    'Моя SMART-цель':,
-    'Моя визитка':,
-    'Мой статус в соцсетях':,
-    'Моя самопрезентация':
+    'Моя цель нетворкинга': '🎯',
+    'Стратегии работы со страхами': '🎭',
+    'Моё колесо баланса': '⚖️',
+    'Моя SMART-цель': '🎯',
+    'Моя визитка': '💼',
+    'Мой статус в соцсетях': '💬',
+    'Моя самопрезентация': '📌'
   };
   var icon = icons[title] || '📋';
   
@@ -4437,6 +4437,7 @@ function renderPdfSection(title, content, color, isHtml) {
   html += '</div>';
   return html;
 }
+
 function renderHtmlToPdf(element, filename) {
   var btn = document.getElementById('btn-download-pdf');
   if (btn) {
