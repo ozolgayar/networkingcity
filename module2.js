@@ -1985,6 +1985,17 @@ document.addEventListener('DOMContentLoaded', function() {
       refreshHubZones();
     });
 
+   /* ── Модалка подтверждения сброса ────────────────────────── */
+  document.getElementById('btn-restart-confirm-yes')
+    .addEventListener('click', function() {
+      closeModal('modal-restart-confirm');
+      resetProgress();
+    });
+
+  document.getElementById('btn-restart-confirm-no')
+    .addEventListener('click', function() {
+      closeModal('modal-restart-confirm');
+    });
   /* ── Обновляем HUD ───────────────────────────────────────── */
   updateHUD();
 
@@ -2016,6 +2027,12 @@ document.addEventListener('DOMContentLoaded', function() {
     '%c Модуль 2 загружен ✅',
     'color:#a855f7; font-weight:bold; font-size:14px'
   );
-initHub();
-    updateHUD();
+/* ── Инициализируем хаб ──────────────────────────────────── */
+  initHub();
+
+  console.log(
+    '%c Модуль 2 загружен ✅',
+    'color:#a855f7; font-weight:bold; font-size:14px'
+  );
+
 }); // конец DOMContentLoaded
