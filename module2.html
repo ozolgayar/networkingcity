@@ -136,132 +136,149 @@
   </div>
 
   <!-- Карта зон -->
-  <div class="hub-map" id="hub-map">
+<div class="hub-map" id="hub-map">
 
-    <!-- ── ГЛАВА 1: Кофейная стойка ───────────────────────── -->
-    <div class="hub-zone hub-zone-active" data-zone="chapter1" id="hub-zone-chapter1">
-      <div class="hub-zone-done hidden" id="zone-done-chapter1">✅</div>
-      <div class="hub-zone-icon">☕</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Кофейная стойка</div>
-        <div class="hub-zone-chapter">Первое впечатление</div>
-        <div class="hub-zone-npc">Андрей · Мед. советник</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
+  <!-- ── ГЛАВА 1 ─────────────────────────────────────── -->
+  <div class="hub-zone hub-zone-playable hub-zone-active"
+       data-zone="chapter1" id="hub-zone-chapter1">
+    <div class="hub-zone-done hidden" id="zone-done-chapter1">✅</div>
+    <div class="hub-zone-icon">☕</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Кофейная стойка</div>
+      <div class="hub-zone-chapter">Первое впечатление</div>
+      <div class="hub-zone-npc">Андрей · Мед. советник</div>
     </div>
-
-    <!-- ── ГЛАВА 2: Стол с напитками ──────────────────────── -->
-    <div class="hub-zone hub-zone-locked" data-zone="chapter2" id="hub-zone-chapter2">
-      <div class="hub-zone-done hidden" id="zone-done-chapter2">✅</div>
-      <div class="hub-zone-icon">🥤</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Стол с напитками</div>
-        <div class="hub-zone-chapter">Самопрезентация</div>
-        <div class="hub-zone-npc">Мария · HR-директор</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
-    </div>
-
-    <!-- ── ЛОВУШКА 1: Туалет ───────────────────────────────── -->
-    <div class="hub-zone hub-zone-trap" data-zone="toilet">
-      <div class="hub-zone-icon">🚻</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Туалет</div>
-        <div class="hub-zone-chapter">Осторожно!</div>
-        <div class="hub-zone-npc">-10% ⚡</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
-    </div>
-
-    <!-- ── ГЛАВА 3: Буфет ─────────────────────────────────── -->
-    <div class="hub-zone hub-zone-locked" data-zone="chapter3" id="hub-zone-chapter3">
-      <div class="hub-zone-done hidden" id="zone-done-chapter3">✅</div>
-      <div class="hub-zone-icon">🍽️</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Буфет</div>
-        <div class="hub-zone-chapter">Small talk</div>
-        <div class="hub-zone-npc">Денис · Инв. аналитик</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
-    </div>
-
-    <!-- ── ЗОНА ПИТАНИЯ: Стол с едой ─────────────────────── -->
-    <div class="hub-zone hub-zone-energy" data-zone="refuel" id="hub-zone-refuel">
-      <div class="hub-zone-icon">🥪</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Стол с едой</div>
-        <div class="hub-zone-chapter">Восстановить энергию</div>
-        <div class="hub-zone-npc">
-          Использований: <span id="refuel-uses">2 / 2</span>
-        </div>
-      </div>
-      <div class="hub-zone-arrow">+30% ⚡</div>
-    </div>
-
-    <!-- ── ЛОВУШКА 2: Давний знакомый ─────────────────────── -->
-    <div class="hub-zone hub-zone-trap" data-zone="oldFriend">
-      <div class="hub-zone-icon">👋</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Старый знакомый</div>
-        <div class="hub-zone-chapter">Осторожно!</div>
-        <div class="hub-zone-npc">-15% ⚡</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
-    </div>
-
-    <!-- ── ГЛАВА 4: У сцены ───────────────────────────────── -->
-    <div class="hub-zone hub-zone-locked" data-zone="chapter4" id="hub-zone-chapter4">
-      <div class="hub-zone-done hidden" id="zone-done-chapter4">✅</div>
-      <div class="hub-zone-icon">🎭</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">У сцены</div>
-        <div class="hub-zone-chapter">Быть запоминающимся</div>
-        <div class="hub-zone-npc">Анна · Основатель стартапа</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
-    </div>
-
-    <!-- ── ЗОНА ОТДЫХА ────────────────────────────────────── -->
-    <div class="hub-zone hub-zone-energy" data-zone="rest" id="hub-zone-rest">
-      <div class="hub-zone-icon">🛋️</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Зона отдыха</div>
-        <div class="hub-zone-chapter">Восстановить энергию</div>
-        <div class="hub-zone-npc">
-          Использований: <span id="rest-uses">1 / 1</span>
-        </div>
-      </div>
-      <div class="hub-zone-arrow">+20% ⚡</div>
-    </div>
-
-    <!-- ── ГЛАВА 5: Зона отдыха ───────────────────────────── -->
-    <div class="hub-zone hub-zone-locked" data-zone="chapter5" id="hub-zone-chapter5">
-      <div class="hub-zone-done hidden" id="zone-done-chapter5">✅</div>
-      <div class="hub-zone-icon">🌿</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Лаунж-зона</div>
-        <div class="hub-zone-chapter">Длительные отношения</div>
-        <div class="hub-zone-npc">Игорь · Партнёр консалтинга</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
-    </div>
-
-    <!-- ── ФИНАЛЬНАЯ ЗОНА (скрыта до прохождения всех глав) ─ -->
-    <div class="hub-zone hub-zone-final hidden"
-         data-zone="final"
-         id="hub-zone-final">
-      <div class="hub-zone-icon">🏆</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Подведение итогов</div>
-        <div class="hub-zone-chapter">Финал модуля</div>
-        <div class="hub-zone-npc">Все главы пройдены!</div>
-      </div>
-      <div class="hub-zone-arrow">🎉</div>
-    </div>
-
+    <div class="hub-zone-arrow">→</div>
   </div>
-  <!-- конец hub-map -->
 
+  <!-- ── ГЛАВА 2 ─────────────────────────────────────── -->
+  <div class="hub-zone hub-zone-playable hub-zone-locked"
+       data-zone="chapter2" id="hub-zone-chapter2">
+    <div class="hub-zone-done hidden" id="zone-done-chapter2">✅</div>
+    <div class="hub-zone-icon">🥤</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Стол с напитками</div>
+      <div class="hub-zone-chapter">Самопрезентация</div>
+      <div class="hub-zone-npc">Мария · HR-директор</div>
+    </div>
+    <div class="hub-zone-arrow">🔒</div>
+  </div>
+
+  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
+  <div class="hub-zone-divider"></div>
+
+  <!-- ── ЛОВУШКА: Туалет ────────────────────────────── -->
+  <div class="hub-zone hub-zone-trap" data-zone="toilet">
+    <div class="hub-zone-icon">🚻</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Туалет</div>
+      <div class="hub-zone-chapter">Осторожно!</div>
+      <div class="hub-zone-npc">Потеря времени</div>
+    </div>
+    <div class="hub-zone-arrow">-10% ⚡</div>
+  </div>
+
+  <!-- ── ГЛАВА 3 ─────────────────────────────────────── -->
+  <div class="hub-zone hub-zone-playable hub-zone-locked"
+       data-zone="chapter3" id="hub-zone-chapter3">
+    <div class="hub-zone-done hidden" id="zone-done-chapter3">✅</div>
+    <div class="hub-zone-icon">🍽️</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Буфет</div>
+      <div class="hub-zone-chapter">Small talk</div>
+      <div class="hub-zone-npc">Денис · Инв. аналитик</div>
+    </div>
+    <div class="hub-zone-arrow">🔒</div>
+  </div>
+
+  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
+  <div class="hub-zone-divider"></div>
+
+  <!-- ── ЗОНА ПИТАНИЯ ───────────────────────────────── -->
+  <div class="hub-zone hub-zone-energy"
+       data-zone="refuel" id="hub-zone-refuel">
+    <div class="hub-zone-icon">🥪</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Стол с едой</div>
+      <div class="hub-zone-chapter">Восстановить энергию</div>
+      <div class="hub-zone-npc">
+        Осталось: <span id="refuel-uses">2 / 2</span>
+      </div>
+    </div>
+    <div class="hub-zone-arrow">+30% ⚡</div>
+  </div>
+
+  <!-- ── ЛОВУШКА: Старый знакомый ───────────────────── -->
+  <div class="hub-zone hub-zone-trap" data-zone="oldFriend">
+    <div class="hub-zone-icon">👋</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Старый знакомый</div>
+      <div class="hub-zone-chapter">Осторожно!</div>
+      <div class="hub-zone-npc">Застрянешь надолго</div>
+    </div>
+    <div class="hub-zone-arrow">-15% ⚡</div>
+  </div>
+
+  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
+  <div class="hub-zone-divider"></div>
+
+  <!-- ── ГЛАВА 4 ─────────────────────────────────────── -->
+  <div class="hub-zone hub-zone-playable hub-zone-locked"
+       data-zone="chapter4" id="hub-zone-chapter4">
+    <div class="hub-zone-done hidden" id="zone-done-chapter4">✅</div>
+    <div class="hub-zone-icon">🎭</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">У сцены</div>
+      <div class="hub-zone-chapter">Быть запоминающимся</div>
+      <div class="hub-zone-npc">Анна · Основатель стартапа</div>
+    </div>
+    <div class="hub-zone-arrow">🔒</div>
+  </div>
+
+  <!-- ── ЗОНА ОТДЫХА ────────────────────────────────── -->
+  <div class="hub-zone hub-zone-energy"
+       data-zone="rest" id="hub-zone-rest">
+    <div class="hub-zone-icon">🛋️</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Зона отдыха</div>
+      <div class="hub-zone-chapter">Восстановить энергию</div>
+      <div class="hub-zone-npc">
+        Осталось: <span id="rest-uses">1 / 1</span>
+      </div>
+    </div>
+    <div class="hub-zone-arrow">+20% ⚡</div>
+  </div>
+
+  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
+  <div class="hub-zone-divider"></div>
+
+  <!-- ── ГЛАВА 5 ─────────────────────────────────────── -->
+  <div class="hub-zone hub-zone-playable hub-zone-locked"
+       data-zone="chapter5" id="hub-zone-chapter5">
+    <div class="hub-zone-done hidden" id="zone-done-chapter5">✅</div>
+    <div class="hub-zone-icon">🌿</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Лаунж-зона</div>
+      <div class="hub-zone-chapter">Длительные отношения</div>
+      <div class="hub-zone-npc">Игорь · Партнёр консалтинга</div>
+    </div>
+    <div class="hub-zone-arrow">🔒</div>
+  </div>
+
+  <!-- ── ФИНАЛ (скрыт до прохождения всех глав) ─────── -->
+  <div class="hub-zone hub-zone-final hidden"
+       data-zone="final" id="hub-zone-final">
+    <div class="hub-zone-icon">🏆</div>
+    <div class="hub-zone-info">
+      <div class="hub-zone-label">Подведение итогов</div>
+      <div class="hub-zone-chapter">Финал модуля</div>
+      <div class="hub-zone-npc">Все главы пройдены!</div>
+    </div>
+    <div class="hub-zone-arrow">🎉</div>
+  </div>
+
+</div>
+<!-- конец hub-map -->
   <!-- Подсказка в подвале -->
   <div class="hub-footer">
     <div class="hub-footer-hint" id="hub-footer-hint">
