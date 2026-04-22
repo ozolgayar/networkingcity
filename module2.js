@@ -1818,20 +1818,22 @@ function showFinal() {
     `).join('');
   }
 
-  // Кнопка «Открыть блокнот»
-  document.getElementById('btn-final-notebook')
-    .addEventListener('click', function() {
-      renderNotebook();
-      openModal('modal-notebook');
-    });
+  // Кнопка «Открыть блокнот» — через клонирование
+  const notebookBtn = document.getElementById('btn-final-notebook');
+  const newNotebookBtn = notebookBtn.cloneNode(true);
+  notebookBtn.parentNode.replaceChild(newNotebookBtn, notebookBtn);
+  newNotebookBtn.addEventListener('click', function() {
+    renderNotebook();
+    openModal('modal-notebook');
+  });
 
-  // Кнопка «Пройти ещё раз»
-  document.getElementById('btn-final-restart')
-    .addEventListener('click', function() {
-      if (confirm('Сбросить прогресс и начать заново?')) {
-        resetProgress();
-      }
-    });
+  // Кнопка «Пройти ещё раз» — через клонирование + своя модалка
+  const restartBtn = document.getElementById('btn-final-restart');
+  const newRestartBtn = restartBtn.cloneNode(true);
+  restartBtn.parentNode.replaceChild(newRestartBtn, restartBtn);
+  newRestartBtn.addEventListener('click', function() {
+    openModal('modal-restart-confirm');
+  });
 }
 
 /* ----------------------------------------------------------------
