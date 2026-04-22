@@ -4284,11 +4284,6 @@ function generateAnswersPDF() {
   html +=   '<div style="font-size:16px;opacity:0.9;">Модуль 1: Основы нетворкинга</div>';
   html += '</div>';
 
-  html += '<div style="display:flex;justify-content:space-around;margin-bottom:30px;padding:16px;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;">';
-  html +=   '<div style="text-align:center;"><div style="font-size:28px;font-weight:700;color:#a855f7;">' + (state.score || 0) + '</div><div style="font-size:12px;color:#64748b;">Очки</div></div>';
-  html +=   '<div style="text-align:center;"><div style="font-size:28px;font-weight:700;color:#22c55e;">100%</div><div style="font-size:12px;color:#64748b;">Прогресс</div></div>';
-  html += '</div>';
-
   if (answers.purpose) {
     html += renderPdfSection('Моя цель нетворкинга', answers.purpose, '#3b82f6');
   }
