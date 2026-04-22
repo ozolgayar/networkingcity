@@ -8,7 +8,10 @@
 </head>
 <body>
 
-<!-- HUD остаётся снаружи контейнера -->
+<!-- ============================================================
+     HUD — фиксированная верхняя панель
+     Лежит снаружи контейнера экранов — всегда поверх всего
+     ============================================================ -->
 <div class="m2-hud hidden" id="m2-hud">
   <div class="hud-energy">
     <span class="hud-energy-icon">⚡</span>
@@ -26,59 +29,30 @@
   </button>
 </div>
 
-  <!-- Энергия -->
-  <div class="hud-energy">
-    <span class="hud-energy-icon">⚡</span>
-    <div class="hud-energy-bar-wrap">
-      <div class="hud-energy-bar" id="hud-energy-bar" style="width:100%"></div>
-    </div>
-    <span class="hud-energy-value" id="hud-energy-value">100%</span>
-  </div>
 
-  <!-- Счётчик знакомств -->
-  <div class="hud-meets">
-    <span class="hud-meets-icon">🤝</span>
-    <span id="hud-meets-value">0 / 5</span>
-  </div>
-
-  <!-- Кнопка блокнота -->
-  <button class="hud-notebook-btn" id="hud-notebook-btn" title="Открыть блокнот">
-    📓
-  </button>
-
-</div>
-<!-- конец HUD -->
+<!-- ============================================================
+     КОНТЕЙНЕР ВСЕХ ЭКРАНОВ
+     position:fixed, занимает всё пространство под HUD
+     ============================================================ -->
+<div id="m2-screen-container">
 
 
 <!-- ============================================================
      ЭКРАН 1: ОБЛОЖКА (m2-cover)
      ============================================================ -->
 <div class="m2-screen active" id="m2-cover">
-
   <div class="cover-wrap">
-
-    <!-- Верхний бейдж: связь с Модулем 1 -->
     <div class="cover-m1-badge" id="cover-m1-link"></div>
-
-    <!-- Аватар Златы -->
     <div class="cover-avatar">
       <div class="cover-avatar-glow"></div>
       <div class="cover-avatar-icon">👩‍💼</div>
     </div>
-
-    <!-- Заголовок -->
     <div class="cover-title">Модуль 2</div>
     <div class="cover-subtitle">
       Конференция медтех-индустрии<br>
-      <span style="font-size:13px; opacity:0.7;">
-        Злата учится знакомиться
-      </span>
+      <span style="font-size:13px; opacity:0.7;">Злата учится знакомиться</span>
     </div>
-
-    <!-- Имя игрока из М1 если есть -->
     <div class="cover-player-name" id="cover-m1-name"></div>
-
-    <!-- Превью глав -->
     <div class="cover-chapters-preview">
       <div class="cover-chapter-pill">☕ Первое впечатление</div>
       <div class="cover-chapter-pill">🎤 Самопрезентация</div>
@@ -86,54 +60,34 @@
       <div class="cover-chapter-pill">🪝 Быть запоминающимся</div>
       <div class="cover-chapter-pill">✉️ Длительные отношения</div>
     </div>
-
-    <!-- Кнопка старта -->
     <button class="m2-btn m2-btn-primary m2-btn-full" id="btn-cover-start">
       Начать конференцию 🚀
     </button>
-
   </div>
-
 </div>
-<!-- конец ОБЛОЖКИ -->
 
 
 <!-- ============================================================
      ЭКРАН 2: ИНТРО (m2-intro)
      ============================================================ -->
 <div class="m2-screen" id="m2-intro">
-
   <div class="intro-wrap">
-
-    <!-- Аватар Златы с анимацией -->
     <div class="intro-avatar-wrap">
       <div class="intro-avatar-glow"></div>
       <div class="intro-avatar-icon">👩‍💼</div>
-      <!-- Пузырь с именем -->
       <div class="intro-name-badge">Злата</div>
     </div>
-
-    <!-- Пузырь с текстом -->
     <div class="intro-bubble">
       <div class="intro-bubble-text" id="intro-bubble-text">
         Привет! Я Злата. Сегодня мы идём на конференцию.
       </div>
     </div>
-
-    <!-- Точки прогресса -->
-    <div class="intro-dots" id="intro-dots">
-      <!-- генерируются через JS -->
-    </div>
-
-    <!-- Кнопка «Далее» -->
+    <div class="intro-dots" id="intro-dots"></div>
     <button class="m2-btn m2-btn-primary" id="btn-intro-next">
       Далее →
     </button>
-
   </div>
-
 </div>
-<!-- конец ИНТРО -->
 
 
 <!-- ============================================================
@@ -141,165 +95,143 @@
      ============================================================ -->
 <div class="m2-screen" id="m2-hub">
 
-  <!-- Заголовок хаба -->
   <div class="hub-header">
     <div class="hub-title">Конференция медтех</div>
     <div class="hub-subtitle">Выбери зону для знакомства</div>
   </div>
 
-  <!-- Карта зон -->
-<div class="hub-map" id="hub-map">
+  <div class="hub-map" id="hub-map">
 
-  <!-- ── ГЛАВА 1 ─────────────────────────────────────── -->
-  <div class="hub-zone hub-zone-playable hub-zone-active"
-       data-zone="chapter1" id="hub-zone-chapter1">
-    <div class="hub-zone-done hidden" id="zone-done-chapter1">✅</div>
-    <div class="hub-zone-icon">☕</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Кофейная стойка</div>
-      <div class="hub-zone-chapter">Первое впечатление</div>
-      <div class="hub-zone-npc">Андрей · Мед. советник</div>
-    </div>
-    <div class="hub-zone-arrow">→</div>
-  </div>
-
-  <!-- ── ГЛАВА 2 ─────────────────────────────────────── -->
-  <div class="hub-zone hub-zone-playable hub-zone-locked"
-       data-zone="chapter2" id="hub-zone-chapter2">
-    <div class="hub-zone-done hidden" id="zone-done-chapter2">✅</div>
-    <div class="hub-zone-icon">🥤</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Стол с напитками</div>
-      <div class="hub-zone-chapter">Самопрезентация</div>
-      <div class="hub-zone-npc">Мария · HR-директор</div>
-    </div>
-    <div class="hub-zone-arrow">🔒</div>
-  </div>
-
-  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
-  <div class="hub-zone-divider"></div>
-
-  <!-- ── ЛОВУШКА: Туалет ────────────────────────────── -->
-  <div class="hub-zone hub-zone-trap" data-zone="toilet">
-    <div class="hub-zone-icon">🚻</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Туалет</div>
-      <div class="hub-zone-chapter">Осторожно!</div>
-      <div class="hub-zone-npc">Потеря времени</div>
-    </div>
-    <div class="hub-zone-arrow">-10% ⚡</div>
-  </div>
-
-  <!-- ── ГЛАВА 3 ─────────────────────────────────────── -->
-  <div class="hub-zone hub-zone-playable hub-zone-locked"
-       data-zone="chapter3" id="hub-zone-chapter3">
-    <div class="hub-zone-done hidden" id="zone-done-chapter3">✅</div>
-    <div class="hub-zone-icon">🍽️</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Буфет</div>
-      <div class="hub-zone-chapter">Small talk</div>
-      <div class="hub-zone-npc">Денис · Инв. аналитик</div>
-    </div>
-    <div class="hub-zone-arrow">🔒</div>
-  </div>
-
-  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
-  <div class="hub-zone-divider"></div>
-
-  <!-- ── ЗОНА ПИТАНИЯ ───────────────────────────────── -->
-  <div class="hub-zone hub-zone-energy"
-       data-zone="refuel" id="hub-zone-refuel">
-    <div class="hub-zone-icon">🥪</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Стол с едой</div>
-      <div class="hub-zone-chapter">Восстановить энергию</div>
-      <div class="hub-zone-npc">
-        Осталось: <span id="refuel-uses">2 / 2</span>
+    <div class="hub-zone hub-zone-playable hub-zone-active"
+         data-zone="chapter1" id="hub-zone-chapter1">
+      <div class="hub-zone-done hidden" id="zone-done-chapter1">✅</div>
+      <div class="hub-zone-icon">☕</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Кофейная стойка</div>
+        <div class="hub-zone-chapter">Первое впечатление</div>
+        <div class="hub-zone-npc">Андрей · Мед. советник</div>
       </div>
+      <div class="hub-zone-arrow">→</div>
     </div>
-    <div class="hub-zone-arrow">+30% ⚡</div>
-  </div>
 
-  <!-- ── ЛОВУШКА: Старый знакомый ───────────────────── -->
-  <div class="hub-zone hub-zone-trap" data-zone="oldFriend">
-    <div class="hub-zone-icon">👋</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Старый знакомый</div>
-      <div class="hub-zone-chapter">Осторожно!</div>
-      <div class="hub-zone-npc">Застрянешь надолго</div>
-    </div>
-    <div class="hub-zone-arrow">-15% ⚡</div>
-  </div>
-
-  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
-  <div class="hub-zone-divider"></div>
-
-  <!-- ── ГЛАВА 4 ─────────────────────────────────────── -->
-  <div class="hub-zone hub-zone-playable hub-zone-locked"
-       data-zone="chapter4" id="hub-zone-chapter4">
-    <div class="hub-zone-done hidden" id="zone-done-chapter4">✅</div>
-    <div class="hub-zone-icon">🎭</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">У сцены</div>
-      <div class="hub-zone-chapter">Быть запоминающимся</div>
-      <div class="hub-zone-npc">Анна · Основатель стартапа</div>
-    </div>
-    <div class="hub-zone-arrow">🔒</div>
-  </div>
-
-  <!-- ── ЗОНА ОТДЫХА ────────────────────────────────── -->
-  <div class="hub-zone hub-zone-energy"
-       data-zone="rest" id="hub-zone-rest">
-    <div class="hub-zone-icon">🛋️</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Зона отдыха</div>
-      <div class="hub-zone-chapter">Восстановить энергию</div>
-      <div class="hub-zone-npc">
-        Осталось: <span id="rest-uses">1 / 1</span>
+    <div class="hub-zone hub-zone-playable hub-zone-locked"
+         data-zone="chapter2" id="hub-zone-chapter2">
+      <div class="hub-zone-done hidden" id="zone-done-chapter2">✅</div>
+      <div class="hub-zone-icon">🥤</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Стол с напитками</div>
+        <div class="hub-zone-chapter">Самопрезентация</div>
+        <div class="hub-zone-npc">Мария · HR-директор</div>
       </div>
+      <div class="hub-zone-arrow">🔒</div>
     </div>
-    <div class="hub-zone-arrow">+20% ⚡</div>
-  </div>
 
-  <!-- ── РАЗДЕЛИТЕЛЬ ────────────────────────────────── -->
-  <div class="hub-zone-divider"></div>
+    <div class="hub-zone-divider"></div>
 
-  <!-- ── ГЛАВА 5 ─────────────────────────────────────── -->
-  <div class="hub-zone hub-zone-playable hub-zone-locked"
-       data-zone="chapter5" id="hub-zone-chapter5">
-    <div class="hub-zone-done hidden" id="zone-done-chapter5">✅</div>
-    <div class="hub-zone-icon">🌿</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Лаунж-зона</div>
-      <div class="hub-zone-chapter">Длительные отношения</div>
-      <div class="hub-zone-npc">Игорь · Партнёр консалтинга</div>
+    <div class="hub-zone hub-zone-trap" data-zone="toilet">
+      <div class="hub-zone-icon">🚻</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Туалет</div>
+        <div class="hub-zone-chapter">Осторожно!</div>
+        <div class="hub-zone-npc">Потеря времени</div>
+      </div>
+      <div class="hub-zone-arrow">-10% ⚡</div>
     </div>
-    <div class="hub-zone-arrow">🔒</div>
-  </div>
 
-  <!-- ── ФИНАЛ (скрыт до прохождения всех глав) ─────── -->
-  <div class="hub-zone hub-zone-final hidden"
-       data-zone="final" id="hub-zone-final">
-    <div class="hub-zone-icon">🏆</div>
-    <div class="hub-zone-info">
-      <div class="hub-zone-label">Подведение итогов</div>
-      <div class="hub-zone-chapter">Финал модуля</div>
-      <div class="hub-zone-npc">Все главы пройдены!</div>
+    <div class="hub-zone hub-zone-playable hub-zone-locked"
+         data-zone="chapter3" id="hub-zone-chapter3">
+      <div class="hub-zone-done hidden" id="zone-done-chapter3">✅</div>
+      <div class="hub-zone-icon">🍽️</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Буфет</div>
+        <div class="hub-zone-chapter">Small talk</div>
+        <div class="hub-zone-npc">Денис · Инв. аналитик</div>
+      </div>
+      <div class="hub-zone-arrow">🔒</div>
     </div>
-    <div class="hub-zone-arrow">🎉</div>
-  </div>
 
-</div>
-<!-- конец hub-map -->
-  <!-- Подсказка в подвале -->
+    <div class="hub-zone-divider"></div>
+
+    <div class="hub-zone hub-zone-energy"
+         data-zone="refuel" id="hub-zone-refuel">
+      <div class="hub-zone-icon">🥪</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Стол с едой</div>
+        <div class="hub-zone-chapter">Восстановить энергию</div>
+        <div class="hub-zone-npc">Осталось: <span id="refuel-uses">2 / 2</span></div>
+      </div>
+      <div class="hub-zone-arrow">+30% ⚡</div>
+    </div>
+
+    <div class="hub-zone hub-zone-trap" data-zone="oldFriend">
+      <div class="hub-zone-icon">👋</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Старый знакомый</div>
+        <div class="hub-zone-chapter">Осторожно!</div>
+        <div class="hub-zone-npc">Застрянешь надолго</div>
+      </div>
+      <div class="hub-zone-arrow">-15% ⚡</div>
+    </div>
+
+    <div class="hub-zone-divider"></div>
+
+    <div class="hub-zone hub-zone-playable hub-zone-locked"
+         data-zone="chapter4" id="hub-zone-chapter4">
+      <div class="hub-zone-done hidden" id="zone-done-chapter4">✅</div>
+      <div class="hub-zone-icon">🎭</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">У сцены</div>
+        <div class="hub-zone-chapter">Быть запоминающимся</div>
+        <div class="hub-zone-npc">Анна · Основатель стартапа</div>
+      </div>
+      <div class="hub-zone-arrow">🔒</div>
+    </div>
+
+    <div class="hub-zone hub-zone-energy"
+         data-zone="rest" id="hub-zone-rest">
+      <div class="hub-zone-icon">🛋️</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Зона отдыха</div>
+        <div class="hub-zone-chapter">Восстановить энергию</div>
+        <div class="hub-zone-npc">Осталось: <span id="rest-uses">1 / 1</span></div>
+      </div>
+      <div class="hub-zone-arrow">+20% ⚡</div>
+    </div>
+
+    <div class="hub-zone-divider"></div>
+
+    <div class="hub-zone hub-zone-playable hub-zone-locked"
+         data-zone="chapter5" id="hub-zone-chapter5">
+      <div class="hub-zone-done hidden" id="zone-done-chapter5">✅</div>
+      <div class="hub-zone-icon">🌿</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Лаунж-зона</div>
+        <div class="hub-zone-chapter">Длительные отношения</div>
+        <div class="hub-zone-npc">Игорь · Партнёр консалтинга</div>
+      </div>
+      <div class="hub-zone-arrow">🔒</div>
+    </div>
+
+    <div class="hub-zone hub-zone-final hidden"
+         data-zone="final" id="hub-zone-final">
+      <div class="hub-zone-icon">🏆</div>
+      <div class="hub-zone-info">
+        <div class="hub-zone-label">Подведение итогов</div>
+        <div class="hub-zone-chapter">Финал модуля</div>
+        <div class="hub-zone-npc">Все главы пройдены!</div>
+      </div>
+      <div class="hub-zone-arrow">🎉</div>
+    </div>
+
+  </div><!-- конец hub-map -->
+
   <div class="hub-footer">
     <div class="hub-footer-hint" id="hub-footer-hint">
       Начни с кофейной стойки ☕
     </div>
   </div>
 
-</div>
-<!-- конец ХАБА -->
+</div><!-- конец m2-hub -->
 
 
 <!-- ============================================================
@@ -307,171 +239,89 @@
      ============================================================ -->
 <div class="m2-screen" id="m2-dialog">
 
-  <!-- Верхняя строка: тема + счётчик -->
   <div class="dialog-header">
-    <div class="dialog-theme-label" id="dialog-theme-label">
-      Первое впечатление
-    </div>
-    <div class="dialog-situation-counter" id="dialog-situation-counter">
-      Ситуация 1 / 3
-    </div>
+    <div class="dialog-theme-label" id="dialog-theme-label">Первое впечатление</div>
+    <div class="dialog-situation-counter" id="dialog-situation-counter">Ситуация 1 / 3</div>
   </div>
 
-  <!-- Зона NPC: аватар + сцена -->
   <div class="dialog-npc-zone">
-
-    <!-- Аватар NPC -->
     <div class="dialog-npc-avatar-wrap">
       <div class="dialog-npc-emoji" id="dialog-npc-emoji"></div>
       <div class="dialog-npc-avatar" id="dialog-npc-avatar">
-        <!-- Эмодзи-заглушка -->
-        <div class="dialog-npc-avatar-icon" id="dialog-npc-avatar-icon">
-          🧑‍⚕️
-        </div>
-        <!-- Фото (скрыто по умолчанию) -->
-        <img class="dialog-npc-avatar-img"
-             id="dialog-npc-avatar-img"
-             src=""
-             alt="NPC"
-             style="display:none;">
+        <div class="dialog-npc-avatar-icon" id="dialog-npc-avatar-icon">🧑‍⚕️</div>
+        <img class="dialog-npc-avatar-img" id="dialog-npc-avatar-img"
+             src="" alt="NPC" style="display:none;">
       </div>
     </div>
-
-    <!-- Имя и роль NPC -->
     <div class="dialog-npc-name" id="dialog-npc-name">Андрей</div>
     <div class="dialog-npc-role" id="dialog-npc-role">Медицинский советник</div>
-
-    <!-- Текст сцены -->
     <div class="dialog-scene-text" id="dialog-scene-text">
       Андрей стоит у кофейной стойки и листает телефон.
     </div>
-
   </div>
-  <!-- конец dialog-npc-zone -->
 
-  <!-- Зона ответов: вопрос + варианты + подсказка -->
-  <div class="dialog-answers-zone" id="dialog-answers-zone">
-    <!-- Содержимое генерируется через JS в showSituation() -->
-  </div>
+  <div class="dialog-answers-zone" id="dialog-answers-zone"></div>
 
 </div>
-<!-- конец ДИАЛОГА -->
 
 
 <!-- ============================================================
      ЭКРАН 5: ПОПОЛНЕНИЕ ЭНЕРГИИ (m2-refuel)
      ============================================================ -->
 <div class="m2-screen" id="m2-refuel">
-
   <div class="refuel-wrap">
-
-    <!-- Сцена: Злата → еда -->
     <div class="refuel-scene">
       <span>👩‍💼</span>
       <span class="refuel-arrow">→</span>
       <span>🥪</span>
     </div>
-
-    <div class="refuel-title" id="refuel-title">
-      Злата перекусила!
-    </div>
-
-    <div class="refuel-desc" id="refuel-desc">
-      Немного еды восстанавливает силы. +30% ⚡
-    </div>
-
-    <!-- Полоска энергии -->
+    <div class="refuel-title" id="refuel-title">Злата перекусила!</div>
+    <div class="refuel-desc" id="refuel-desc">Немного еды восстанавливает силы. +30% ⚡</div>
     <div class="refuel-energy-bar-wrap">
-      <div class="refuel-energy-bar"
-           id="refuel-energy-bar"
-           style="width:0%">
-      </div>
+      <div class="refuel-energy-bar" id="refuel-energy-bar" style="width:0%"></div>
     </div>
-
-    <div class="refuel-energy-text" id="refuel-energy-text">
-      0% → 30%
-    </div>
-
-    <!-- Кнопка продолжить -->
-    <button class="m2-btn m2-btn-success m2-btn-full"
-            id="btn-refuel-continue">
+    <div class="refuel-energy-text" id="refuel-energy-text">0% → 30%</div>
+    <button class="m2-btn m2-btn-success m2-btn-full" id="btn-refuel-continue">
       Продолжить ⚡
     </button>
-
   </div>
-
 </div>
-<!-- конец ПОПОЛНЕНИЯ ЭНЕРГИИ -->
 
 
 <!-- ============================================================
      ЭКРАН 6: КОНЕЦ ГЛАВЫ (m2-chapter-end)
      ============================================================ -->
 <div class="m2-screen" id="m2-chapter-end">
-
   <div class="chapter-end-wrap">
-
-    <!-- Анимированный эмодзи -->
     <div class="chapter-end-celebration">🤝</div>
-
-    <div class="chapter-end-title" id="chapter-end-title">
-      Знакомство состоялось!
-    </div>
-    <div class="chapter-end-subtitle" id="chapter-end-subtitle">
-      Злата познакомилась с Андреем
-    </div>
-
-    <!-- Что узнала Злата -->
+    <div class="chapter-end-title" id="chapter-end-title">Знакомство состоялось!</div>
+    <div class="chapter-end-subtitle" id="chapter-end-subtitle">Злата познакомилась с Андреем</div>
     <div class="chapter-end-learned">
       <div class="chapter-end-learned-title">Что узнала Злата</div>
-      <div class="chapter-end-learned-list" id="chapter-end-learned-list">
-        <!-- Генерируется через JS -->
-      </div>
+      <div class="chapter-end-learned-list" id="chapter-end-learned-list"></div>
     </div>
-
-    <!-- Цитата Златы -->
     <div class="chapter-end-quote">
       <span class="chapter-end-quote-icon">💭</span>
-      <span id="chapter-end-quote-text">
-        «Цитата Златы»
-      </span>
+      <span id="chapter-end-quote-text">«Цитата Златы»</span>
     </div>
-
-    <!-- Кнопки -->
     <div style="display:flex; gap:10px; width:100%;">
-      <button class="m2-btn m2-btn-secondary"
-              style="flex:1"
-              id="btn-chapter-end-notebook">
-        📓 Блокнот
-      </button>
-      <button class="m2-btn m2-btn-primary"
-              style="flex:1"
-              id="btn-chapter-end-hub">
-        На карту →
-      </button>
+      <button class="m2-btn m2-btn-secondary" style="flex:1"
+              id="btn-chapter-end-notebook">📓 Блокнот</button>
+      <button class="m2-btn m2-btn-primary" style="flex:1"
+              id="btn-chapter-end-hub">На карту →</button>
     </div>
-
   </div>
-
 </div>
-<!-- конец КОНЦА ГЛАВЫ -->
 
 
 <!-- ============================================================
      ЭКРАН 7: ФИНАЛ (m2-final)
      ============================================================ -->
 <div class="m2-screen" id="m2-final">
-
   <div class="final-wrap">
-
     <div class="final-celebration">🏆</div>
-
     <div class="final-title">Конференция завершена!</div>
-    <div class="final-subtitle">
-      Злата прошла все пять знакомств
-    </div>
-
-    <!-- Статистика -->
+    <div class="final-subtitle">Злата прошла все пять знакомств</div>
     <div class="final-stats">
       <div class="final-stat-item">
         <div class="final-stat-value" id="final-meets-count">5</div>
@@ -486,37 +336,28 @@
         <div class="final-stat-label">Энергии осталось</div>
       </div>
     </div>
-
-    <!-- Список артефактов -->
     <div class="final-artifacts-title">Собранные артефакты</div>
-    <div class="final-artifacts-list" id="final-artifacts-list">
-      <!-- Генерируется через JS -->
-    </div>
-
-    <!-- Кнопки -->
+    <div class="final-artifacts-list" id="final-artifacts-list"></div>
     <div class="final-btns">
-      <button class="m2-btn m2-btn-secondary"
-              id="btn-final-notebook">
+      <button class="m2-btn m2-btn-secondary" id="btn-final-notebook">
         📓 Открыть блокнот
       </button>
-      <button class="m2-btn m2-btn-primary"
-              id="btn-final-restart">
+      <button class="m2-btn m2-btn-primary" id="btn-final-restart">
         🔄 Начать заново
       </button>
     </div>
-
   </div>
+</div>
+
 
 </div>
-<!-- конец ФИНАЛА -->
+<!-- конец #m2-screen-container -->
 
 
 <!-- ============================================================
-     МОДАЛЬНЫЕ ОКНА
-     Все модалки скрыты по умолчанию (класс hidden)
+     МОДАЛЬНЫЕ ОКНА — снаружи контейнера
      ============================================================ -->
 
-<!-- ── МОДАЛКА: Продолжить или начать заново ──────────────── -->
 <div class="m2-modal-overlay hidden" id="modal-continue">
   <div class="m2-modal">
     <div class="m2-modal-header">
@@ -528,19 +369,16 @@
       Продолжить с того места или начать заново?
     </div>
     <div class="m2-modal-footer">
-      <button class="m2-btn m2-btn-primary m2-btn-full"
-              id="btn-modal-continue">
+      <button class="m2-btn m2-btn-primary m2-btn-full" id="btn-modal-continue">
         Продолжить →
       </button>
-      <button class="m2-btn m2-btn-secondary m2-btn-full"
-              id="btn-modal-restart">
+      <button class="m2-btn m2-btn-secondary m2-btn-full" id="btn-modal-restart">
         Начать заново
       </button>
     </div>
   </div>
 </div>
 
-<!-- ── МОДАЛКА: Нет энергии ───────────────────────────────── -->
 <div class="m2-modal-overlay hidden" id="modal-no-energy">
   <div class="m2-modal">
     <div class="m2-modal-header">
@@ -548,43 +386,34 @@
       <span class="m2-modal-title">Энергия на нуле!</span>
     </div>
     <div class="m2-modal-body">
-      Злата устала. Нужно восстановить силы
-      перед следующим знакомством.
-      Найди стол с едой или зону отдыха на карте.
+      Злата устала. Нужно восстановить силы перед следующим знакомством.
     </div>
     <div class="m2-modal-footer">
-      <button class="m2-btn m2-btn-success m2-btn-full"
-              id="btn-no-energy-refuel">
+      <button class="m2-btn m2-btn-success m2-btn-full" id="btn-no-energy-refuel">
         🥪 Восстановить энергию
       </button>
-      <button class="m2-btn m2-btn-secondary m2-btn-full"
-              id="btn-no-energy-hub">
+      <button class="m2-btn m2-btn-secondary m2-btn-full" id="btn-no-energy-hub">
         ← На карту
       </button>
     </div>
   </div>
 </div>
 
-<!-- ── МОДАЛКА: Ловушка ───────────────────────────────────── -->
 <div class="m2-modal-overlay hidden" id="modal-trap">
   <div class="m2-modal">
     <div class="m2-modal-header">
       <span class="m2-modal-icon" id="trap-icon">⚠️</span>
       <span class="m2-modal-title" id="trap-title">Упс!</span>
     </div>
-    <div class="m2-modal-body" id="trap-text">
-      Что-то пошло не так...
-    </div>
+    <div class="m2-modal-body" id="trap-text">Что-то пошло не так...</div>
     <div class="m2-modal-footer">
-      <button class="m2-btn m2-btn-primary m2-btn-full"
-              id="btn-trap-ok">
+      <button class="m2-btn m2-btn-primary m2-btn-full" id="btn-trap-ok">
         Понятно
       </button>
     </div>
   </div>
 </div>
 
-<!-- ── МОДАЛКА: Подтверждение подсказки ──────────────────── -->
 <div class="m2-modal-overlay hidden" id="modal-hint-confirm">
   <div class="m2-modal">
     <div class="m2-modal-header">
@@ -592,26 +421,19 @@
       <span class="m2-modal-title">Подсказка</span>
       <button class="m2-modal-close" data-close-modal>✕</button>
     </div>
-    <div class="m2-modal-body" id="hint-modal-text">
-      <!-- Текст подсказки из JS -->
-    </div>
+    <div class="m2-modal-body" id="hint-modal-text"></div>
     <div class="m2-modal-footer">
-      <div class="hint-cost-warning">
-        Использование подсказки стоит 10% ⚡
-      </div>
-      <button class="m2-btn m2-btn-primary m2-btn-full"
-              id="btn-use-hint">
+      <div class="hint-cost-warning">Использование подсказки стоит 10% ⚡</div>
+      <button class="m2-btn m2-btn-primary m2-btn-full" id="btn-use-hint">
         💡 Использовать (-10% ⚡)
       </button>
-      <button class="m2-btn m2-btn-secondary m2-btn-full"
-              id="btn-cancel-hint">
+      <button class="m2-btn m2-btn-secondary m2-btn-full" id="btn-cancel-hint">
         Отмена
       </button>
     </div>
   </div>
 </div>
 
-<!-- ── МОДАЛКА: Получен артефакт ─────────────────────────── -->
 <div class="m2-modal-overlay hidden" id="modal-artifact">
   <div class="m2-modal">
     <div class="m2-modal-header">
@@ -621,28 +443,21 @@
     <div class="m2-modal-body">
       <div class="artifact-preview">
         <div class="artifact-preview-icon" id="artifact-modal-icon">📋</div>
-        <div class="artifact-preview-name" id="artifact-modal-name">
-          Название артефакта
-        </div>
-        <div class="artifact-preview-content" id="artifact-modal-preview">
-          Описание артефакта
-        </div>
+        <div class="artifact-preview-name" id="artifact-modal-name">Название</div>
+        <div class="artifact-preview-content" id="artifact-modal-preview">Описание</div>
       </div>
     </div>
     <div class="m2-modal-footer">
-      <button class="m2-btn m2-btn-primary m2-btn-full"
-              id="btn-artifact-to-notebook">
+      <button class="m2-btn m2-btn-primary m2-btn-full" id="btn-artifact-to-notebook">
         📓 Добавить в блокнот
       </button>
-      <button class="m2-btn m2-btn-secondary m2-btn-full"
-              id="btn-artifact-close">
+      <button class="m2-btn m2-btn-secondary m2-btn-full" id="btn-artifact-close">
         Продолжить
       </button>
     </div>
   </div>
 </div>
 
-<!-- ── МОДАЛКА: Блокнот (широкая) ────────────────────────── -->
 <div class="m2-modal-overlay hidden" id="modal-notebook">
   <div class="m2-modal m2-modal-wide">
     <div class="m2-modal-header">
@@ -650,23 +465,11 @@
       <span class="m2-modal-title">Блокнот Златы</span>
       <button class="m2-modal-close" data-close-modal>✕</button>
     </div>
-    <div class="m2-modal-body" id="notebook-body">
-      <!-- Содержимое генерируется через JS в renderNotebook() -->
-    </div>
+    <div class="m2-modal-body" id="notebook-body"></div>
   </div>
 </div>
 
 
-<!-- ============================================================
-     ТОСТ (всплывающее уведомление)
-     Создаётся динамически через JS — здесь только контейнер
-     ============================================================ -->
-
-
-<!-- ============================================================
-     Подключение JS
-     ============================================================ -->
 <script src="module2.js"></script>
-
 </body>
 </html>
