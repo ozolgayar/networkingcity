@@ -495,6 +495,30 @@
     </div>
   </div>
 </div>
+
+  <!-- ── МОДАЛКА: Подтверждение сброса прогресса ─────────────── -->
+<div class="m2-modal-overlay hidden" id="modal-restart-confirm">
+  <div class="m2-modal">
+    <div class="m2-modal-header">
+      <span class="m2-modal-icon">🔄</span>
+      <span class="m2-modal-title">Начать заново?</span>
+    </div>
+    <div class="m2-modal-body">
+      Весь прогресс будет сброшен: главы, артефакты, энергия.
+      Это действие нельзя отменить.
+    </div>
+    <div class="m2-modal-footer">
+      <button class="m2-btn m2-btn-primary m2-btn-full"
+              id="btn-restart-confirm-yes">
+        Да, начать заново
+      </button>
+      <button class="m2-btn m2-btn-secondary m2-btn-full"
+              id="btn-restart-confirm-no">
+        Отмена
+      </button>
+    </div>
+  </div>
+</div>
 <script src="module2.js"></script>
 </body>
 </html>
