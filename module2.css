@@ -587,56 +587,72 @@ body {
 .m2-screen#m2-dialog {
   background: transparent;
   flex-direction: column;
+  align-items: center;              /* центрируем карточку */
+  padding: 20px 16px 24px;
+  overflow-y: auto;
 }
 
-/* Шапка диалога */
+/* ─── Шапка диалога (тема + счётчик) ─── */
 .dialog-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  width: 100%;
+  max-width: 640px;
+  padding: 10px 14px;
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(15, 36, 72, 0.12);
-  flex-shrink: 0;
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.08);
   gap: 8px;
+  flex-shrink: 0;
+  margin-bottom: 14px;
 }
-/* Название темы */
+
 .dialog-theme-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--m2-primary);
+  color: #0284c7;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  background: rgba(168,85,247,0.1);
-  padding: 3px 10px;
+  background: rgba(14, 165, 233, 0.12);
+  padding: 4px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(168,85,247,0.25);
+  border: 1px solid rgba(14, 165, 233, 0.25);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 55%;
+  max-width: 60%;
 }
 
-/* Счётчик ситуаций */
 .dialog-situation-counter {
   font-size: 12px;
   font-weight: 600;
-  color: var(--m2-text-muted);
+  color: #64748b;
   white-space: nowrap;
 }
 
-/* Зона NPC */
+/* ─── КАРТОЧКА с NPC и ответами ─── */
 .dialog-npc-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 20px 16px 12px;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  padding: 24px 22px 18px;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-radius: 20px 20px 0 0;     /* верхние углы; низ клеится к ответам */
+  box-shadow: 0 8px 24px rgba(15, 36, 72, 0.1);
   flex-shrink: 0;
-  /* Ограничиваем высоту — на мобиле NPC не должен занимать всё */
-  max-height: 45vh;
+  max-height: none;
+  border-bottom: none;
 }
 
 /* Обёртка аватара */
@@ -645,276 +661,248 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
 }
 
-/* Эмодзи реакции NPC — появляется над аватаром */
+/* Эмодзи-реакция */
 .dialog-npc-emoji {
   position: absolute;
-  top: -24px;
-  right: -12px;
-  font-size: 28px;
+  top: -10px;
+  right: -18px;
+  font-size: 32px;
   z-index: 5;
-  /* Анимация появления */
   transform: scale(0);
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   pointer-events: none;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
 }
+.dialog-npc-emoji.visible { transform: scale(1); }
 
-/* Когда эмодзи активен */
-.dialog-npc-emoji.visible {
-  transform: scale(1);
-}
-
-/* Аватар NPC — заглушка */
+/* Аватар NPC */
 .dialog-npc-avatar {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  background: var(--m2-surface);
-  border: 3px solid var(--m2-border);
+  background: #f1f5f9;
+  border: 4px solid #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 36, 72, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
+.dialog-npc-avatar.answer-correct { border-color: #22c55e; box-shadow: 0 6px 24px rgba(34,197,94,0.35); }
+.dialog-npc-avatar.answer-wrong   { border-color: #ef4444; box-shadow: 0 6px 24px rgba(239,68,68,0.35); }
+.dialog-npc-avatar.answer-partial { border-color: #f59e0b; box-shadow: 0 6px 24px rgba(245,158,11,0.35); }
 
-/* Реакция меняет цвет рамки аватара */
-.dialog-npc-avatar.answer-correct { border-color: var(--m2-success); }
-.dialog-npc-avatar.answer-wrong   { border-color: var(--m2-danger); }
-.dialog-npc-avatar.answer-partial { border-color: var(--m2-warning); }
-
-/* Иконка-заглушка внутри аватара */
-.dialog-npc-avatar-icon {
-  font-size: 52px;
-  line-height: 1;
-}
-
-/* Реальное фото NPC (когда будет добавлено) */
-.dialog-npc-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
+.dialog-npc-avatar-icon { font-size: 50px; line-height: 1; }
+.dialog-npc-avatar img  { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
 .dialog-npc-name {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
-  color: var(--m2-text);
+  color: #0f2448;
+  margin-top: 4px;
 }
 
 .dialog-npc-role {
-  font-size: 11px;
-  color: var(--m2-text-muted);
+  font-size: 12px;
+  color: #64748b;
   text-align: center;
+  margin-top: -6px;
 }
 
 /* Описание сцены */
 .dialog-scene-text {
-  font-size: 13px;
-  color: var(--m2-text-muted);
-  line-height: 1.55;
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.6;
   text-align: center;
-  background: var(--m2-surface);
-  border: 1px solid var(--m2-border);
-  border-radius: var(--m2-radius);
-  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 36, 72, 0.08);
+  border-radius: 12px;
+  padding: 12px 16px;
   width: 100%;
-  /* Разрешаем выделение текста */
+  margin-top: 8px;
+  font-style: italic;
   -webkit-user-select: text;
   user-select: text;
 }
 
-/* Зона вариантов ответа */
+/* ─── Зона ответов (продолжение карточки) ─── */
 .dialog-answers-zone {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 0 16px 20px;
-  overflow-y: auto;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  padding: 16px 22px 22px;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-top: 1px dashed rgba(15, 36, 72, 0.12);
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 8px 24px rgba(15, 36, 72, 0.1);
+  overflow: visible;
 }
 
 /* Вопрос */
 .dialog-question {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--m2-text);
-  line-height: 1.5;
-  padding: 10px 14px;
-  background: rgba(168,85,247,0.07);
-  border-left: 3px solid var(--m2-primary);
-  border-radius: 0 var(--m2-radius-sm) var(--m2-radius-sm) 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f2448;
+  line-height: 1.45;
+  padding: 4px 2px 6px;
   -webkit-user-select: text;
   user-select: text;
 }
 
-/* Контейнер вариантов ответа */
 .dialog-options {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Один вариант ответа */
+/* ─── Вариант ответа ─── */
 .dialog-option {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   padding: 12px 14px;
-  border-radius: var(--m2-radius);
-  border: 1.5px solid var(--m2-border);
-  background: var(--m2-surface);
-  color: var(--m2-text);
-  font-size: 13px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(15, 36, 72, 0.1);
+  background: #ffffff;
+  color: #0f2448;
+  font-size: 13.5px;
   font-weight: 500;
- /* Стили кнопки варианта ответа */
   text-align: left;
-  line-height: 1.4;
+  line-height: 1.45;
   cursor: pointer;
   transition: all 0.18s ease;
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 36, 72, 0.04);
 }
 
-/* Буква варианта (А, Б, В) */
 .dialog-option-letter {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: var(--m2-surface2);
+  background: #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   font-weight: 700;
-  color: var(--m2-text-muted);
+  color: #64748b;
   flex-shrink: 0;
   transition: all 0.18s ease;
 }
 
-.dialog-option-text {
-  flex: 1;
-}
+.dialog-option-text { flex: 1; }
 
-/* Hover на вариант ответа */
 .dialog-option:hover:not(:disabled) {
-  border-color: var(--m2-primary);
-  background: rgba(168,85,247,0.08);
-  transform: translateX(3px);
+  border-color: #0ea5e9;
+  background: #f0f9ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
-
 .dialog-option:hover:not(:disabled) .dialog-option-letter {
-  background: var(--m2-primary);
+  background: #0ea5e9;
   color: #fff;
 }
 
-/* Состояния после выбора ответа */
+/* Состояния */
 .dialog-option.correct {
-  border-color: var(--m2-success);
+  border-color: #22c55e;
   background: rgba(34,197,94,0.08);
   pointer-events: none;
 }
-
-.dialog-option.correct .dialog-option-letter {
-  background: var(--m2-success);
-  color: #fff;
-}
+.dialog-option.correct .dialog-option-letter { background: #22c55e; color: #fff; }
 
 .dialog-option.wrong {
-  border-color: var(--m2-danger);
+  border-color: #ef4444;
   background: rgba(239,68,68,0.08);
   pointer-events: none;
 }
-
-.dialog-option.wrong .dialog-option-letter {
-  background: var(--m2-danger);
-  color: #fff;
-}
+.dialog-option.wrong .dialog-option-letter { background: #ef4444; color: #fff; }
 
 .dialog-option.partial {
-  border-color: var(--m2-warning);
+  border-color: #f59e0b;
   background: rgba(245,158,11,0.08);
   pointer-events: none;
 }
+.dialog-option.partial .dialog-option-letter { background: #f59e0b; color: #fff; }
 
-.dialog-option.partial .dialog-option-letter {
-  background: var(--m2-warning);
-  color: #fff;
-}
-
-/* Неактивные варианты после выбора */
-.dialog-option.dimmed {
-  opacity: 0.4;
-  pointer-events: none;
-}
+.dialog-option.dimmed { opacity: 0.4; pointer-events: none; }
 
 /* Панель реакции NPC */
 .dialog-reaction {
-  padding: 12px 14px;
-  border-radius: var(--m2-radius);
-  background: var(--m2-surface);
-  border: 1px solid var(--m2-border);
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 36, 72, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   animation: m2FadeIn 0.3s ease;
 }
 
-.dialog-reaction-icon {
-  font-size: 20px;
-}
-
+.dialog-reaction-icon { font-size: 22px; }
 .dialog-reaction-text {
-  font-size: 13px;
-  color: var(--m2-text);
+  font-size: 13.5px;
+  color: #0f2448;
   line-height: 1.55;
   -webkit-user-select: text;
   user-select: text;
 }
 
-/* Кнопки в реакции */
-.dialog-retry-btn,
-.dialog-next-btn {
-  align-self: flex-end;
-}
+.dialog-retry-btn, .dialog-next-btn { align-self: flex-end; }
 
-/* Разделитель */
 .dialog-divider {
   height: 1px;
-  background: var(--m2-border);
-  margin: 2px 0;
+  background: rgba(15, 36, 72, 0.1);
+  margin: 4px 0;
   flex-shrink: 0;
 }
 
-/* Кнопка подсказки */
+/* ─── КНОПКА ПОДСКАЗКИ ─── */
 .dialog-hint-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 10px 16px;
-  border-radius: var(--m2-radius);
-  border: 1.5px dashed var(--m2-warning);
-  background: rgba(245,158,11,0.06);
-  color: var(--m2-warning);
+  gap: 8px;
+
+  align-self: center;
+  margin-top: 4px;
+  padding: 10px 20px;
+  width: auto;
+  min-width: 200px;
+
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1.5px solid #f59e0b;
+  border-radius: 999px;
+  color: #78350f;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25);
   flex-shrink: 0;
+}
+
+.dialog-hint-btn::before {
+  content: '💡';
+  font-size: 15px;
 }
 
 .dialog-hint-btn:hover {
-  background: rgba(245,158,11,0.12);
-  border-color: var(--m2-warning);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
 }
 
-/* Кнопка подсказки уже использована */
 .dialog-hint-btn.used {
   opacity: 0.5;
   cursor: not-allowed;
@@ -923,7 +911,8 @@ body {
 
 .dialog-hint-cost {
   font-size: 11px;
-  opacity: 0.8;
+  opacity: 0.85;
+  font-weight: 600;
 }
 
 /* ----------------------------------------------------------------
