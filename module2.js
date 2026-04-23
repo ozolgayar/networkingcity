@@ -1962,10 +1962,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 /* ── Кнопка «Отмена» в модалке подсказки ────────────────── */
-document.getElementById('btn-cancel-hint')
-    .addEventListener('click', function() {
+  const cancelHintBtn = document.getElementById('btn-cancel-hint');
+  if (cancelHintBtn) {
+    cancelHintBtn.addEventListener('click', function() {
       closeModal('modal-hint-confirm');
     });
+  }
 
   /* ── Модалка «Нет энергии» ───────────────────────────────── */
   document.getElementById('btn-no-energy-refuel')
