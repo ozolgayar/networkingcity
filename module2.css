@@ -24,38 +24,28 @@
    Меняй здесь — изменится везде
    ---------------------------------------------------------------- */
 :root {
-  /* ═══ ФОН — градиент карты курса ═══ */
-  --m2-bg:          #e0f2fe;   /* светло-голубой запасной фон */
-  --m2-surface:     #ffffff;   /* фон карточек — белый */
-  --m2-surface2:    #f1f5f9;   /* фон второго уровня */
-  --m2-border:      rgba(15, 36, 72, 0.12);   /* тонкая рамка */
+ /* ─── СВЕТЛАЯ ПАЛИТРА в стиле The Sims ─── */
+  --m2-bg:          #dbeafe;   /* светло-голубое "небо" */
+  --m2-bg-gradient: linear-gradient(180deg, #cfe8ff 0%, #d6f0e5 100%);
+  --m2-surface:     #ffffff;   /* карточки, панели */
+  --m2-surface-2:   #f1f5f9;   /* второстепенные поверхности */
 
-  /* ═══ ТЕКСТ ═══ */
-  --m2-text:        #0f2448;   /* основной — тёмно-синий */
-  --m2-text-muted:  #64748b;   /* приглушённый — серо-синий */
+  --m2-text:        #0f2448;   /* тёмно-синий текст */
+  --m2-text-muted:  #64748b;   /* приглушённый серый */
 
-  /* ═══ АКЦЕНТЫ (под палитру карты) ═══ */
-  --m2-primary:     #0ea5e9;   /* синий — основной акцент */
-  --m2-primary-dark:#0284c7;   /* тёмно-синий для hover */
-  --m2-success:     #10b981;   /* изумрудно-зелёный */
-  --m2-warning:     #f59e0b;   /* жёлтый — предупреждение */
-  --m2-danger:      #ef4444;   /* красный — ошибка */
-  --m2-info:        #38bdf8;   /* голубой — информация */
+  --m2-accent:      #0ea5e9;   /* голубой акцент */
+  --m2-accent-2:    #22c55e;   /* зелёный акцент */
+  --m2-danger:      #ef4444;
+  --m2-warning:     #f59e0b;
 
-  /* ═══ Цвета ответов диалога ═══ */
-  --m2-answer-correct:  #10b981;
-  --m2-answer-wrong:    #ef4444;
-  --m2-answer-partial:  #f59e0b;
+  --m2-border:      rgba(15, 36, 72, 0.12);
+  --m2-shadow:      0 4px 16px rgba(15, 36, 72, 0.1);
+  --m2-shadow-lg:   0 8px 30px rgba(15, 36, 72, 0.15);
 
- 
-  /* ═══ Размеры ═══ */
   --m2-radius:      14px;
-  --m2-radius-sm:   8px;
-  --m2-radius-lg:   20px;
-  --m2-hud-height:  52px;
+  --m2-radius-sm:   10px;
 
-  /* Энергия */
-  --m2-energy-color: #10b981;
+  --m2-energy-color: #22c55e;
 }
 .hidden {
   display: none !important;
@@ -116,6 +106,7 @@ body {
   inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
+    background: var(--m2-bg-gradient);
 
   /* Плавное появление */
   animation: m2ScreenFadeIn 0.3s ease forwards;
@@ -136,106 +127,104 @@ body {
    4. HUD — ВЕРХНЯЯ ПАНЕЛЬ
    Всегда поверх всего контента
    ---------------------------------------------------------------- */
-.m2-hud {
-  /* Фиксированная позиция сверху */
-  position: fixed;
+#m2-hud {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  height: var(--m2-hud-height);
   z-index: 100;
 
-  /* Стили панели */
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--m2-border);
-
-  /* Внутренний layout */
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 16px;
+
+  padding: 10px 18px;
+
+  /* Светлый фон как на карте */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid var(--m2-border);
+  box-shadow: 0 2px 10px rgba(15, 36, 72, 0.06);
 }
 
-/* Блок энергии: иконка + полоска + число */
-.hud-energy {
+#m2-hud.hidden {
+  display: none;
+}
+
+/* Кнопка блокнота */
+#hud-notebook-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
+  border: 1px solid var(--m2-border);
+  border-radius: 10px;
+  color: var(--m2-accent);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(15, 36, 72, 0.08);
+}
+
+#hud-notebook-btn:hover {
+  background: #e0f2fe;
+  transform: translateY(-1px);
+}
+
+/* Полоска энергии */
+.hud-energy-wrap {
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   min-width: 0;
 }
 
-/* Иконки в HUD (молния, рукопожатие) */
-.hud-energy-icon,
-.hud-meets-icon,
-.hud-icon {
-  font-size: 18px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-/* Обёртка полоски энергии */
-.hud-energy-bar-wrap {
+.hud-energy-track {
   flex: 1;
-  height: 8px;
-  background: var(--m2-surface2);
+  height: 14px;
+  background: rgba(15, 36, 72, 0.08);
   border-radius: 999px;
   overflow: hidden;
-  min-width: 60px;
+  border: 1px solid var(--m2-border);
 }
 
-/* Сама полоска энергии — ширина и цвет задаются из JS */
-.hud-energy-bar {
+#hud-energy-bar {
   height: 100%;
+  width: 100%;
+  background: #22c55e;
   border-radius: 999px;
-  background: var(--m2-energy-color);
-  transition: width 0.5s ease, background 0.5s ease;
-  width: 100%; /* начальное значение — переопределяется JS */
+  transition: width 0.5s ease, background 0.3s ease;
 }
 
-.hud-energy-value {
-  font-size: 12px;
+#hud-energy-value {
+  font-size: 13px;
   font-weight: 700;
-  color: var(--m2-text-muted);
-  min-width: 36px;
+  color: #22c55e;
+  min-width: 38px;
   text-align: right;
-  flex-shrink: 0;
 }
 
-/* Блок знакомств */
+/* Счётчик знакомств */
 .hud-meets {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--m2-text);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-/* Кнопка блокнота */
-.hud-notebook-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  background: #ffffff;
   border: 1px solid var(--m2-border);
-  background: var(--m2-surface);
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, transform 0.15s;
-  flex-shrink: 0;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--m2-text);
+  box-shadow: 0 2px 6px rgba(15, 36, 72, 0.06);
 }
 
-.hud-notebook-btn:hover {
-  background: var(--m2-surface2);
-  transform: scale(1.08);
+.hud-meets-icon {
+  font-size: 14px;
 }
-
 /* ----------------------------------------------------------------
    5. ЭКРАН: ОБЛОЖКА (m2-cover)
    ---------------------------------------------------------------- */
@@ -523,40 +512,46 @@ body {
 
 /* Заголовок хаба */
 .hub-header {
-  padding: 14px 16px 10px;
+  padding: 14px 20px 8px;
   text-align: center;
-  border-bottom: 1px solid var(--m2-border);
-  flex-shrink: 0;
+  background: transparent;
 }
 
 .hub-title {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--m2-text);
+  margin-bottom: 2px;
 }
 
 .hub-subtitle {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--m2-text-muted);
-  margin-top: 2px;
 }
 
-/* Подсказка в подвале */
 .hub-footer {
-  padding: 10px 16px 16px;
+  padding: 12px 20px;
   text-align: center;
-  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--m2-border);
 }
 
 .hub-footer-hint {
-  display: inline-block;
-  font-size: 12px;
-  color: var(--m2-text-muted);
-  background: rgba(15,23,42,0.85);
-  border: 1px solid var(--m2-border);
-  padding: 6px 14px;
-  border-radius: 999px;
+  font-size: 13px;
+  color: var(--m2-text);
+  font-weight: 600;
 }
+.hub-map-container {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: transparent;
+}
+
 
 /* ----------------------------------------------------------------
    8. ЭКРАН: ДИАЛОГ (m2-dialog)
