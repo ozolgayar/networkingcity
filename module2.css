@@ -89,9 +89,8 @@ body {
    3. КОНТЕЙНЕР ЭКРАНОВ И БАЗОВЫЙ ЭКРАН
    ---------------------------------------------------------------- */
 #m2-screen-container {
-  /* Занимает весь экран ниже HUD */
   position: fixed;
-  top: var(--m2-hud-height);
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -105,11 +104,7 @@ body {
   inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  background: transparent;   /* ← виден градиент body */
-  animation: m2ScreenFadeIn 0.3s ease forwards;
-}
-
-  /* Плавное появление */
+  background: transparent;
   animation: m2ScreenFadeIn 0.3s ease forwards;
 }
 
