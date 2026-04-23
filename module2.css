@@ -1716,7 +1716,8 @@ body {
    НОВАЯ КАРТА ХАБА — изображение + кликабельные хотспоты
    ================================================================ */
 
-/* Контейнер для карты — скроллится если карта большая */
+
+/* Контейнер для карты */
 .hub-map-container {
   flex: 1;
   overflow: auto;
@@ -1727,14 +1728,14 @@ body {
   background: #0d1526;
 }
 
-/* Обёртка изображения — position:relative для абсолютных хотспотов */
+/* Обёртка изображения */
 .hub-map-image {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   display: block;
   border-radius: var(--m2-radius);
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -1743,205 +1744,216 @@ body {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: var(--m2-radius);
   user-select: none;
   pointer-events: none;
 }
 
-/* Базовый стиль хотспота (невидимая кликабельная зона) */
+/* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
 .map-hotspot {
   position: absolute;
-  border: 2px solid transparent;
+  border: none;
   background: transparent;
-  border-radius: 10px;
-  cursor: pointer;
   padding: 0;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
+  cursor: pointer;
+  /* Стартовый размер — сама "точка" */
+  width: 0;
+  height: 0;
+  display: block;
 }
 
-/* Подпись хотспота — появляется при наведении */
+/* ─── ПОДПИСЬ-ПИЛЮЛЯ (всегда видима) ─── */
 .hotspot-label {
   position: absolute;
-  bottom: 100%;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  background: rgba(15, 23, 42, 0.95);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: 8px;
+  transform: translate(-50%, 0);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  background: #ffffff;
+  color: #0f2448;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
   white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s, transform 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  border: 1px solid rgba(15, 36, 72, 0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  pointer-events: auto;
+  z-index: 3;
 }
 
+/* Хвостик подписи (тонкая ножка вниз) */
+.hotspot-label::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 10px;
+  background: rgba(15, 36, 72, 0.35);
+}
+
+/* Подсказка снизу (например, +30% ⚡) */
 .hotspot-sublabel {
-  display: block;
-  font-size: 10px;
+  display: inline-block;
+  font-size: 11px;
   font-weight: 500;
-  opacity: 0.85;
-  margin-top: 2px;
+  opacity: 0.75;
+  margin-left: 4px;
 }
 
-/* Показываем подпись при наведении */
+/* Hover */
 .map-hotspot:hover .hotspot-label {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translate(-50%, -3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
-/* Бейдж ✅ для пройденных глав */
+/* Бейдж ✅ */
 .hotspot-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 20px;
-  z-index: 5;
+  bottom: 100%;
+  left: calc(50% + 60px);
+  transform: translate(-50%, 50%);
+  font-size: 18px;
+  z-index: 4;
   display: none;
 }
 
-/* ═══ ТИПЫ ХОТСПОТОВ ═══ */
+/* ═══ ТИПЫ ПОДПИСЕЙ ═══ */
 
-/* Глава (играбельная) */
-.map-hotspot-chapter {
-  background: rgba(14, 165, 233, 0.2);
-  border-color: rgba(14, 165, 233, 0.6);
+/* Глава — синий кружок слева */
+.map-hotspot-chapter .hotspot-label::before {
+  content: attr(data-icon);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #dbeafe;
+  border-radius: 50%;
+  font-size: 13px;
 }
 
-.map-hotspot-chapter:hover {
-  background: rgba(14, 165, 233, 0.35);
+/* Активная глава — пульсация ножки */
+.map-hotspot-chapter.hub-zone-active .hotspot-label {
   border-color: #0ea5e9;
-  transform: scale(1.03);
-  box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+  box-shadow: 0 3px 12px rgba(14, 165, 233, 0.5);
+  animation: labelPulse 2s ease-in-out infinite;
 }
 
-/* Активная (следующая доступная) — пульсация */
-.map-hotspot-chapter.hub-zone-active {
-  background: rgba(14, 165, 233, 0.25);
-  border-color: #0ea5e9;
-  animation: hotspotPulse 2s ease-in-out infinite;
-}
-
-@keyframes hotspotPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 0 12px rgba(14, 165, 233, 0);
-  }
+@keyframes labelPulse {
+  0%, 100% { box-shadow: 0 3px 12px rgba(14, 165, 233, 0.5); }
+  50%       { box-shadow: 0 3px 20px rgba(14, 165, 233, 0.9); }
 }
 
 /* Пройдена */
-.map-hotspot-chapter.hub-zone-completed {
-  background: rgba(34, 197, 94, 0.2);
-  border-color: rgba(34, 197, 94, 0.6);
-}
-
-.map-hotspot-chapter.hub-zone-completed:hover {
-  background: rgba(34, 197, 94, 0.3);
+.map-hotspot-chapter.hub-zone-completed .hotspot-label {
+  background: #d1fae5;
+  border-color: #10b981;
+  color: #065f46;
 }
 
 /* Заблокирована */
 .map-hotspot-chapter.hub-zone-locked {
-  background: rgba(100, 116, 139, 0.25);
-  border-color: rgba(100, 116, 139, 0.5);
   cursor: not-allowed;
 }
-
-.map-hotspot-chapter.hub-zone-locked::before {
+.map-hotspot-chapter.hub-zone-locked .hotspot-label {
+  background: #e2e8f0;
+  color: #94a3b8;
+  border-color: rgba(100, 116, 139, 0.3);
+}
+.map-hotspot-chapter.hub-zone-locked .hotspot-label::before {
   content: '🔒';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  opacity: 0.7;
+  background: #cbd5e1;
 }
 
-.map-hotspot-chapter.hub-zone-locked:hover {
-  transform: none;
-  box-shadow: none;
+/* Ловушка — красноватая пилюля */
+.map-hotspot-trap .hotspot-label {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+.map-hotspot-trap .hotspot-label::before {
+  content: attr(data-icon);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #fecaca;
+  border-radius: 50%;
+  font-size: 13px;
 }
 
-/* Ловушка */
-.map-hotspot-trap {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.4);
-  border-style: dashed;
+/* Энергия — зелёная пилюля */
+.map-hotspot-energy .hotspot-label {
+  background: #fef3c7;
+  color: #78350f;
+  border-color: rgba(251, 191, 36, 0.4);
 }
-
-.map-hotspot-trap:hover {
-  background: rgba(239, 68, 68, 0.25);
-  border-color: #ef4444;
-  transform: scale(1.03);
-}
-
-/* Энергия */
-.map-hotspot-energy {
-  background: rgba(34, 197, 94, 0.18);
-  border-color: rgba(34, 197, 94, 0.55);
-}
-
-.map-hotspot-energy:hover {
-  background: rgba(34, 197, 94, 0.3);
-  border-color: #22c55e;
-  transform: scale(1.03);
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+.map-hotspot-energy .hotspot-label::before {
+  content: attr(data-icon);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #fde68a;
+  border-radius: 50%;
+  font-size: 13px;
 }
 
 .map-hotspot-energy.hub-zone-depleted {
-  background: rgba(100, 116, 139, 0.2);
-  border-color: rgba(100, 116, 139, 0.4);
-  opacity: 0.5;
   cursor: not-allowed;
 }
-
-.map-hotspot-energy.hub-zone-depleted:hover {
-  transform: none;
-  box-shadow: none;
+.map-hotspot-energy.hub-zone-depleted .hotspot-label {
+  opacity: 0.45;
+  background: #e2e8f0;
+  color: #64748b;
+  border-color: rgba(100, 116, 139, 0.3);
 }
 
-/* Финал */
-.map-hotspot-final {
-  background: rgba(251, 191, 36, 0.25);
-  border-color: rgba(251, 191, 36, 0.7);
-  animation: hotspotPulseGold 2s ease-in-out infinite;
+/* Финал — золотая пилюля */
+.map-hotspot-final .hotspot-label {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #fff;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 14px rgba(251, 191, 36, 0.5);
+  animation: labelPulseGold 2s ease-in-out infinite;
+}
+.map-hotspot-final .hotspot-label::before {
+  content: attr(data-icon);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 50%;
+  font-size: 13px;
+}
+@keyframes labelPulseGold {
+  0%, 100% { box-shadow: 0 4px 14px rgba(251, 191, 36, 0.5); }
+  50%       { box-shadow: 0 4px 22px rgba(251, 191, 36, 0.9); }
 }
 
-.map-hotspot-final:hover {
-  background: rgba(251, 191, 36, 0.4);
-  transform: scale(1.05);
-}
-
-@keyframes hotspotPulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.6); }
-  50%       { box-shadow: 0 0 0 14px rgba(251, 191, 36, 0); }
-}
-
-/* Мобильная адаптация — подписи всегда видны на тач-устройствах */
-@media (hover: none) and (pointer: coarse) {
+/* Мобильный: подписи поменьше */
+@media (max-width: 700px) {
   .hotspot-label {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    font-size: 10px;
-    padding: 3px 7px;
+    font-size: 11px;
+    padding: 4px 10px 4px 6px;
   }
-}
-
-/* На узких экранах карта скроллится */
-@media (max-width: 600px) {
-  .hub-map-container {
-    padding: 6px;
-  }
-  .hotspot-label {
-    font-size: 10px;
-    padding: 4px 8px;
+  .hotspot-label::before {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 11px !important;
   }
   .hotspot-sublabel {
     font-size: 9px;
