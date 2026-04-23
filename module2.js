@@ -2034,17 +2034,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Нет данных М1 — ничего не делаем
   }
 
-  /* ── Модалка подтверждения сброса ────────────────────────── */
-  document.getElementById('btn-restart-confirm-yes')
-    .addEventListener('click', function() {
-      closeModal('modal-restart-confirm');
-      resetProgress();
-    });
-
-  document.getElementById('btn-restart-confirm-no')
-    .addEventListener('click', function() {
-      closeModal('modal-restart-confirm');
-    });
 
   /* ── Инициализация хаба ──────────────────────────────────── */
   initHub();
