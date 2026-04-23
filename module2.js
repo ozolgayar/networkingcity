@@ -1172,15 +1172,13 @@ function refreshHubZones() {
   }
 
   // Подсказка в подвале
-  const hint   = document.getElementById('hub-footer-hint');
-  const nextId = chapterOrder.find(id =>
-    !m2State.completedChapters.includes(id)
-  );
+ // Подсказка в подвале (без навязчивого «Следующая»)
+  const hint = document.getElementById('hub-footer-hint');
   if (hint) {
     if (allDone) {
-      hint.textContent = 'Все главы пройдены! Подведи итоги 🎉';
-    } else if (nextId && CHAPTERS[nextId]) {
-      hint.textContent = `Следующая: «${CHAPTERS[nextId].theme}»`;
+      hint.textContent = 'Все главы пройдены! Жми «Подведение итогов» 🏆';
+    } else {
+      hint.textContent = 'Кликай по подписям на карте, чтобы подойти к людям ☕';
     }
   }
 }
