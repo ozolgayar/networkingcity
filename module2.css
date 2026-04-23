@@ -587,9 +587,18 @@ body {
 .m2-screen#m2-dialog {
   background: transparent;
   flex-direction: column;
-  align-items: center;              /* центрируем карточку */
+  align-items: center;
   padding: 20px 16px 24px;
   overflow-y: auto;
+}
+
+/* Шапку прижимаем к верху карточки, но всю группу центрируем */
+.m2-screen#m2-dialog .dialog-header {
+  margin-top: auto;                 /* отжимает шапку вниз от верха */
+}
+
+.m2-screen#m2-dialog .dialog-answers-zone {
+  margin-bottom: auto;              /* отжимает зону ответов вверх от низа */
 }
 
 /* ─── Шапка диалога (тема + счётчик) ─── */
