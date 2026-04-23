@@ -1918,6 +1918,20 @@ document.addEventListener('DOMContentLoaded', function() {
       openModal('modal-notebook');
     });
 
+   /* ── Кнопка карты конференции в HUD ──────────────────────── */
+const hubBtn = document.getElementById('hud-hub-btn');
+if (hubBtn) {
+  hubBtn.addEventListener('click', function() {
+    // Закрываем все возможные модалки
+    document.querySelectorAll('.m2-modal-overlay').forEach(m => {
+      m.classList.add('hidden');
+    });
+    // Возвращаемся на карту конференции (хаб)
+    showM2Screen('m2-hub');
+    refreshHubZones();
+  });
+}
+   
   /* ── Закрытие всех модалок ───────────────────────────────── */
   // Вешаем один обработчик на все кнопки закрытия
   document.querySelectorAll('.m2-modal-close, [data-close-modal]')
