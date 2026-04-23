@@ -95,9 +95,6 @@
 <!-- ============================================================
      ЭКРАН 3: ХАБ — КАРТА КОНФЕРЕНЦИИ (m2-hub)
      ============================================================ -->
-<!-- ============================================================
-     ЭКРАН 3: ХАБ — КАРТА КОНФЕРЕНЦИИ (m2-hub)
-     ============================================================ -->
 <div class="m2-screen" id="m2-hub">
 
   <div class="hub-header">
@@ -105,90 +102,88 @@
     <div class="hub-subtitle">Выбери зону для знакомства</div>
   </div>
 
-  <!-- Контейнер с картинкой и кликабельными хотспотами -->
   <div class="hub-map-container">
     <div class="hub-map-image" id="hub-map">
 
-      <!-- Фоновое изображение карты -->
       <img src="img/conference-map.png" alt="Карта конференции" class="hub-map-bg">
 
       <!-- ═══ ГЛАВА 1: Кофейная стойка ═══ -->
       <button class="map-hotspot map-hotspot-chapter"
               data-zone="chapter1" id="hub-zone-chapter1"
-              style="left: 24%; top: 20%; width: 14%; height: 12%;">
+              style="left: 23%; top: 22%;">
         <span class="hotspot-badge" id="zone-done-chapter1">✅</span>
-        <span class="hotspot-label">☕ Кофейная стойка</span>
+        <span class="hotspot-label" data-icon="☕">Кофейная стойка</span>
       </button>
 
       <!-- ═══ ГЛАВА 2: Стол с напитками ═══ -->
       <button class="map-hotspot map-hotspot-chapter"
               data-zone="chapter2" id="hub-zone-chapter2"
-              style="left: 10%; top: 36%; width: 14%; height: 14%;">
+              style="left: 13%; top: 38%;">
         <span class="hotspot-badge" id="zone-done-chapter2">✅</span>
-        <span class="hotspot-label">🥤 Стол с напитками</span>
+        <span class="hotspot-label" data-icon="🥤">Стол с напитками</span>
       </button>
 
       <!-- ═══ ГЛАВА 3: Буфет ═══ -->
       <button class="map-hotspot map-hotspot-chapter"
               data-zone="chapter3" id="hub-zone-chapter3"
-              style="left: 32%; top: 26%; width: 12%; height: 12%;">
+              style="left: 36%; top: 28%;">
         <span class="hotspot-badge" id="zone-done-chapter3">✅</span>
-        <span class="hotspot-label">🍽️ Буфет</span>
+        <span class="hotspot-label" data-icon="🍽️">Буфет</span>
       </button>
 
       <!-- ═══ ГЛАВА 4: Сцена ═══ -->
       <button class="map-hotspot map-hotspot-chapter"
               data-zone="chapter4" id="hub-zone-chapter4"
-              style="left: 58%; top: 14%; width: 12%; height: 14%;">
+              style="left: 63%; top: 19%;">
         <span class="hotspot-badge" id="zone-done-chapter4">✅</span>
-        <span class="hotspot-label">🎭 Сцена</span>
+        <span class="hotspot-label" data-icon="🎤">Сцена</span>
       </button>
 
       <!-- ═══ ГЛАВА 5: Зал конференции ═══ -->
       <button class="map-hotspot map-hotspot-chapter"
               data-zone="chapter5" id="hub-zone-chapter5"
-              style="left: 76%; top: 20%; width: 16%; height: 18%;">
+              style="left: 86%; top: 22%;">
         <span class="hotspot-badge" id="zone-done-chapter5">✅</span>
-        <span class="hotspot-label">🎤 Зал конференции</span>
+        <span class="hotspot-label" data-icon="🎙️">Зал конференции</span>
       </button>
 
       <!-- ═══ ЛОВУШКА: Туалет ═══ -->
       <button class="map-hotspot map-hotspot-trap"
               data-zone="toilet"
-              style="left: 42%; top: 4%; width: 12%; height: 14%;">
-        <span class="hotspot-label">🚻 Туалет</span>
+              style="left: 48%; top: 7%;">
+        <span class="hotspot-label" data-icon="🚻">Туалет</span>
       </button>
 
       <!-- ═══ ЛОВУШКА: Старый знакомый ═══ -->
       <button class="map-hotspot map-hotspot-trap"
               data-zone="oldFriend"
-              style="left: 46%; top: 46%; width: 12%; height: 18%;">
-        <span class="hotspot-label">👋 Старый знакомый</span>
+              style="left: 52%; top: 48%;">
+        <span class="hotspot-label" data-icon="👋">Старый знакомый</span>
       </button>
 
-      <!-- ═══ ЭНЕРГИЯ: Стол с закусками (+30%) ═══ -->
+      <!-- ═══ ЭНЕРГИЯ: Стол с закусками ═══ -->
       <button class="map-hotspot map-hotspot-energy"
               data-zone="refuel" id="hub-zone-refuel"
-              style="left: 14%; top: 56%; width: 18%; height: 14%;">
-        <span class="hotspot-label">🥪 Стол с закусками
-          <span class="hotspot-sublabel">+30% ⚡ (<span id="refuel-uses">2 / 2</span>)</span>
+              style="left: 24%; top: 55%;">
+        <span class="hotspot-label" data-icon="🥪">Стол с закусками
+          <span class="hotspot-sublabel">+30% ⚡ (<span id="refuel-uses">2/2</span>)</span>
         </span>
       </button>
 
-      <!-- ═══ ЭНЕРГИЯ: Зона отдыха (+20%) ═══ -->
+      <!-- ═══ ЭНЕРГИЯ: Зона отдыха ═══ -->
       <button class="map-hotspot map-hotspot-energy"
               data-zone="rest" id="hub-zone-rest"
-              style="left: 66%; top: 66%; width: 20%; height: 22%;">
-        <span class="hotspot-label">🛋️ Зона отдыха
-          <span class="hotspot-sublabel">+20% ⚡ (<span id="rest-uses">1 / 1</span>)</span>
+              style="left: 75%; top: 72%;">
+        <span class="hotspot-label" data-icon="🛋️">Зона отдыха
+          <span class="hotspot-sublabel">+20% ⚡ (<span id="rest-uses">1/1</span>)</span>
         </span>
       </button>
 
-      <!-- ═══ ФИНАЛ (появляется когда все главы пройдены) ═══ -->
+      <!-- ═══ ФИНАЛ ═══ -->
       <button class="map-hotspot map-hotspot-final hidden"
               data-zone="final" id="hub-zone-final"
-              style="left: 40%; top: 80%; width: 20%; height: 14%;">
-        <span class="hotspot-label">🏆 Подведение итогов</span>
+              style="left: 50%; top: 92%;">
+        <span class="hotspot-label" data-icon="🏆">Подведение итогов</span>
       </button>
 
     </div>
@@ -200,7 +195,7 @@
     </div>
   </div>
 
-</div><!-- конец m2-hub -->
+</div>
 
 
 <!-- ============================================================
