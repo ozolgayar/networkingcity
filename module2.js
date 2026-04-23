@@ -1844,7 +1844,6 @@ function showFinal() {
 function resetProgress() {
   localStorage.removeItem('m2_progress');
 
-  // Сбрасываем состояние
   m2State.energy             = 100;
   m2State.meets              = 0;
   m2State.completedChapters  = [];
@@ -1853,11 +1852,18 @@ function resetProgress() {
   m2State.currentChapterId   = null;
   m2State.currentSituationIdx = 0;
 
+  // Принудительно закрываем ВСЕ модалки
+  document.querySelectorAll('.m2-modal-overlay').forEach(m => {
+    m.classList.add('hidden');
+  });
+
   updateHUD();
   refreshHubZones();
   showM2Screen('m2-cover');
-}
 
+  // Перезагружаем страницу — гарантированно чистое состояние
+  setTimeout(() => location.reload(), 100);
+}
 
 /* ================================================================
    РАЗДЕЛ 10: ИНИЦИАЛИЗАЦИЯ
