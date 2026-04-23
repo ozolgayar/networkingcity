@@ -1818,7 +1818,8 @@ function showFinal() {
     `).join('');
   }
 
-  // Кнопка «Открыть блокнот» — через клонирование
+ // Кнопка «Открыть блокнот» — через клонирование, чтобы
+  // обработчики не накапливались при повторных входах в финал
   const notebookBtn = document.getElementById('btn-final-notebook');
   const newNotebookBtn = notebookBtn.cloneNode(true);
   notebookBtn.parentNode.replaceChild(newNotebookBtn, notebookBtn);
@@ -1827,7 +1828,7 @@ function showFinal() {
     openModal('modal-notebook');
   });
 
-  // Кнопка «Пройти ещё раз» — через клонирование + своя модалка
+  // Кнопка «Начать заново» — открывает модалку подтверждения
   const restartBtn = document.getElementById('btn-final-restart');
   const newRestartBtn = restartBtn.cloneNode(true);
   restartBtn.parentNode.replaceChild(newRestartBtn, restartBtn);
@@ -2023,11 +2024,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Нет данных М1 — ничего не делаем
   }
 
-  console.log(
-    '%c Модуль 2 загружен ✅',
-    'color:#a855f7; font-weight:bold; font-size:14px'
-  );
-/* ── Инициализируем хаб ──────────────────────────────────── */
+  /* ── Модалка подтверждения сброса ────────────────────────── */
+  document.getElementById('btn-restart-confirm-yes')
+    .addEventListener('click', function() {
+      closeModal('modal-restart-confirm');
+      resetProgress();
+    });
+
+  document.getElementById('btn-restart-confirm-no')
+    .addEventListener('click', function() {
+      closeModal('modal-restart-confirm');
+    });
+
+  /* ── Инициализация хаба ──────────────────────────────────── */
   initHub();
 
   console.log(
