@@ -543,36 +543,26 @@ body {
 
 
 /* Заголовок хаба */
-.hub-header {
-  padding: 14px 20px 8px;
-  text-align: center;
-  background: transparent;
-}
-
-.hub-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--m2-text);
-  margin-bottom: 2px;
-}
-
-.hub-subtitle {
-  font-size: 13px;
-  color: var(--m2-text-muted);
-}
 
 .hub-footer {
-  padding: 12px 20px;
+  padding: 10px 20px 12px;
   text-align: center;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
   border-top: 1px solid var(--m2-border);
 }
 
-.hub-footer-hint {
-  font-size: 13px;
+.hub-footer-title {
+  font-size: 15px;
+  font-weight: 800;
   color: var(--m2-text);
-  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.hub-footer-hint {
+  font-size: 12px;
+  color: var(--m2-text-muted);
+  font-weight: 500;
 }
 .hub-map-container {
   flex: 1;
