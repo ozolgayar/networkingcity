@@ -1747,29 +1747,25 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
     padding: 10px 12px;
     gap: 10px;
   }
-
   .hub-zone-icon {
     font-size: 24px;
     width: 36px;
   }
-
   .hub-zone-label {
-    font-size: 13px;     /* было 9px — нечитаемо */
+    font-size: 13px;
   }
-
   .hub-zone-chapter {
-    font-size: 10px;     /* оставляем видимым */
-    display: block;      /* было display:none */
+    font-size: 10px;
+    display: block;
   }
-
   .hub-zone-npc {
     font-size: 10px;
   }
-
   .hub-zone-arrow {
     font-size: 12px;
   }
 
+   
   /* Модалки на мобиле */
   .m2-modal {
     border-radius: var(--m2-radius);
