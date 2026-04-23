@@ -1961,8 +1961,8 @@ document.addEventListener('DOMContentLoaded', function() {
       closeModal('modal-artifact');
     });
 
-  /* ── Кнопка «Отмена» в модалке подсказки ────────────────── */
-  document.getElementById('btn-cancel-hint')
+/* ── Кнопка «Отмена» в модалке подсказки ────────────────── */
+document.getElementById('btn-cancel-hint')
     .addEventListener('click', function() {
       closeModal('modal-hint-confirm');
     });
