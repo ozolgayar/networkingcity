@@ -569,8 +569,8 @@ body {
   overflow: auto;
   padding: 16px;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: center;   /* центр по горизонтали */
+  align-items: center;       /* ← БЫЛО flex-start, теперь center — центр по вертикали */
   background: transparent;
 }
 
@@ -1731,9 +1731,9 @@ background: transparent;
   overflow: auto;
   padding: 16px;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background: transparent;   /* виден общий градиент body */
+  justify-content: center;   /* центр по горизонтали */
+  align-items: center;       /* ← БЫЛО flex-start, теперь center — центр по вертикали */
+  background: transparent;
 }
 
 /* Обёртка изображения */
