@@ -243,7 +243,9 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
    5. ЭКРАН: ОБЛОЖКА (m2-cover)
    ---------------------------------------------------------------- */
 .m2-screen#m2-cover {
-  background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.25) 0%, var(--m2-bg) 70%);
+  background: radial-gradient(ellipse at 50% 0%,
+                              rgba(168,85,247,0.25) 0%,
+                              var(--m2-bg) 70%);
   justify-content: center;
   align-items: center;
 }
@@ -259,7 +261,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   gap: 16px;
 }
 
-/* Бейдж «Модуль 1 пройден» — ссылка на прошлый прогресс */
+/* Бейдж «Модуль 1 пройден» */
 .cover-m1-badge {
   font-size: 12px;
   color: var(--m2-text-muted);
@@ -272,7 +274,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   display: none;
 }
 
-/* Аватар Златы на обложке */
+/* Аватар Златы */
 .cover-avatar {
   position: relative;
   width: 120px;
@@ -283,12 +285,13 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   margin: 8px 0;
 }
 
-/* Свечение вокруг аватара */
 .cover-avatar-glow {
   position: absolute;
   inset: -10px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(168,85,247,0.45) 0%, transparent 70%);
+  background: radial-gradient(circle,
+                              rgba(168,85,247,0.45) 0%,
+                              transparent 70%);
   filter: blur(14px);
   z-index: 0;
   animation: m2CoverGlow 3s ease-in-out infinite;
@@ -299,7 +302,6 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   50%       { opacity: 1;   transform: scale(1.08); }
 }
 
-/* Сам круг с эмодзи */
 .cover-avatar-icon {
   position: relative;
   z-index: 1;
@@ -315,7 +317,6 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   line-height: 1;
 }
 
-/* Заголовок и подзаголовок */
 .cover-title {
   font-size: 36px;
   font-weight: 800;
@@ -332,7 +333,6 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   line-height: 1.6;
 }
 
-/* Имя игрока из Модуля 1 */
 .cover-player-name {
   font-size: 13px;
   font-weight: 600;
@@ -345,7 +345,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   display: none;
 }
 
-/* Превью глав — горизонтальный ряд «пилюль» */
+/* Превью глав — ряд пилюль */
 .cover-chapters-preview {
   display: flex;
   flex-wrap: wrap;
@@ -383,7 +383,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   width: 100%;
 }
 
-/* Обёртка аватара Златы в интро */
+/* Аватар Златы в интро */
 .intro-avatar-wrap {
   position: relative;
   width: 100px;
@@ -393,17 +393,17 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   justify-content: center;
 }
 
-/* Свечение вокруг аватара */
 .intro-avatar-glow {
   position: absolute;
   inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, transparent 70%);
+  background: radial-gradient(circle,
+                              rgba(168,85,247,0.4) 0%,
+                              transparent 70%);
   filter: blur(12px);
   z-index: 0;
 }
 
-/* Круг-аватар с эмодзи */
 .intro-avatar-icon {
   position: relative;
   z-index: 1;
@@ -453,7 +453,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   margin-top: 8px;
 }
 
-/* Стрелка пузыря вверх — внешняя рамка */
+/* Стрелка пузыря вверх — рамка */
 .intro-bubble::before {
   content: '';
   position: absolute;
@@ -465,7 +465,7 @@ input, textarea, .dialog-scene-text, .m2-modal-body {
   border-top: none;
 }
 
-/* Стрелка пузыря вверх — внутренняя заливка */
+/* Стрелка пузыря вверх — заливка */
 .intro-bubble::after {
   content: '';
   position: absolute;
