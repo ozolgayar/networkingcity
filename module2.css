@@ -47,13 +47,7 @@
   --m2-answer-wrong:    #ef4444;
   --m2-answer-partial:  #f59e0b;
 
-  /* ═══ Цвета зон хаба ═══ */
-  --m2-zone-playable: rgba(14, 165, 233, 0.12);
-  --m2-zone-energy:   rgba(16, 185, 129, 0.12);
-  --m2-zone-trap:     rgba(239, 68, 68, 0.10);
-  --m2-zone-deco:     rgba(148, 163, 184, 0.08);
-  --m2-zone-final:    rgba(251, 191, 36, 0.18);
-
+ 
   /* ═══ Размеры ═══ */
   --m2-radius:      14px;
   --m2-radius-sm:   8px;
@@ -518,8 +512,8 @@ body {
 }
 
 /* ----------------------------------------------------------------
-   7. ЭКРАН: ХАБ (m2-hub)
-   Список зон — вертикальная прокрутка, без абсолютного позиционирования
+   7. ЭКРАН: ХАБ (m2-hub) — заголовок и футер
+   (Сама карта теперь в секции "НОВАЯ КАРТА ХАБА" внизу файла)
    ---------------------------------------------------------------- */
 .m2-screen#m2-hub {
   background: #0d1526;
@@ -547,203 +541,6 @@ body {
   margin-top: 2px;
 }
 
-/* Карта — вертикальный список */
-.hub-map {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px 16px;
-  flex: 1;
-}
-
-/* -------
-   Зона хаба — базовый стиль
-   Горизонтальная карточка: иконка + текст + стрелка
-   ------- */
-.hub-zone {
-  position: relative;          /* убираем absolute */
-  display: flex;
-  flex-direction: row;         /* горизонтально */
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: var(--m2-radius);
-  border: 1.5px solid transparent;
-  cursor: default;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-  width: 100%;                 /* растянуть на всю ширину */
-  text-align: left;
-}
-
-/* Иконка зоны */
-.hub-zone-icon {
-  font-size: 28px;
-  line-height: 1;
-  flex-shrink: 0;
-  width: 40px;
-  text-align: center;
-}
-
-/* Текстовый блок */
-.hub-zone-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.hub-zone-label {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--m2-text);
-  line-height: 1.3;
-}
-
-.hub-zone-chapter {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--m2-primary);
-  line-height: 1.3;
-  margin-top: 1px;
-}
-
-.hub-zone-npc {
-  font-size: 11px;
-  color: var(--m2-text-muted);
-  line-height: 1.3;
-  margin-top: 1px;
-}
-
-/* Стрелка / значок справа */
-.hub-zone-arrow {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--m2-text-muted);
-  flex-shrink: 0;
-}
-
-/* Бейдж «завершено» */
-.hub-zone-done {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 16px;
-}
-
-/* -------
-   Типы зон
-   ------- */
-
-/* Играбельные (главы) */
-.hub-zone-playable {
-  background: var(--m2-zone-playable);
-  border-color: rgba(168,85,247,0.3);
-  cursor: pointer;
-}
-
-.hub-zone-playable:hover {
-  transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(168,85,247,0.25);
-  border-color: rgba(168,85,247,0.6);
-}
-
-/* Активная (следующая доступная) */
-.hub-zone-playable.hub-zone-active {
-  border-color: var(--m2-primary);
-  box-shadow: 0 0 0 0 rgba(168,85,247,0.4);
-  animation: m2HubPulse 2s ease-in-out infinite;
-}
-
-/* Пройденная */
-.hub-zone-playable.hub-zone-completed {
-  background: rgba(34,197,94,0.08);
-  border-color: rgba(34,197,94,0.35);
-  opacity: 0.75;
-  cursor: default;
-}
-
-.hub-zone-playable.hub-zone-completed .hub-zone-arrow {
-  color: var(--m2-success);
-}
-
-/* Заблокированная */
-.hub-zone-playable.hub-zone-locked {
-  opacity: 0.35;
-  cursor: not-allowed;
-  filter: grayscale(0.7);
-}
-
-/* Энергетические зоны */
-.hub-zone-energy {
-  background: var(--m2-zone-energy);
-  border-color: rgba(34,197,94,0.25);
-  cursor: pointer;
-}
-
-.hub-zone-energy:hover {
-  transform: translateX(4px);
-  box-shadow: 0 4px 16px rgba(34,197,94,0.2);
-  border-color: var(--m2-success);
-}
-
-.hub-zone-energy .hub-zone-arrow {
-  color: var(--m2-success);
-  font-weight: 800;
-}
-
-.hub-zone-energy.hub-zone-depleted {
-  opacity: 0.35;
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
-.hub-zone-energy.hub-zone-depleted:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* Ловушки */
-.hub-zone-trap {
-  background: var(--m2-zone-trap);
-  border-color: rgba(239,68,68,0.2);
-  cursor: pointer;
-}
-
-.hub-zone-trap:hover {
-  border-color: rgba(239,68,68,0.5);
-  transform: translateX(4px);
-}
-
-.hub-zone-trap .hub-zone-label {
-  color: var(--m2-danger);
-}
-
-.hub-zone-trap .hub-zone-arrow {
-  color: var(--m2-danger);
-}
-
-/* Финальная зона */
-.hub-zone-final {
-  background: var(--m2-zone-final);
-  border-color: rgba(251,191,36,0.4);
-  cursor: pointer;
-  animation: m2HubPulseGold 2s ease-in-out infinite;
-}
-
-.hub-zone-final .hub-zone-label {
-  color: #fbbf24;
-}
-
-.hub-zone-final .hub-zone-arrow {
-  font-size: 20px;
-}
-
-/* Визуальный разделитель между группами зон */
-.hub-zone-divider {
-  height: 1px;
-  background: var(--m2-border);
-  margin: 2px 0;
-  opacity: 0.5;
-}
-
 /* Подсказка в подвале */
 .hub-footer {
   padding: 10px 16px 16px;
@@ -759,17 +556,6 @@ body {
   border: 1px solid var(--m2-border);
   padding: 6px 14px;
   border-radius: 999px;
-}
-
-/* Анимации пульсации */
-@keyframes m2HubPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(168,85,247,0); }
-}
-
-@keyframes m2HubPulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.3); }
-  50%       { box-shadow: 0 0 0 10px rgba(251,191,36,0); }
 }
 
 /* ----------------------------------------------------------------
@@ -1750,31 +1536,7 @@ body {
     font-size: 11px;
   }
 
-  /* Хаб — на мобиле уменьшаем подписи */
- /* Хаб — на мобиле компактнее, но читаемо */
-  .hub-zone {
-    padding: 10px 12px;
-    gap: 10px;
-  }
-  .hub-zone-icon {
-    font-size: 24px;
-    width: 36px;
-  }
-  .hub-zone-label {
-    font-size: 13px;
-  }
-  .hub-zone-chapter {
-    font-size: 10px;
-    display: block;
-  }
-  .hub-zone-npc {
-    font-size: 10px;
-  }
-  .hub-zone-arrow {
-    font-size: 12px;
-  }
 
-   
   /* Модалки на мобиле */
   .m2-modal {
     border-radius: var(--m2-radius);
@@ -1824,9 +1586,6 @@ body {
     text-align: left;
   }
 
-  .hub-map {
-    height: calc(100vh - var(--m2-hud-height) - 60px);
-  }
 }
 
 /* ----------------------------------------------------------------
