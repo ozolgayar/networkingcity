@@ -843,10 +843,11 @@ body {
 
 /* Панель реакции NPC */
 .dialog-reaction {
-  padding: 14px 16px;
+padding: 16px 18px;
   border-radius: 12px;
-  background: #f8fafc;
-  border: 1px solid rgba(15, 36, 72, 0.1);
+  background: #ffffff;                        /* было #f8fafc — теперь чистый белый */
+  border: 1px solid rgba(15, 36, 72, 0.15);   /* чуть темнее рамка */
+  box-shadow: 0 2px 8px rgba(15, 36, 72, 0.06);
   display: flex;
   flex-direction: column;
   gap: 10px;
