@@ -102,130 +102,94 @@
     <div class="hub-subtitle">Выбери зону для знакомства</div>
   </div>
 
-  <div class="hub-map" id="hub-map">
+  <!-- Контейнер с картинкой и кликабельными хотспотами -->
+  <div class="hub-map-container">
+    <div class="hub-map-image" id="hub-map">
 
-    <div class="hub-zone hub-zone-playable hub-zone-active"
-         data-zone="chapter1" id="hub-zone-chapter1">
-      <div class="hub-zone-done hidden" id="zone-done-chapter1">✅</div>
-      <div class="hub-zone-icon">☕</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Кофейная стойка</div>
-        <div class="hub-zone-chapter">Первое впечатление</div>
-        <div class="hub-zone-npc">Андрей · Мед. советник</div>
-      </div>
-      <div class="hub-zone-arrow">→</div>
+      <!-- Фоновое изображение карты -->
+      <img src="img/conference-map.jpg" alt="Карта конференции" class="hub-map-bg">
+
+      <!-- ═══ ГЛАВА 1: Кофейная стойка ═══ -->
+      <button class="map-hotspot map-hotspot-chapter"
+              data-zone="chapter1" id="hub-zone-chapter1"
+              style="left: 24%; top: 20%; width: 14%; height: 12%;">
+        <span class="hotspot-badge" id="zone-done-chapter1">✅</span>
+        <span class="hotspot-label">☕ Кофейная стойка</span>
+      </button>
+
+      <!-- ═══ ГЛАВА 2: Стол с напитками ═══ -->
+      <button class="map-hotspot map-hotspot-chapter"
+              data-zone="chapter2" id="hub-zone-chapter2"
+              style="left: 10%; top: 36%; width: 14%; height: 14%;">
+        <span class="hotspot-badge" id="zone-done-chapter2">✅</span>
+        <span class="hotspot-label">🥤 Стол с напитками</span>
+      </button>
+
+      <!-- ═══ ГЛАВА 3: Буфет ═══ -->
+      <button class="map-hotspot map-hotspot-chapter"
+              data-zone="chapter3" id="hub-zone-chapter3"
+              style="left: 32%; top: 26%; width: 12%; height: 12%;">
+        <span class="hotspot-badge" id="zone-done-chapter3">✅</span>
+        <span class="hotspot-label">🍽️ Буфет</span>
+      </button>
+
+      <!-- ═══ ГЛАВА 4: Сцена ═══ -->
+      <button class="map-hotspot map-hotspot-chapter"
+              data-zone="chapter4" id="hub-zone-chapter4"
+              style="left: 58%; top: 14%; width: 12%; height: 14%;">
+        <span class="hotspot-badge" id="zone-done-chapter4">✅</span>
+        <span class="hotspot-label">🎭 Сцена</span>
+      </button>
+
+      <!-- ═══ ГЛАВА 5: Зал конференции ═══ -->
+      <button class="map-hotspot map-hotspot-chapter"
+              data-zone="chapter5" id="hub-zone-chapter5"
+              style="left: 76%; top: 20%; width: 16%; height: 18%;">
+        <span class="hotspot-badge" id="zone-done-chapter5">✅</span>
+        <span class="hotspot-label">🎤 Зал конференции</span>
+      </button>
+
+      <!-- ═══ ЛОВУШКА: Туалет ═══ -->
+      <button class="map-hotspot map-hotspot-trap"
+              data-zone="toilet"
+              style="left: 42%; top: 4%; width: 12%; height: 14%;">
+        <span class="hotspot-label">🚻 Туалет</span>
+      </button>
+
+      <!-- ═══ ЛОВУШКА: Старый знакомый ═══ -->
+      <button class="map-hotspot map-hotspot-trap"
+              data-zone="oldFriend"
+              style="left: 46%; top: 46%; width: 12%; height: 18%;">
+        <span class="hotspot-label">👋 Старый знакомый</span>
+      </button>
+
+      <!-- ═══ ЭНЕРГИЯ: Стол с закусками (+30%) ═══ -->
+      <button class="map-hotspot map-hotspot-energy"
+              data-zone="refuel" id="hub-zone-refuel"
+              style="left: 14%; top: 56%; width: 18%; height: 14%;">
+        <span class="hotspot-label">🥪 Стол с закусками
+          <span class="hotspot-sublabel">+30% ⚡ (<span id="refuel-uses">2 / 2</span>)</span>
+        </span>
+      </button>
+
+      <!-- ═══ ЭНЕРГИЯ: Зона отдыха (+20%) ═══ -->
+      <button class="map-hotspot map-hotspot-energy"
+              data-zone="rest" id="hub-zone-rest"
+              style="left: 66%; top: 66%; width: 20%; height: 22%;">
+        <span class="hotspot-label">🛋️ Зона отдыха
+          <span class="hotspot-sublabel">+20% ⚡ (<span id="rest-uses">1 / 1</span>)</span>
+        </span>
+      </button>
+
+      <!-- ═══ ФИНАЛ (появляется когда все главы пройдены) ═══ -->
+      <button class="map-hotspot map-hotspot-final hidden"
+              data-zone="final" id="hub-zone-final"
+              style="left: 40%; top: 80%; width: 20%; height: 14%;">
+        <span class="hotspot-label">🏆 Подведение итогов</span>
+      </button>
+
     </div>
-
-    <div class="hub-zone hub-zone-playable hub-zone-locked"
-         data-zone="chapter2" id="hub-zone-chapter2">
-      <div class="hub-zone-done hidden" id="zone-done-chapter2">✅</div>
-      <div class="hub-zone-icon">🥤</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Стол с напитками</div>
-        <div class="hub-zone-chapter">Самопрезентация</div>
-        <div class="hub-zone-npc">Мария · HR-директор</div>
-      </div>
-      <div class="hub-zone-arrow">🔒</div>
-    </div>
-
-    <div class="hub-zone-divider"></div>
-
-    <div class="hub-zone hub-zone-trap" data-zone="toilet">
-      <div class="hub-zone-icon">🚻</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Туалет</div>
-        <div class="hub-zone-chapter">Осторожно!</div>
-        <div class="hub-zone-npc">Потеря времени</div>
-      </div>
-      <div class="hub-zone-arrow">-10% ⚡</div>
-    </div>
-
-    <div class="hub-zone hub-zone-playable hub-zone-locked"
-         data-zone="chapter3" id="hub-zone-chapter3">
-      <div class="hub-zone-done hidden" id="zone-done-chapter3">✅</div>
-      <div class="hub-zone-icon">🍽️</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Буфет</div>
-        <div class="hub-zone-chapter">Small talk</div>
-        <div class="hub-zone-npc">Денис · Инв. аналитик</div>
-      </div>
-      <div class="hub-zone-arrow">🔒</div>
-    </div>
-
-    <div class="hub-zone-divider"></div>
-
-    <div class="hub-zone hub-zone-energy"
-         data-zone="refuel" id="hub-zone-refuel">
-      <div class="hub-zone-icon">🥪</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Стол с едой</div>
-        <div class="hub-zone-chapter">Восстановить энергию</div>
-        <div class="hub-zone-npc">Осталось: <span id="refuel-uses">2 / 2</span></div>
-      </div>
-      <div class="hub-zone-arrow">+30% ⚡</div>
-    </div>
-
-    <div class="hub-zone hub-zone-trap" data-zone="oldFriend">
-      <div class="hub-zone-icon">👋</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Старый знакомый</div>
-        <div class="hub-zone-chapter">Осторожно!</div>
-        <div class="hub-zone-npc">Застрянешь надолго</div>
-      </div>
-      <div class="hub-zone-arrow">-15% ⚡</div>
-    </div>
-
-    <div class="hub-zone-divider"></div>
-
-    <div class="hub-zone hub-zone-playable hub-zone-locked"
-         data-zone="chapter4" id="hub-zone-chapter4">
-      <div class="hub-zone-done hidden" id="zone-done-chapter4">✅</div>
-      <div class="hub-zone-icon">🎭</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">У сцены</div>
-        <div class="hub-zone-chapter">Быть запоминающимся</div>
-        <div class="hub-zone-npc">Анна · Основатель стартапа</div>
-      </div>
-      <div class="hub-zone-arrow">🔒</div>
-    </div>
-
-    <div class="hub-zone hub-zone-energy"
-         data-zone="rest" id="hub-zone-rest">
-      <div class="hub-zone-icon">🛋️</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Зона отдыха</div>
-        <div class="hub-zone-chapter">Восстановить энергию</div>
-        <div class="hub-zone-npc">Осталось: <span id="rest-uses">1 / 1</span></div>
-      </div>
-      <div class="hub-zone-arrow">+20% ⚡</div>
-    </div>
-
-    <div class="hub-zone-divider"></div>
-
-    <div class="hub-zone hub-zone-playable hub-zone-locked"
-         data-zone="chapter5" id="hub-zone-chapter5">
-      <div class="hub-zone-done hidden" id="zone-done-chapter5">✅</div>
-      <div class="hub-zone-icon">🌿</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Лаунж-зона</div>
-        <div class="hub-zone-chapter">Длительные отношения</div>
-        <div class="hub-zone-npc">Игорь · Партнёр консалтинга</div>
-      </div>
-      <div class="hub-zone-arrow">🔒</div>
-    </div>
-
-    <div class="hub-zone hub-zone-final hidden"
-         data-zone="final" id="hub-zone-final">
-      <div class="hub-zone-icon">🏆</div>
-      <div class="hub-zone-info">
-        <div class="hub-zone-label">Подведение итогов</div>
-        <div class="hub-zone-chapter">Финал модуля</div>
-        <div class="hub-zone-npc">Все главы пройдены!</div>
-      </div>
-      <div class="hub-zone-arrow">🎉</div>
-    </div>
-
-  </div><!-- конец hub-map -->
+  </div>
 
   <div class="hub-footer">
     <div class="hub-footer-hint" id="hub-footer-hint">
