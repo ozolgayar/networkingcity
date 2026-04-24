@@ -579,85 +579,85 @@ body {
    8. ЭКРАН: ДИАЛОГ (m2-dialog)
    Основной игровой экран — как в The Sims
    ---------------------------------------------------------------- */
-/* ================================================================
-   ФОН ДИАЛОГА ПО ПЕРСОНАЖУ
-   ================================================================ */
-
 .m2-screen#m2-dialog {
-  position: relative;
-  isolation: isolate;
   background: transparent;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 24px;
+  overflow-y: auto;
+}
 
+/* Шапку прижимаем к верху карточки, но всю группу центрируем */
+.m2-screen#m2-dialog .dialog-header {
+  margin-top: auto;                 /* отжимает шапку вниз от верха */
+}
+
+.m2-screen#m2-dialog .dialog-answers-zone {
+  margin-bottom: auto;              /* отжимает зону ответов вверх от низа */
+}
+
+/* ─── Шапка диалога (тема + счётчик) ─── */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 640px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.08);
+  gap: 8px;
+  flex-shrink: 0;
+  margin-bottom: 14px;
+}
+
+.dialog-theme-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0284c7;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(14, 165, 233, 0.12);
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.dialog-situation-counter {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* ─── КАРТОЧКА с NPC и ответами ─── */
+.dialog-npc-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  padding: 24px 22px 18px;
 
-  min-height: 100vh;
-  padding: 88px 16px 24px;
-
-  overflow: hidden;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-radius: 20px 20px 0 0;     /* верхние углы; низ клеится к ответам */
+  box-shadow: 0 8px 24px rgba(15, 36, 72, 0.1);
+  flex-shrink: 0;
+  max-height: none;
+  border-bottom: none;
 }
-
-/* Убираем старую механику "расталкивания" */
-.m2-screen#m2-dialog .dialog-header,
-.m2-screen#m2-dialog .dialog-answers-zone {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/* Фон-картинка — фиксирован относительно экрана диалога */
-.m2-screen#m2-dialog::before {
-  content: '';
-  position: fixed;      /* ← было absolute, теперь fixed */
-  inset: 0;
-  z-index: 0;
-
-  background-image: var(--m2-dialog-bg, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  /* Убираем scale — он создавал обрезку */
-  filter: blur(10px);
-  opacity: 0.9;
-
-  /* Компенсируем blur по краям */
-  margin: -20px;
-  inset: -20px;
-}
-
-/* Затемнение поверх фона */
-.m2-screen#m2-dialog::after {
-  content: '';
-  position: fixed;      /* ← тоже fixed */
-  inset: 0;
-  z-index: 0;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0.58) 35%,
-      rgba(255, 255, 255, 0.75) 100%
-    );
-}
-
-/* Весь контент диалога поверх фона */
-.m2-screen#m2-dialog > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Карточки — стекло поверх фона */
-.dialog-npc-zone,
-.dialog-answers-zone,
-.dialog-header {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
 
 /* Обёртка аватара */
 .dialog-npc-avatar-wrap {
@@ -1960,19 +1960,15 @@ white-space: pre-line;
     padding: 14px 12px 20px;
   }
 
- .dialog-header {
-  width: 100%;
-  max-width: 520px;
-  margin-bottom: 12px;
-}
+  .dialog-header {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+  }
 
-
- .dialog-npc-zone {
-  width: 100%;
-  max-width: 520px;
-  margin: 0;
-  padding: 20px 18px 14px;
-}
+  .dialog-npc-zone {
+    padding: 18px 16px 14px;
+    border-radius: 16px 16px 0 0;
+  }
 
   .dialog-npc-avatar {
     width: 80px;
@@ -1989,14 +1985,11 @@ white-space: pre-line;
     padding: 10px 12px;
   }
 
- .dialog-answers-zone {
-  width: 100%;
-  max-width: 520px;
-  margin: 0;
-  padding: 12px 18px 18px;
-  overflow: hidden;
-}
-
+  .dialog-answers-zone {
+    padding: 12px 16px 18px;
+    border-radius: 0 0 16px 16px;
+    gap: 8px;
+  }
 
   .dialog-question { font-size: 13.5px; }
 
@@ -2004,18 +1997,7 @@ white-space: pre-line;
     padding: 11px 12px;
     font-size: 13px;
     gap: 10px;
-     width: 100%;
   }
-
-/* Чтобы текст не выпирал и не ломал ширину */
-.dialog-option-text,
-.dialog-question,
-.dialog-scene-text,
-.dialog-reaction-text {
-  min-width: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
 
   .dialog-option-letter {
     width: 24px;
@@ -2128,37 +2110,4 @@ white-space: pre-line;
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-}
-.dialog-header,
-  .dialog-npc-zone,
-  .dialog-answers-zone {
-    max-width: 100%;
-  }
-
-  .dialog-header {
-    margin-bottom: 10px;
-    padding: 8px 12px;
-  }
-
-  .dialog-npc-zone {
-    padding: 16px 14px 12px;
-    border-radius: 16px 16px 0 0;
-  }
-
-  .dialog-answers-zone {
-    padding: 12px 14px 16px;
-    border-radius: 0 0 16px 16px;
-    gap: 8px;
-  }
-
-  .dialog-option {
-    padding: 10px 12px;
-    font-size: 13px;
-    gap: 10px;
-  }
-
-  .dialog-hint-btn {
-    width: 100%;
-    min-width: 0;
-  }
 }
