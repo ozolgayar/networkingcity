@@ -579,85 +579,76 @@ body {
    8. ЭКРАН: ДИАЛОГ (m2-dialog)
    Основной игровой экран — как в The Sims
    ---------------------------------------------------------------- */
+/* ================================================================
+   ФОН ДИАЛОГА ПО ПЕРСОНАЖУ
+   ================================================================ */
+
 .m2-screen#m2-dialog {
+  position: relative;
+  isolation: isolate;
   background: transparent;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 16px 24px;
+
+  /* Убираем overflow-y: auto — фон должен быть зафиксирован,
+     а скролл делается через внутренний враппер */
   overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Растягиваем на всю высоту контейнера */
+  min-height: 100%;
 }
 
-/* Шапку прижимаем к верху карточки, но всю группу центрируем */
-.m2-screen#m2-dialog .dialog-header {
-  margin-top: auto;                 /* отжимает шапку вниз от верха */
+/* Фон-картинка — фиксирован относительно экрана диалога */
+.m2-screen#m2-dialog::before {
+  content: '';
+  position: fixed;      /* ← было absolute, теперь fixed */
+  inset: 0;
+  z-index: 0;
+
+  background-image: var(--m2-dialog-bg, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Убираем scale — он создавал обрезку */
+  filter: blur(10px);
+  opacity: 0.9;
+
+  /* Компенсируем blur по краям */
+  margin: -20px;
+  inset: -20px;
 }
 
-.m2-screen#m2-dialog .dialog-answers-zone {
-  margin-bottom: auto;              /* отжимает зону ответов вверх от низа */
+/* Затемнение поверх фона */
+.m2-screen#m2-dialog::after {
+  content: '';
+  position: fixed;      /* ← тоже fixed */
+  inset: 0;
+  z-index: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.58) 35%,
+      rgba(255, 255, 255, 0.75) 100%
+    );
 }
 
-/* ─── Шапка диалога (тема + счётчик) ─── */
+/* Весь контент диалога поверх фона */
+.m2-screen#m2-dialog > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Карточки — стекло поверх фона */
+.dialog-npc-zone,
+.dialog-answers-zone,
 .dialog-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 640px;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(15, 36, 72, 0.1);
-  border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.08);
-  gap: 8px;
-  flex-shrink: 0;
-  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-.dialog-theme-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #0284c7;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: rgba(14, 165, 233, 0.12);
-  padding: 4px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(14, 165, 233, 0.25);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 60%;
-}
-
-.dialog-situation-counter {
-  font-size: 12px;
-  font-weight: 600;
-  color: #64748b;
-  white-space: nowrap;
-}
-
-/* ─── КАРТОЧКА с NPC и ответами ─── */
-.dialog-npc-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 640px;
-  padding: 24px 22px 18px;
-
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(15, 36, 72, 0.1);
-  border-radius: 20px 20px 0 0;     /* верхние углы; низ клеится к ответам */
-  box-shadow: 0 8px 24px rgba(15, 36, 72, 0.1);
-  flex-shrink: 0;
-  max-height: none;
-  border-bottom: none;
-}
 
 /* Обёртка аватара */
 .dialog-npc-avatar-wrap {
