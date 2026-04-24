@@ -588,13 +588,22 @@ body {
   isolation: isolate;
   background: transparent;
 
-  /* Убираем overflow-y: auto — фон должен быть зафиксирован,
-     а скролл делается через внутренний враппер */
-  overflow-y: auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  /* Растягиваем на всю высоту контейнера */
-  min-height: 100%;
+  min-height: 100vh;
+  padding: 88px 16px 24px;
+
+  overflow: hidden;
+}
+
+/* Убираем старую механику "расталкивания" */
+.m2-screen#m2-dialog .dialog-header,
+.m2-screen#m2-dialog .dialog-answers-zone {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Фон-картинка — фиксирован относительно экрана диалога */
@@ -1951,15 +1960,19 @@ white-space: pre-line;
     padding: 14px 12px 20px;
   }
 
-  .dialog-header {
-    margin-bottom: 10px;
-    padding: 8px 12px;
-  }
+ .dialog-header {
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 12px;
+}
 
-  .dialog-npc-zone {
-    padding: 18px 16px 14px;
-    border-radius: 16px 16px 0 0;
-  }
+
+ .dialog-npc-zone {
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
+  padding: 20px 18px 14px;
+}
 
   .dialog-npc-avatar {
     width: 80px;
@@ -1976,11 +1989,14 @@ white-space: pre-line;
     padding: 10px 12px;
   }
 
-  .dialog-answers-zone {
-    padding: 12px 16px 18px;
-    border-radius: 0 0 16px 16px;
-    gap: 8px;
-  }
+ .dialog-answers-zone {
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
+  padding: 12px 18px 18px;
+  overflow: hidden;
+}
+
 
   .dialog-question { font-size: 13.5px; }
 
@@ -1988,7 +2004,18 @@ white-space: pre-line;
     padding: 11px 12px;
     font-size: 13px;
     gap: 10px;
+     width: 100%;
   }
+
+/* Чтобы текст не выпирал и не ломал ширину */
+.dialog-option-text,
+.dialog-question,
+.dialog-scene-text,
+.dialog-reaction-text {
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
 
   .dialog-option-letter {
     width: 24px;
@@ -2101,4 +2128,37 @@ white-space: pre-line;
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+}
+.dialog-header,
+  .dialog-npc-zone,
+  .dialog-answers-zone {
+    max-width: 100%;
+  }
+
+  .dialog-header {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+  }
+
+  .dialog-npc-zone {
+    padding: 16px 14px 12px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .dialog-answers-zone {
+    padding: 12px 14px 16px;
+    border-radius: 0 0 16px 16px;
+    gap: 8px;
+  }
+
+  .dialog-option {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 10px;
+  }
+
+  .dialog-hint-btn {
+    width: 100%;
+    min-width: 0;
+  }
 }
