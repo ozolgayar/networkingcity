@@ -61,8 +61,7 @@ const CHAPTERS = {
     npc: {
       name:  'Андрей',
       role:  'Медицинский советник',
-      icon:  '🧑‍⚕️',
-      // photo: 'img/npc-andrey.jpg'  // раскомментируй когда будет фото
+      photo: 'https://i.ibb.co/TDST1Lqg/image.png'
     },
 
     // Ситуации (сцены) в этой главе
@@ -246,7 +245,7 @@ const CHAPTERS = {
     npc: {
       name: 'Мария',
       role: 'HR-директор',
-      icon: '👩‍💼',
+ photo: 'https://i.ibb.co/yn4gRmYH/image.png'
     },
 
     situations: [
@@ -369,7 +368,7 @@ const CHAPTERS = {
     npc: {
       name: 'Денис',
       role: 'Инвестиционный аналитик',
-      icon: '👨‍💻',
+      photo: 'https://i.ibb.co/RGdV0tqD/image.png'
     },
 
     situations: [
@@ -558,7 +557,7 @@ const CHAPTERS = {
     npc: {
       name: 'Анна',
       role: 'Основатель стартапа',
-      icon: '👩‍🚀',
+      photo: 'https://i.ibb.co/N2fcb2zj/image.png'
     },
 
     situations: [
@@ -787,6 +786,7 @@ const CHAPTERS = {
     npc: {
       name: 'Игорь',
       role: 'Партнёр консалтинговой фирмы',
+       photo: 'https://i.ibb.co/NQgDJNQ/image.png'
     },
 
     situations: [
