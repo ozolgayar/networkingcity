@@ -56,6 +56,7 @@ const CHAPTERS = {
     id:          'chapter1',
     theme:       'Первое впечатление',
     showCounter: true,   // показывать «Ситуация X / N»
+     dialogBg: 'https://i.ibb.co/pSzc2F4/1.jpg',
 
     // Данные персонажа
     npc: {
@@ -241,6 +242,7 @@ const CHAPTERS = {
     id:          'chapter2',
     theme:       'Самопрезентация',
     showCounter: true,
+      dialogBg: 'https://i.ibb.co/m56qxbJg/2.jpg',
 
     npc: {
       name: 'Мария',
@@ -364,6 +366,8 @@ const CHAPTERS = {
     id:          'chapter3',
     theme:       'Small talk',
     showCounter: true,
+      dialogBg: 'https://i.ibb.co/ynbQgS97/3.jpg',
+
 
     npc: {
       name: 'Денис',
@@ -553,6 +557,8 @@ const CHAPTERS = {
     id:          'chapter4',
     theme:       'Как быть запоминающимся',
     showCounter: true,
+     dialogBg: 'https://i.ibb.co/0V2Ssq9D/4.jpg',
+
 
     npc: {
       name: 'Анна',
@@ -782,7 +788,8 @@ const CHAPTERS = {
     id:          'chapter5',
     theme:       'Длительные отношения',
     showCounter: false,
-
+ dialogBg: 'https://i.ibb.co/YFmgd06d/5.jpg',
+     
     npc: {
       name: 'Игорь',
       role: 'Партнёр консалтинговой фирмы',
@@ -1501,6 +1508,15 @@ function startChapter(chapterId) {
 function showSituation(chapter, idx) {
   const situation = chapter.situations[idx];
   if (!situation) return;
+   
+   const dialogScreen = document.getElementById('m2-dialog');
+  if (dialogScreen) {
+    if (chapter.dialogBg) {
+      dialogScreen.style.setProperty('--m2-dialog-bg', `url("${chapter.dialogBg}")`);
+    } else {
+      dialogScreen.style.setProperty('--m2-dialog-bg', 'none');
+    }
+  }
 
   // Сбрасываем флаг подсказки
   m2State.hintUsedInSituation = false;
