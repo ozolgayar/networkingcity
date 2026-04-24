@@ -1395,7 +1395,7 @@ function refreshHubZones() {
     if (allDone) {
       hint.textContent = 'Все главы пройдены! Жми «Подведение итогов» 🏆';
     } else {
-      hint.textContent = 'Кликай по подписям на карте, чтобы подойти к людям ☕';
+      hint.textContent = 'Кликай по подписям на карте, чтобы подойти к людям';
     }
   }
 }
