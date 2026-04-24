@@ -2104,3 +2104,10 @@ white-space: pre-line;
   position: relative;
   z-index: 1;
 }
+.dialog-npc-zone,
+.dialog-answers-zone,
+.dialog-header {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
