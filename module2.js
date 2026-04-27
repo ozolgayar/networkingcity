@@ -41,7 +41,8 @@
        ...
      ]
    }
-   
+   ================================================================ */
+
 
 /* ================================================================
    ЗАГРУЗКА ШРИФТА ROBOTO ДЛЯ PDF
@@ -2124,8 +2125,47 @@ function renderNotebook() {
    Генерирует красивую PDF-памятку с поддержкой кириллицы
    через шрифт Roboto.
    ---------------------------------------------------------------- */
- const FONT_NAME = 'MyFont';
-try {
+async function downloadPdfMemo() {
+  if (m2State.artifacts.length === 0) {
+    showToast('Сначала собери хотя бы один артефакт', 'warning');
+    return;
+  }
+
+  if (typeof window.jspdf === 'undefined') {
+    showToast('Не удалось загрузить генератор PDF', 'error');
+    return;
+  }
+
+  // Блокируем кнопку, чтобы не нажали дважды
+  const btn = document.getElementById('btn-download-pdf');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Готовим PDF…';
+  }
+
+  showToast('📄 Загружаем шрифт…', '');
+
+  // Загружаем шрифт
+  const font = await loadRobotoFont();
+
+  if (!font) {
+    showToast('Не удалось загрузить шрифт', 'error');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '⬇️ Скачать PDF-памятку';
+    }
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    unit: 'mm',
+    format: 'a4',
+    orientation: 'portrait',
+  });
+
+  // ── Регистрируем шрифт в jsPDF ────────────────────
+  try {
     doc.addFileToVFS('CustomFont-Regular.ttf', font.regular);
     doc.addFont('CustomFont-Regular.ttf', 'Roboto', 'normal');
 
@@ -2144,13 +2184,6 @@ try {
     }
     return;
   }
-
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    unit: 'mm',
-    format: 'a4',
-    orientation: 'portrait',
-  });
 
   // ── Цвета палитры ─────────────────────────────────────────
   const COLOR = {
@@ -2173,32 +2206,28 @@ try {
 
   let y = 0;
 
-  /* ── Хелпер: фон страницы ──────────────────────────────── */
+  /* ── Хелперы ──────────────────────────────────────── */
   function drawPageBg() {
     doc.setFillColor(...COLOR.accent);
     doc.rect(0, 0, PAGE_W, 4, 'F');
   }
 
-  /* ── Хелпер: новая страница ────────────────────────────── */
   function newPage() {
     doc.addPage();
     drawPageBg();
     y = MARGIN + 8;
   }
 
-  /* ── Хелпер: проверка переполнения ─────────────────────── */
   function ensureSpace(needed) {
     if (y + needed > PAGE_H - MARGIN - 10) {
       newPage();
     }
   }
 
-  /* ── Хелпер: разбиение текста на строки ────────────────── */
   function wrapText(text, maxWidth) {
     return doc.splitTextToSize(text || '', maxWidth);
   }
 
-  /* ── Хелпер: очистка HTML ──────────────────────────────── */
   function stripHtml(html) {
     if (!html) return '';
     return html
@@ -2223,12 +2252,9 @@ try {
       .trim();
   }
 
-  /* ── Хелпер: текст с поддержкой **жирных** фрагментов ──── */
   function drawSmartText(rawText, x, maxWidth, lineHeight) {
-    // Разбиваем текст на сегменты: обычные и жирные (между **)
     const parts = rawText.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
 
-    // Если жирных нет — выводим обычно
     if (parts.length === 1 && !parts[0].startsWith('**')) {
       const lines = wrapText(rawText, maxWidth);
       lines.forEach(line => {
@@ -2239,7 +2265,6 @@ try {
       return;
     }
 
-    // Иначе строим строки вручную с учётом жирного
     let currentLine = [];
     let currentWidth = 0;
 
@@ -2263,7 +2288,6 @@ try {
 
       doc.setFont('Roboto', isBold ? 'bold' : 'normal');
 
-      // Разбиваем по словам
       const words = text.split(/(\s+)/);
       words.forEach(word => {
         if (!word) return;
@@ -2271,7 +2295,6 @@ try {
 
         if (currentWidth + wordWidth > maxWidth && currentLine.length > 0) {
           flushLine();
-          // Не переносим пробел в начало новой строки
           if (/^\s+$/.test(word)) return;
         }
         currentLine.push({ text: word, bold: isBold });
@@ -2287,11 +2310,9 @@ try {
   // ── СТРАНИЦА 1: ОБЛОЖКА ────────────────────────────────
   // ════════════════════════════════════════════════════════
 
-  // Голубая шапка
   doc.setFillColor(...COLOR.accent);
   doc.rect(0, 0, PAGE_W, 70, 'F');
 
-  // Заголовок
   doc.setTextColor(...COLOR.white);
   doc.setFont('Roboto', 'bold');
   doc.setFontSize(28);
@@ -2304,7 +2325,6 @@ try {
   doc.setFontSize(10);
   doc.text('Злата учится знакомиться', PAGE_W / 2, 56, { align: 'center' });
 
-  // Основная карточка
   y = 95;
   doc.setFillColor(...COLOR.bgLight);
   doc.setDrawColor(...COLOR.border);
@@ -2329,7 +2349,6 @@ try {
     { align: 'center' }
   );
 
-  // Дата
   const today = new Date();
   const dateStr = today.toLocaleDateString('ru-RU', {
     day: 'numeric', month: 'long', year: 'numeric'
@@ -2338,7 +2357,6 @@ try {
   doc.setTextColor(...COLOR.accent2);
   doc.text(dateStr, PAGE_W / 2, y + 58, { align: 'center' });
 
-  // Оглавление
   y = 185;
   doc.setFont('Roboto', 'bold');
   doc.setFontSize(13);
@@ -2350,7 +2368,6 @@ try {
   doc.setFontSize(11);
 
   m2State.artifacts.forEach((art, i) => {
-    // Номер в кружке
     doc.setFillColor(...COLOR.accent);
     doc.circle(MARGIN + 3, y - 1.5, 3, 'F');
     doc.setTextColor(...COLOR.white);
@@ -2358,7 +2375,6 @@ try {
     doc.setFontSize(8);
     doc.text(String(i + 1), MARGIN + 3, y + 0.5, { align: 'center' });
 
-    // Название
     doc.setFont('Roboto', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(...COLOR.text);
@@ -2366,7 +2382,6 @@ try {
     y += 9;
   });
 
-  // Подпись внизу
   doc.setFont('Roboto', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR.muted);
@@ -2383,12 +2398,10 @@ try {
   m2State.artifacts.forEach((artifact, idx) => {
     newPage();
 
-    // Шапка артефакта: цветной блок с номером и названием
     const headerH = 28;
     doc.setFillColor(...COLOR.accent);
     doc.roundedRect(MARGIN, y, CONTENT_W, headerH, 3, 3, 'F');
 
-    // Номер в белом кружке
     doc.setFillColor(...COLOR.white);
     doc.circle(MARGIN + 10, y + headerH / 2, 6, 'F');
     doc.setTextColor(...COLOR.accent);
@@ -2398,7 +2411,6 @@ try {
       align: 'center'
     });
 
-    // Название артефакта
     doc.setTextColor(...COLOR.white);
     doc.setFont('Roboto', 'bold');
     doc.setFontSize(14);
@@ -2409,13 +2421,7 @@ try {
 
     y += headerH + 8;
 
-    // Превью
     if (artifact.preview) {
-      doc.setFillColor(...COLOR.bgLight);
-      doc.setDrawColor(...COLOR.accent);
-      doc.setLineWidth(0.5);
-
-      // Левая полоса-акцент
       const previewLines = wrapText(artifact.preview, CONTENT_W - 12);
       const previewH = previewLines.length * 5.5 + 8;
 
@@ -2435,7 +2441,6 @@ try {
       y += previewH + 8;
     }
 
-    // Контент — основная часть
     doc.setFont('Roboto', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(...COLOR.text);
@@ -2450,10 +2455,8 @@ try {
       ensureSpace(8);
 
       if (trimmed.startsWith('•')) {
-        // Пункт списка
         const itemText = trimmed.substring(1).trim();
 
-        // Маркер
         ensureSpace(7);
         doc.setFillColor(...COLOR.accent);
         doc.circle(MARGIN + 2, y - 1.5, 1.3, 'F');
@@ -2462,7 +2465,6 @@ try {
         drawSmartText(itemText, MARGIN + 7, CONTENT_W - 7, 5.8);
         y += 2;
       } else {
-        // Обычный абзац
         doc.setTextColor(...COLOR.text);
         drawSmartText(trimmed, MARGIN, CONTENT_W, 5.8);
         y += 3;
@@ -2471,7 +2473,7 @@ try {
   });
 
   // ════════════════════════════════════════════════════════
-  // ── ФУТЕР И ОБНОВЛЕНИЕ КОЛОНТИТУЛОВ ─────────────────────
+  // ── ФУТЕР ───────────────────────────────────────────────
   // ════════════════════════════════════════════════════════
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
@@ -2490,18 +2492,17 @@ try {
     );
   }
 
-  // ── Сохраняем PDF ─────────────────────────────────────
   const filename = `Памятка_нетворкера_${today.toISOString().slice(0, 10)}.pdf`;
   doc.save(filename);
 
   showToast('✅ PDF скачан!', 'success');
 
-  // Возвращаем кнопку в исходное состояние
   if (btn) {
     btn.disabled = false;
     btn.innerHTML = '⬇️ Скачать PDF-памятку';
   }
 }
+
 /* ================================================================
    РАЗДЕЛ 9: ЭКРАНЫ КОНЦА ГЛАВЫ И ФИНАЛА
    ================================================================ */
