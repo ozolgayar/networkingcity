@@ -1721,7 +1721,7 @@ background: transparent;
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;            /* ← убирает скролл */
-  padding: 60px 80px; 
+  padding: 20px 80px; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1735,6 +1735,8 @@ background: transparent;
   backdrop-filter: blur(8px);
   border-top: 1px solid var(--m2-border);
   flex-shrink: 0;
+   position: relative;                      /* ← добавь для надёжности */
+  z-index: 10;
 }
 
 .hub-footer-title {
@@ -1767,11 +1769,12 @@ background: transparent;
 .hub-map-bg {
   display: block;
   max-width: 100%;
-  max-height: 100%;
+max-height: calc(100vh - 180px); 
   width: auto;
   height: auto;
   user-select: none;
   pointer-events: none;
+   
 }
 
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
