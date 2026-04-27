@@ -1730,10 +1730,6 @@ background: transparent;
   pointer-events: none;
 }
 
-.hub-map-instruction::before {
-  content: '👇';
-  font-size: 14px;
-}
 
 .hub-map-instruction strong {
   color: #0284c7;
@@ -1758,9 +1754,6 @@ background: transparent;
     padding: 7px 14px;
     font-size: 11px;
     border-radius: 12px;
-  }
-  .hub-map-instruction::before {
-    font-size: 12px;
   }
 }
 
