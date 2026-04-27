@@ -537,6 +537,7 @@ body {
    ---------------------------------------------------------------- */
 .m2-screen#m2-hub {
   background: transparent;
+   overflow: hidden; 
 }
 
 .m2-screen#m2-hub.active {
@@ -1719,8 +1720,8 @@ background: transparent;
 .hub-map-container {
   flex: 1 1 auto;
   min-height: 0;
-  overflow: hidden;
-  padding: 24px;
+  overflow: hidden;            /* ← убирает скролл */
+  padding: 60px 80px; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1749,18 +1750,20 @@ background: transparent;
   font-weight: 500;
 }
 
-/* Обёртка картинки — растягивается по контейнеру, картинка вписывается */
+/* Обёртка картинки */
 .hub-map-image {
   position: relative;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Картинка карты — впишется по меньшей стороне */
 .hub-map-bg {
   display: block;
   max-width: 100%;
