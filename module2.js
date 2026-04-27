@@ -42,6 +42,50 @@
      ]
    }
    ================================================================ */
+/* ================================================================
+   ЗАГРУЗКА ШРИФТА ROBOTO ДЛЯ PDF
+   Грузим шрифт один раз, кешируем результат
+   ================================================================ */
+let robotoFontCache = null;
+
+async function loadRobotoFont() {
+  if (robotoFontCache) return robotoFontCache;
+
+  // Скачиваем .ttf шрифт Roboto Regular из Google Fonts CDN
+  const FONT_URL_REGULAR =
+    'https://cdn.jsdelivr.net/gh/googlefonts/roboto@main/src/hinted/Roboto-Regular.ttf';
+  const FONT_URL_BOLD =
+    'https://cdn.jsdelivr.net/gh/googlefonts/roboto@main/src/hinted/Roboto-Bold.ttf';
+
+  // Конвертация ArrayBuffer → base64
+  function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const chunkSize = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode.apply(
+        null, bytes.subarray(i, i + chunkSize)
+      );
+    }
+    return btoa(binary);
+  }
+
+  try {
+    const [regularBuf, boldBuf] = await Promise.all([
+      fetch(FONT_URL_REGULAR).then(r => r.arrayBuffer()),
+      fetch(FONT_URL_BOLD).then(r => r.arrayBuffer()),
+    ]);
+
+    robotoFontCache = {
+      regular: arrayBufferToBase64(regularBuf),
+      bold:    arrayBufferToBase64(boldBuf),
+    };
+    return robotoFontCache;
+  } catch (e) {
+    console.error('Не удалось загрузить шрифт Roboto:', e);
+    return null;
+  }
+}
 
 const CHAPTERS = {
 
@@ -2030,23 +2074,40 @@ function renderNotebook() {
 
 /* ----------------------------------------------------------------
    downloadPdfMemo()
-   Генерирует красивую PDF-памятку со всеми артефактами Златы
-   и скачивает её на устройство.
-   Использует библиотеку jsPDF (подключена в HTML).
+   Генерирует красивую PDF-памятку с поддержкой кириллицы
+   через шрифт Roboto.
    ---------------------------------------------------------------- */
-function downloadPdfMemo() {
+async function downloadPdfMemo() {
   if (m2State.artifacts.length === 0) {
     showToast('Сначала собери хотя бы один артефакт', 'warning');
     return;
   }
 
-  // Проверяем, что библиотека загружена
   if (typeof window.jspdf === 'undefined') {
     showToast('Не удалось загрузить генератор PDF', 'error');
     return;
   }
 
-  showToast('📄 Готовим PDF…', '');
+  // Блокируем кнопку, чтобы не нажали дважды
+  const btn = document.getElementById('btn-download-pdf');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Готовим PDF…';
+  }
+
+  showToast('📄 Загружаем шрифт…', '');
+
+  // Загружаем шрифт Roboto
+  const font = await loadRobotoFont();
+
+  if (!font) {
+    showToast('Не удалось загрузить шрифт', 'error');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '⬇️ Скачать PDF-памятку';
+    }
+    return;
+  }
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({
@@ -2055,78 +2116,79 @@ function downloadPdfMemo() {
     orientation: 'portrait',
   });
 
-  // ── Цвета палитры (RGB) ──────────────────────────────────
+  // ── Регистрируем шрифт Roboto в jsPDF ────────────────────
+  doc.addFileToVFS('Roboto-Regular.ttf', font.regular);
+  doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+
+  doc.addFileToVFS('Roboto-Bold.ttf', font.bold);
+  doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
+
+  doc.setFont('Roboto', 'normal');
+
+  // ── Цвета палитры ─────────────────────────────────────────
   const COLOR = {
-    text:     [15, 36, 72],     // тёмно-синий
-    muted:    [100, 116, 139],  // серый
-    accent:   [14, 165, 233],   // голубой
-    success:  [34, 197, 94],    // зелёный
-    warning:  [245, 158, 11],   // янтарь
-    bgLight:  [240, 249, 255],  // очень светло-голубой
-    border:   [203, 213, 225],  // светло-серая рамка
+    text:     [15, 36, 72],
+    muted:    [100, 116, 139],
+    accent:   [14, 165, 233],
+    accent2:  [2, 132, 199],
+    success:  [34, 197, 94],
+    warning:  [245, 158, 11],
+    bgLight:  [240, 249, 255],
+    bgCard:   [248, 250, 252],
+    border:   [203, 213, 225],
+    white:    [255, 255, 255],
   };
 
-  // Размеры страницы A4 в мм
   const PAGE_W = 210;
   const PAGE_H = 297;
   const MARGIN = 18;
   const CONTENT_W = PAGE_W - MARGIN * 2;
 
-  let y = 0; // текущая позиция по вертикали
+  let y = 0;
 
-  /* ── Хелпер: новая страница с фоном ──────────────────── */
+  /* ── Хелпер: фон страницы ──────────────────────────────── */
+  function drawPageBg() {
+    doc.setFillColor(...COLOR.accent);
+    doc.rect(0, 0, PAGE_W, 4, 'F');
+  }
+
+  /* ── Хелпер: новая страница ────────────────────────────── */
   function newPage() {
     doc.addPage();
     drawPageBg();
     y = MARGIN + 8;
   }
 
-  /* ── Хелпер: фон страницы (тонкая полоса сверху) ─────── */
-  function drawPageBg() {
-    // Тонкая голубая полоса сверху
-    doc.setFillColor(...COLOR.accent);
-    doc.rect(0, 0, PAGE_W, 4, 'F');
-  }
-
-  /* ── Хелпер: проверка переполнения страницы ──────────── */
+  /* ── Хелпер: проверка переполнения ─────────────────────── */
   function ensureSpace(needed) {
-    if (y + needed > PAGE_H - MARGIN) {
+    if (y + needed > PAGE_H - MARGIN - 10) {
       newPage();
     }
   }
 
-  /* ── Хелпер: разбиение текста на строки ──────────────── */
+  /* ── Хелпер: разбиение текста на строки ────────────────── */
   function wrapText(text, maxWidth) {
     return doc.splitTextToSize(text || '', maxWidth);
   }
 
-  /* ── Хелпер: вывод многострочного текста ─────────────── */
-  function drawText(text, x, lineHeight) {
-    const lines = Array.isArray(text) ? text : [text];
-    lines.forEach(line => {
-      ensureSpace(lineHeight);
-      doc.text(line, x, y);
-      y += lineHeight;
-    });
-  }
-
-  /* ── Хелпер: очистка HTML-тегов из строки ────────────── */
+  /* ── Хелпер: очистка HTML ──────────────────────────────── */
   function stripHtml(html) {
     if (!html) return '';
-    // Убираем теги, заменяем <li> на маркер, <br>/<p> на перевод строки
     return html
       .replace(/<li[^>]*>/gi, '• ')
       .replace(/<\/li>/gi, '\n')
       .replace(/<br\s*\/?>/gi, '\n')
       .replace(/<\/p>/gi, '\n')
-      .replace(/<\/?strong[^>]*>/gi, '')
-      .replace(/<\/?b[^>]*>/gi, '')
+      .replace(/<\/?strong[^>]*>/gi, '**')
+      .replace(/<\/?b[^>]*>/gi, '**')
       .replace(/<\/?ul[^>]*>/gi, '')
       .replace(/<\/?p[^>]*>/gi, '')
       .replace(/<[^>]+>/g, '')
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
+      .replace(/&laquo;/g, '«')
+      .replace(/&raquo;/g, '»')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/\n{3,}/g, '\n\n')
@@ -2134,43 +2196,111 @@ function downloadPdfMemo() {
       .trim();
   }
 
+  /* ── Хелпер: текст с поддержкой **жирных** фрагментов ──── */
+  function drawSmartText(rawText, x, maxWidth, lineHeight) {
+    // Разбиваем текст на сегменты: обычные и жирные (между **)
+    const parts = rawText.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
+
+    // Если жирных нет — выводим обычно
+    if (parts.length === 1 && !parts[0].startsWith('**')) {
+      const lines = wrapText(rawText, maxWidth);
+      lines.forEach(line => {
+        ensureSpace(lineHeight);
+        doc.text(line, x, y);
+        y += lineHeight;
+      });
+      return;
+    }
+
+    // Иначе строим строки вручную с учётом жирного
+    let currentLine = [];
+    let currentWidth = 0;
+
+    function flushLine() {
+      if (currentLine.length === 0) return;
+      ensureSpace(lineHeight);
+      let xCursor = x;
+      currentLine.forEach(segment => {
+        doc.setFont('Roboto', segment.bold ? 'bold' : 'normal');
+        doc.text(segment.text, xCursor, y);
+        xCursor += doc.getTextWidth(segment.text);
+      });
+      y += lineHeight;
+      currentLine = [];
+      currentWidth = 0;
+    }
+
+    parts.forEach(part => {
+      const isBold = part.startsWith('**') && part.endsWith('**');
+      const text = isBold ? part.slice(2, -2) : part;
+
+      doc.setFont('Roboto', isBold ? 'bold' : 'normal');
+
+      // Разбиваем по словам
+      const words = text.split(/(\s+)/);
+      words.forEach(word => {
+        if (!word) return;
+        const wordWidth = doc.getTextWidth(word);
+
+        if (currentWidth + wordWidth > maxWidth && currentLine.length > 0) {
+          flushLine();
+          // Не переносим пробел в начало новой строки
+          if (/^\s+$/.test(word)) return;
+        }
+        currentLine.push({ text: word, bold: isBold });
+        currentWidth += wordWidth;
+      });
+    });
+
+    flushLine();
+    doc.setFont('Roboto', 'normal');
+  }
+
   // ════════════════════════════════════════════════════════
   // ── СТРАНИЦА 1: ОБЛОЖКА ────────────────────────────────
   // ════════════════════════════════════════════════════════
 
-  // Голубая полоса вверху
+  // Голубая шапка
   doc.setFillColor(...COLOR.accent);
-  doc.rect(0, 0, PAGE_W, 60, 'F');
+  doc.rect(0, 0, PAGE_W, 70, 'F');
 
-  // Заголовок «Памятка нетворкера»
-  doc.setTextColor(255, 255, 255);
-  doc.setFont('helvetica', 'bold');
+  // Заголовок
+  doc.setTextColor(...COLOR.white);
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(28);
-  doc.text('Pamyatka netvorkera', PAGE_W / 2, 28, { align: 'center' });
+  doc.text('Памятка нетворкера', PAGE_W / 2, 32, { align: 'center' });
 
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(12);
-  doc.text('Module 2 — Konferentsiya', PAGE_W / 2, 40, { align: 'center' });
+  doc.setFont('Roboto', 'normal');
+  doc.setFontSize(13);
+  doc.text('Модуль 2 — Конференция', PAGE_W / 2, 46, { align: 'center' });
 
   doc.setFontSize(10);
-  doc.text('Zlata uchitsya znakomitsya', PAGE_W / 2, 50, { align: 'center' });
+  doc.text('Злата учится знакомиться', PAGE_W / 2, 56, { align: 'center' });
 
-  // Карточка с инфо
-  y = 85;
+  // Основная карточка
+  y = 95;
   doc.setFillColor(...COLOR.bgLight);
   doc.setDrawColor(...COLOR.border);
+  doc.setLineWidth(0.3);
   doc.roundedRect(MARGIN, y, CONTENT_W, 70, 4, 4, 'FD');
 
   doc.setTextColor(...COLOR.text);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.text('ПАМЯТКА НЕТВОРКЕРА', PAGE_W / 2, y + 18, { align: 'center' });
+  doc.setFont('Roboto', 'bold');
+  doc.setFontSize(18);
+  doc.text(
+    `${m2State.artifacts.length} техник знакомства`,
+    PAGE_W / 2, y + 22,
+    { align: 'center' }
+  );
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(11);
   doc.setTextColor(...COLOR.muted);
-  doc.text('5 техник знакомства,', PAGE_W / 2, y + 32, { align: 'center' });
-  doc.text('собранных за конференцию', PAGE_W / 2, y + 40, { align: 'center' });
+  doc.text(
+    'собранных за время прохождения конференции',
+    PAGE_W / 2, y + 35,
+    { align: 'center' }
+  );
 
   // Дата
   const today = new Date();
@@ -2178,30 +2308,39 @@ function downloadPdfMemo() {
     day: 'numeric', month: 'long', year: 'numeric'
   });
   doc.setFontSize(9);
+  doc.setTextColor(...COLOR.accent2);
   doc.text(dateStr, PAGE_W / 2, y + 58, { align: 'center' });
 
-  // Список тем (оглавление)
-  y = 175;
-  doc.setFont('helvetica', 'bold');
+  // Оглавление
+  y = 185;
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(13);
   doc.setTextColor(...COLOR.text);
-  doc.text('Что внутри:', MARGIN, y);
+  doc.text('Содержание:', MARGIN, y);
   y += 10;
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(11);
-  doc.setTextColor(...COLOR.muted);
 
   m2State.artifacts.forEach((art, i) => {
-    doc.setTextColor(...COLOR.accent);
-    doc.text(`${i + 1}.`, MARGIN, y);
+    // Номер в кружке
+    doc.setFillColor(...COLOR.accent);
+    doc.circle(MARGIN + 3, y - 1.5, 3, 'F');
+    doc.setTextColor(...COLOR.white);
+    doc.setFont('Roboto', 'bold');
+    doc.setFontSize(8);
+    doc.text(String(i + 1), MARGIN + 3, y + 0.5, { align: 'center' });
+
+    // Название
+    doc.setFont('Roboto', 'normal');
+    doc.setFontSize(11);
     doc.setTextColor(...COLOR.text);
-    doc.text(art.name || 'Без названия', MARGIN + 8, y);
-    y += 8;
+    doc.text(art.name || 'Без названия', MARGIN + 10, y + 0.5);
+    y += 9;
   });
 
-  // Подпись внизу первой страницы
-  doc.setFont('helvetica', 'italic');
+  // Подпись внизу
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR.muted);
   doc.text(
@@ -2217,42 +2356,60 @@ function downloadPdfMemo() {
   m2State.artifacts.forEach((artifact, idx) => {
     newPage();
 
-    // Номер артефакта в углу
+    // Шапка артефакта: цветной блок с номером и названием
+    const headerH = 28;
     doc.setFillColor(...COLOR.accent);
-    doc.circle(MARGIN + 6, y + 2, 6, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.text(String(idx + 1), MARGIN + 6, y + 4, { align: 'center' });
+    doc.roundedRect(MARGIN, y, CONTENT_W, headerH, 3, 3, 'F');
+
+    // Номер в белом кружке
+    doc.setFillColor(...COLOR.white);
+    doc.circle(MARGIN + 10, y + headerH / 2, 6, 'F');
+    doc.setTextColor(...COLOR.accent);
+    doc.setFont('Roboto', 'bold');
+    doc.setFontSize(13);
+    doc.text(String(idx + 1), MARGIN + 10, y + headerH / 2 + 1.5, {
+      align: 'center'
+    });
 
     // Название артефакта
-    doc.setTextColor(...COLOR.text);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
-    const nameLines = wrapText(artifact.name || '', CONTENT_W - 20);
-    nameLines.forEach((line, i) => {
-      doc.text(line, MARGIN + 16, y + 4 + (i * 7));
+    doc.setTextColor(...COLOR.white);
+    doc.setFont('Roboto', 'bold');
+    doc.setFontSize(14);
+    const nameLines = wrapText(artifact.name || '', CONTENT_W - 25);
+    nameLines.slice(0, 2).forEach((line, i) => {
+      doc.text(line, MARGIN + 20, y + 12 + (i * 6.5));
     });
-    y += 4 + nameLines.length * 7 + 6;
 
-    // Тонкая разделительная линия
-    doc.setDrawColor(...COLOR.accent);
-    doc.setLineWidth(0.8);
-    doc.line(MARGIN, y, MARGIN + 30, y);
-    y += 8;
+    y += headerH + 8;
 
-    // Превью (короткое описание)
+    // Превью
     if (artifact.preview) {
-      doc.setFont('helvetica', 'italic');
-      doc.setFontSize(11);
+      doc.setFillColor(...COLOR.bgLight);
+      doc.setDrawColor(...COLOR.accent);
+      doc.setLineWidth(0.5);
+
+      // Левая полоса-акцент
+      const previewLines = wrapText(artifact.preview, CONTENT_W - 12);
+      const previewH = previewLines.length * 5.5 + 8;
+
+      doc.setFillColor(...COLOR.bgLight);
+      doc.roundedRect(MARGIN, y, CONTENT_W, previewH, 2, 2, 'F');
+      doc.setFillColor(...COLOR.accent);
+      doc.rect(MARGIN, y, 2, previewH, 'F');
+
+      doc.setFont('Roboto', 'normal');
+      doc.setFontSize(10);
       doc.setTextColor(...COLOR.muted);
-      const previewLines = wrapText(artifact.preview, CONTENT_W);
-      drawText(previewLines, MARGIN, 6);
-      y += 4;
+
+      previewLines.forEach((line, i) => {
+        doc.text(line, MARGIN + 6, y + 6 + (i * 5.5));
+      });
+
+      y += previewH + 8;
     }
 
     // Контент — основная часть
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('Roboto', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(...COLOR.text);
 
@@ -2265,44 +2422,34 @@ function downloadPdfMemo() {
 
       ensureSpace(8);
 
-      // Если строка начинается с маркера •, рисуем как пункт списка
       if (trimmed.startsWith('•')) {
+        // Пункт списка
         const itemText = trimmed.substring(1).trim();
-        const lines = wrapText(itemText, CONTENT_W - 8);
 
         // Маркер
+        ensureSpace(7);
         doc.setFillColor(...COLOR.accent);
-        doc.circle(MARGIN + 1.5, y - 1.5, 1.2, 'F');
+        doc.circle(MARGIN + 2, y - 1.5, 1.3, 'F');
 
-        // Текст пункта
         doc.setTextColor(...COLOR.text);
-        lines.forEach((line, i) => {
-          ensureSpace(6);
-          doc.text(line, MARGIN + 6, y);
-          y += 6;
-        });
+        drawSmartText(itemText, MARGIN + 7, CONTENT_W - 7, 5.8);
         y += 2;
       } else {
         // Обычный абзац
-        const lines = wrapText(trimmed, CONTENT_W);
         doc.setTextColor(...COLOR.text);
-        lines.forEach(line => {
-          ensureSpace(6);
-          doc.text(line, MARGIN, y);
-          y += 6;
-        });
+        drawSmartText(trimmed, MARGIN, CONTENT_W, 5.8);
         y += 3;
       }
     });
   });
 
   // ════════════════════════════════════════════════════════
-  // ── ФУТЕР НА КАЖДОЙ СТРАНИЦЕ ───────────────────────────
+  // ── ФУТЕР И ОБНОВЛЕНИЕ КОЛОНТИТУЛОВ ─────────────────────
   // ════════════════════════════════════════════════════════
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('Roboto', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(...COLOR.muted);
     doc.text(
@@ -2317,10 +2464,16 @@ function downloadPdfMemo() {
   }
 
   // ── Сохраняем PDF ─────────────────────────────────────
-  const filename = `Pamyatka_netvorkera_${today.toISOString().slice(0,10)}.pdf`;
+  const filename = `Памятка_нетворкера_${today.toISOString().slice(0, 10)}.pdf`;
   doc.save(filename);
 
   showToast('✅ PDF скачан!', 'success');
+
+  // Возвращаем кнопку в исходное состояние
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = '⬇️ Скачать PDF-памятку';
+  }
 }
 /* ================================================================
    РАЗДЕЛ 9: ЭКРАНЫ КОНЦА ГЛАВЫ И ФИНАЛА
