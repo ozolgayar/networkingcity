@@ -2349,351 +2349,291 @@ const FULL_MEMO = [
    ---------------------------------------------------------------- */
 function downloadPdfMemo() {
   const btn = document.getElementById('btn-download-pdf');
-
-  if (typeof html2pdf === 'undefined') {
-    showToast('PDF-библиотека ещё не загрузилась, подожди секунду', 'warning');
-    return;
-  }
-
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '⏳ Генерирую PDF…';
+    btn.innerHTML = '⏳ Открываю памятку…';
   }
 
-  // ───── Создаём ОВЕРЛЕЙ во весь экран ─────
-  // Он перекрывает всё, чтобы быть видимым для html2canvas
-  const overlay = document.createElement('div');
-  overlay.id = 'pdf-temp-overlay';
-  overlay.style.cssText = `
+  try {
+    const html = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Памятка по нетворкингу</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    color: #1e293b;
+    background: #f1f5f9;
+  }
+
+  /* Панель кнопок — только на экране, не печатается */
+  .print-bar {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(15, 36, 72, 0.92);
-    z-index: 99999;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: #0284c7;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(2,132,199,0.4);
+    font-family: inherit;
+  }
+  .print-bar:hover { background: #0369a1; }
+  .print-hint {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #475569;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 280px;
+    line-height: 1.5;
+  }
+  .print-hint kbd {
+    background: #e2e8f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: monospace;
+  }
+  @media print {
+    .print-bar, .print-hint { display: none !important; }
+    body { background: white; }
+  }
+
+  .pdf-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm 18mm;
+    margin: 12px auto;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    page-break-after: always;
+    position: relative;
+  }
+  .pdf-page:last-child { page-break-after: auto; }
+  @media print {
+    .pdf-page { margin: 0; box-shadow: none; }
+  }
+
+  /* ─── ОБЛОЖКА ─── */
+  .cover {
+    background: linear-gradient(135deg, #0F2448 0%, #1e3a8a 100%);
+    color: white;
+    text-align: center;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
-    overflow: auto;
-    padding: 20px 0;
-  `;
+    padding: 0 20mm;
+  }
+  .cover-emoji { font-size: 100px; line-height: 1; margin-bottom: 30px; }
+  .cover-tag {
+    font-size: 14px; letter-spacing: 8px;
+    color: #94a3b8; margin-bottom: 20px;
+  }
+  .cover-title {
+    font-size: 56px; font-weight: 800;
+    line-height: 1.1; margin-bottom: 30px;
+  }
+  .cover-line {
+    width: 120px; height: 3px;
+    background: #0284c7; margin: 0 auto 30px;
+  }
+  .cover-sub {
+    font-size: 16px; font-style: italic;
+    color: #cbd5e1; margin-bottom: 60px;
+  }
+  .cover-foot {
+    font-size: 12px; color: #94a3b8; letter-spacing: 2px;
+  }
 
-  // Сообщение пользователю
-  const loader = document.createElement('div');
-  loader.style.cssText = `
+  /* ─── ОГЛАВЛЕНИЕ ─── */
+  .toc h1 {
+    font-size: 36px; color: #0F2448;
+    margin: 0 0 40px; font-weight: 800;
+  }
+  .toc-item {
+    display: flex; align-items: baseline;
+    margin-bottom: 20px; font-size: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed #cbd5e1;
+  }
+  .toc-num {
+    width: 50px; flex-shrink: 0;
+    font-weight: 700; color: #0284c7; font-size: 20px;
+  }
+  .toc-name { flex: 1; color: #1e293b; }
+
+  /* ─── ШАПКА ГЛАВЫ ─── */
+  .chapter-header {
+    background: linear-gradient(135deg, #0F2448 0%, #1e3a8a 100%);
     color: white;
-    font-size: 16px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 12px 24px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-  `;
-  loader.innerHTML = '⏳ Генерирую PDF-памятку… Подожди пару секунд';
-  overlay.appendChild(loader);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .chapter-icon { font-size: 64px; line-height: 1; flex-shrink: 0; }
+  .chapter-meta {
+    font-size: 11px; letter-spacing: 4px;
+    color: #94a3b8; margin-bottom: 6px;
+  }
+  .chapter-title {
+    font-size: 24px; font-weight: 700;
+    line-height: 1.2; color: white;
+  }
 
-  // ───── Контейнер с памяткой (всегда видимый) ─────
-  const container = document.createElement('div');
-  container.id = 'pdf-temp-container';
-  container.style.cssText = `
-    width: 794px;
-    background: white;
+  /* ─── КОНТЕНТ ─── */
+  h2 {
+    font-size: 19px; color: #0284c7;
+    border-left: 4px solid #0284c7;
+    padding-left: 14px;
+    margin: 28px 0 14px;
+    font-weight: 700;
+  }
+  p {
+    font-size: 13.5px; line-height: 1.65;
+    color: #1e293b; margin: 0 0 12px;
+  }
+  ul {
+    padding-left: 0; list-style: none; margin: 0 0 14px;
+  }
+  ul li {
+    font-size: 13.5px; line-height: 1.65;
     color: #1e293b;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    flex-shrink: 0;
-  `;
+    padding-left: 22px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  ul li::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: #0284c7;
+    border-radius: 50%;
+    position: absolute;
+    left: 4px; top: 9px;
+  }
 
-  container.innerHTML = buildMemoHTML();
-  overlay.appendChild(container);
-  document.body.appendChild(overlay);
+  /* ─── ПЛАШКИ ─── */
+  .bad, .good {
+    padding: 14px 18px; border-radius: 10px;
+    margin: 12px 0;
+    display: flex; gap: 14px;
+    align-items: flex-start;
+    font-size: 13.5px; line-height: 1.55;
+  }
+  .bad { background: #fee2e2; border-left: 4px solid #dc2626; }
+  .good { background: #dcfce7; border-left: 4px solid #16a34a; }
+  .bad-icon, .good-icon {
+    font-size: 20px; flex-shrink: 0; line-height: 1.2;
+  }
 
-  // ── Даём браузеру ВРЕМЯ отрисовать DOM перед захватом ──
-  setTimeout(() => {
-    const options = {
-      margin: 0,
-      filename: 'Памятка по нетворкингу.pdf',
-      image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        scrollX: 0,
-        scrollY: 0,
-      },
-      jsPDF: {
-        unit: 'px',
-        format: [794, 1123],
-        orientation: 'portrait',
-        hotfixes: ['px_scaling'],
-      },
-      pagebreak: {
-        mode: ['css', 'legacy'],
-        before: '.pdf-page',
-      },
-    };
+  /* ─── ЦИТАТА ─── */
+  .quote {
+    background: #fef3c7;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+    color: #0F2448;
+    line-height: 1.6;
+    border: 1px dashed #d97706;
+  }
 
-    html2pdf()
-      .set(options)
-      .from(container)
-      .save()
-      .then(() => {
-        if (document.body.contains(overlay)) {
-          document.body.removeChild(overlay);
-        }
-        showToast('📄 PDF-памятка сохранена!', 'success');
-      })
-      .catch(err => {
-        console.error('Ошибка html2pdf:', err);
-        if (document.body.contains(overlay)) {
-          document.body.removeChild(overlay);
-        }
-        showToast('Не удалось создать PDF: ' + err.message, 'warning');
-      })
-      .finally(() => {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = '⬇️ Скачать PDF-памятку';
-        }
-      });
-  }, 500);   // ← увеличил до 500мс для надёжности
+  /* ─── ФИНАЛ ─── */
+  .final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .final-emoji { font-size: 96px; line-height: 1; margin-bottom: 30px; }
+  .final-title {
+    font-size: 38px; font-weight: 800;
+    color: #0F2448;
+    margin-bottom: 24px; line-height: 1.2;
+  }
+  .final-line {
+    width: 120px; height: 3px;
+    background: #0284c7;
+    margin: 0 auto 24px;
+  }
+  .final-text {
+    font-size: 15px; line-height: 1.7;
+    color: #1e293b; margin-bottom: 40px;
+    max-width: 480px;
+  }
+  .final-bye {
+    font-size: 20px; font-style: italic;
+    font-weight: 700; color: #0284c7;
+    margin-bottom: 8px;
+  }
+  .final-author { font-size: 14px; color: #64748b; }
+</style>
+</head>
+<body>
+  <button class="print-bar" onclick="window.print()">🖨️ Сохранить как PDF</button>
+  <div class="print-hint">
+    <strong>Как сохранить:</strong><br>
+    Нажми кнопку выше или <kbd>Ctrl+P</kbd>.<br>
+    В окне печати выбери <strong>«Сохранить как PDF»</strong>.
+  </div>
+  ${buildMemoBody()}
+</body>
+</html>`;
+
+    // Открываем памятку в новой вкладке
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const newTab = window.open(url, '_blank');
+
+    if (!newTab) {
+      showToast('Разреши всплывающие окна для этой страницы', 'warning');
+    } else {
+      showToast('📄 Памятка открыта в новой вкладке!', 'success');
+    }
+
+    // Освобождаем память через минуту
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+  } catch (err) {
+    console.error('Ошибка генерации памятки:', err);
+    showToast('Не удалось открыть памятку: ' + err.message, 'warning');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '⬇️ Скачать PDF-памятку';
+    }
+  }
 }
 
 /* ────────────────────────────────────────────────────────
-   Сборка HTML памятки — красивая вёрстка с эмодзи
+   buildMemoBody() — генерирует HTML памятки (без <html>/<body>)
+   Используется внутри downloadPdfMemo()
    ──────────────────────────────────────────────────────── */
-function buildMemoHTML() {
+function buildMemoBody() {
   const CHAPTER_ICONS = ['👋', '🎤', '💬', '⭐', '✉️', '🎯'];
+  let html = '';
 
-  let html = `
-    <style>
-      .pdf-page {
-        width: 794px;
-        min-height: 1123px;
-        padding: 60px 70px;
-        box-sizing: border-box;
-        page-break-after: always;
-        position: relative;
-      }
-      .pdf-page:last-child { page-break-after: auto; }
-      
-      .cover {
-        background: linear-gradient(135deg, #0F2448 0%, #1e3a8a 100%);
-        color: white;
-        text-align: center;
-        padding: 0 70px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-      .cover-emoji {
-        font-size: 96px;
-        margin-bottom: 30px;
-        line-height: 1;
-      }
-      .cover-tag {
-        font-size: 14px;
-        letter-spacing: 6px;
-        color: #94a3b8;
-        margin-bottom: 20px;
-      }
-      .cover-title {
-        font-size: 52px;
-        font-weight: 800;
-        margin-bottom: 30px;
-        line-height: 1.1;
-      }
-      .cover-line {
-        width: 120px;
-        height: 3px;
-        background: #0284c7;
-        margin: 0 auto 30px;
-      }
-      .cover-sub {
-        font-size: 14px;
-        font-style: italic;
-        color: #cbd5e1;
-        margin-bottom: 240px;
-      }
-      .cover-foot {
-        font-size: 11px;
-        color: #94a3b8;
-      }
-      
-      .toc h1 {
-        font-size: 36px;
-        color: #0F2448;
-        margin: 0 0 40px;
-      }
-      .toc-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 18px;
-        font-size: 15px;
-      }
-      .toc-num {
-        width: 40px;
-        font-weight: 700;
-        color: #0284c7;
-        font-size: 18px;
-      }
-      .toc-name { flex: 1; }
-
-      .chapter-header {
-        background: #0F2448;
-        color: white;
-        border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 24px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-      }
-      .chapter-icon {
-        font-size: 56px;
-        line-height: 1;
-        flex-shrink: 0;
-      }
-      .chapter-meta {
-        font-size: 11px;
-        letter-spacing: 4px;
-        color: #94a3b8;
-        margin-bottom: 6px;
-      }
-      .chapter-title {
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 1.2;
-      }
-
-      h2 {
-        font-size: 18px;
-        color: #0284c7;
-        border-left: 4px solid #0284c7;
-        padding-left: 12px;
-        margin: 24px 0 12px;
-      }
-      p {
-        font-size: 13px;
-        line-height: 1.6;
-        color: #1e293b;
-        margin: 0 0 10px;
-      }
-      ul {
-        padding-left: 0;
-        list-style: none;
-        margin: 0 0 12px;
-      }
-      ul li {
-        font-size: 13px;
-        line-height: 1.6;
-        color: #1e293b;
-        padding-left: 20px;
-        position: relative;
-        margin-bottom: 8px;
-      }
-      ul li::before {
-        content: '';
-        width: 6px;
-        height: 6px;
-        background: #0284c7;
-        border-radius: 50%;
-        position: absolute;
-        left: 4px;
-        top: 8px;
-      }
-
-      .bad, .good {
-        padding: 12px 16px;
-        border-radius: 8px;
-        margin: 10px 0;
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-        font-size: 13px;
-        line-height: 1.5;
-      }
-      .bad { background: #fee2e2; border-left: 4px solid #dc2626; }
-      .good { background: #dcfce7; border-left: 4px solid #16a34a; }
-      .bad-icon, .good-icon {
-        font-size: 18px;
-        flex-shrink: 0;
-        line-height: 1.3;
-      }
-
-      .quote {
-        background: #fef3c7;
-        border-radius: 12px;
-        padding: 20px 24px;
-        margin: 16px 0;
-        text-align: center;
-        font-style: italic;
-        font-size: 14px;
-        color: #0F2448;
-        line-height: 1.6;
-        position: relative;
-      }
-      .quote::before {
-        content: '"';
-        font-size: 48px;
-        color: #d97706;
-        position: absolute;
-        left: 16px;
-        top: 0px;
-        line-height: 1;
-        font-family: Georgia, serif;
-      }
-
-      .final {
-        text-align: center;
-        padding-top: 120px;
-      }
-      .final-emoji {
-        font-size: 80px;
-        margin-bottom: 30px;
-      }
-      .final-title {
-        font-size: 36px;
-        font-weight: 800;
-        color: #0F2448;
-        margin-bottom: 24px;
-        line-height: 1.2;
-      }
-      .final-line {
-        width: 120px;
-        height: 3px;
-        background: #0284c7;
-        margin: 0 auto 24px;
-      }
-      .final-text {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #1e293b;
-        margin-bottom: 40px;
-        padding: 0 60px;
-      }
-      .final-bye {
-        font-size: 18px;
-        font-style: italic;
-        font-weight: 700;
-        color: #0284c7;
-      }
-      .final-author {
-        font-size: 13px;
-        color: #64748b;
-        margin-top: 8px;
-      }
-    </style>
-  `;
-
-  // ──── ОБЛОЖКА ─────────────────────────────────────────
+  // ─── ОБЛОЖКА ───
   html += `
     <div class="pdf-page cover">
       <div class="cover-emoji">🤝</div>
@@ -2701,11 +2641,11 @@ function buildMemoHTML() {
       <div class="cover-title">Нетворкинг<br>со Златой</div>
       <div class="cover-line"></div>
       <div class="cover-sub">5 глав · техники · чек-листы · шаблоны</div>
-      <div class="cover-foot">твой навигатор в мире знакомств</div>
+      <div class="cover-foot">ТВОЙ НАВИГАТОР В МИРЕ ЗНАКОМСТВ</div>
     </div>
   `;
 
-  // ──── ОГЛАВЛЕНИЕ ──────────────────────────────────────
+  // ─── ОГЛАВЛЕНИЕ ───
   html += `<div class="pdf-page toc"><h1>Оглавление</h1>`;
   FULL_MEMO.forEach((ch, i) => {
     const num = i === FULL_MEMO.length - 1 ? '★' : String(i + 1).padStart(2, '0');
@@ -2718,7 +2658,7 @@ function buildMemoHTML() {
   });
   html += `</div>`;
 
-  // ──── ГЛАВЫ ───────────────────────────────────────────
+  // ─── ГЛАВЫ ───
   FULL_MEMO.forEach((chapter, chIdx) => {
     const isConclusion = chIdx === FULL_MEMO.length - 1;
     const icon = CHAPTER_ICONS[chIdx] || '📖';
@@ -2740,10 +2680,19 @@ function buildMemoHTML() {
         html += `<h2>${escapeHtml(block.text)}</h2>`;
       }
       else if (block.type === 'p') {
-        if (/^Плохо:\s/i.test(block.text)) {
-          html += `<div class="bad"><div class="bad-icon">❌</div><div>${escapeHtml(block.text.replace(/^Плохо:\s*/i, ''))}</div></div>`;
+        // Распознаём «Плохо/Хорошо» по эмодзи в начале текста
+        if (/^❌\s/.test(block.text)) {
+          const t = block.text.replace(/^❌\s*/, '');
+          html += `<div class="bad"><div class="bad-icon">❌</div><div>${escapeHtml(t)}</div></div>`;
+        } else if (/^✅\s/.test(block.text)) {
+          const t = block.text.replace(/^✅\s*/, '');
+          html += `<div class="good"><div class="good-icon">✅</div><div>${escapeHtml(t)}</div></div>`;
+        } else if (/^Плохо:\s/i.test(block.text)) {
+          const t = block.text.replace(/^Плохо:\s*/i, '');
+          html += `<div class="bad"><div class="bad-icon">❌</div><div>${escapeHtml(t)}</div></div>`;
         } else if (/^Хорошо:\s/i.test(block.text)) {
-          html += `<div class="good"><div class="good-icon">✅</div><div>${escapeHtml(block.text.replace(/^Хорошо:\s*/i, ''))}</div></div>`;
+          const t = block.text.replace(/^Хорошо:\s*/i, '');
+          html += `<div class="good"><div class="good-icon">✅</div><div>${escapeHtml(t)}</div></div>`;
         } else {
           html += `<p>${escapeHtml(block.text)}</p>`;
         }
@@ -2756,14 +2705,14 @@ function buildMemoHTML() {
         html += `</ul>`;
       }
       else if (block.type === 'quote') {
-        html += `<div class="quote">${escapeHtml(block.text)}</div>`;
+        html += `<div class="quote">«${escapeHtml(block.text)}»</div>`;
       }
     });
 
     html += `</div>`;
   });
 
-  // ──── ФИНАЛ ───────────────────────────────────────────
+  // ─── ФИНАЛ ───
   html += `
     <div class="pdf-page final">
       <div class="final-emoji">🎉</div>
