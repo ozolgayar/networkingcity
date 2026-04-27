@@ -1400,14 +1400,32 @@ function refreshHubZones() {
     }
   }
 
-  // Подсказка в подвале
- // Подсказка в подвале (без навязчивого «Следующая»)
+ // Подсказка в подвале — указывает конкретную локацию
   const hint = document.getElementById('hub-footer-hint');
   if (hint) {
     if (allDone) {
       hint.textContent = 'Все главы пройдены! Жми «Подведение итогов» 🏆';
     } else {
-      hint.textContent = 'Кликай по подписям на карте, чтобы подойти к людям';
+      // Находим первую непройденную главу
+      const nextChapterId = chapterOrder.find(id =>
+        !m2State.completedChapters.includes(id)
+      );
+
+      // Соответствие id главы → название локации + иконка
+      const locationNames = {
+        chapter1: { name: 'Кофейная стойка',  icon: '☕' },
+        chapter2: { name: 'Стол с напитками', icon: '🥤' },
+        chapter3: { name: 'Буфет',            icon: '🍽️' },
+        chapter4: { name: 'Сцена',            icon: '🎤' },
+        chapter5: { name: 'Зал конференции',  icon: '🎙️' },
+      };
+
+      const loc = locationNames[nextChapterId];
+   if (loc) {
+        hint.innerHTML = `Подойди к локации <strong>«${loc.name}»</strong> ${loc.icon}`;
+      } else {
+        hint.innerHTML = 'Кликай по подписям на карте';
+      }
     }
   }
 }
