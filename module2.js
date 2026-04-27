@@ -44,88 +44,6 @@
    ================================================================ */
 
 
-/* ================================================================
-/* ================================================================
-   ЗАГРУЗКА ШРИФТА ДЛЯ PDF
-   Грузим локальный файл PTSans-Regular.ttf, лежащий рядом с module2.js
-   Если не получилось — пробуем CDN как резерв
-   ================================================================ */
-let robotoFontCache = null;
-
-async function loadRobotoFont() {
-  if (robotoFontCache) return robotoFontCache;
-
-  // Конвертация ArrayBuffer → base64
-  function arrayBufferToBase64(buffer) {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    const chunkSize = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      binary += String.fromCharCode.apply(
-        null, bytes.subarray(i, i + chunkSize)
-      );
-    }
-    return btoa(binary);
-  }
-
-  // ── Список источников: сначала локальный, потом CDN ──
-  const FONT_SOURCES = [
-    // 1) ЛОКАЛЬНЫЙ ФАЙЛ — лежит рядом с module2.js
-    {
-      name: 'PT Sans (локальный)',
-      regular: 'PTSans-Regular.ttf',
-      bold:    'PTSans-Regular.ttf',  // используем тот же файл для bold
-    },
-    // 2) Резерв: CDN
-    {
-      name: 'PT Sans (CDN)',
-      regular: 'https://fonts.gstatic.com/s/ptsans/v17/jizaRExUiTo99u79D0KExd0.ttf',
-      bold:    'https://fonts.gstatic.com/s/ptsans/v17/jizfRExUiTo99u79B_mh0O6tKA.ttf',
-    },
-  ];
-
-  for (const source of FONT_SOURCES) {
-    try {
-      console.log(`Пробуем загрузить шрифт: ${source.name}...`);
-
-      const [regularResp, boldResp] = await Promise.all([
-        fetch(source.regular),
-        fetch(source.bold),
-      ]);
-
-      if (!regularResp.ok || !boldResp.ok) {
-        console.warn(`${source.name}: HTTP ${regularResp.status}/${boldResp.status}`);
-        continue;
-      }
-
-      const [regularBuf, boldBuf] = await Promise.all([
-        regularResp.arrayBuffer(),
-        boldResp.arrayBuffer(),
-      ]);
-
-      if (regularBuf.byteLength < 20000 || boldBuf.byteLength < 20000) {
-        console.warn(`${source.name}: слишком маленький файл`);
-        continue;
-      }
-
-      robotoFontCache = {
-        name: source.name,
-        regular: arrayBufferToBase64(regularBuf),
-        bold:    arrayBufferToBase64(boldBuf),
-      };
-
-      console.log(`✅ Шрифт ${source.name} успешно загружен`);
-      return robotoFontCache;
-
-    } catch (e) {
-      console.warn(`${source.name}: ошибка`, e.message);
-      continue;
-    }
-  }
-
-  console.error('Не удалось загрузить ни один шрифт');
-  return null;
-}
 
 const CHAPTERS = {
 
@@ -2117,381 +2035,477 @@ function renderNotebook() {
    Генерирует красивую PDF-памятку с поддержкой кириллицы
    через шрифт Roboto.
    ---------------------------------------------------------------- */
-async function downloadPdfMemo() {
-  if (m2State.artifacts.length === 0) {
-    showToast('Сначала собери хотя бы один артефакт', 'warning');
-    return;
-  }
+/* ----------------------------------------------------------------
+   FULL_MEMO — полная памятка курса, рендерится в PDF
+   ---------------------------------------------------------------- */
+const FULL_MEMO = [
+  {
+    title: 'Глава 1. Первые 7 секунд знакомства',
+    blocks: [
+      { type: 'h2', text: 'О чём эта глава' },
+      { type: 'p', text: 'Первое впечатление формируется быстрее, чем мы успеваем это осознать — буквально за 7 секунд. За это время собеседник считывает сигналы: как ты подошёл, как держишь тело, что сказал в первую секунду. Эта глава о том, как осознанно управлять этими секундами и превращать случайную встречу в начало настоящего контакта.' },
 
-  if (typeof window.jspdf === 'undefined') {
-    showToast('Не удалось загрузить генератор PDF', 'error');
-    return;
-  }
+      { type: 'h2', text: 'Принцип 1. Ситуативная открывающая фраза' },
+      { type: 'p', text: 'Суть принципа: открывающая фраза работает лучше, когда она привязана к конкретной ситуации, в которой вы оба сейчас находитесь.' },
+      { type: 'p', text: 'Шаблонные фразы вроде «Здравствуйте, давайте познакомимся» включают у собеседника защитную реакцию. Ситуативная фраза показывает, что ты внимателен к моменту, к месту, к тому, что происходит вокруг.' },
+      { type: 'p', text: 'Как это работает на практике. Ситуативная фраза — это наблюдение или вопрос, связанный с тем, где вы сейчас находитесь:' },
+      { type: 'ul', items: [
+        'На конференции: «Как вам доклад? Меня зацепил момент про…»',
+        'В очереди за кофе: «Здесь всегда такая очередь или сегодня особенный день?»',
+        'На мероприятии: «Я первый раз на этой площадке, а вы уже тут бывали раньше?»',
+      ]},
+      { type: 'p', text: 'Что попробовать: перед следующим мероприятием придумай 2–3 ситуативные фразы заранее, опираясь на программу события, площадку или контекст.' },
 
-  // Блокируем кнопку, чтобы не нажали дважды
+      { type: 'h2', text: 'Принцип 2. Открытая поза тела' },
+      { type: 'p', text: 'Суть принципа: открытая поза сигнализирует о заинтересованности и располагает собеседника к разговору ещё до того, как прозвучит первое слово.' },
+      { type: 'p', text: 'Тело говорит раньше языка. Если руки скрещены, корпус развёрнут в сторону, взгляд ускользает — собеседник считывает это как «мне не очень-то интересно», даже если ты говоришь дружелюбные слова.' },
+      { type: 'p', text: 'Из чего складывается открытая поза:' },
+      { type: 'ul', items: [
+        'Свободные руки — не скрещены, не зажаты в карманах, не держат смартфон',
+        'Корпус развёрнут к собеседнику — фронтально, с вниманием',
+        'Взгляд в глаза — не сверлящий, но устойчивый',
+        'Расслабленные плечи — зажатые плечи считываются как тревога или превосходство',
+      ]},
+
+      { type: 'h2', text: 'Принцип 3. Завершение с конкретным поводом' },
+      { type: 'p', text: 'Суть принципа: знакомство фиксируется в памяти и переходит в реальный контакт только тогда, когда у разговора есть конкретное продолжение.' },
+      { type: 'p', text: 'Конкретный повод — это не «давайте созвонимся как-нибудь», а чёткое действие с привязкой ко времени или содержанию:' },
+      { type: 'ul', items: [
+        '«Я пришлю вам ту статью, о которой говорили на этой неделе»',
+        '«Давайте встретимся за кофе в следующий вторник, я напишу с утра»',
+        '«Скину вам контакт того специалиста сегодня вечером»',
+      ]},
+
+      { type: 'h2', text: 'Чек-лист «Первые 7 секунд»' },
+      { type: 'ul', items: [
+        'Есть ли у меня ситуативная тема для открывающей фразы?',
+        'Моя поза открытая? Руки свободны, корпус к собеседнику, плечи расслаблены?',
+        'Я знаю, каким будет следующий шаг после разговора?',
+      ]},
+
+      { type: 'quote', text: 'Ситуативная фраза открывает любую дверь.' },
+    ],
+  },
+  {
+    title: 'Глава 2. Самопрезентация за 30 секунд',
+    blocks: [
+      { type: 'h2', text: 'Что такое Elevator Pitch' },
+      { type: 'p', text: 'Elevator pitch — короткая самопрезентация, которую можно успеть рассказать за время поездки в лифте, то есть за 30–60 секунд. На конференциях у тебя есть очень мало времени, чтобы человек напротив понял, кто ты и почему с тобой стоит продолжить разговор.' },
+
+      { type: 'h2', text: 'Принцип 1. Формула питча' },
+      { type: 'p', text: 'Хороший питч — это чёткая структура из четырёх элементов:' },
+      { type: 'ul', items: [
+        'Кто я — имя и роль/профессия',
+        'Что делаю — какую конкретную задачу ты решаешь',
+        'Для кого — кто твоя аудитория',
+        'Результат — что получают те, для кого ты работаешь, в цифрах или сроках',
+      ]},
+      { type: 'p', text: '✗ «Я маркетолог, занимаюсь продвижением» — звучит размыто.' },
+      { type: 'p', text: '✓ «Я Злата, маркетолог. Помогаю медтех-стартапам выходить на B2B-рынок за 6 месяцев».' },
+
+      { type: 'h2', text: 'Принцип 2. Конкретный результат вызывает конкретный интерес' },
+      { type: 'p', text: 'Виды конкретики, которые работают:' },
+      { type: 'ul', items: [
+        'Срок — «за 3 месяца», «за полгода», «к концу года»',
+        'Цифра — «увеличили в 2 раза», «сократили на 40%»',
+        'Конкретный исход — «вышли на рынок Европы», «закрыли раунд инвестиций»',
+      ]},
+      { type: 'p', text: 'Главное правило: не приукрашивай. Фальшь в питче считывается мгновенно.' },
+
+      { type: 'h2', text: 'Принцип 3. Возвращай вопрос собеседнику' },
+      { type: 'p', text: 'Закончив рассказ о себе, всегда передавай слово вопросом. Какие вопросы работают:' },
+      { type: 'ul', items: [
+        'Про задачу: «А у тебя сейчас есть задача по масштабированию?»',
+        'Про опыт: «А ты как раз работаешь в этой сфере?»',
+        'Про контекст: «А ты сюда пришёл с какой-то конкретной целью?»',
+      ]},
+
+      { type: 'h2', text: 'Шаблон Elevator Pitch' },
+      { type: 'ul', items: [
+        'Кто я: Я [имя], [профессия/роль]',
+        'Что делаю: Помогаю [кому] [сделать что]',
+        'Результат: за [срок] / с результатом [X]',
+        'Крючок: вопрос собеседнику о его задаче',
+      ]},
+
+      { type: 'quote', text: '«Я маркетолог» — общая фраза. «Помогаю стартапам выйти на рынок за полгода» — это уже разговор.' },
+    ],
+  },
+  {
+    title: 'Глава 3. Small talk — искусство «разговора ни о чём»',
+    blocks: [
+      { type: 'h2', text: 'О чём эта глава' },
+      { type: 'p', text: 'Small talk — короткий ненапряжный разговор на нейтральные темы, который случается у буфета, в очереди за кофе, в перерыве между секциями. Именно эти 2–3 минуты лёгкой беседы создают доверие, без которого никакое «дело» дальше не пойдёт.' },
+
+      { type: 'h2', text: 'Принцип 1. Small talk — это разогрев, а не цель' },
+      { type: 'p', text: 'Главное правило: говори о том, что окружает вас обоих прямо сейчас:' },
+      { type: 'ul', items: [
+        'Еда в буфете',
+        'Само мероприятие, секции, спикеры',
+        'Помещение, площадка, город',
+        'Погода (если она реально необычная)',
+      ]},
+
+      { type: 'h2', text: 'Принцип 2. Избегай тяжёлых тем в первые минуты' },
+      { type: 'p', text: 'Какие темы тяжёлые:' },
+      { type: 'ul', items: [
+        'Политика — слишком высокий риск задеть взгляды',
+        'Религия — глубоко личная сфера',
+        'Деньги — зарплаты, цены, чужие доходы',
+        'Здоровье — особенно чужое',
+        'Личные отношения, дети, семья',
+        'Резкая критика спикеров и компаний',
+      ]},
+
+      { type: 'h2', text: 'Принцип 3. Техника «да, и…»' },
+      { type: 'p', text: 'Формула: признаю что было сложно + но нашёл что-то ценное + возвращаю вопрос.' },
+      { type: 'p', text: '✗ «Ой, ужасная секция, полтора часа впустую».' },
+      { type: 'p', text: '✓ «Была на секции по регуляторике, было сложновато, но нашла пару неожиданных инсайтов. А ты где была?»' },
+
+      { type: 'h2', text: 'Принцип 4. Правило трёх О' },
+      { type: 'ul', items: [
+        'О1 — Открывающая фраза: наблюдение о том, что вокруг',
+        'О2 — Откровение: конкретный факт о себе по теме',
+        'О3 — Открытый вопрос собеседнику',
+      ]},
+      { type: 'p', text: 'Пример: О1: «Снег в октябре, вот это поворот». О2: «Я прилетела из Краснодара, там ещё +20». О3: «А ты издалека?»' },
+
+      { type: 'h2', text: 'Принцип 5. Формула SOFTEN — язык тела' },
+      { type: 'ul', items: [
+        'S — Smile (Улыбка) — лёгкая, естественная',
+        'O — Open posture (Открытая поза) — корпус развёрнут к собеседнику',
+        'F — Forward lean (Наклон вперёд) — лёгкий наклон показывает интерес',
+        'T — Touch (Уместное прикосновение) — короткое касание плеча',
+        'E — Eye contact (Зрительный контакт) — устойчивый, но не сверлящий',
+        'N — Nod (Кивки) — лёгкие кивки показывают, что ты слышишь',
+      ]},
+      { type: 'p', text: 'Лайфхак: если сложно смотреть в глаза — смотри на переносицу. Если не расслышал — спокойно переспроси: «Прости, уточни, пожалуйста?»' },
+
+      { type: 'h2', text: 'Банк из 20 вопросов для small talk' },
+      { type: 'p', text: 'Про мероприятие:' },
+      { type: 'ul', items: [
+        'Какая секция сегодня тебя удивила больше всего?',
+        'Что привело тебя на эту конференцию?',
+        'Что из услышанного хочешь попробовать применить?',
+        'Как ты узнал об этом мероприятии?',
+        'Ты здесь впервые или уже бывал?',
+      ]},
+      { type: 'p', text: 'Про контекст:' },
+      { type: 'ul', items: [
+        'Ты из Москвы или приехал специально?',
+        'С каким настроением ехал сюда утром?',
+        'Долго добирался?',
+      ]},
+      { type: 'p', text: 'Про человека и его сферу:' },
+      { type: 'ul', items: [
+        'Что тебя больше всего привлекает в твоей сфере?',
+        'Как ты вообще оказался в этой профессии?',
+        'Что у тебя сейчас самое интересное в работе?',
+        'С чем сейчас в работе сложнее всего?',
+      ]},
+      { type: 'p', text: 'Про впечатления:' },
+      { type: 'ul', items: [
+        'Кто из спикеров сегодня запомнился?',
+        'Какой формат на конференциях ты любишь больше: доклады или дискуссии?',
+        'Что бы ты изменил в этой конференции, будь твоя воля?',
+      ]},
+      { type: 'p', text: 'Про планы:' },
+      { type: 'ul', items: [
+        'Останешься на вечернюю часть?',
+        'Какие ещё мероприятия в этом году планируешь?',
+        'Где ты обычно встречаешь людей из твоей сферы?',
+      ]},
+      { type: 'p', text: 'Универсальные:' },
+      { type: 'ul', items: [
+        'Что у тебя сегодня самое неожиданное произошло?',
+        'Если не секрет, над чем ты сейчас работаешь?',
+      ]},
+
+      { type: 'quote', text: 'Умение поговорить ни о чём — это на самом деле умение говорить о людях, не задевая их.' },
+    ],
+  },
+  {
+    title: 'Глава 4. Как быть запоминающимся',
+    blocks: [
+      { type: 'h2', text: 'О чём эта глава' },
+      { type: 'p', text: 'После любой конференции спикеры получают десятки одинаковых сообщений. Эта глава о том, как из десятков встреч стать одной запоминающейся.' },
+
+      { type: 'h2', text: 'Принцип 1. Техника «крючок»' },
+      { type: 'p', text: 'Формула: конкретный тезис из выступления + твоё мнение или опыт по этому тезису.' },
+      { type: 'p', text: '✓ «Особенно тезис про 18-месячный цикл продаж. У меня был кейс, где мы сократили его вдвое — интересно сравнить подходы».' },
+
+      { type: 'h2', text: 'Принцип 2. Якорная деталь' },
+      { type: 'p', text: 'Три типа якорных деталей:' },
+      { type: 'ul', items: [
+        'Необычное прошлое — «Я маркетолог, но начинала как врач»',
+        'Конкретная цифра — «Сократили цикл продаж с 18 до 9 месяцев»',
+        'Парадоксальный факт — «Работаю в медтехе, но боюсь уколов»',
+      ]},
+
+      { type: 'h2', text: 'Принцип 3. Необычные вопросы' },
+      { type: 'p', text: 'Стандартный вопрос → стандартный ответ → забытый разговор. Необычный вопрос → человек думает → запоминающийся разговор.' },
+      { type: 'p', text: 'Банк необычных вопросов:' },
+      { type: 'ul', items: [
+        'Что было самым неожиданным в твоей карьере?',
+        'Если бы не эта профессия — что бы ты делал?',
+        'Что ты сейчас читаешь, не по работе?',
+        'Какой совет ты бы дал себе десять лет назад?',
+        'Каким был твой профессиональный провал, из которого вышло что-то хорошее?',
+        'Что в твоей сфере все делают, но ты считаешь это неправильным?',
+      ]},
+
+      { type: 'h2', text: 'Принцип 4. Переход к Большому разговору' },
+      { type: 'p', text: 'Большой разговор касается не что человек делает, а зачем. Вопросы-мостики:' },
+      { type: 'ul', items: [
+        'Что тебя по-настоящему драйвит в работе?',
+        'Какой самый важный урок ты вынес из карьеры?',
+        'Если бы можно было изменить что-то одно в своей отрасли — что бы это было?',
+        'Что тебя удивило в этой профессии, чего не ожидал?',
+      ]},
+
+      { type: 'h2', text: 'Принцип 5. Финал разговора с искрой' },
+      { type: 'p', text: 'Формула финала из трёх элементов:' },
+      { type: 'ul', items: [
+        'Имя собеседника',
+        'Конкретный комплимент разговору',
+        'Предложение продолжить + причина',
+      ]},
+      { type: 'p', text: '✓ «Анна, спасибо! Это был один из самых интересных разговоров. Особенно про косметологию не ожидала услышать. Можно я напишу тебе после конференции?»' },
+
+      { type: 'quote', text: 'Большинство людей говорят одни и те же слова. Но запоминается тот, кто говорит, что именно зацепило и почему это важно лично для него.' },
+    ],
+  },
+  {
+    title: 'Глава 5. Длительные отношения — нетворкинг после конференции',
+    blocks: [
+      { type: 'h2', text: 'Что такое follow-up' },
+      { type: 'p', text: 'Follow-up — продолжение контакта после первой встречи. В контексте нетворкинга это сообщение, которое ты отправляешь после знакомства, чтобы перевести случайную встречу в реальные рабочие или человеческие отношения.' },
+
+      { type: 'h2', text: 'Принцип 1. Подход к спикеру: follow-up в моменте' },
+      { type: 'p', text: 'Формула подхода:' },
+      { type: 'ul', items: [
+        'Имя спикера + благодарность',
+        'Конкретный тезис из доклада, который зацепил',
+        'Твой личный опыт по этому тезису',
+        'Предложение обменяться контактами',
+      ]},
+
+      { type: 'h2', text: 'Принцип 2. «Научите меня»' },
+      { type: 'p', text: 'Если собеседник упомянул тему, в которой ты ничего не понимаешь — не делай вид, что разбираешься. Признай незнание и попроси рассказать. Универсальные фразы:' },
+      { type: 'ul', items: [
+        '«Я никогда не слышала об этом, расскажи»',
+        '«Как ты вообще к этому пришёл?»',
+        '«Это страшно/сложно/интересно — с чего начать?»',
+        '«Я даже представить не могу, как это устроено?»',
+      ]},
+
+      { type: 'h2', text: 'Принцип 3. Эффект Франклина' },
+      { type: 'p', text: 'Парадокс: человек, который сделал тебе одолжение, начинает относиться к тебе лучше, чем человек, которому одолжение сделал ты. Что можно попросить:' },
+      { type: 'ul', items: [
+        'Совет в области, где собеседник эксперт',
+        'Рекомендацию книги, фильма, места',
+        'Контакт человека, которого он знает',
+        'Мнение о твоей идее или подходе',
+      ]},
+      { type: 'p', text: 'Важно: эффект работает только с настоящей просьбой. Уязвимость — это честность, не приём.' },
+
+      { type: 'h2', text: 'Принцип 4. Правило 24 часов' },
+      { type: 'p', text: 'Структура follow-up сообщения:' },
+      { type: 'ul', items: [
+        'Где познакомились — напоминание о контексте',
+        'Тема разговора — конкретный момент, который вы обсуждали',
+        'Обещанная ценность — то, что ты обещал прислать',
+        'Конкретный следующий шаг — без давления',
+      ]},
+
+      { type: 'h2', text: 'Шаблон Follow-up сообщения' },
+      { type: 'ul', items: [
+        '«[Имя], привет! Это [твоё имя] с [мероприятия]»',
+        '«Мы говорили про [тема разговора]»',
+        '«[Обещанная ценность — статья, контакт, ссылка]»',
+        '«Если актуально — готова на [конкретное предложение]»',
+      ]},
+      { type: 'p', text: 'Главное правило: отправь в течение 24 часов — пока тебя ещё помнят.' },
+
+      { type: 'p', text: 'Главное правило: отправь в течение 24 часов — пока тебя ещё помнят.' },
+
+      { type: 'quote', text: 'Нетворкинг не заканчивается на конференции. Он продолжается на следующий день.' },
+    ],
+  },
+  {
+    title: 'Заключение: твой путь после памятки',
+    blocks: [
+      { type: 'p', text: 'Ты прошёл все пять глав вместе со Златой — от первых 7 секунд знакомства до завязывания длительных отношений.' },
+      { type: 'p', text: 'Главный секрет: эти техники работают только тогда, когда ты используешь их. Не один раз, а на каждом мероприятии, пока они не перестанут быть «техниками» и не станут твоей естественной манерой общения.' },
+      { type: 'p', text: 'Удачи в нетворкинге!' },
+    ],
+  },
+];
+
+/* ----------------------------------------------------------------
+   downloadPdfMemo()
+   Генерирует красивую PDF-памятку через pdfMake.
+   Кириллица работает «из коробки» благодаря встроенному vfs_fonts.
+   ---------------------------------------------------------------- */
+function downloadPdfMemo() {
   const btn = document.getElementById('btn-download-pdf');
+
+  // Проверка что pdfMake загружен
+  if (typeof pdfMake === 'undefined') {
+    showToast('PDF-библиотека ещё не загрузилась, подожди секунду', 'warning');
+    return;
+  }
+
   if (btn) {
     btn.disabled = true;
-    btn.textContent = '⏳ Готовим PDF…';
+    btn.innerHTML = '⏳ Генерирую PDF…';
   }
 
-  showToast('📄 Загружаем шрифт…', '');
-
-  // Загружаем шрифт
-  const font = await loadRobotoFont();
-
-  if (!font) {
-    showToast('Не удалось загрузить шрифт', 'error');
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = '⬇️ Скачать PDF-памятку';
-    }
-    return;
-  }
-
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    unit: 'mm',
-    format: 'a4',
-    orientation: 'portrait',
-  });
-
-  // ── Регистрируем шрифт в jsPDF ────────────────────
   try {
-    doc.addFileToVFS('CustomFont-Regular.ttf', font.regular);
-    doc.addFont('CustomFont-Regular.ttf', 'Roboto', 'normal');
+    // ── СОБИРАЕМ СОДЕРЖИМОЕ ─────────────────────────────────
+    const content = [];
 
-    doc.addFileToVFS('CustomFont-Bold.ttf', font.bold);
-    doc.addFont('CustomFont-Bold.ttf', 'Roboto', 'bold');
+    // Обложка
+    content.push({
+      text: 'Памятка по нетворкингу',
+      style: 'coverTitle',
+      alignment: 'center',
+      margin: [0, 80, 0, 12],
+    });
+    content.push({
+      text: 'От Златы — твоего навигатора в мире знакомств',
+      style: 'coverSubtitle',
+      alignment: 'center',
+      margin: [0, 0, 0, 40],
+    });
+    content.push({
+      text: '5 глав · техники, чек-листы и шаблоны',
+      style: 'coverHint',
+      alignment: 'center',
+      pageBreak: 'after',
+    });
 
-    doc.setFont('Roboto', 'normal');
+    // Главы
+    FULL_MEMO.forEach((chapter, chIdx) => {
+      content.push({
+        text: chapter.title,
+        style: 'chapterTitle',
+        margin: [0, 0, 0, 14],
+      });
 
-    console.log(`PDF использует шрифт: ${font.name}`);
-  } catch (e) {
-    console.error('Ошибка регистрации шрифта:', e);
-    showToast('Ошибка регистрации шрифта PDF', 'error');
+      chapter.blocks.forEach(block => {
+        if (block.type === 'h2') {
+          content.push({
+            text: block.text,
+            style: 'h2',
+            margin: [0, 12, 0, 6],
+          });
+        } else if (block.type === 'p') {
+          content.push({
+            text: block.text,
+            style: 'paragraph',
+            margin: [0, 0, 0, 8],
+          });
+        } else if (block.type === 'ul') {
+          content.push({
+            ul: block.items,
+            style: 'list',
+            margin: [10, 0, 0, 10],
+          });
+        } else if (block.type === 'quote') {
+          content.push({
+            text: '« ' + block.text + ' »',
+            style: 'quote',
+            margin: [20, 14, 20, 14],
+            alignment: 'center',
+          });
+        }
+      });
+
+      // Разрыв страницы между главами (кроме последней)
+      if (chIdx < FULL_MEMO.length - 1) {
+        content.push({ text: '', pageBreak: 'after' });
+      }
+    });
+
+    // ── DOC DEFINITION ──────────────────────────────────────
+    const docDefinition = {
+      pageSize: 'A4',
+      pageMargins: [50, 60, 50, 60],
+      info: {
+        title: 'Памятка по нетворкингу',
+        author: 'Курс «Нетворкинг со Златой»',
+      },
+      content: content,
+      styles: {
+        coverTitle: {
+          fontSize: 32,
+          bold: true,
+          color: '#0F2448',
+        },
+        coverSubtitle: {
+          fontSize: 14,
+          italics: true,
+          color: '#64748b',
+        },
+        coverHint: {
+          fontSize: 12,
+          color: '#94a3b8',
+        },
+        chapterTitle: {
+          fontSize: 22,
+          bold: true,
+          color: '#0F2448',
+        },
+        h2: {
+          fontSize: 14,
+          bold: true,
+          color: '#0284c7',
+        },
+        paragraph: {
+          fontSize: 11,
+          lineHeight: 1.45,
+          color: '#1e293b',
+          alignment: 'justify',
+        },
+        list: {
+          fontSize: 11,
+          lineHeight: 1.4,
+          color: '#1e293b',
+        },
+        quote: {
+          fontSize: 12,
+          italics: true,
+          color: '#0284c7',
+          bold: true,
+        },
+      },
+      defaultStyle: {
+        font: 'Roboto',
+      },
+      footer: function(currentPage, pageCount) {
+        return {
+          text: currentPage + ' / ' + pageCount,
+          alignment: 'center',
+          fontSize: 9,
+          color: '#94a3b8',
+          margin: [0, 20, 0, 0],
+        };
+      },
+    };
+
+    // ── ГЕНЕРИРУЕМ И СКАЧИВАЕМ ──────────────────────────────
+    pdfMake.createPdf(docDefinition).download('Памятка по нетворкингу.pdf');
+
+    showToast('📄 PDF-памятка сохранена!', 'success');
+  } catch (err) {
+    console.error('Ошибка генерации PDF:', err);
+    showToast('Не удалось создать PDF. Попробуй ещё раз.', 'warning');
+  } finally {
     if (btn) {
       btn.disabled = false;
       btn.innerHTML = '⬇️ Скачать PDF-памятку';
     }
-    return;
-  }
-
-  // ── Цвета палитры ─────────────────────────────────────────
-  const COLOR = {
-    text:     [15, 36, 72],
-    muted:    [100, 116, 139],
-    accent:   [14, 165, 233],
-    accent2:  [2, 132, 199],
-    success:  [34, 197, 94],
-    warning:  [245, 158, 11],
-    bgLight:  [240, 249, 255],
-    bgCard:   [248, 250, 252],
-    border:   [203, 213, 225],
-    white:    [255, 255, 255],
-  };
-
-  const PAGE_W = 210;
-  const PAGE_H = 297;
-  const MARGIN = 18;
-  const CONTENT_W = PAGE_W - MARGIN * 2;
-
-  let y = 0;
-
-  /* ── Хелперы ──────────────────────────────────────── */
-  function drawPageBg() {
-    doc.setFillColor(...COLOR.accent);
-    doc.rect(0, 0, PAGE_W, 4, 'F');
-  }
-
-  function newPage() {
-    doc.addPage();
-    drawPageBg();
-    y = MARGIN + 8;
-  }
-
-  function ensureSpace(needed) {
-    if (y + needed > PAGE_H - MARGIN - 10) {
-      newPage();
-    }
-  }
-
-  function wrapText(text, maxWidth) {
-    return doc.splitTextToSize(text || '', maxWidth);
-  }
-
-  function stripHtml(html) {
-    if (!html) return '';
-    return html
-      .replace(/<li[^>]*>/gi, '• ')
-      .replace(/<\/li>/gi, '\n')
-      .replace(/<br\s*\/?>/gi, '\n')
-      .replace(/<\/p>/gi, '\n')
-      .replace(/<\/?strong[^>]*>/gi, '**')
-      .replace(/<\/?b[^>]*>/gi, '**')
-      .replace(/<\/?ul[^>]*>/gi, '')
-      .replace(/<\/?p[^>]*>/gi, '')
-      .replace(/<[^>]+>/g, '')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .replace(/&laquo;/g, '«')
-      .replace(/&raquo;/g, '»')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/\n{3,}/g, '\n\n')
-      .replace(/[ \t]+/g, ' ')
-      .trim();
-  }
-
-  function drawSmartText(rawText, x, maxWidth, lineHeight) {
-    const parts = rawText.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
-
-    if (parts.length === 1 && !parts[0].startsWith('**')) {
-      const lines = wrapText(rawText, maxWidth);
-      lines.forEach(line => {
-        ensureSpace(lineHeight);
-        doc.text(line, x, y);
-        y += lineHeight;
-      });
-      return;
-    }
-
-    let currentLine = [];
-    let currentWidth = 0;
-
-    function flushLine() {
-      if (currentLine.length === 0) return;
-      ensureSpace(lineHeight);
-      let xCursor = x;
-      currentLine.forEach(segment => {
-        doc.setFont('Roboto', segment.bold ? 'bold' : 'normal');
-        doc.text(segment.text, xCursor, y);
-        xCursor += doc.getTextWidth(segment.text);
-      });
-      y += lineHeight;
-      currentLine = [];
-      currentWidth = 0;
-    }
-
-    parts.forEach(part => {
-      const isBold = part.startsWith('**') && part.endsWith('**');
-      const text = isBold ? part.slice(2, -2) : part;
-
-      doc.setFont('Roboto', isBold ? 'bold' : 'normal');
-
-      const words = text.split(/(\s+)/);
-      words.forEach(word => {
-        if (!word) return;
-        const wordWidth = doc.getTextWidth(word);
-
-        if (currentWidth + wordWidth > maxWidth && currentLine.length > 0) {
-          flushLine();
-          if (/^\s+$/.test(word)) return;
-        }
-        currentLine.push({ text: word, bold: isBold });
-        currentWidth += wordWidth;
-      });
-    });
-
-    flushLine();
-    doc.setFont('Roboto', 'normal');
-  }
-
-  // ════════════════════════════════════════════════════════
-  // ── СТРАНИЦА 1: ОБЛОЖКА ────────────────────────────────
-  // ════════════════════════════════════════════════════════
-
-  doc.setFillColor(...COLOR.accent);
-  doc.rect(0, 0, PAGE_W, 70, 'F');
-
-  doc.setTextColor(...COLOR.white);
-  doc.setFont('Roboto', 'bold');
-  doc.setFontSize(28);
-  doc.text('Памятка нетворкера', PAGE_W / 2, 32, { align: 'center' });
-
-  doc.setFont('Roboto', 'normal');
-  doc.setFontSize(13);
-  doc.text('Модуль 2 — Конференция', PAGE_W / 2, 46, { align: 'center' });
-
-  doc.setFontSize(10);
-  doc.text('Злата учится знакомиться', PAGE_W / 2, 56, { align: 'center' });
-
-  y = 95;
-  doc.setFillColor(...COLOR.bgLight);
-  doc.setDrawColor(...COLOR.border);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(MARGIN, y, CONTENT_W, 70, 4, 4, 'FD');
-
-  doc.setTextColor(...COLOR.text);
-  doc.setFont('Roboto', 'bold');
-  doc.setFontSize(18);
-  doc.text(
-    `${m2State.artifacts.length} техник знакомства`,
-    PAGE_W / 2, y + 22,
-    { align: 'center' }
-  );
-
-  doc.setFont('Roboto', 'normal');
-  doc.setFontSize(11);
-  doc.setTextColor(...COLOR.muted);
-  doc.text(
-    'собранных за время прохождения конференции',
-    PAGE_W / 2, y + 35,
-    { align: 'center' }
-  );
-
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('ru-RU', {
-    day: 'numeric', month: 'long', year: 'numeric'
-  });
-  doc.setFontSize(9);
-  doc.setTextColor(...COLOR.accent2);
-  doc.text(dateStr, PAGE_W / 2, y + 58, { align: 'center' });
-
-  y = 185;
-  doc.setFont('Roboto', 'bold');
-  doc.setFontSize(13);
-  doc.setTextColor(...COLOR.text);
-  doc.text('Содержание:', MARGIN, y);
-  y += 10;
-
-  doc.setFont('Roboto', 'normal');
-  doc.setFontSize(11);
-
-  m2State.artifacts.forEach((art, i) => {
-    doc.setFillColor(...COLOR.accent);
-    doc.circle(MARGIN + 3, y - 1.5, 3, 'F');
-    doc.setTextColor(...COLOR.white);
-    doc.setFont('Roboto', 'bold');
-    doc.setFontSize(8);
-    doc.text(String(i + 1), MARGIN + 3, y + 0.5, { align: 'center' });
-
-    doc.setFont('Roboto', 'normal');
-    doc.setFontSize(11);
-    doc.setTextColor(...COLOR.text);
-    doc.text(art.name || 'Без названия', MARGIN + 10, y + 0.5);
-    y += 9;
-  });
-
-  doc.setFont('Roboto', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(...COLOR.muted);
-  doc.text(
-    'Сохрани эту памятку и используй на следующей конференции',
-    PAGE_W / 2, PAGE_H - 20,
-    { align: 'center' }
-  );
-
-  // ════════════════════════════════════════════════════════
-  // ── СТРАНИЦЫ С АРТЕФАКТАМИ ─────────────────────────────
-  // ════════════════════════════════════════════════════════
-
-  m2State.artifacts.forEach((artifact, idx) => {
-    newPage();
-
-    const headerH = 28;
-    doc.setFillColor(...COLOR.accent);
-    doc.roundedRect(MARGIN, y, CONTENT_W, headerH, 3, 3, 'F');
-
-    doc.setFillColor(...COLOR.white);
-    doc.circle(MARGIN + 10, y + headerH / 2, 6, 'F');
-    doc.setTextColor(...COLOR.accent);
-    doc.setFont('Roboto', 'bold');
-    doc.setFontSize(13);
-    doc.text(String(idx + 1), MARGIN + 10, y + headerH / 2 + 1.5, {
-      align: 'center'
-    });
-
-    doc.setTextColor(...COLOR.white);
-    doc.setFont('Roboto', 'bold');
-    doc.setFontSize(14);
-    const nameLines = wrapText(artifact.name || '', CONTENT_W - 25);
-    nameLines.slice(0, 2).forEach((line, i) => {
-      doc.text(line, MARGIN + 20, y + 12 + (i * 6.5));
-    });
-
-    y += headerH + 8;
-
-    if (artifact.preview) {
-      const previewLines = wrapText(artifact.preview, CONTENT_W - 12);
-      const previewH = previewLines.length * 5.5 + 8;
-
-      doc.setFillColor(...COLOR.bgLight);
-      doc.roundedRect(MARGIN, y, CONTENT_W, previewH, 2, 2, 'F');
-      doc.setFillColor(...COLOR.accent);
-      doc.rect(MARGIN, y, 2, previewH, 'F');
-
-      doc.setFont('Roboto', 'normal');
-      doc.setFontSize(10);
-      doc.setTextColor(...COLOR.muted);
-
-      previewLines.forEach((line, i) => {
-        doc.text(line, MARGIN + 6, y + 6 + (i * 5.5));
-      });
-
-      y += previewH + 8;
-    }
-
-    doc.setFont('Roboto', 'normal');
-    doc.setFontSize(11);
-    doc.setTextColor(...COLOR.text);
-
-    const contentText = stripHtml(artifact.content);
-    const paragraphs = contentText.split('\n').filter(p => p.trim());
-
-    paragraphs.forEach(paragraph => {
-      const trimmed = paragraph.trim();
-      if (!trimmed) return;
-
-      ensureSpace(8);
-
-      if (trimmed.startsWith('•')) {
-        const itemText = trimmed.substring(1).trim();
-
-        ensureSpace(7);
-        doc.setFillColor(...COLOR.accent);
-        doc.circle(MARGIN + 2, y - 1.5, 1.3, 'F');
-
-        doc.setTextColor(...COLOR.text);
-        drawSmartText(itemText, MARGIN + 7, CONTENT_W - 7, 5.8);
-        y += 2;
-      } else {
-        doc.setTextColor(...COLOR.text);
-        drawSmartText(trimmed, MARGIN, CONTENT_W, 5.8);
-        y += 3;
-      }
-    });
-  });
-
-  // ════════════════════════════════════════════════════════
-  // ── ФУТЕР ───────────────────────────────────────────────
-  // ════════════════════════════════════════════════════════
-  const totalPages = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= totalPages; i++) {
-    doc.setPage(i);
-    doc.setFont('Roboto', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(...COLOR.muted);
-    doc.text(
-      `Стр. ${i} из ${totalPages}`,
-      PAGE_W - MARGIN, PAGE_H - 8,
-      { align: 'right' }
-    );
-    doc.text(
-      'Памятка нетворкера • Модуль 2',
-      MARGIN, PAGE_H - 8
-    );
-  }
-
-  const filename = `Памятка_нетворкера_${today.toISOString().slice(0, 10)}.pdf`;
-  doc.save(filename);
-
-  showToast('✅ PDF скачан!', 'success');
-
-  if (btn) {
-    btn.disabled = false;
-    btn.innerHTML = '⬇️ Скачать PDF-памятку';
   }
 }
 
