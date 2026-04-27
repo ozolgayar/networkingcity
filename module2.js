@@ -2360,42 +2360,49 @@ function downloadPdfMemo() {
     btn.innerHTML = '⏳ Генерирую PDF…';
   }
 
-  try {
-    // ───── Создаём временный скрытый контейнер с памяткой ─────
-    const container = document.createElement('div');
-    container.style.cssText = `
-      position: absolute;
-      left: -9999px;
-      top: 0;
-      width: 794px; /* A4 в пикселях @ 96dpi */
-      background: white;
-      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      color: #1e293b;
-      padding: 0;
-    `;
+  // ───── Создаём временный контейнер ─────
+  const container = document.createElement('div');
+  container.id = 'pdf-temp-container';
+  container.style.cssText = `
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 794px;
+    background: white;
+    color: #1e293b;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  `;
 
-    container.innerHTML = buildMemoHTML();
-    document.body.appendChild(container);
+  container.innerHTML = buildMemoHTML();
+  document.body.appendChild(container);
 
-    // ───── Опции для html2pdf ─────
+  // ── ВАЖНО: даём браузеру время отрисовать DOM перед захватом ──
+  setTimeout(() => {
     const options = {
       margin: 0,
       filename: 'Памятка по нетворкингу.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
+      image: { type: 'jpeg', quality: 0.95 },
       html2canvas: {
-        scale: 2,           // ← в 2 раза выше разрешение, чёткие эмодзи
+        scale: 2,
         useCORS: true,
+        allowTaint: true,
         backgroundColor: '#ffffff',
-        letterRendering: true,
+        logging: true,         // ← включаем логи в консоли для отладки
+        windowWidth: 794,
+        windowHeight: 1123,
       },
       jsPDF: {
-        unit: 'mm',
-        format: 'a4',
+        unit: 'px',
+        format: [794, 1123],
         orientation: 'portrait',
-        compress: true,
+        hotfixes: ['px_scaling'],
       },
       pagebreak: {
-        mode: ['css', 'legacy'],   // уважает page-break-before/after в CSS
+        mode: ['css', 'legacy'],
+        before: '.pdf-page',
       },
     };
 
@@ -2404,13 +2411,17 @@ function downloadPdfMemo() {
       .from(container)
       .save()
       .then(() => {
-        document.body.removeChild(container);
+        if (document.body.contains(container)) {
+          document.body.removeChild(container);
+        }
         showToast('📄 PDF-памятка сохранена!', 'success');
       })
       .catch(err => {
         console.error('Ошибка html2pdf:', err);
-        document.body.removeChild(container);
-        showToast('Не удалось создать PDF', 'warning');
+        if (document.body.contains(container)) {
+          document.body.removeChild(container);
+        }
+        showToast('Не удалось создать PDF: ' + err.message, 'warning');
       })
       .finally(() => {
         if (btn) {
@@ -2418,14 +2429,7 @@ function downloadPdfMemo() {
           btn.innerHTML = '⬇️ Скачать PDF-памятку';
         }
       });
-  } catch (err) {
-    console.error('Ошибка генерации PDF:', err);
-    showToast('Не удалось создать PDF. Попробуй ещё раз.', 'warning');
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '⬇️ Скачать PDF-памятку';
-    }
-  }
+  }, 300);
 }
 
 /* ────────────────────────────────────────────────────────
