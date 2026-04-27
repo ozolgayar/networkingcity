@@ -537,9 +537,10 @@ body {
    ---------------------------------------------------------------- */
 .m2-screen#m2-hub {
   background: transparent;
-  flex-direction: column;
-  overflow: hidden;          /* ← фиксируем, без скролла */
+  display: grid !important;
+  grid-template-rows: auto 1fr auto;   /* HUD | карта | футер */
   height: 100%;
+  overflow: hidden;
 }
 
 /* Заголовок хаба */
@@ -1717,8 +1718,7 @@ background: transparent;
    КАРТА ХАБА — карта по центру вертикали с отступом сверху и снизу
    ================================================================ */
 .hub-map-container {
-  flex: 1 1 auto;
-  min-height: 0;
+    min-height: 0;
   overflow: hidden;
   padding: 24px 24px 24px 24px;  /* пока всё одинаково */
   display: flex;
