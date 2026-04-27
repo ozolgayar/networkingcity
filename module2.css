@@ -1748,13 +1748,17 @@ background: transparent;
   color: var(--m2-text-muted);
   font-weight: 500;
 }
+
+/* Обёртка картинки — растягивается по контейнеру, картинка вписывается */
 .hub-map-image {
   position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
-  display: inline-block;
-  line-height: 0;
 }
 
 .hub-map-bg {
@@ -1766,6 +1770,7 @@ background: transparent;
   user-select: none;
   pointer-events: none;
 }
+
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
 .map-hotspot {
   position: absolute;
