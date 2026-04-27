@@ -2540,10 +2540,11 @@ function showChapterEnd(chapter) {
   const newBtn  = backBtn.cloneNode(true);
   backBtn.parentNode.replaceChild(newBtn, backBtn);
 
-  newBtn.addEventListener('click', function() {
+   newBtn.addEventListener('click', function() {
     showM2Screen('m2-hub');
     refreshHubZones();
   });
+}
 
 /* ----------------------------------------------------------------
    showFinal()
@@ -2577,15 +2578,6 @@ function showFinal() {
     `).join('');
   }
 
- // Кнопка «Открыть блокнот» — через клонирование, чтобы
-  // обработчики не накапливались при повторных входах в финал
-  const notebookBtn = document.getElementById('btn-final-notebook');
-  const newNotebookBtn = notebookBtn.cloneNode(true);
-  notebookBtn.parentNode.replaceChild(newNotebookBtn, notebookBtn);
-  newNotebookBtn.addEventListener('click', function() {
-    renderNotebook();
-    openModal('modal-notebook');
-  });
 
   // Кнопка «Начать заново» — открывает модалку подтверждения
   const restartBtn = document.getElementById('btn-final-restart');
