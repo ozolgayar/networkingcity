@@ -45,36 +45,15 @@
 
 
 /* ================================================================
-   ЗАГРУЗКА ШРИФТА ROBOTO ДЛЯ PDF
-   Грузим шрифт один раз, кешируем результат.
-   Используем несколько CDN на случай если один не отвечает.
+/* ================================================================
+   ЗАГРУЗКА ШРИФТА ДЛЯ PDF
+   Грузим локальный файл PTSans-Regular.ttf, лежащий рядом с module2.js
+   Если не получилось — пробуем CDN как резерв
    ================================================================ */
 let robotoFontCache = null;
 
 async function loadRobotoFont() {
   if (robotoFontCache) return robotoFontCache;
-
-  // Список рабочих CDN с TTF-шрифтами с поддержкой кириллицы
-  const FONT_SOURCES = [
-    // PT Sans — лёгкий, всегда с кириллицей
-    {
-      name: 'PT Sans',
-      regular: 'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/ptsans/PTSans-Regular.ttf',
-      bold:    'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/ptsans/PTSans-Bold.ttf',
-    },
-    // Roboto — резервный вариант
-    {
-      name: 'Roboto',
-      regular: 'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/roboto/static/Roboto-Regular.ttf',
-      bold:    'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/roboto/static/Roboto-Bold.ttf',
-    },
-    // Open Sans — ещё один резерв
-    {
-      name: 'Open Sans',
-      regular: 'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/opensans/OpenSans%5Bwdth,wght%5D.ttf',
-      bold:    'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/opensans/OpenSans%5Bwdth,wght%5D.ttf',
-    },
-  ];
 
   // Конвертация ArrayBuffer → base64
   function arrayBufferToBase64(buffer) {
@@ -89,14 +68,29 @@ async function loadRobotoFont() {
     return btoa(binary);
   }
 
-  // Пробуем источники по очереди
+  // ── Список источников: сначала локальный, потом CDN ──
+  const FONT_SOURCES = [
+    // 1) ЛОКАЛЬНЫЙ ФАЙЛ — лежит рядом с module2.js
+    {
+      name: 'PT Sans (локальный)',
+      regular: 'PTSans-Regular.ttf',
+      bold:    'PTSans-Regular.ttf',  // используем тот же файл для bold
+    },
+    // 2) Резерв: CDN
+    {
+      name: 'PT Sans (CDN)',
+      regular: 'https://fonts.gstatic.com/s/ptsans/v17/jizaRExUiTo99u79D0KExd0.ttf',
+      bold:    'https://fonts.gstatic.com/s/ptsans/v17/jizfRExUiTo99u79B_mh0O6tKA.ttf',
+    },
+  ];
+
   for (const source of FONT_SOURCES) {
     try {
-      console.log(`Пробуем загрузить шрифт ${source.name}...`);
+      console.log(`Пробуем загрузить шрифт: ${source.name}...`);
 
       const [regularResp, boldResp] = await Promise.all([
-        fetch(source.regular, { mode: 'cors' }),
-        fetch(source.bold, { mode: 'cors' }),
+        fetch(source.regular),
+        fetch(source.bold),
       ]);
 
       if (!regularResp.ok || !boldResp.ok) {
@@ -109,9 +103,8 @@ async function loadRobotoFont() {
         boldResp.arrayBuffer(),
       ]);
 
-      // Проверка: размер должен быть разумный (>20 КБ для TTF)
       if (regularBuf.byteLength < 20000 || boldBuf.byteLength < 20000) {
-        console.warn(`${source.name}: файлы слишком маленькие`);
+        console.warn(`${source.name}: слишком маленький файл`);
         continue;
       }
 
@@ -125,7 +118,7 @@ async function loadRobotoFont() {
       return robotoFontCache;
 
     } catch (e) {
-      console.warn(`${source.name}: ошибка загрузки`, e.message);
+      console.warn(`${source.name}: ошибка`, e.message);
       continue;
     }
   }
@@ -133,7 +126,6 @@ async function loadRobotoFont() {
   console.error('Не удалось загрузить ни один шрифт');
   return null;
 }
-
 
 const CHAPTERS = {
 
