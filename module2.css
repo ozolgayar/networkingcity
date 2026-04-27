@@ -2333,32 +2333,176 @@ body.m2-on-hub #m2-hud .hud-energy {
 }
 
 /* ================================================================
-   ФИНАЛ — фикс: убираем странную полосу справа
+   ФИНАЛ — корректный скролл и адаптация под высоту экрана
    ================================================================ */
-body.m2-on-final #m2-screen-container {
+
+/* Сам экран — флекс с прокруткой */
+.m2-screen#m2-final {
+  background: transparent;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 40px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-body.m2-on-final .m2-screen#m2-final {
-  position: relative;
-  min-height: 100%;
+.m2-screen#m2-final.active {
+  display: flex;
 }
 
-/* Карточка финала — белый фон чтобы лучше читалась */
+/* Карточка финала — белый фон */
 .final-wrap {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
-  padding: 32px 28px;
-  box-shadow: 0 12px 40px rgba(15, 36, 72, 0.15);
+  padding: 28px 28px 24px;
+  box-shadow: 0 12px 40px rgba(15, 36, 72, 0.18);
   border: 1px solid rgba(15, 36, 72, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  max-width: 540px;
+  width: 100%;
+
+  /* Главное: НЕ ограничиваем высоту, не делаем внутри overflow */
+  margin: 0 auto;
+  flex-shrink: 0;
 }
 
+/* Уменьшаем кубок и заголовок чтобы влезало больше */
+.final-celebration {
+  font-size: 56px;
+  margin-bottom: -4px;
+}
+
+.final-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0F2448;
+  line-height: 1.2;
+}
+
+.final-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: -4px;
+}
+
+/* Статистика — поджимаем */
+.final-stats {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.final-stat-item {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-radius: 12px;
+  padding: 12px 8px;
+  box-shadow: 0 2px 8px rgba(15, 36, 72, 0.06);
+}
+
+.final-stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0F2448;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.final-stat-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Заголовок «Собранные артефакты» */
+.final-artifacts-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* Список артефактов */
+.final-artifacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.final-artifact-item {
+  background: #ffffff;
+  border: 1px solid rgba(15, 36, 72, 0.1);
+  border-radius: 10px;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F2448;
+}
+
+.final-artifact-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Кнопки финала */
+.final-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.final-btns .m2-btn {
+  width: 100%;
+  padding: 12px 20px;
+}
+
+/* PDF-кнопка — красная */
+.m2-btn-pdf {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+  font-size: 14px;
+  font-weight: 700;
+}
+.m2-btn-pdf:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+.m2-btn-pdf:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Мобильный — поджимаем ещё сильнее */
 @media (max-width: 600px) {
-  .final-wrap {
-    padding: 24px 18px;
-    border-radius: 16px;
+  .m2-screen#m2-final {
+    padding: 14px 12px 30px;
   }
+  .final-wrap {
+    padding: 22px 18px 18px;
+    border-radius: 16px;
+    gap: 12px;
+  }
+  .final-celebration { font-size: 48px; }
+  .final-title       { font-size: 20px; }
+  .final-stat-value  { font-size: 20px; }
 }
