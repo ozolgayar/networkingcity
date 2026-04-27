@@ -1076,8 +1076,14 @@ background: transparent;
    ---------------------------------------------------------------- */
 .m2-screen#m2-final {
   background: transparent;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding: 20px 16px;
+  overflow-y: auto;
+}
+
+.m2-screen#m2-final .final-wrap {
+  margin: auto;
 }
 
 .final-wrap {
@@ -2324,4 +2330,35 @@ body.m2-on-hub #m2-hud .hud-energy {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+}
+
+/* ================================================================
+   ФИНАЛ — фикс: убираем странную полосу справа
+   ================================================================ */
+body.m2-on-final #m2-screen-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body.m2-on-final .m2-screen#m2-final {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Карточка финала — белый фон чтобы лучше читалась */
+.final-wrap {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 12px 40px rgba(15, 36, 72, 0.15);
+  border: 1px solid rgba(15, 36, 72, 0.08);
+}
+
+@media (max-width: 600px) {
+  .final-wrap {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
 }
