@@ -2083,7 +2083,7 @@ const FULL_MEMO = [
         'Я знаю, каким будет следующий шаг после разговора?',
       ]},
 
-      { type: 'quote', text: 'Ситуативная фраза открывает любую дверь.' },
+      { type: 'quote', text: 'Ситуативная фраза открывает любую дверь' },
     ],
   },
   {
@@ -2412,9 +2412,9 @@ function downloadPdfMemo() {
             style: 'list',
             margin: [10, 0, 0, 10],
           });
-        } else if (block.type === 'quote') {
+} else if (block.type === 'quote') {
           content.push({
-            text: '« ' + block.text + ' »',
+            text: block.text,
             style: 'quote',
             margin: [20, 14, 20, 14],
             alignment: 'center',
