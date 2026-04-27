@@ -1767,6 +1767,7 @@ background: transparent;
     padding: 8px 14px;
   }
 }
+
 /* ================================================================
    КАРТА ХАБА — карта по центру вертикали с отступом сверху и снизу
    ================================================================ */
@@ -1774,11 +1775,17 @@ background: transparent;
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
-  padding: 20px 24px;          /* ← отступы со всех сторон */
+  padding: 70px 24px 12px;          /* ← отступы со всех сторон */
   display: flex;
   justify-content: center;
   align-items: center;
   background: transparent;
+}
+
+@media (max-width: 600px) {
+  .hub-map-container {
+    padding: 60px 12px 8px;
+  }
 }
 
 .hub-map-image {
@@ -2239,10 +2246,7 @@ white-space: pre-line;
 /* ================================================================
    HUD на экране хаба — компактный плавающий стиль
    ================================================================ */
-
-/* На хабе HUD не «прибит» сверху, а парит компактной плашкой */
-.m2-screen#m2-hub.active ~ #m2-hud,
-body:has(.m2-screen#m2-hub.active) #m2-hud {
+body.m2-on-hub #m2-hud {
   position: fixed;
   top: 12px;
   left: 50%;
@@ -2260,24 +2264,22 @@ body:has(.m2-screen#m2-hub.active) #m2-hud {
   border: 1px solid rgba(15, 36, 72, 0.12);
   border-radius: 999px;
   box-shadow: 0 6px 20px rgba(15, 36, 72, 0.18);
+
+  /* Убираем нижнюю границу */
+  border-bottom: 1px solid rgba(15, 36, 72, 0.12);
 }
 
-/* Сужаем полоску энергии в плавающем HUD */
-.m2-screen#m2-hub.active ~ #m2-hud .hud-energy,
-body:has(.m2-screen#m2-hub.active) #m2-hud .hud-energy {
+body.m2-on-hub #m2-hud .hud-energy {
   flex: 0 0 160px;
 }
 
-/* На мобильных — ещё компактнее */
 @media (max-width: 600px) {
-  .m2-screen#m2-hub.active ~ #m2-hud,
-  body:has(.m2-screen#m2-hub.active) #m2-hud {
+  body.m2-on-hub #m2-hud {
     top: 8px;
     padding: 5px 10px;
     gap: 8px;
   }
-  .m2-screen#m2-hub.active ~ #m2-hud .hud-energy,
-  body:has(.m2-screen#m2-hub.active) #m2-hud .hud-energy {
+  body.m2-on-hub #m2-hud .hud-energy {
     flex: 0 0 100px;
   }
 }
