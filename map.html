@@ -134,18 +134,86 @@
 <div class="hc-tooltip" id="hc-tooltip"></div>
 
 <script>
+/* ── Читаем прогресс курса из localStorage ─────────────── */
+function getCourseProgress() {
+  try {
+    const raw = localStorage.getItem('course_progress');
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) {
+    return {};
+  }
+}
+
+/* ── Применяем статусы модулей на карте ────────────────── */
+function applyCourseProgress() {
+  const progress = getCourseProgress();
+  const m2Done = progress.module2Completed === true;
+  const m3Open = progress.module3Unlocked === true;
+
+  const hexes = document.querySelectorAll('.hx-wrap');
+  if (hexes.length < 3) return;
+
+  const hex2 = hexes[1]; // Модуль 2
+  const hex3 = hexes[2]; // Модуль 3
+
+  // ── Модуль 2 ──
+  if (m2Done) {
+    hex2.classList.remove('hx-current');
+    hex2.classList.add('hx-done');
+    const badge2 = hex2.querySelector('.hx-badge');
+    if (badge2) {
+      badge2.className = 'hx-badge done';
+      badge2.textContent = '✓ Пройден';
+    }
+  }
+
+  // ── Модуль 3 ──
+  if (m3Open) {
+    hex3.classList.remove('hx-locked');
+    hex3.classList.add('hx-current');
+    const badge3 = hex3.querySelector('.hx-badge');
+    if (badge3) {
+      badge3.className = 'hx-badge current';
+      badge3.textContent = '▶ Текущий';
+    }
+  }
+
+  // ── Прогресс-бар и счётчик ──
+  let doneCount = 1;            // М1 всегда пройден
+  if (m2Done) doneCount = 2;
+  // (М3 — финальный, считаем пройденным только при будущей флагe)
+  if (progress.module3Completed) doneCount = 3;
+
+  const percent = Math.round((doneCount / 3) * 100);
+
+  const fill = document.getElementById('prog-fill');
+  if (fill) setTimeout(() => fill.style.width = percent + '%', 400);
+
+  const labelPct = document.querySelector('.progress-label span:last-child');
+  if (labelPct) labelPct.textContent = percent + '%';
+
+  const sub = document.querySelector('.progress-sub');
+  if (sub) sub.innerHTML = 'Пройдено: <strong>' + doneCount + ' из 3 модулей</strong>';
+}
+
+/* ── Переход в модуль ──────────────────────────────────── */
 function goModule(n) {
-  const urls = { 1:'module1.html', 2:'module2.html', 3:'#' };
-  if (n === 3) {
+  const progress = getCourseProgress();
+  const urls = { 1:'module1.html', 2:'module2.html', 3:'module3.html' };
+
+  // Модуль 3 заблокирован, пока не пройден модуль 2
+  if (n === 3 && !progress.module3Unlocked) {
     const el = document.getElementById('hex-3');
     el.classList.add('shake');
-    setTimeout(()=> el.classList.remove('shake'), 500);
-    showTip('🔒 Сначала пройди предыдущий модуль!', el);
+    setTimeout(() => el.classList.remove('shake'), 500);
+    showTip('🔒 Сначала пройди модуль 2!', el);
     return;
   }
+
   location.href = urls[n];
 }
 
+/* ── Тултип ────────────────────────────────────────────── */
 let tipT;
 function showTip(text, el) {
   const tip = document.getElementById('hc-tooltip');
@@ -155,11 +223,12 @@ function showTip(text, el) {
   tip.style.top   = (r.top - 48 + scrollY) + 'px';
   tip.classList.add('on');
   clearTimeout(tipT);
-  tipT = setTimeout(()=> tip.classList.remove('on'), 2200);
+  tipT = setTimeout(() => tip.classList.remove('on'), 2200);
 }
 
-window.addEventListener('DOMContentLoaded', ()=>{
-  setTimeout(()=>{ document.getElementById('prog-fill').style.width='33%'; }, 400);
+/* ── Инициализация ─────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  applyCourseProgress();
 });
 </script>
 </body>
