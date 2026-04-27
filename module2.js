@@ -1616,18 +1616,25 @@ function showSituation(chapter, idx) {
   // Буквы для вариантов
   const letters = ['А', 'Б', 'В', 'Г', 'Д'];
 
-  situation.options.forEach((opt, optIdx) => {
+  // ── Перемешиваем варианты ответа (Fisher-Yates shuffle) ──
+  // Сохраняем оригинальный индекс каждого варианта,
+  // чтобы handleAnswer получил правильный option из situation.options
+  const shuffledOptions = situation.options
+    .map((opt, originalIdx) => ({ opt, originalIdx }))
+    .sort(() => Math.random() - 0.5);
+
+  shuffledOptions.forEach(({ opt, originalIdx }, displayIdx) => {
     const btn = document.createElement('button');
     btn.className = 'dialog-option';
 
     btn.innerHTML = `
-      <div class="dialog-option-letter">${letters[optIdx]}</div>
+      <div class="dialog-option-letter">${letters[displayIdx]}</div>
       <div class="dialog-option-text">${opt.text}</div>
     `;
 
-    // Обработчик клика на вариант
+    // Обработчик клика — передаём ОРИГИНАЛЬНЫЙ индекс
     btn.addEventListener('click', function() {
-      handleAnswer(chapter, idx, optIdx, situation);
+      handleAnswer(chapter, idx, originalIdx, situation);
     });
 
     optionsEl.appendChild(btn);
@@ -1674,9 +1681,18 @@ function handleAnswer(chapter, situationIdx, optionIdx, situation) {
   const emojiEl     = document.getElementById('dialog-npc-emoji');
 
   // ── Блокируем все кнопки вариантов ──────────────────────────
+// Сначала находим индекс кликнутой кнопки по тексту варианта
+  let pickedBtnIdx = -1;
+  allOptions.forEach((btn, i) => {
+    const textEl = btn.querySelector('.dialog-option-text');
+    if (textEl && textEl.textContent.trim() === option.text.trim()) {
+      pickedBtnIdx = i;
+    }
+  });
+
   allOptions.forEach((btn, i) => {
     btn.disabled = true;
-    if (i !== optionIdx) {
+    if (i !== pickedBtnIdx) {
       btn.classList.add('dimmed');
     }
   });
@@ -1685,8 +1701,18 @@ function handleAnswer(chapter, situationIdx, optionIdx, situation) {
   const hintBtn = document.getElementById('dialog-hint-btn');
   if (hintBtn) hintBtn.style.display = 'none';
 
-  // ── Подсвечиваем выбранный вариант ──────────────────────────
-  allOptions[optionIdx].classList.add(option.type);
+   // ── Подсвечиваем выбранный вариант ──────────────────────────
+  // Ищем кнопку по тексту варианта (т.к. порядок перемешан)
+  let clickedBtnIdx = -1;
+  allOptions.forEach((btn, i) => {
+    const textEl = btn.querySelector('.dialog-option-text');
+    if (textEl && textEl.textContent.trim() === option.text.trim()) {
+      clickedBtnIdx = i;
+    }
+  });
+  if (clickedBtnIdx >= 0) {
+    allOptions[clickedBtnIdx].classList.add(option.type);
+  }
   // type = 'correct' | 'partial' | 'wrong'
 
   // ── Реакция аватара: рамка + эмодзи ─────────────────────────
