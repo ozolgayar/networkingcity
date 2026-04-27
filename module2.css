@@ -1697,41 +1697,36 @@ background: transparent;
 /* ================================================================
    КАРТА ХАБА — карта по центру вертикали с отступом сверху и снизу
    ================================================================ */
-.hub-footer {
-  /* ВАЖНО: эти 2 свойства нужны для grid-разметки #m2-hub */
-  justify-self: center;       /* центр по горизонтали в grid-ячейке */
-  align-self: end;            /* прижать к низу grid-ячейки */
+.hub-map-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 20px 24px;          /* ← отступы со всех сторон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+}
 
-  /* Размер по содержимому */
-  width: fit-content;
-  max-width: calc(100% - 40px);
-  margin-bottom: 20px;
-
-  padding: 14px 32px;
-  text-align: center;
-
-  /* Чёткая белая плашка */
-  background: #ffffff;
-  border: 1px solid rgba(15, 36, 72, 0.15);
-  border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(15, 36, 72, 0.18);
-
-  flex-shrink: 0;
+.hub-map-image {
   position: relative;
-  z-index: 10;
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  max-height: 100%;
+  aspect-ratio: 16 / 9;        /* ← подставь реальные пропорции картинки */
+  border-radius: 20px;         /* ← скруглённые углы */
+  overflow: hidden;            /* ← обрезает картинку по скруглению */
+  box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
 }
 
-.hub-footer-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0F2448;
-  margin-bottom: 2px;
-}
-
-.hub-footer-hint {
-  font-size: 12px;
-  color: #64748b;
-  font-weight: 500;
+.hub-map-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* ← заполняет весь блок без пустоты */
+  user-select: none;
+  pointer-events: none;
 }
 
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
