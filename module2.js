@@ -2360,26 +2360,59 @@ function downloadPdfMemo() {
     btn.innerHTML = '⏳ Генерирую PDF…';
   }
 
-  // ───── Создаём временный контейнер ─────
+  // ───── Создаём ОВЕРЛЕЙ во весь экран ─────
+  // Он перекрывает всё, чтобы быть видимым для html2canvas
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-temp-overlay';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 36, 72, 0.92);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: auto;
+    padding: 20px 0;
+  `;
+
+  // Сообщение пользователю
+  const loader = document.createElement('div');
+  loader.style.cssText = `
+    color: white;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+  `;
+  loader.innerHTML = '⏳ Генерирую PDF-памятку… Подожди пару секунд';
+  overlay.appendChild(loader);
+
+  // ───── Контейнер с памяткой (всегда видимый) ─────
   const container = document.createElement('div');
   container.id = 'pdf-temp-container';
   container.style.cssText = `
-    position: fixed;
-    left: 0;
-    top: 0;
     width: 794px;
     background: white;
     color: #1e293b;
-    z-index: -1;
-    opacity: 0;
-    pointer-events: none;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    flex-shrink: 0;
   `;
 
   container.innerHTML = buildMemoHTML();
-  document.body.appendChild(container);
+  overlay.appendChild(container);
+  document.body.appendChild(overlay);
 
-  // ── ВАЖНО: даём браузеру время отрисовать DOM перед захватом ──
+  // ── Даём браузеру ВРЕМЯ отрисовать DOM перед захватом ──
   setTimeout(() => {
     const options = {
       margin: 0,
@@ -2390,9 +2423,9 @@ function downloadPdfMemo() {
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        logging: true,         // ← включаем логи в консоли для отладки
-        windowWidth: 794,
-        windowHeight: 1123,
+        logging: false,
+        scrollX: 0,
+        scrollY: 0,
       },
       jsPDF: {
         unit: 'px',
@@ -2411,15 +2444,15 @@ function downloadPdfMemo() {
       .from(container)
       .save()
       .then(() => {
-        if (document.body.contains(container)) {
-          document.body.removeChild(container);
+        if (document.body.contains(overlay)) {
+          document.body.removeChild(overlay);
         }
         showToast('📄 PDF-памятка сохранена!', 'success');
       })
       .catch(err => {
         console.error('Ошибка html2pdf:', err);
-        if (document.body.contains(container)) {
-          document.body.removeChild(container);
+        if (document.body.contains(overlay)) {
+          document.body.removeChild(overlay);
         }
         showToast('Не удалось создать PDF: ' + err.message, 'warning');
       })
@@ -2429,7 +2462,7 @@ function downloadPdfMemo() {
           btn.innerHTML = '⬇️ Скачать PDF-памятку';
         }
       });
-  }, 300);
+  }, 500);   // ← увеличил до 500мс для надёжности
 }
 
 /* ────────────────────────────────────────────────────────
