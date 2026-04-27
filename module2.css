@@ -2235,3 +2235,49 @@ white-space: pre-line;
 .final-artifact-icon {
   display: none !important;
 }
+
+/* ================================================================
+   HUD на экране хаба — компактный плавающий стиль
+   ================================================================ */
+
+/* На хабе HUD не «прибит» сверху, а парит компактной плашкой */
+.m2-screen#m2-hub.active ~ #m2-hud,
+body:has(.m2-screen#m2-hub.active) #m2-hud {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: calc(100% - 24px);
+
+  padding: 6px 12px;
+  gap: 10px;
+
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(15, 36, 72, 0.12);
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(15, 36, 72, 0.18);
+}
+
+/* Сужаем полоску энергии в плавающем HUD */
+.m2-screen#m2-hub.active ~ #m2-hud .hud-energy,
+body:has(.m2-screen#m2-hub.active) #m2-hud .hud-energy {
+  flex: 0 0 160px;
+}
+
+/* На мобильных — ещё компактнее */
+@media (max-width: 600px) {
+  .m2-screen#m2-hub.active ~ #m2-hud,
+  body:has(.m2-screen#m2-hub.active) #m2-hud {
+    top: 8px;
+    padding: 5px 10px;
+    gap: 8px;
+  }
+  .m2-screen#m2-hub.active ~ #m2-hud .hud-energy,
+  body:has(.m2-screen#m2-hub.active) #m2-hud .hud-energy {
+    flex: 0 0 100px;
+  }
+}
