@@ -1105,6 +1105,14 @@ function showM2Screen(screenId) {
     hud.classList.remove('hidden');
     updateHUD();
   }
+
+  // Помечаем body классом текущего экрана —
+  // чтобы в CSS можно было стилизовать HUD по-разному
+  document.body.classList.remove(
+    'm2-on-cover','m2-on-intro','m2-on-hub',
+    'm2-on-dialog','m2-on-refuel','m2-on-chapter-end','m2-on-final'
+  );
+  document.body.classList.add('m2-on-' + screenId.replace('m2-',''));
 }
 
 /* ----------------------------------------------------------------
