@@ -41,21 +41,29 @@
        ...
      ]
    }
-   ================================================================ */
+   
+
 /* ================================================================
    ЗАГРУЗКА ШРИФТА ROBOTO ДЛЯ PDF
-   Грузим шрифт один раз, кешируем результат
+   Грузим шрифт один раз, кешируем результат.
+   Используем несколько CDN на случай если один не отвечает.
    ================================================================ */
 let robotoFontCache = null;
 
 async function loadRobotoFont() {
   if (robotoFontCache) return robotoFontCache;
 
-  // Скачиваем .ttf шрифт Roboto Regular из Google Fonts CDN
-  const FONT_URL_REGULAR =
-    'https://cdn.jsdelivr.net/gh/googlefonts/roboto@main/src/hinted/Roboto-Regular.ttf';
-  const FONT_URL_BOLD =
-    'https://cdn.jsdelivr.net/gh/googlefonts/roboto@main/src/hinted/Roboto-Bold.ttf';
+  // Несколько вариантов CDN — пробуем по очереди
+  const FONT_SOURCES = [
+    {
+      regular: 'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-cyrillic-400-normal.ttf',
+      bold:    'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-cyrillic-700-normal.ttf',
+    },
+    {
+      regular: 'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-latin-400-normal.ttf',
+      bold:    'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-latin-700-normal.ttf',
+    },
+  ];
 
   // Конвертация ArrayBuffer → base64
   function arrayBufferToBase64(buffer) {
@@ -70,22 +78,49 @@ async function loadRobotoFont() {
     return btoa(binary);
   }
 
-  try {
-    const [regularBuf, boldBuf] = await Promise.all([
-      fetch(FONT_URL_REGULAR).then(r => r.arrayBuffer()),
-      fetch(FONT_URL_BOLD).then(r => r.arrayBuffer()),
-    ]);
+  // Пробуем источники по очереди
+  for (const source of FONT_SOURCES) {
+    try {
+      const [regularResp, boldResp] = await Promise.all([
+        fetch(source.regular),
+        fetch(source.bold),
+      ]);
 
-    robotoFontCache = {
-      regular: arrayBufferToBase64(regularBuf),
-      bold:    arrayBufferToBase64(boldBuf),
-    };
-    return robotoFontCache;
-  } catch (e) {
-    console.error('Не удалось загрузить шрифт Roboto:', e);
-    return null;
+      if (!regularResp.ok || !boldResp.ok) {
+        console.warn('Источник недоступен, пробуем следующий:', source);
+        continue;
+      }
+
+      const [regularBuf, boldBuf] = await Promise.all([
+        regularResp.arrayBuffer(),
+        boldResp.arrayBuffer(),
+      ]);
+
+      // Проверка: размер должен быть разумный (>10 КБ)
+      if (regularBuf.byteLength < 10000 || boldBuf.byteLength < 10000) {
+        console.warn('Получен пустой/некорректный файл шрифта');
+        continue;
+      }
+
+      robotoFontCache = {
+        regular: arrayBufferToBase64(regularBuf),
+        bold:    arrayBufferToBase64(boldBuf),
+      };
+
+      console.log('✅ Шрифт Roboto успешно загружен');
+      return robotoFontCache;
+
+    } catch (e) {
+      console.warn('Ошибка загрузки источника:', source, e);
+      continue;
+    }
   }
+
+  console.error('Не удалось загрузить шрифт Roboto ни из одного источника');
+  return null;
 }
+
+
 
 const CHAPTERS = {
 
@@ -2117,13 +2152,29 @@ async function downloadPdfMemo() {
   });
 
   // ── Регистрируем шрифт Roboto в jsPDF ────────────────────
-  doc.addFileToVFS('Roboto-Regular.ttf', font.regular);
-  doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+  try {
+    doc.addFileToVFS('Roboto-Regular.ttf', font.regular);
+    doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
 
-  doc.addFileToVFS('Roboto-Bold.ttf', font.bold);
-  doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
+    doc.addFileToVFS('Roboto-Bold.ttf', font.bold);
+    doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
 
-  doc.setFont('Roboto', 'normal');
+    doc.setFont('Roboto', 'normal');
+
+    // Проверка: реально ли шрифт зарегистрирован
+    const fonts = doc.getFontList();
+    if (!fonts['Roboto']) {
+      throw new Error('Roboto не зарегистрирован в jsPDF');
+    }
+  } catch (e) {
+    console.error('Ошибка регистрации шрифта:', e);
+    showToast('Ошибка шрифта PDF', 'error');
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '⬇️ Скачать PDF-памятку';
+    }
+    return;
+  }
 
   // ── Цвета палитры ─────────────────────────────────────────
   const COLOR = {
