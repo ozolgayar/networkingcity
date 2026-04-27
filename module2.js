@@ -1404,7 +1404,7 @@ function refreshHubZones() {
   const hint = document.getElementById('hub-footer-hint');
   if (hint) {
     if (allDone) {
-      hint.textContent = 'Все главы пройдены! Жми «Подведение итогов» 🏆';
+      hint.textContent = 'Все главы пройдены! Жми «Подведение итогов»';
     } else {
       // Находим первую непройденную главу
       const nextChapterId = chapterOrder.find(id =>
@@ -1412,24 +1412,20 @@ function refreshHubZones() {
       );
 
       // Соответствие id главы → название локации + иконка
-      const locationNames = {
-        chapter1: { name: 'Кофейная стойка'},
-        chapter2: { name: 'Стол с напитками'},
-        chapter3: { name: 'Буфет'},
-        chapter4: { name: 'Сцена'},
-        chapter5: { name: 'Зал конференции'},
+   const locationNames = {
+        chapter1: 'Кофейная стойка',
+        chapter2: 'Стол с напитками',
+        chapter3: 'Буфет',
+        chapter4: 'Сцена',
+        chapter5: 'Зал конференции',
       };
 
-      const loc = locationNames[nextChapterId];
-   if (loc) {
-        hint.innerHTML = `Подойди к локации <strong>«${loc.name}»</strong> ${loc.icon}`;
+      const locName = locationNames[nextChapterId];
+      if (locName) {
+        hint.innerHTML = `Подойди к локации <strong>«${locName}»</strong>`;
       } else {
         hint.innerHTML = 'Кликай по подписям на карте';
       }
-    }
-  }
-}
-
 
 /* ================================================================
    РАЗДЕЛ 5: ЛОГИКА ИНТРО
