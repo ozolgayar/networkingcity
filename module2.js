@@ -2028,7 +2028,300 @@ function renderNotebook() {
   `).join('');
 }
 
+/* ----------------------------------------------------------------
+   downloadPdfMemo()
+   Генерирует красивую PDF-памятку со всеми артефактами Златы
+   и скачивает её на устройство.
+   Использует библиотеку jsPDF (подключена в HTML).
+   ---------------------------------------------------------------- */
+function downloadPdfMemo() {
+  if (m2State.artifacts.length === 0) {
+    showToast('Сначала собери хотя бы один артефакт', 'warning');
+    return;
+  }
 
+  // Проверяем, что библиотека загружена
+  if (typeof window.jspdf === 'undefined') {
+    showToast('Не удалось загрузить генератор PDF', 'error');
+    return;
+  }
+
+  showToast('📄 Готовим PDF…', '');
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    unit: 'mm',
+    format: 'a4',
+    orientation: 'portrait',
+  });
+
+  // ── Цвета палитры (RGB) ──────────────────────────────────
+  const COLOR = {
+    text:     [15, 36, 72],     // тёмно-синий
+    muted:    [100, 116, 139],  // серый
+    accent:   [14, 165, 233],   // голубой
+    success:  [34, 197, 94],    // зелёный
+    warning:  [245, 158, 11],   // янтарь
+    bgLight:  [240, 249, 255],  // очень светло-голубой
+    border:   [203, 213, 225],  // светло-серая рамка
+  };
+
+  // Размеры страницы A4 в мм
+  const PAGE_W = 210;
+  const PAGE_H = 297;
+  const MARGIN = 18;
+  const CONTENT_W = PAGE_W - MARGIN * 2;
+
+  let y = 0; // текущая позиция по вертикали
+
+  /* ── Хелпер: новая страница с фоном ──────────────────── */
+  function newPage() {
+    doc.addPage();
+    drawPageBg();
+    y = MARGIN + 8;
+  }
+
+  /* ── Хелпер: фон страницы (тонкая полоса сверху) ─────── */
+  function drawPageBg() {
+    // Тонкая голубая полоса сверху
+    doc.setFillColor(...COLOR.accent);
+    doc.rect(0, 0, PAGE_W, 4, 'F');
+  }
+
+  /* ── Хелпер: проверка переполнения страницы ──────────── */
+  function ensureSpace(needed) {
+    if (y + needed > PAGE_H - MARGIN) {
+      newPage();
+    }
+  }
+
+  /* ── Хелпер: разбиение текста на строки ──────────────── */
+  function wrapText(text, maxWidth) {
+    return doc.splitTextToSize(text || '', maxWidth);
+  }
+
+  /* ── Хелпер: вывод многострочного текста ─────────────── */
+  function drawText(text, x, lineHeight) {
+    const lines = Array.isArray(text) ? text : [text];
+    lines.forEach(line => {
+      ensureSpace(lineHeight);
+      doc.text(line, x, y);
+      y += lineHeight;
+    });
+  }
+
+  /* ── Хелпер: очистка HTML-тегов из строки ────────────── */
+  function stripHtml(html) {
+    if (!html) return '';
+    // Убираем теги, заменяем <li> на маркер, <br>/<p> на перевод строки
+    return html
+      .replace(/<li[^>]*>/gi, '• ')
+      .replace(/<\/li>/gi, '\n')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/p>/gi, '\n')
+      .replace(/<\/?strong[^>]*>/gi, '')
+      .replace(/<\/?b[^>]*>/gi, '')
+      .replace(/<\/?ul[^>]*>/gi, '')
+      .replace(/<\/?p[^>]*>/gi, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/\n{3,}/g, '\n\n')
+      .replace(/[ \t]+/g, ' ')
+      .trim();
+  }
+
+  // ════════════════════════════════════════════════════════
+  // ── СТРАНИЦА 1: ОБЛОЖКА ────────────────────────────────
+  // ════════════════════════════════════════════════════════
+
+  // Голубая полоса вверху
+  doc.setFillColor(...COLOR.accent);
+  doc.rect(0, 0, PAGE_W, 60, 'F');
+
+  // Заголовок «Памятка нетворкера»
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(28);
+  doc.text('Pamyatka netvorkera', PAGE_W / 2, 28, { align: 'center' });
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(12);
+  doc.text('Module 2 — Konferentsiya', PAGE_W / 2, 40, { align: 'center' });
+
+  doc.setFontSize(10);
+  doc.text('Zlata uchitsya znakomitsya', PAGE_W / 2, 50, { align: 'center' });
+
+  // Карточка с инфо
+  y = 85;
+  doc.setFillColor(...COLOR.bgLight);
+  doc.setDrawColor(...COLOR.border);
+  doc.roundedRect(MARGIN, y, CONTENT_W, 70, 4, 4, 'FD');
+
+  doc.setTextColor(...COLOR.text);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text('ПАМЯТКА НЕТВОРКЕРА', PAGE_W / 2, y + 18, { align: 'center' });
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.setTextColor(...COLOR.muted);
+  doc.text('5 техник знакомства,', PAGE_W / 2, y + 32, { align: 'center' });
+  doc.text('собранных за конференцию', PAGE_W / 2, y + 40, { align: 'center' });
+
+  // Дата
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('ru-RU', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+  doc.setFontSize(9);
+  doc.text(dateStr, PAGE_W / 2, y + 58, { align: 'center' });
+
+  // Список тем (оглавление)
+  y = 175;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(...COLOR.text);
+  doc.text('Что внутри:', MARGIN, y);
+  y += 10;
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.setTextColor(...COLOR.muted);
+
+  m2State.artifacts.forEach((art, i) => {
+    doc.setTextColor(...COLOR.accent);
+    doc.text(`${i + 1}.`, MARGIN, y);
+    doc.setTextColor(...COLOR.text);
+    doc.text(art.name || 'Без названия', MARGIN + 8, y);
+    y += 8;
+  });
+
+  // Подпись внизу первой страницы
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR.muted);
+  doc.text(
+    'Сохрани эту памятку и используй на следующей конференции',
+    PAGE_W / 2, PAGE_H - 20,
+    { align: 'center' }
+  );
+
+  // ════════════════════════════════════════════════════════
+  // ── СТРАНИЦЫ С АРТЕФАКТАМИ ─────────────────────────────
+  // ════════════════════════════════════════════════════════
+
+  m2State.artifacts.forEach((artifact, idx) => {
+    newPage();
+
+    // Номер артефакта в углу
+    doc.setFillColor(...COLOR.accent);
+    doc.circle(MARGIN + 6, y + 2, 6, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text(String(idx + 1), MARGIN + 6, y + 4, { align: 'center' });
+
+    // Название артефакта
+    doc.setTextColor(...COLOR.text);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    const nameLines = wrapText(artifact.name || '', CONTENT_W - 20);
+    nameLines.forEach((line, i) => {
+      doc.text(line, MARGIN + 16, y + 4 + (i * 7));
+    });
+    y += 4 + nameLines.length * 7 + 6;
+
+    // Тонкая разделительная линия
+    doc.setDrawColor(...COLOR.accent);
+    doc.setLineWidth(0.8);
+    doc.line(MARGIN, y, MARGIN + 30, y);
+    y += 8;
+
+    // Превью (короткое описание)
+    if (artifact.preview) {
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(11);
+      doc.setTextColor(...COLOR.muted);
+      const previewLines = wrapText(artifact.preview, CONTENT_W);
+      drawText(previewLines, MARGIN, 6);
+      y += 4;
+    }
+
+    // Контент — основная часть
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.setTextColor(...COLOR.text);
+
+    const contentText = stripHtml(artifact.content);
+    const paragraphs = contentText.split('\n').filter(p => p.trim());
+
+    paragraphs.forEach(paragraph => {
+      const trimmed = paragraph.trim();
+      if (!trimmed) return;
+
+      ensureSpace(8);
+
+      // Если строка начинается с маркера •, рисуем как пункт списка
+      if (trimmed.startsWith('•')) {
+        const itemText = trimmed.substring(1).trim();
+        const lines = wrapText(itemText, CONTENT_W - 8);
+
+        // Маркер
+        doc.setFillColor(...COLOR.accent);
+        doc.circle(MARGIN + 1.5, y - 1.5, 1.2, 'F');
+
+        // Текст пункта
+        doc.setTextColor(...COLOR.text);
+        lines.forEach((line, i) => {
+          ensureSpace(6);
+          doc.text(line, MARGIN + 6, y);
+          y += 6;
+        });
+        y += 2;
+      } else {
+        // Обычный абзац
+        const lines = wrapText(trimmed, CONTENT_W);
+        doc.setTextColor(...COLOR.text);
+        lines.forEach(line => {
+          ensureSpace(6);
+          doc.text(line, MARGIN, y);
+          y += 6;
+        });
+        y += 3;
+      }
+    });
+  });
+
+  // ════════════════════════════════════════════════════════
+  // ── ФУТЕР НА КАЖДОЙ СТРАНИЦЕ ───────────────────────────
+  // ════════════════════════════════════════════════════════
+  const totalPages = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(...COLOR.muted);
+    doc.text(
+      `Стр. ${i} из ${totalPages}`,
+      PAGE_W - MARGIN, PAGE_H - 8,
+      { align: 'right' }
+    );
+    doc.text(
+      'Памятка нетворкера • Модуль 2',
+      MARGIN, PAGE_H - 8
+    );
+  }
+
+  // ── Сохраняем PDF ─────────────────────────────────────
+  const filename = `Pamyatka_netvorkera_${today.toISOString().slice(0,10)}.pdf`;
+  doc.save(filename);
+
+  showToast('✅ PDF скачан!', 'success');
+}
 /* ================================================================
    РАЗДЕЛ 9: ЭКРАНЫ КОНЦА ГЛАВЫ И ФИНАЛА
    ================================================================ */
