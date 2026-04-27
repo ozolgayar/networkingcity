@@ -1732,16 +1732,18 @@ background: transparent;
   overflow: auto;
   padding: 16px;
   display: flex;
-  justify-content: center;   /* центр по горизонтали */
-  align-items: center;       /* ← БЫЛО flex-start, теперь center — центр по вертикали */
+  justify-content: center;
+  align-items: center;
   background: transparent;
+  min-height: 0;        /* ← КЛЮЧЕВОЕ: разрешает flex-сжатие */
 }
 
-/* Обёртка изображения */
+/* Обёртка изображения — ограничиваем по высоте */
 .hub-map-image {
   position: relative;
   width: 100%;
   max-width: 1100px;
+  max-height: 100%;     /* ← НЕ ВЫХОДИМ за контейнер */
   display: block;
   border-radius: var(--m2-radius);
   overflow: visible;
@@ -1752,7 +1754,9 @@ background: transparent;
 .hub-map-bg {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;         /* ← Заполняет обёртку */
+  max-height: 100%;
+  object-fit: contain;  /* ← Сохраняет пропорции, не обрезает */
   border-radius: var(--m2-radius);
   user-select: none;
   pointer-events: none;
