@@ -2303,3 +2303,24 @@ body.m2-on-hub #m2-hud .hud-energy {
     transform: scale(1.15);
   }
 }
+
+/* ================================================================
+   КНОПКА «СКАЧАТЬ PDF» в блокноте
+   ================================================================ */
+#btn-download-pdf {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+#btn-download-pdf:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+#btn-download-pdf:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
