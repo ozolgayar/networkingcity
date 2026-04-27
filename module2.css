@@ -1699,13 +1699,12 @@ background: transparent;
    ================================================================ */
 .hub-footer {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 14px 24px 18px;
+  padding: 8px 16px 14px;     /* компактнее */
   text-align: center;
   flex-shrink: 0;
+  min-height: 50px;           /* ← гарантированный минимум */
 }
 
 .hub-footer-title {
@@ -1722,19 +1721,19 @@ background: transparent;
   align-items: center;
   gap: 8px;
 
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
   border: 1px solid rgba(15, 36, 72, 0.12);
   border-radius: 999px;
 
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 8px 18px;          /* было 10px 20px */
+  font-size: 13px;            /* было 14px */
   font-weight: 600;
   color: #0F2448;
 
-  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.12);
+  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.15);
   animation: hubHintBreathe 2.5s ease-in-out infinite;
 }
 
@@ -1775,7 +1774,7 @@ background: transparent;
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
-  padding: 70px 24px 12px;          /* ← отступы со всех сторон */
+  padding: 64px 24px 8px;     /* меньше отступ снизу */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1784,7 +1783,7 @@ background: transparent;
 
 @media (max-width: 600px) {
   .hub-map-container {
-    padding: 60px 12px 8px;
+    padding: 56px 12px 6px;
   }
 }
 
@@ -1794,12 +1793,12 @@ background: transparent;
   max-width: 1400px;
   height: 100%;
   max-height: 100%;
-  aspect-ratio: 16 / 9;        /* ← подставь реальные пропорции картинки */
-  border-radius: 20px;         /* ← скруглённые углы */
-  overflow: hidden;            /* ← обрезает картинку по скруглению */
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
   box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
+  margin: auto;
 }
-
 .hub-map-bg {
   display: block;
   width: 100%;
