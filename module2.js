@@ -1426,6 +1426,10 @@ function refreshHubZones() {
       } else {
         hint.innerHTML = 'Кликай по подписям на карте';
       }
+    }
+  }
+}
+
 
 /* ================================================================
    РАЗДЕЛ 5: ЛОГИКА ИНТРО
@@ -2089,8 +2093,8 @@ function showFinal() {
   newRestartBtn.addEventListener('click', function() {
     openModal('modal-restart-confirm');
   });
-}
-// ─── Кнопка «Завершить модуль 2» ─────────────────────────
+
+  // ─── Кнопка «Завершить модуль 2» ─────────────────────────
   const completeBtn = document.getElementById('btn-final-complete');
   if (completeBtn) {
     const newCompleteBtn = completeBtn.cloneNode(true);
