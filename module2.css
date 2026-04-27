@@ -537,7 +537,6 @@ body {
    ---------------------------------------------------------------- */
 .m2-screen#m2-hub {
   background: transparent;
-  overflow: hidden;
 }
 
 .m2-screen#m2-hub.active {
@@ -1718,6 +1717,7 @@ background: transparent;
    КАРТА ХАБА — карта по центру вертикали с отступом сверху и снизу
    ================================================================ */
 .hub-map-container {
+  flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
   padding: 24px;
@@ -1727,6 +1727,27 @@ background: transparent;
   background: transparent;
 }
 
+.hub-footer {
+  padding: 10px 20px 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--m2-border);
+  flex-shrink: 0;
+}
+
+.hub-footer-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--m2-text);
+  margin-bottom: 2px;
+}
+
+.hub-footer-hint {
+  font-size: 12px;
+  color: var(--m2-text-muted);
+  font-weight: 500;
+}
 .hub-map-image {
   position: relative;
   border-radius: 20px;
@@ -1734,24 +1755,17 @@ background: transparent;
   box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
   display: inline-block;
   line-height: 0;
-
-  /* ❗ Картинка САМА определяет размер обёртки */
 }
 
 .hub-map-bg {
   display: block;
-
-  /* ❗ КЛЮЧЕВОЕ: ограничиваем И ширину, И высоту */
   max-width: 100%;
   max-height: 100%;
-
   width: auto;
   height: auto;
-
   user-select: none;
   pointer-events: none;
 }
-
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
 .map-hotspot {
   position: absolute;
