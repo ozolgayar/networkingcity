@@ -2043,7 +2043,7 @@ function showChapterEnd(chapter) {
 
   // Заголовок
   document.getElementById('chapter-end-title').textContent =
-    'Знакомство состоялось! 🤝';
+    'Знакомство состоялось!';
  document.getElementById('chapter-end-subtitle').textContent =
     'Злата познакомилась с ' + (chapter.npc.nameInstrumental || chapter.npc.name);
 
