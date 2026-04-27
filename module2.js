@@ -2545,17 +2545,6 @@ function showChapterEnd(chapter) {
     refreshHubZones();
   });
 
-  // Кнопка «Блокнот» — открыть артефакт
-  const notebookBtn = document.getElementById('btn-chapter-end-notebook');
-  const newNbBtn    = notebookBtn.cloneNode(true);
-  notebookBtn.parentNode.replaceChild(newNbBtn, notebookBtn);
-
-  newNbBtn.addEventListener('click', function() {
-    renderNotebook();
-    openModal('modal-notebook');
-  });
-}
-
 /* ----------------------------------------------------------------
    showFinal()
    Показывает финальный экран с итоговой статистикой.
