@@ -53,15 +53,25 @@ let robotoFontCache = null;
 async function loadRobotoFont() {
   if (robotoFontCache) return robotoFontCache;
 
-  // Несколько вариантов CDN — пробуем по очереди
+  // Список рабочих CDN с TTF-шрифтами с поддержкой кириллицы
   const FONT_SOURCES = [
+    // PT Sans — лёгкий, всегда с кириллицей
     {
-      regular: 'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-cyrillic-400-normal.ttf',
-      bold:    'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-cyrillic-700-normal.ttf',
+      name: 'PT Sans',
+      regular: 'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/ptsans/PTSans-Regular.ttf',
+      bold:    'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/ptsans/PTSans-Bold.ttf',
     },
+    // Roboto — резервный вариант
     {
-      regular: 'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-latin-400-normal.ttf',
-      bold:    'https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.13/files/roboto-latin-700-normal.ttf',
+      name: 'Roboto',
+      regular: 'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/roboto/static/Roboto-Regular.ttf',
+      bold:    'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/roboto/static/Roboto-Bold.ttf',
+    },
+    // Open Sans — ещё один резерв
+    {
+      name: 'Open Sans',
+      regular: 'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/opensans/OpenSans%5Bwdth,wght%5D.ttf',
+      bold:    'https://cdn.jsdelivr.net/gh/google/fonts@main/apache/opensans/OpenSans%5Bwdth,wght%5D.ttf',
     },
   ];
 
@@ -81,13 +91,15 @@ async function loadRobotoFont() {
   // Пробуем источники по очереди
   for (const source of FONT_SOURCES) {
     try {
+      console.log(`Пробуем загрузить шрифт ${source.name}...`);
+
       const [regularResp, boldResp] = await Promise.all([
-        fetch(source.regular),
-        fetch(source.bold),
+        fetch(source.regular, { mode: 'cors' }),
+        fetch(source.bold, { mode: 'cors' }),
       ]);
 
       if (!regularResp.ok || !boldResp.ok) {
-        console.warn('Источник недоступен, пробуем следующий:', source);
+        console.warn(`${source.name}: HTTP ${regularResp.status}/${boldResp.status}`);
         continue;
       }
 
@@ -96,30 +108,30 @@ async function loadRobotoFont() {
         boldResp.arrayBuffer(),
       ]);
 
-      // Проверка: размер должен быть разумный (>10 КБ)
-      if (regularBuf.byteLength < 10000 || boldBuf.byteLength < 10000) {
-        console.warn('Получен пустой/некорректный файл шрифта');
+      // Проверка: размер должен быть разумный (>20 КБ для TTF)
+      if (regularBuf.byteLength < 20000 || boldBuf.byteLength < 20000) {
+        console.warn(`${source.name}: файлы слишком маленькие`);
         continue;
       }
 
       robotoFontCache = {
+        name: source.name,
         regular: arrayBufferToBase64(regularBuf),
         bold:    arrayBufferToBase64(boldBuf),
       };
 
-      console.log('✅ Шрифт Roboto успешно загружен');
+      console.log(`✅ Шрифт ${source.name} успешно загружен`);
       return robotoFontCache;
 
     } catch (e) {
-      console.warn('Ошибка загрузки источника:', source, e);
+      console.warn(`${source.name}: ошибка загрузки`, e.message);
       continue;
     }
   }
 
-  console.error('Не удалось загрузить шрифт Roboto ни из одного источника');
+  console.error('Не удалось загрузить ни один шрифт');
   return null;
 }
-
 
 
 const CHAPTERS = {
@@ -2112,34 +2124,23 @@ function renderNotebook() {
    Генерирует красивую PDF-памятку с поддержкой кириллицы
    через шрифт Roboto.
    ---------------------------------------------------------------- */
-async function downloadPdfMemo() {
-  if (m2State.artifacts.length === 0) {
-    showToast('Сначала собери хотя бы один артефакт', 'warning');
-    return;
-  }
+ const FONT_NAME = 'MyFont';
+try {
+    doc.addFileToVFS('CustomFont-Regular.ttf', font.regular);
+    doc.addFont('CustomFont-Regular.ttf', 'Roboto', 'normal');
 
-  if (typeof window.jspdf === 'undefined') {
-    showToast('Не удалось загрузить генератор PDF', 'error');
-    return;
-  }
+    doc.addFileToVFS('CustomFont-Bold.ttf', font.bold);
+    doc.addFont('CustomFont-Bold.ttf', 'Roboto', 'bold');
 
-  // Блокируем кнопку, чтобы не нажали дважды
-  const btn = document.getElementById('btn-download-pdf');
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = '⏳ Готовим PDF…';
-  }
+    doc.setFont('Roboto', 'normal');
 
-  showToast('📄 Загружаем шрифт…', '');
-
-  // Загружаем шрифт Roboto
-  const font = await loadRobotoFont();
-
-  if (!font) {
-    showToast('Не удалось загрузить шрифт', 'error');
+    console.log(`PDF использует шрифт: ${font.name}`);
+  } catch (e) {
+    console.error('Ошибка регистрации шрифта:', e);
+    showToast('Ошибка регистрации шрифта PDF', 'error');
     if (btn) {
       btn.disabled = false;
-      btn.textContent = '⬇️ Скачать PDF-памятку';
+      btn.innerHTML = '⬇️ Скачать PDF-памятку';
     }
     return;
   }
@@ -2150,31 +2151,6 @@ async function downloadPdfMemo() {
     format: 'a4',
     orientation: 'portrait',
   });
-
-  // ── Регистрируем шрифт Roboto в jsPDF ────────────────────
-  try {
-    doc.addFileToVFS('Roboto-Regular.ttf', font.regular);
-    doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-
-    doc.addFileToVFS('Roboto-Bold.ttf', font.bold);
-    doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
-
-    doc.setFont('Roboto', 'normal');
-
-    // Проверка: реально ли шрифт зарегистрирован
-    const fonts = doc.getFontList();
-    if (!fonts['Roboto']) {
-      throw new Error('Roboto не зарегистрирован в jsPDF');
-    }
-  } catch (e) {
-    console.error('Ошибка регистрации шрифта:', e);
-    showToast('Ошибка шрифта PDF', 'error');
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '⬇️ Скачать PDF-памятку';
-    }
-    return;
-  }
 
   // ── Цвета палитры ─────────────────────────────────────────
   const COLOR = {
