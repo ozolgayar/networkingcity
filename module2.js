@@ -1413,11 +1413,11 @@ function refreshHubZones() {
 
       // Соответствие id главы → название локации + иконка
       const locationNames = {
-        chapter1: { name: 'Кофейная стойка',  icon: '☕' },
-        chapter2: { name: 'Стол с напитками', icon: '🥤' },
-        chapter3: { name: 'Буфет',            icon: '🍽️' },
-        chapter4: { name: 'Сцена',            icon: '🎤' },
-        chapter5: { name: 'Зал конференции',  icon: '🎙️' },
+        chapter1: { name: 'Кофейная стойка'},
+        chapter2: { name: 'Стол с напитками'},
+        chapter3: { name: 'Буфет'},
+        chapter4: { name: 'Сцена'},
+        chapter5: { name: 'Зал конференции'},
       };
 
       const loc = locationNames[nextChapterId];
