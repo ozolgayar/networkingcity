@@ -2350,7 +2350,7 @@ const FULL_MEMO = [
 function downloadPdfMemo() {
   const btn = document.getElementById('btn-download-pdf');
 
-  if (typeof pdfMake === 'undefined') {
+  if (typeof html2pdf === 'undefined') {
     showToast('PDF-библиотека ещё не загрузилась, подожди секунду', 'warning');
     return;
   }
@@ -2361,422 +2361,66 @@ function downloadPdfMemo() {
   }
 
   try {
-    // ── ЦВЕТА ФИРМЕННОГО СТИЛЯ ──────────────────────────────
-    const COLORS = {
-      navy:      '#0F2448',  // основной тёмно-синий
-      blue:      '#0284c7',  // акцентный голубой
-      lightBlue: '#e0f2fe',  // фон карточек
-      bg:        '#f8fafc',  // фон страницы
-      green:     '#16a34a',  // «Хорошо»
-      greenBg:   '#dcfce7',
-      red:       '#dc2626',  // «Плохо»
-      redBg:     '#fee2e2',
-      amber:     '#d97706',  // «Цитата»
-      amberBg:   '#fef3c7',
-      text:      '#1e293b',
-      muted:     '#64748b',
-    };
+    // ───── Создаём временный скрытый контейнер с памяткой ─────
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      width: 794px; /* A4 в пикселях @ 96dpi */
+      background: white;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #1e293b;
+      padding: 0;
+    `;
 
-    // Иконки/эмодзи для глав
-    const CHAPTER_ICONS = ['👋', '🎤', '💬', '⭐', '✉️', '🎯'];
+    container.innerHTML = buildMemoHTML();
+    document.body.appendChild(container);
 
-    const content = [];
-
-    /* ═══════════════════════════════════════════════════════
-       ОБЛОЖКА
-       ═══════════════════════════════════════════════════════ */
-    content.push({
-      stack: [
-        {
-          // Цветная плашка-фон
-          canvas: [{
-            type: 'rect', x: 0, y: 0, w: 495, h: 720,
-            color: COLORS.navy,
-          }],
-          absolutePosition: { x: 50, y: 60 },
-        },
-        {
-          text: '🤝',
-          fontSize: 72,
-          alignment: 'center',
-          margin: [0, 140, 0, 20],
-          color: 'white',
-        },
-        {
-          text: 'ПАМЯТКА',
-          fontSize: 14,
-          characterSpacing: 6,
-          alignment: 'center',
-          color: '#94a3b8',
-          margin: [0, 0, 0, 16],
-        },
-        {
-          text: 'Нетворкинг\nсо Златой',
-          fontSize: 38,
-          bold: true,
-          alignment: 'center',
-          color: 'white',
-          lineHeight: 1.1,
-          margin: [0, 0, 0, 30],
-        },
-        {
-          canvas: [{
-            type: 'line',
-            x1: 180, y1: 0, x2: 315, y2: 0,
-            lineWidth: 2,
-            lineColor: COLORS.blue,
-          }],
-          margin: [0, 0, 0, 30],
-        },
-        {
-          text: '5 глав · техники · чек-листы · шаблоны',
-          fontSize: 12,
-          italics: true,
-          alignment: 'center',
-          color: '#cbd5e1',
-          margin: [0, 0, 0, 200],
-        },
-        {
-          text: 'твой навигатор в мире знакомств',
-          fontSize: 10,
-          alignment: 'center',
-          color: '#94a3b8',
-        },
-      ],
-      pageBreak: 'after',
-    });
-
-    /* ═══════════════════════════════════════════════════════
-       ОГЛАВЛЕНИЕ
-       ═══════════════════════════════════════════════════════ */
-    content.push({
-      text: 'Оглавление',
-      style: 'tocTitle',
-      margin: [0, 30, 0, 30],
-    });
-
-    FULL_MEMO.forEach((chapter, idx) => {
-      // Пропускаем "Заключение" — оно идёт отдельно
-      const isLastBlock = idx === FULL_MEMO.length - 1;
-      
-      content.push({
-        columns: [
-          {
-            width: 30,
-            text: (idx < FULL_MEMO.length - 1 ? (idx + 1).toString().padStart(2, '0') : '★'),
-            color: COLORS.blue,
-            bold: true,
-            fontSize: 16,
-          },
-          {
-            width: '*',
-            text: chapter.title.replace(/^Глава \d+\.\s*/, ''),
-            fontSize: 13,
-            color: COLORS.text,
-            margin: [10, 2, 0, 0],
-          },
-        ],
-        margin: [0, 0, 0, 14],
-      });
-    });
-
-    content.push({ text: '', pageBreak: 'after' });
-
-    /* ═══════════════════════════════════════════════════════
-       ГЛАВЫ
-       ═══════════════════════════════════════════════════════ */
-    FULL_MEMO.forEach((chapter, chIdx) => {
-      const isConclusion = chIdx === FULL_MEMO.length - 1;
-      const chNum = isConclusion ? '★' : (chIdx + 1).toString();
-      const chIcon = CHAPTER_ICONS[chIdx] || '📖';
-
-      // ── Шапка главы (большая цветная плашка) ──────────
-      content.push({
-        table: {
-          widths: ['*'],
-          body: [[{
-            stack: [
-              {
-                columns: [
-                  {
-                    width: 50,
-                    text: chIcon,
-                    fontSize: 32,
-                    alignment: 'center',
-                    margin: [0, 4, 0, 0],
-                  },
-                  {
-                    width: '*',
-                    stack: [
-                      {
-                        text: isConclusion ? 'ИТОГ' : `ГЛАВА ${chNum}`,
-                        fontSize: 9,
-                        characterSpacing: 3,
-                        color: '#94a3b8',
-                        margin: [0, 0, 0, 4],
-                      },
-                      {
-                        text: chapter.title.replace(/^Глава \d+\.\s*/, ''),
-                        fontSize: 18,
-                        bold: true,
-                        color: 'white',
-                        lineHeight: 1.2,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-            fillColor: COLORS.navy,
-            border: [false, false, false, false],
-            margin: [16, 16, 16, 16],
-          }]],
-        },
-        layout: 'noBorders',
-        margin: [0, 0, 0, 20],
-      });
-
-      // ── Блоки контента ───────────────────────────────
-      chapter.blocks.forEach(block => {
-        if (block.type === 'h2') {
-          content.push({
-            stack: [
-              {
-                canvas: [{
-                  type: 'rect',
-                  x: 0, y: 0, w: 4, h: 22,
-                  color: COLORS.blue,
-                }],
-                absolutePosition: undefined,
-              },
-              {
-                text: block.text,
-                style: 'h2',
-                margin: [12, -19, 0, 10],
-              },
-            ],
-            margin: [0, 14, 0, 4],
-          });
-        }
-        else if (block.type === 'p') {
-          // Распознаём «Плохо:» и «Хорошо:» — рисуем цветными блоками
-          if (/^Плохо:\s/i.test(block.text)) {
-            content.push(makeBadGoodBox(block.text.replace(/^Плохо:\s*/i, ''), 'bad', COLORS));
-          } else if (/^Хорошо:\s/i.test(block.text)) {
-            content.push(makeBadGoodBox(block.text.replace(/^Хорошо:\s*/i, ''), 'good', COLORS));
-          } else {
-            content.push({
-              text: block.text,
-              style: 'paragraph',
-              margin: [0, 0, 0, 8],
-            });
-          }
-        }
-        else if (block.type === 'ul') {
-          // Каждый пункт — с цветным маркером
-          block.items.forEach(item => {
-            content.push({
-              columns: [
-                {
-                  width: 14,
-                  text: '●',
-                  color: COLORS.blue,
-                  fontSize: 9,
-                  margin: [0, 3, 0, 0],
-                },
-                {
-                  width: '*',
-                  text: item,
-                  style: 'paragraph',
-                },
-              ],
-              margin: [4, 0, 0, 6],
-            });
-          });
-        }
-        else if (block.type === 'quote') {
-          // Красивая цитата в плашке
-          content.push({
-            table: {
-              widths: ['*'],
-              body: [[{
-                stack: [
-                  {
-                    text: '“',
-                    fontSize: 48,
-                    color: COLORS.amber,
-                    margin: [0, -10, 0, -20],
-                    lineHeight: 1,
-                  },
-                  {
-                    text: block.text,
-                    italics: true,
-                    fontSize: 12,
-                    color: COLORS.navy,
-                    lineHeight: 1.5,
-                    alignment: 'center',
-                    margin: [20, 0, 20, 8],
-                  },
-                ],
-                fillColor: COLORS.amberBg,
-                border: [false, false, false, false],
-                margin: [10, 14, 10, 14],
-              }]],
-            },
-            layout: 'noBorders',
-            margin: [0, 14, 0, 14],
-          });
-        }
-      });
-
-      // Разрыв страницы между главами
-      if (chIdx < FULL_MEMO.length - 1) {
-        content.push({ text: '', pageBreak: 'after' });
-      }
-    });
-
-    /* ═══════════════════════════════════════════════════════
-       ФИНАЛЬНАЯ СТРАНИЦА — БЛАГОДАРНОСТЬ
-       ═══════════════════════════════════════════════════════ */
-    content.push({ text: '', pageBreak: 'before' });
-    content.push({
-      stack: [
-        {
-          text: '🎉',
-          fontSize: 64,
-          alignment: 'center',
-          margin: [0, 100, 0, 30],
-        },
-        {
-          text: 'Спасибо, что дошёл\nдо конца!',
-          fontSize: 28,
-          bold: true,
-          alignment: 'center',
-          color: COLORS.navy,
-          lineHeight: 1.2,
-          margin: [0, 0, 0, 24],
-        },
-        {
-          canvas: [{
-            type: 'line',
-            x1: 180, y1: 0, x2: 315, y2: 0,
-            lineWidth: 2,
-            lineColor: COLORS.blue,
-          }],
-          margin: [0, 0, 0, 24],
-        },
-        {
-          text: 'Эти техники работают только тогда,\nкогда ты их применяешь.\nНе один раз — а на каждом мероприятии.',
-          fontSize: 13,
-          alignment: 'center',
-          color: COLORS.text,
-          lineHeight: 1.6,
-          margin: [40, 0, 40, 40],
-        },
-        {
-          text: 'Удачи в нетворкинге!',
-          fontSize: 16,
-          italics: true,
-          bold: true,
-          alignment: 'center',
-          color: COLORS.blue,
-          margin: [0, 0, 0, 8],
-        },
-        {
-          text: '— Злата',
-          fontSize: 12,
-          alignment: 'center',
-          color: COLORS.muted,
-        },
-      ],
-    });
-
-    /* ═══════════════════════════════════════════════════════
-       DOC DEFINITION
-       ═══════════════════════════════════════════════════════ */
-    const docDefinition = {
-      pageSize: 'A4',
-      pageMargins: [50, 70, 50, 60],
-      info: {
-        title: 'Памятка по нетворкингу',
-        author: 'Курс «Нетворкинг со Златой»',
+    // ───── Опции для html2pdf ─────
+    const options = {
+      margin: 0,
+      filename: 'Памятка по нетворкингу.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,           // ← в 2 раза выше разрешение, чёткие эмодзи
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        letterRendering: true,
       },
-      content: content,
-      styles: {
-        tocTitle: {
-          fontSize: 28,
-          bold: true,
-          color: COLORS.navy,
-        },
-        h2: {
-          fontSize: 14,
-          bold: true,
-          color: COLORS.navy,
-        },
-        paragraph: {
-          fontSize: 11,
-          lineHeight: 1.5,
-          color: COLORS.text,
-          alignment: 'justify',
-        },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait',
+        compress: true,
       },
-      defaultStyle: {
-        font: 'Roboto',
-        fontSize: 11,
-      },
-      header: function(currentPage) {
-        // На обложке и финале — без шапки
-        if (currentPage === 1) return null;
-        return {
-          columns: [
-            {
-              text: 'Нетворкинг со Златой',
-              fontSize: 9,
-              color: COLORS.muted,
-              margin: [50, 30, 0, 0],
-            },
-            {
-              text: 'Памятка курса',
-              alignment: 'right',
-              fontSize: 9,
-              italics: true,
-              color: COLORS.muted,
-              margin: [0, 30, 50, 0],
-            },
-          ],
-        };
-      },
-      footer: function(currentPage, pageCount) {
-        if (currentPage === 1) return null;
-        return {
-          columns: [
-            {
-              canvas: [{
-                type: 'line',
-                x1: 50, y1: 0, x2: 545, y2: 0,
-                lineWidth: 0.5,
-                lineColor: '#e2e8f0',
-              }],
-            },
-          ],
-          margin: [0, 20, 0, 0],
-          stack: [{
-            text: currentPage + ' / ' + pageCount,
-            alignment: 'center',
-            fontSize: 9,
-            color: COLORS.muted,
-            margin: [0, 10, 0, 0],
-          }],
-        };
+      pagebreak: {
+        mode: ['css', 'legacy'],   // уважает page-break-before/after в CSS
       },
     };
 
-    pdfMake.createPdf(docDefinition).download('Памятка по нетворкингу.pdf');
-    showToast('📄 PDF-памятка сохранена!', 'success');
+    html2pdf()
+      .set(options)
+      .from(container)
+      .save()
+      .then(() => {
+        document.body.removeChild(container);
+        showToast('📄 PDF-памятка сохранена!', 'success');
+      })
+      .catch(err => {
+        console.error('Ошибка html2pdf:', err);
+        document.body.removeChild(container);
+        showToast('Не удалось создать PDF', 'warning');
+      })
+      .finally(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '⬇️ Скачать PDF-памятку';
+        }
+      });
   } catch (err) {
     console.error('Ошибка генерации PDF:', err);
     showToast('Не удалось создать PDF. Попробуй ещё раз.', 'warning');
-  } finally {
     if (btn) {
       btn.disabled = false;
       btn.innerHTML = '⬇️ Скачать PDF-памятку';
@@ -2784,43 +2428,330 @@ function downloadPdfMemo() {
   }
 }
 
-/* ----------------------------------------------------------------
-   makeBadGoodBox(text, kind, COLORS)
-   Возвращает цветной блок «Плохо» (красный) или «Хорошо» (зелёный)
-   ---------------------------------------------------------------- */
-function makeBadGoodBox(text, kind, COLORS) {
-  const isBad = kind === 'bad';
-  return {
-    table: {
-      widths: ['auto', '*'],
-      body: [[
-        {
-          text: isBad ? '✕' : '✓',
-          fontSize: 16,
-          bold: true,
-          color: 'white',
-          fillColor: isBad ? COLORS.red : COLORS.green,
-          alignment: 'center',
-          margin: [6, 6, 6, 6],
-          border: [false, false, false, false],
-        },
-        {
-          text: text,
-          fontSize: 11,
-          color: COLORS.text,
-          lineHeight: 1.4,
-          fillColor: isBad ? COLORS.redBg : COLORS.greenBg,
-          margin: [10, 6, 10, 6],
-          border: [false, false, false, false],
-        },
-      ]],
-    },
-    layout: 'noBorders',
-    margin: [0, 4, 0, 8],
-  };
+/* ────────────────────────────────────────────────────────
+   Сборка HTML памятки — красивая вёрстка с эмодзи
+   ──────────────────────────────────────────────────────── */
+function buildMemoHTML() {
+  const CHAPTER_ICONS = ['👋', '🎤', '💬', '⭐', '✉️', '🎯'];
+
+  let html = `
+    <style>
+      .pdf-page {
+        width: 794px;
+        min-height: 1123px;
+        padding: 60px 70px;
+        box-sizing: border-box;
+        page-break-after: always;
+        position: relative;
+      }
+      .pdf-page:last-child { page-break-after: auto; }
+      
+      .cover {
+        background: linear-gradient(135deg, #0F2448 0%, #1e3a8a 100%);
+        color: white;
+        text-align: center;
+        padding: 0 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .cover-emoji {
+        font-size: 96px;
+        margin-bottom: 30px;
+        line-height: 1;
+      }
+      .cover-tag {
+        font-size: 14px;
+        letter-spacing: 6px;
+        color: #94a3b8;
+        margin-bottom: 20px;
+      }
+      .cover-title {
+        font-size: 52px;
+        font-weight: 800;
+        margin-bottom: 30px;
+        line-height: 1.1;
+      }
+      .cover-line {
+        width: 120px;
+        height: 3px;
+        background: #0284c7;
+        margin: 0 auto 30px;
+      }
+      .cover-sub {
+        font-size: 14px;
+        font-style: italic;
+        color: #cbd5e1;
+        margin-bottom: 240px;
+      }
+      .cover-foot {
+        font-size: 11px;
+        color: #94a3b8;
+      }
+      
+      .toc h1 {
+        font-size: 36px;
+        color: #0F2448;
+        margin: 0 0 40px;
+      }
+      .toc-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+        font-size: 15px;
+      }
+      .toc-num {
+        width: 40px;
+        font-weight: 700;
+        color: #0284c7;
+        font-size: 18px;
+      }
+      .toc-name { flex: 1; }
+
+      .chapter-header {
+        background: #0F2448;
+        color: white;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .chapter-icon {
+        font-size: 56px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .chapter-meta {
+        font-size: 11px;
+        letter-spacing: 4px;
+        color: #94a3b8;
+        margin-bottom: 6px;
+      }
+      .chapter-title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      h2 {
+        font-size: 18px;
+        color: #0284c7;
+        border-left: 4px solid #0284c7;
+        padding-left: 12px;
+        margin: 24px 0 12px;
+      }
+      p {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #1e293b;
+        margin: 0 0 10px;
+      }
+      ul {
+        padding-left: 0;
+        list-style: none;
+        margin: 0 0 12px;
+      }
+      ul li {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #1e293b;
+        padding-left: 20px;
+        position: relative;
+        margin-bottom: 8px;
+      }
+      ul li::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background: #0284c7;
+        border-radius: 50%;
+        position: absolute;
+        left: 4px;
+        top: 8px;
+      }
+
+      .bad, .good {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin: 10px 0;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .bad { background: #fee2e2; border-left: 4px solid #dc2626; }
+      .good { background: #dcfce7; border-left: 4px solid #16a34a; }
+      .bad-icon, .good-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+        line-height: 1.3;
+      }
+
+      .quote {
+        background: #fef3c7;
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin: 16px 0;
+        text-align: center;
+        font-style: italic;
+        font-size: 14px;
+        color: #0F2448;
+        line-height: 1.6;
+        position: relative;
+      }
+      .quote::before {
+        content: '"';
+        font-size: 48px;
+        color: #d97706;
+        position: absolute;
+        left: 16px;
+        top: 0px;
+        line-height: 1;
+        font-family: Georgia, serif;
+      }
+
+      .final {
+        text-align: center;
+        padding-top: 120px;
+      }
+      .final-emoji {
+        font-size: 80px;
+        margin-bottom: 30px;
+      }
+      .final-title {
+        font-size: 36px;
+        font-weight: 800;
+        color: #0F2448;
+        margin-bottom: 24px;
+        line-height: 1.2;
+      }
+      .final-line {
+        width: 120px;
+        height: 3px;
+        background: #0284c7;
+        margin: 0 auto 24px;
+      }
+      .final-text {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #1e293b;
+        margin-bottom: 40px;
+        padding: 0 60px;
+      }
+      .final-bye {
+        font-size: 18px;
+        font-style: italic;
+        font-weight: 700;
+        color: #0284c7;
+      }
+      .final-author {
+        font-size: 13px;
+        color: #64748b;
+        margin-top: 8px;
+      }
+    </style>
+  `;
+
+  // ──── ОБЛОЖКА ─────────────────────────────────────────
+  html += `
+    <div class="pdf-page cover">
+      <div class="cover-emoji">🤝</div>
+      <div class="cover-tag">ПАМЯТКА</div>
+      <div class="cover-title">Нетворкинг<br>со Златой</div>
+      <div class="cover-line"></div>
+      <div class="cover-sub">5 глав · техники · чек-листы · шаблоны</div>
+      <div class="cover-foot">твой навигатор в мире знакомств</div>
+    </div>
+  `;
+
+  // ──── ОГЛАВЛЕНИЕ ──────────────────────────────────────
+  html += `<div class="pdf-page toc"><h1>Оглавление</h1>`;
+  FULL_MEMO.forEach((ch, i) => {
+    const num = i === FULL_MEMO.length - 1 ? '★' : String(i + 1).padStart(2, '0');
+    html += `
+      <div class="toc-item">
+        <div class="toc-num">${num}</div>
+        <div class="toc-name">${escapeHtml(ch.title.replace(/^Глава \d+\.\s*/, ''))}</div>
+      </div>
+    `;
+  });
+  html += `</div>`;
+
+  // ──── ГЛАВЫ ───────────────────────────────────────────
+  FULL_MEMO.forEach((chapter, chIdx) => {
+    const isConclusion = chIdx === FULL_MEMO.length - 1;
+    const icon = CHAPTER_ICONS[chIdx] || '📖';
+    const meta = isConclusion ? 'ИТОГ' : `ГЛАВА ${chIdx + 1}`;
+
+    html += `<div class="pdf-page">`;
+    html += `
+      <div class="chapter-header">
+        <div class="chapter-icon">${icon}</div>
+        <div>
+          <div class="chapter-meta">${meta}</div>
+          <div class="chapter-title">${escapeHtml(chapter.title.replace(/^Глава \d+\.\s*/, ''))}</div>
+        </div>
+      </div>
+    `;
+
+    chapter.blocks.forEach(block => {
+      if (block.type === 'h2') {
+        html += `<h2>${escapeHtml(block.text)}</h2>`;
+      }
+      else if (block.type === 'p') {
+        if (/^Плохо:\s/i.test(block.text)) {
+          html += `<div class="bad"><div class="bad-icon">❌</div><div>${escapeHtml(block.text.replace(/^Плохо:\s*/i, ''))}</div></div>`;
+        } else if (/^Хорошо:\s/i.test(block.text)) {
+          html += `<div class="good"><div class="good-icon">✅</div><div>${escapeHtml(block.text.replace(/^Хорошо:\s*/i, ''))}</div></div>`;
+        } else {
+          html += `<p>${escapeHtml(block.text)}</p>`;
+        }
+      }
+      else if (block.type === 'ul') {
+        html += `<ul>`;
+        block.items.forEach(item => {
+          html += `<li>${escapeHtml(item)}</li>`;
+        });
+        html += `</ul>`;
+      }
+      else if (block.type === 'quote') {
+        html += `<div class="quote">${escapeHtml(block.text)}</div>`;
+      }
+    });
+
+    html += `</div>`;
+  });
+
+  // ──── ФИНАЛ ───────────────────────────────────────────
+  html += `
+    <div class="pdf-page final">
+      <div class="final-emoji">🎉</div>
+      <div class="final-title">Спасибо, что дошёл<br>до конца!</div>
+      <div class="final-line"></div>
+      <div class="final-text">
+        Эти техники работают только тогда,<br>
+        когда ты их применяешь.<br>
+        Не один раз — а на каждом мероприятии.
+      </div>
+      <div class="final-bye">Удачи в нетворкинге!</div>
+      <div class="final-author">— Злата</div>
+    </div>
+  `;
+
+  return html;
 }
 
-
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
 /* ================================================================
    РАЗДЕЛ 9: ЭКРАНЫ КОНЦА ГЛАВЫ И ФИНАЛА
