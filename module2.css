@@ -1774,7 +1774,7 @@ background: transparent;
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
-  padding: 64px 24px 8px;     /* меньше отступ снизу */
+  padding: 16px 24px 8px;     /* HUD убран — отступ сверху не нужен */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1783,7 +1783,7 @@ background: transparent;
 
 @media (max-width: 600px) {
   .hub-map-container {
-    padding: 56px 12px 6px;
+    padding: 12px 12px 6px;
   }
 }
 
@@ -2246,26 +2246,7 @@ white-space: pre-line;
    HUD на экране хаба — компактный плавающий стиль
    ================================================================ */
 body.m2-on-hub #m2-hud {
-  position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  max-width: calc(100% - 24px);
-
-  padding: 6px 12px;
-  gap: 10px;
-
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-
-  border: 1px solid rgba(15, 36, 72, 0.12);
-  border-radius: 999px;
-  box-shadow: 0 6px 20px rgba(15, 36, 72, 0.18);
-
-  /* Убираем нижнюю границу */
-  border-bottom: 1px solid rgba(15, 36, 72, 0.12);
+  display: none !important;
 }
 
 body.m2-on-hub #m2-hud .hud-energy {
