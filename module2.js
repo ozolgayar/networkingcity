@@ -389,8 +389,8 @@ const CHAPTERS = {
 
         options: [
           {
-            text:     '«Не знаете, что здесь вкуснее? ' +
-                      'Я уже пятую минуту выбираю между двумя вариантами»',
+            text:     'Не знаете, что здесь вкуснее? ' +
+                      'Я уже пятую минуту выбираю между двумя вариантами',
             type:     'correct',
             emoji:    '😊',
             reaction: 'Денис смеётся: «Я тоже завис! Давайте возьмём разное ' +
@@ -428,9 +428,9 @@ const CHAPTERS = {
 
         options: [
           {
-            text:     '«Была на секции по регуляторике — довольно плотно, ' +
+            text:     'Была на секции по регуляторике — довольно плотно, ' +
                       'но нашла пару неожиданных инсайтов. ' +
-                      'А вы где были?»',
+                      'А вы где были?',
             type:     'correct',
             emoji:    '😊',
             reaction: 'Честно и с позитивным разворотом. ' +
@@ -1780,10 +1780,12 @@ function handleAnswer(chapter, situationIdx, optionIdx, situation) {
   }
 
   answersZone.appendChild(reactionEl);
-
-  // Прокручиваем к реакции
+ // Мягко прокручиваем ТОЛЬКО внутри зоны ответов, без сдвига всего экрана
   setTimeout(() => {
-    reactionEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    answersZone.scrollTo({
+      top: answersZone.scrollHeight,
+      behavior: 'smooth'
+    });
   }, 200);
 }
 
