@@ -538,9 +538,9 @@ body {
 .m2-screen#m2-hub {
   background: transparent;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;          /* ← фиксируем, без скролла */
+  height: 100%;
 }
-
 
 /* Заголовок хаба */
 
@@ -1739,11 +1739,8 @@ background: transparent;
 
 .hub-map-bg {
   display: block;
-
-  /* ❗ КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: ограничиваем обе стороны */
-  max-width: min(100%, 1200px);              /* не шире 1200px */
-  max-height: calc(100vh - 200px);           /* не выше окна минус HUD/футер */
-
+  max-width: min(100%, 1200px);
+  max-height: calc(100vh - 200px);   /* ← было 160, стало 200 */
   width: auto;
   height: auto;
   user-select: none;
