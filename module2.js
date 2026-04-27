@@ -2094,6 +2094,36 @@ function showFinal() {
     openModal('modal-restart-confirm');
   });
 }
+// ─── Кнопка «Завершить модуль 2» ─────────────────────────
+  const completeBtn = document.getElementById('btn-final-complete');
+  if (completeBtn) {
+    const newCompleteBtn = completeBtn.cloneNode(true);
+    completeBtn.parentNode.replaceChild(newCompleteBtn, completeBtn);
+    newCompleteBtn.addEventListener('click', function() {
+      // Записываем факт завершения модуля 2 в общий прогресс курса
+      try {
+        const courseRaw = localStorage.getItem('course_progress');
+        const course = courseRaw ? JSON.parse(courseRaw) : {};
+        course.module2Completed = true;
+        course.module3Unlocked  = true;
+        localStorage.setItem('course_progress', JSON.stringify(course));
+      } catch(e) {
+        // Если по каким-то причинам сломался JSON — пишем заново
+        localStorage.setItem('course_progress', JSON.stringify({
+          module2Completed: true,
+          module3Unlocked:  true
+        }));
+      }
+
+      showToast('🎉 Модуль 2 завершён! Модуль 3 разблокирован', 'success');
+
+      // Через секунду — возврат на карту курса
+      setTimeout(() => {
+        window.location.href = 'map.html';
+      }, 900);
+    });
+  }
+}
 
 /* ----------------------------------------------------------------
    resetProgress()
