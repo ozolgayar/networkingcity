@@ -546,26 +546,6 @@ body {
   height: 100%;
 }
 
-.hub-footer {
-  padding: 10px 20px 12px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid var(--m2-border);
-}
-
-.hub-footer-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--m2-text);
-  margin-bottom: 2px;
-}
-
-.hub-footer-hint {
-  font-size: 12px;
-  color: var(--m2-text-muted);
-  font-weight: 500;
-}
 
 
 /* ----------------------------------------------------------------
@@ -1729,13 +1709,23 @@ background: transparent;
 }
 
 .hub-footer {
-  padding: 10px 20px 12px;
+  /* Ширина по содержимому, центрирование */
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  margin: 0 auto 16px;       /* центр по горизонтали + отступ снизу */
+
+  padding: 12px 28px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid var(--m2-border);
+  
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 36, 72, 0.12);
+  border-radius: 14px;        /* ← скруглённая карточка вместо полосы */
+  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.12);
+  
   flex-shrink: 0;
-   position: relative;                      /* ← добавь для надёжности */
+  position: relative;
   z-index: 10;
 }
 
