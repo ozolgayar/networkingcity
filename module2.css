@@ -1708,22 +1708,21 @@ background: transparent;
   background: transparent;
 }
 
-.hub-footer {
-  /* Ширина по содержимому, центрирование */
+hub-footer {
+  /* Плашка по содержимому, по центру */
   width: fit-content;
   max-width: calc(100% - 40px);
-  margin: 0 auto 16px;       /* центр по горизонтали + отступ снизу */
+  margin: 0 auto 20px;
 
-  padding: 12px 28px;
+  padding: 14px 32px;
   text-align: center;
-  
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+
+  /* Видимая белая карточка */
+  background: #ffffff;
   border: 1px solid rgba(15, 36, 72, 0.12);
-  border-radius: 14px;        /* ← скруглённая карточка вместо полосы */
-  box-shadow: 0 4px 14px rgba(15, 36, 72, 0.12);
-  
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(15, 36, 72, 0.18);
+
   flex-shrink: 0;
   position: relative;
   z-index: 10;
@@ -1732,13 +1731,13 @@ background: transparent;
 .hub-footer-title {
   font-size: 15px;
   font-weight: 800;
-  color: var(--m2-text);
+  color: #0F2448;
   margin-bottom: 2px;
 }
 
 .hub-footer-hint {
   font-size: 12px;
-  color: var(--m2-text-muted);
+  color: #64748b;
   font-weight: 500;
 }
 
