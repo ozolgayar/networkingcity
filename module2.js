@@ -2683,11 +2683,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /* ── Кнопка «Скачать PDF» в блокноте ─────────────────────── */
-  document.getElementById('btn-download-pdf')
-    .addEventListener('click', function() {
+  const pdfBtn = document.getElementById('btn-download-pdf');
+  if (pdfBtn) {
+    pdfBtn.addEventListener('click', function() {
       downloadPdfMemo();
     });
-
+  }
    /* ── Кнопка карты конференции в HUD ──────────────────────── */
 const hubBtn = document.getElementById('hud-hub-btn');
 if (hubBtn) {
