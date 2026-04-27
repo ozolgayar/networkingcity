@@ -1697,29 +1697,22 @@ background: transparent;
 /* ================================================================
    КАРТА ХАБА — карта по центру вертикали с отступом сверху и снизу
    ================================================================ */
-.hub-map-container {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: hidden;            /* ← убирает скролл */
-  padding: 20px 80px; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-}
+.hub-footer {
+  /* ВАЖНО: эти 2 свойства нужны для grid-разметки #m2-hub */
+  justify-self: center;       /* центр по горизонтали в grid-ячейке */
+  align-self: end;            /* прижать к низу grid-ячейки */
 
-hub-footer {
-  /* Плашка по содержимому, по центру */
+  /* Размер по содержимому */
   width: fit-content;
   max-width: calc(100% - 40px);
-  margin: 0 auto 20px;
+  margin-bottom: 20px;
 
   padding: 14px 32px;
   text-align: center;
 
-  /* Видимая белая карточка */
+  /* Чёткая белая плашка */
   background: #ffffff;
-  border: 1px solid rgba(15, 36, 72, 0.12);
+  border: 1px solid rgba(15, 36, 72, 0.15);
   border-radius: 14px;
   box-shadow: 0 6px 20px rgba(15, 36, 72, 0.18);
 
@@ -1739,31 +1732,6 @@ hub-footer {
   font-size: 12px;
   color: #64748b;
   font-weight: 500;
-}
-
-/* Обёртка картинки */
-.hub-map-image {
-  position: relative;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Картинка карты — впишется по меньшей стороне */
-.hub-map-bg {
-  display: block;
-  max-width: 100%;
-max-height: calc(100vh - 180px); 
-  width: auto;
-  height: auto;
-  user-select: none;
-  pointer-events: none;
-   
 }
 
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
