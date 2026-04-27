@@ -1699,12 +1699,13 @@ background: transparent;
    ================================================================ */
 .hub-footer {
   display: flex;
+  flex-direction: column;          /* ← заголовок + подсказка в столбик */
   align-items: center;
   justify-content: center;
-  padding: 8px 16px 14px;     /* компактнее */
+  gap: 6px;
+  padding: 10px 16px 16px;
   text-align: center;
   flex-shrink: 0;
-  min-height: 50px;           /* ← гарантированный минимум */
 }
 
 .hub-footer-title {
