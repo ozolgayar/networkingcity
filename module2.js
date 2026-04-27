@@ -2350,7 +2350,6 @@ const FULL_MEMO = [
 function downloadPdfMemo() {
   const btn = document.getElementById('btn-download-pdf');
 
-  // Проверка что pdfMake загружен
   if (typeof pdfMake === 'undefined') {
     showToast('PDF-библиотека ещё не загрузилась, подожди секунду', 'warning');
     return;
@@ -2362,141 +2361,417 @@ function downloadPdfMemo() {
   }
 
   try {
-    // ── СОБИРАЕМ СОДЕРЖИМОЕ ─────────────────────────────────
+    // ── ЦВЕТА ФИРМЕННОГО СТИЛЯ ──────────────────────────────
+    const COLORS = {
+      navy:      '#0F2448',  // основной тёмно-синий
+      blue:      '#0284c7',  // акцентный голубой
+      lightBlue: '#e0f2fe',  // фон карточек
+      bg:        '#f8fafc',  // фон страницы
+      green:     '#16a34a',  // «Хорошо»
+      greenBg:   '#dcfce7',
+      red:       '#dc2626',  // «Плохо»
+      redBg:     '#fee2e2',
+      amber:     '#d97706',  // «Цитата»
+      amberBg:   '#fef3c7',
+      text:      '#1e293b',
+      muted:     '#64748b',
+    };
+
+    // Иконки/эмодзи для глав
+    const CHAPTER_ICONS = ['👋', '🎤', '💬', '⭐', '✉️', '🎯'];
+
     const content = [];
 
-    // Обложка
+    /* ═══════════════════════════════════════════════════════
+       ОБЛОЖКА
+       ═══════════════════════════════════════════════════════ */
     content.push({
-      text: 'Памятка по нетворкингу',
-      style: 'coverTitle',
-      alignment: 'center',
-      margin: [0, 80, 0, 12],
-    });
-    content.push({
-      text: 'От Златы — твоего навигатора в мире знакомств',
-      style: 'coverSubtitle',
-      alignment: 'center',
-      margin: [0, 0, 0, 40],
-    });
-    content.push({
-      text: '5 глав · техники, чек-листы и шаблоны',
-      style: 'coverHint',
-      alignment: 'center',
+      stack: [
+        {
+          // Цветная плашка-фон
+          canvas: [{
+            type: 'rect', x: 0, y: 0, w: 495, h: 720,
+            color: COLORS.navy,
+          }],
+          absolutePosition: { x: 50, y: 60 },
+        },
+        {
+          text: '🤝',
+          fontSize: 72,
+          alignment: 'center',
+          margin: [0, 140, 0, 20],
+          color: 'white',
+        },
+        {
+          text: 'ПАМЯТКА',
+          fontSize: 14,
+          characterSpacing: 6,
+          alignment: 'center',
+          color: '#94a3b8',
+          margin: [0, 0, 0, 16],
+        },
+        {
+          text: 'Нетворкинг\nсо Златой',
+          fontSize: 38,
+          bold: true,
+          alignment: 'center',
+          color: 'white',
+          lineHeight: 1.1,
+          margin: [0, 0, 0, 30],
+        },
+        {
+          canvas: [{
+            type: 'line',
+            x1: 180, y1: 0, x2: 315, y2: 0,
+            lineWidth: 2,
+            lineColor: COLORS.blue,
+          }],
+          margin: [0, 0, 0, 30],
+        },
+        {
+          text: '5 глав · техники · чек-листы · шаблоны',
+          fontSize: 12,
+          italics: true,
+          alignment: 'center',
+          color: '#cbd5e1',
+          margin: [0, 0, 0, 200],
+        },
+        {
+          text: 'твой навигатор в мире знакомств',
+          fontSize: 10,
+          alignment: 'center',
+          color: '#94a3b8',
+        },
+      ],
       pageBreak: 'after',
     });
 
-    // Главы
-    FULL_MEMO.forEach((chapter, chIdx) => {
+    /* ═══════════════════════════════════════════════════════
+       ОГЛАВЛЕНИЕ
+       ═══════════════════════════════════════════════════════ */
+    content.push({
+      text: 'Оглавление',
+      style: 'tocTitle',
+      margin: [0, 30, 0, 30],
+    });
+
+    FULL_MEMO.forEach((chapter, idx) => {
+      // Пропускаем "Заключение" — оно идёт отдельно
+      const isLastBlock = idx === FULL_MEMO.length - 1;
+      
       content.push({
-        text: chapter.title,
-        style: 'chapterTitle',
+        columns: [
+          {
+            width: 30,
+            text: (idx < FULL_MEMO.length - 1 ? (idx + 1).toString().padStart(2, '0') : '★'),
+            color: COLORS.blue,
+            bold: true,
+            fontSize: 16,
+          },
+          {
+            width: '*',
+            text: chapter.title.replace(/^Глава \d+\.\s*/, ''),
+            fontSize: 13,
+            color: COLORS.text,
+            margin: [10, 2, 0, 0],
+          },
+        ],
         margin: [0, 0, 0, 14],
       });
+    });
 
+    content.push({ text: '', pageBreak: 'after' });
+
+    /* ═══════════════════════════════════════════════════════
+       ГЛАВЫ
+       ═══════════════════════════════════════════════════════ */
+    FULL_MEMO.forEach((chapter, chIdx) => {
+      const isConclusion = chIdx === FULL_MEMO.length - 1;
+      const chNum = isConclusion ? '★' : (chIdx + 1).toString();
+      const chIcon = CHAPTER_ICONS[chIdx] || '📖';
+
+      // ── Шапка главы (большая цветная плашка) ──────────
+      content.push({
+        table: {
+          widths: ['*'],
+          body: [[{
+            stack: [
+              {
+                columns: [
+                  {
+                    width: 50,
+                    text: chIcon,
+                    fontSize: 32,
+                    alignment: 'center',
+                    margin: [0, 4, 0, 0],
+                  },
+                  {
+                    width: '*',
+                    stack: [
+                      {
+                        text: isConclusion ? 'ИТОГ' : `ГЛАВА ${chNum}`,
+                        fontSize: 9,
+                        characterSpacing: 3,
+                        color: '#94a3b8',
+                        margin: [0, 0, 0, 4],
+                      },
+                      {
+                        text: chapter.title.replace(/^Глава \d+\.\s*/, ''),
+                        fontSize: 18,
+                        bold: true,
+                        color: 'white',
+                        lineHeight: 1.2,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            fillColor: COLORS.navy,
+            border: [false, false, false, false],
+            margin: [16, 16, 16, 16],
+          }]],
+        },
+        layout: 'noBorders',
+        margin: [0, 0, 0, 20],
+      });
+
+      // ── Блоки контента ───────────────────────────────
       chapter.blocks.forEach(block => {
         if (block.type === 'h2') {
           content.push({
-            text: block.text,
-            style: 'h2',
-            margin: [0, 12, 0, 6],
+            stack: [
+              {
+                canvas: [{
+                  type: 'rect',
+                  x: 0, y: 0, w: 4, h: 22,
+                  color: COLORS.blue,
+                }],
+                absolutePosition: undefined,
+              },
+              {
+                text: block.text,
+                style: 'h2',
+                margin: [12, -19, 0, 10],
+              },
+            ],
+            margin: [0, 14, 0, 4],
           });
-        } else if (block.type === 'p') {
-          content.push({
-            text: block.text,
-            style: 'paragraph',
-            margin: [0, 0, 0, 8],
+        }
+        else if (block.type === 'p') {
+          // Распознаём «Плохо:» и «Хорошо:» — рисуем цветными блоками
+          if (/^Плохо:\s/i.test(block.text)) {
+            content.push(makeBadGoodBox(block.text.replace(/^Плохо:\s*/i, ''), 'bad', COLORS));
+          } else if (/^Хорошо:\s/i.test(block.text)) {
+            content.push(makeBadGoodBox(block.text.replace(/^Хорошо:\s*/i, ''), 'good', COLORS));
+          } else {
+            content.push({
+              text: block.text,
+              style: 'paragraph',
+              margin: [0, 0, 0, 8],
+            });
+          }
+        }
+        else if (block.type === 'ul') {
+          // Каждый пункт — с цветным маркером
+          block.items.forEach(item => {
+            content.push({
+              columns: [
+                {
+                  width: 14,
+                  text: '●',
+                  color: COLORS.blue,
+                  fontSize: 9,
+                  margin: [0, 3, 0, 0],
+                },
+                {
+                  width: '*',
+                  text: item,
+                  style: 'paragraph',
+                },
+              ],
+              margin: [4, 0, 0, 6],
+            });
           });
-        } else if (block.type === 'ul') {
+        }
+        else if (block.type === 'quote') {
+          // Красивая цитата в плашке
           content.push({
-            ul: block.items,
-            style: 'list',
-            margin: [10, 0, 0, 10],
-          });
-} else if (block.type === 'quote') {
-          content.push({
-            text: block.text,
-            style: 'quote',
-            margin: [20, 14, 20, 14],
-            alignment: 'center',
+            table: {
+              widths: ['*'],
+              body: [[{
+                stack: [
+                  {
+                    text: '“',
+                    fontSize: 48,
+                    color: COLORS.amber,
+                    margin: [0, -10, 0, -20],
+                    lineHeight: 1,
+                  },
+                  {
+                    text: block.text,
+                    italics: true,
+                    fontSize: 12,
+                    color: COLORS.navy,
+                    lineHeight: 1.5,
+                    alignment: 'center',
+                    margin: [20, 0, 20, 8],
+                  },
+                ],
+                fillColor: COLORS.amberBg,
+                border: [false, false, false, false],
+                margin: [10, 14, 10, 14],
+              }]],
+            },
+            layout: 'noBorders',
+            margin: [0, 14, 0, 14],
           });
         }
       });
 
-      // Разрыв страницы между главами (кроме последней)
+      // Разрыв страницы между главами
       if (chIdx < FULL_MEMO.length - 1) {
         content.push({ text: '', pageBreak: 'after' });
       }
     });
 
-    // ── DOC DEFINITION ──────────────────────────────────────
+    /* ═══════════════════════════════════════════════════════
+       ФИНАЛЬНАЯ СТРАНИЦА — БЛАГОДАРНОСТЬ
+       ═══════════════════════════════════════════════════════ */
+    content.push({ text: '', pageBreak: 'before' });
+    content.push({
+      stack: [
+        {
+          text: '🎉',
+          fontSize: 64,
+          alignment: 'center',
+          margin: [0, 100, 0, 30],
+        },
+        {
+          text: 'Спасибо, что дошёл\nдо конца!',
+          fontSize: 28,
+          bold: true,
+          alignment: 'center',
+          color: COLORS.navy,
+          lineHeight: 1.2,
+          margin: [0, 0, 0, 24],
+        },
+        {
+          canvas: [{
+            type: 'line',
+            x1: 180, y1: 0, x2: 315, y2: 0,
+            lineWidth: 2,
+            lineColor: COLORS.blue,
+          }],
+          margin: [0, 0, 0, 24],
+        },
+        {
+          text: 'Эти техники работают только тогда,\nкогда ты их применяешь.\nНе один раз — а на каждом мероприятии.',
+          fontSize: 13,
+          alignment: 'center',
+          color: COLORS.text,
+          lineHeight: 1.6,
+          margin: [40, 0, 40, 40],
+        },
+        {
+          text: 'Удачи в нетворкинге!',
+          fontSize: 16,
+          italics: true,
+          bold: true,
+          alignment: 'center',
+          color: COLORS.blue,
+          margin: [0, 0, 0, 8],
+        },
+        {
+          text: '— Злата',
+          fontSize: 12,
+          alignment: 'center',
+          color: COLORS.muted,
+        },
+      ],
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       DOC DEFINITION
+       ═══════════════════════════════════════════════════════ */
     const docDefinition = {
       pageSize: 'A4',
-      pageMargins: [50, 60, 50, 60],
+      pageMargins: [50, 70, 50, 60],
       info: {
         title: 'Памятка по нетворкингу',
         author: 'Курс «Нетворкинг со Златой»',
       },
       content: content,
       styles: {
-        coverTitle: {
-          fontSize: 32,
+        tocTitle: {
+          fontSize: 28,
           bold: true,
-          color: '#0F2448',
-        },
-        coverSubtitle: {
-          fontSize: 14,
-          italics: true,
-          color: '#64748b',
-        },
-        coverHint: {
-          fontSize: 12,
-          color: '#94a3b8',
-        },
-        chapterTitle: {
-          fontSize: 22,
-          bold: true,
-          color: '#0F2448',
+          color: COLORS.navy,
         },
         h2: {
           fontSize: 14,
           bold: true,
-          color: '#0284c7',
+          color: COLORS.navy,
         },
         paragraph: {
           fontSize: 11,
-          lineHeight: 1.45,
-          color: '#1e293b',
+          lineHeight: 1.5,
+          color: COLORS.text,
           alignment: 'justify',
-        },
-        list: {
-          fontSize: 11,
-          lineHeight: 1.4,
-          color: '#1e293b',
-        },
-        quote: {
-          fontSize: 12,
-          italics: true,
-          color: '#0284c7',
-          bold: true,
         },
       },
       defaultStyle: {
         font: 'Roboto',
+        fontSize: 11,
+      },
+      header: function(currentPage) {
+        // На обложке и финале — без шапки
+        if (currentPage === 1) return null;
+        return {
+          columns: [
+            {
+              text: 'Нетворкинг со Златой',
+              fontSize: 9,
+              color: COLORS.muted,
+              margin: [50, 30, 0, 0],
+            },
+            {
+              text: 'Памятка курса',
+              alignment: 'right',
+              fontSize: 9,
+              italics: true,
+              color: COLORS.muted,
+              margin: [0, 30, 50, 0],
+            },
+          ],
+        };
       },
       footer: function(currentPage, pageCount) {
+        if (currentPage === 1) return null;
         return {
-          text: currentPage + ' / ' + pageCount,
-          alignment: 'center',
-          fontSize: 9,
-          color: '#94a3b8',
+          columns: [
+            {
+              canvas: [{
+                type: 'line',
+                x1: 50, y1: 0, x2: 545, y2: 0,
+                lineWidth: 0.5,
+                lineColor: '#e2e8f0',
+              }],
+            },
+          ],
           margin: [0, 20, 0, 0],
+          stack: [{
+            text: currentPage + ' / ' + pageCount,
+            alignment: 'center',
+            fontSize: 9,
+            color: COLORS.muted,
+            margin: [0, 10, 0, 0],
+          }],
         };
       },
     };
 
-    // ── ГЕНЕРИРУЕМ И СКАЧИВАЕМ ──────────────────────────────
     pdfMake.createPdf(docDefinition).download('Памятка по нетворкингу.pdf');
-
     showToast('📄 PDF-памятка сохранена!', 'success');
   } catch (err) {
     console.error('Ошибка генерации PDF:', err);
@@ -2508,6 +2783,44 @@ function downloadPdfMemo() {
     }
   }
 }
+
+/* ----------------------------------------------------------------
+   makeBadGoodBox(text, kind, COLORS)
+   Возвращает цветной блок «Плохо» (красный) или «Хорошо» (зелёный)
+   ---------------------------------------------------------------- */
+function makeBadGoodBox(text, kind, COLORS) {
+  const isBad = kind === 'bad';
+  return {
+    table: {
+      widths: ['auto', '*'],
+      body: [[
+        {
+          text: isBad ? '✕' : '✓',
+          fontSize: 16,
+          bold: true,
+          color: 'white',
+          fillColor: isBad ? COLORS.red : COLORS.green,
+          alignment: 'center',
+          margin: [6, 6, 6, 6],
+          border: [false, false, false, false],
+        },
+        {
+          text: text,
+          fontSize: 11,
+          color: COLORS.text,
+          lineHeight: 1.4,
+          fillColor: isBad ? COLORS.redBg : COLORS.greenBg,
+          margin: [10, 6, 10, 6],
+          border: [false, false, false, false],
+        },
+      ]],
+    },
+    layout: 'noBorders',
+    margin: [0, 4, 0, 8],
+  };
+}
+
+
 
 /* ================================================================
    РАЗДЕЛ 9: ЭКРАНЫ КОНЦА ГЛАВЫ И ФИНАЛА
