@@ -1430,7 +1430,7 @@ function refreshHubZones() {
 
       const locName = locationNames[nextChapterId];
       if (locName) {
-        hint.innerHTML = `Подойди к локации <strong>«${locName}»</strong>`;
+        hint.innerHTML = `Выбери локацию <strong>«${locName}»</strong>`;
       } else {
         hint.innerHTML = 'Кликай по подписям на карте';
       }
