@@ -2529,6 +2529,12 @@ document.addEventListener('DOMContentLoaded', function() {
       openModal('modal-notebook');
     });
 
+    /* ── Кнопка «Скачать PDF» в блокноте ─────────────────────── */
+  document.getElementById('btn-download-pdf')
+    .addEventListener('click', function() {
+      downloadPdfMemo();
+    });
+
    /* ── Кнопка карты конференции в HUD ──────────────────────── */
 const hubBtn = document.getElementById('hud-hub-btn');
 if (hubBtn) {
