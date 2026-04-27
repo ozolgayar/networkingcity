@@ -61,6 +61,7 @@ const CHAPTERS = {
     // Данные персонажа
     npc: {
       name:  'Андрей',
+       nameInstrumental: 'Андреем',
       role:  'Медицинский советник',
       photo: 'https://i.ibb.co/TDST1Lqg/image.png'
     },
@@ -246,6 +247,7 @@ const CHAPTERS = {
 
     npc: {
       name: 'Мария',
+       nameInstrumental: 'Марией',
       role: 'HR-директор',
  photo: 'https://i.ibb.co/yn4gRmYH/image.png'
     },
@@ -371,6 +373,7 @@ const CHAPTERS = {
 
     npc: {
       name: 'Денис',
+       nameInstrumental: 'Денисом',
       role: 'Инвестиционный аналитик',
       photo: 'https://i.ibb.co/RGdV0tqD/image.png'
     },
@@ -562,6 +565,7 @@ const CHAPTERS = {
 
     npc: {
       name: 'Анна',
+       nameInstrumental: 'Анной',
       role: 'Основатель стартапа',
       photo: 'https://i.ibb.co/N2fcb2zj/image.png'
     },
@@ -792,6 +796,7 @@ const CHAPTERS = {
      
     npc: {
       name: 'Игорь',
+       nameInstrumental: 'Игорем',
       role: 'Партнёр консалтинговой фирмы',
        photo: 'https://i.ibb.co/NQgDJNQ/image.png'
     },
@@ -1986,8 +1991,8 @@ function showChapterEnd(chapter) {
   // Заголовок
   document.getElementById('chapter-end-title').textContent =
     'Знакомство состоялось! 🤝';
-  document.getElementById('chapter-end-subtitle').textContent =
-    'Злата познакомилась с ' + chapter.npc.name;
+ document.getElementById('chapter-end-subtitle').textContent =
+    'Злата познакомилась с ' + (chapter.npc.nameInstrumental || chapter.npc.name);
 
   // Список «Что узнала»
   const learnedList = document.getElementById('chapter-end-learned-list');
