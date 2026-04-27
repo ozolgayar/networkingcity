@@ -1302,7 +1302,7 @@ function handleHubZoneClick(zoneId, zoneEl) {
 
     // Проверяем: глава уже пройдена?
     if (m2State.completedChapters.includes(zoneId)) {
-      showToast('Ты уже прошла эту главу ✅', 'success');
+      showToast('Ты уже прошёл эту главу ✅', 'success');
       return;
     }
 
