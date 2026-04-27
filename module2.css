@@ -2333,31 +2333,32 @@ body.m2-on-hub #m2-hud .hud-energy {
 }
 
 /* ================================================================
-   ФИНАЛ — корректный скролл и адаптация под высоту экрана
+   ФИНАЛ — финальная версия с гарантированной прокруткой
    ================================================================ */
 
-/* Сам экран — флекс с прокруткой */
+/* Сам экран — занимает всё пространство и прокручивается */
 .m2-screen#m2-final {
   background: transparent;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 16px 40px;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .m2-screen#m2-final.active {
-  display: flex;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 12px 32px;
 }
 
-/* Карточка финала — белый фон */
+/* Карточка финала */
 .final-wrap {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 28px 28px 24px;
+  border-radius: 18px;
+  padding: 22px 22px 18px;
   box-shadow: 0 12px 40px rgba(15, 36, 72, 0.18);
   border: 1px solid rgba(15, 36, 72, 0.08);
 
@@ -2365,97 +2366,99 @@ body.m2-on-hub #m2-hud .hud-energy {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 14px;
+  gap: 10px;
+
   max-width: 540px;
   width: 100%;
-
-  /* Главное: НЕ ограничиваем высоту, не делаем внутри overflow */
   margin: 0 auto;
   flex-shrink: 0;
+  overflow: visible;
 }
 
-/* Уменьшаем кубок и заголовок чтобы влезало больше */
+/* Уменьшаем элементы чтобы влезало */
 .final-celebration {
-  font-size: 56px;
+  font-size: 48px;
   margin-bottom: -4px;
+  line-height: 1;
 }
 
 .final-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   color: #0F2448;
-  line-height: 1.2;
+  line-height: 1.15;
+  margin: 0;
 }
 
 .final-subtitle {
-  font-size: 14px;
+  font-size: 13px;
   color: #64748b;
-  margin-top: -4px;
+  margin: 0;
 }
 
-/* Статистика — поджимаем */
+/* Статистика */
 .final-stats {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  margin: 4px 0;
+  margin: 4px 0 2px;
 }
 
 .final-stat-item {
   flex: 1;
   background: #ffffff;
   border: 1px solid rgba(15, 36, 72, 0.1);
-  border-radius: 12px;
-  padding: 12px 8px;
+  border-radius: 10px;
+  padding: 10px 6px;
   box-shadow: 0 2px 8px rgba(15, 36, 72, 0.06);
 }
 
 .final-stat-value {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   color: #0F2448;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .final-stat-label {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #64748b;
   font-weight: 600;
 }
 
 /* Заголовок «Собранные артефакты» */
 .final-artifacts-title {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   align-self: flex-start;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* Список артефактов */
 .final-artifacts-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   width: 100%;
 }
 
 .final-artifact-item {
   background: #ffffff;
   border: 1px solid rgba(15, 36, 72, 0.1);
-  border-radius: 10px;
-  padding: 10px 14px;
+  border-radius: 8px;
+  padding: 8px 12px;
   text-align: left;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: #0F2448;
 }
 
 .final-artifact-name {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
 }
 
@@ -2463,22 +2466,22 @@ body.m2-on-hub #m2-hud .hud-energy {
 .final-btns {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   width: 100%;
   margin-top: 4px;
 }
 
 .final-btns .m2-btn {
   width: 100%;
-  padding: 12px 20px;
+  padding: 11px 18px;
+  font-size: 13.5px;
 }
 
-/* PDF-кнопка — красная */
+/* PDF-кнопка */
 .m2-btn-pdf {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: #fff;
   box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
-  font-size: 14px;
   font-weight: 700;
 }
 .m2-btn-pdf:hover {
@@ -2492,17 +2495,19 @@ body.m2-on-hub #m2-hud .hud-energy {
   transform: none;
 }
 
-/* Мобильный — поджимаем ещё сильнее */
+/* Мобильный — ещё компактнее */
 @media (max-width: 600px) {
-  .m2-screen#m2-final {
-    padding: 14px 12px 30px;
+  .m2-screen#m2-final.active {
+    padding: 10px 10px 24px;
   }
   .final-wrap {
-    padding: 22px 18px 18px;
-    border-radius: 16px;
-    gap: 12px;
+    padding: 18px 16px 16px;
+    gap: 8px;
   }
-  .final-celebration { font-size: 48px; }
-  .final-title       { font-size: 20px; }
-  .final-stat-value  { font-size: 20px; }
+  .final-celebration { font-size: 42px; }
+  .final-title       { font-size: 19px; }
+  .final-subtitle    { font-size: 12px; }
+  .final-stat-value  { font-size: 18px; }
+  .final-stat-label  { font-size: 9.5px; }
+  .final-artifact-item { padding: 7px 11px; font-size: 12px; }
 }
