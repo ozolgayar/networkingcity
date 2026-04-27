@@ -1714,45 +1714,40 @@ background: transparent;
 }
 
 /* ================================================================
-   КАРТА ХАБА — занимает всё доступное пространство
+   КАРТА ХАБА — отступы со всех сторон + скруглённые углы
    ================================================================ */
 .hub-map-container {
   flex: 1 1 auto;
-  min-height: 0;              /* разрешает flex сжимать */
+  min-height: 0;
   overflow: hidden;
-  padding: 12px;
+  padding: 20px 24px;          /* ← отступы со всех сторон */
   display: flex;
   justify-content: center;
-  align-items: stretch;       /* ← ВАЖНО: растягиваем по высоте */
+  align-items: center;
   background: transparent;
 }
 
 .hub-map-image {
   position: relative;
   width: 100%;
-  max-width: 1400px;          /* увеличил предел */
+  max-width: 1400px;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--m2-radius);
-  overflow: visible;
-  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.3));
+  max-height: 100%;
+  aspect-ratio: 16 / 9;        /* ← подставь реальные пропорции картинки */
+  border-radius: 20px;         /* ← скруглённые углы */
+  overflow: hidden;            /* ← обрезает картинку по скруглению */
+  box-shadow: 0 12px 40px rgba(15, 36, 72, 0.25);
 }
 
 .hub-map-bg {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;        /* картинка вписывается, сохраняя пропорции */
-  border-radius: var(--m2-radius);
+  object-fit: cover;           /* ← заполняет весь блок без пустоты */
   user-select: none;
   pointer-events: none;
 }
-/* Принудительно делаем обёртку точно такого же размера, как картинка */
-.hub-map-image {
-  aspect-ratio: 16 / 9;       /* ← подставь реальные пропорции твоей картинки */
-}
+
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
 .map-hotspot {
   position: absolute;
