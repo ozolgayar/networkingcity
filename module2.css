@@ -1749,7 +1749,10 @@ background: transparent;
   user-select: none;
   pointer-events: none;
 }
-
+/* Принудительно делаем обёртку точно такого же размера, как картинка */
+.hub-map-image {
+  aspect-ratio: 16 / 9;       /* ← подставь реальные пропорции твоей картинки */
+}
 /* ─── ХОТСПОТ (кликабельная точка с подписью) ─── */
 .map-hotspot {
   position: absolute;
